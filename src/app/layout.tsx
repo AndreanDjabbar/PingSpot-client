@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import "./globals.css";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { 
   ConfirmationModalProvider, 
   ImagePreviewModalProvider, 
@@ -14,11 +14,18 @@ export const metadata = {
   title: 'PingSpot',
 }
 
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-plus-jakarta",
+  fallback: ["system-ui", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
+});
+
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <html lang="en">
-      <body className="antialiased" style={{ fontFamily: "var(--font-sf)" }}>
+      <body className={`${plusJakartaSans.variable} antialiased`} style={{ fontFamily: "var(--font-sf)" }}>
         <ReactQueryClientProvider>
           <ToastContainer />
             <ClientLayout>

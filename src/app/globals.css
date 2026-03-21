@@ -56,5 +56,5 @@ html, body {
 }
 
 :root {
-    --font-sf: 'SF Pro';
+    --font-sf: var(--font-plus-jakarta), 'SF Pro', sans-serif;
 }

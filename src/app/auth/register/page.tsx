@@ -136,6 +136,7 @@ const RegisterPage = () => {
 
                     <Button
                         className="group relative w-full flex items-center justify-center py-3 px-4 text-sm font-medium"
+                        type="submit"
                         title="Daftar"
                         loadingText="Mendaftar..."
                         isLoading={isPending}

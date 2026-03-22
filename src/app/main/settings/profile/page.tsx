@@ -273,6 +273,7 @@ const ProfilePage = () => {
                                     <Button
                                         className="group relative w-full flex items-center justify-center py-3 px-4 text-sm font-medium rounded-lg text-white bg-pingspot-hoverable "
                                         loadingText="Memperbarui..."
+                                        type='submit'
                                         isLoading={isPending || isCompressing}
                                     >
                                         Perbarui Profil

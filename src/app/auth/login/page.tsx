@@ -27,7 +27,7 @@ const LoginPage = () => {
     });
 
     const onSubmit = (data: ILoginRequest) => {
-        mutate({ ...data });
+        mutate({ ...data, provider: "EMAIL" });
     };
 
     useErrorToast(isError, error);

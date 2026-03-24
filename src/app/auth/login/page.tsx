@@ -93,7 +93,7 @@ const LoginPage = () => {
                         
                         <div className="flex items-center justify-between">
                             <div className="text-sm">
-                            <a href="/auth/forgot-password" className="font-medium text-blue-600 hover:text-blue-500 transition-colors duration-200">
+                            <a href="/auth/forgot-password" className="font-medium text-sky-700 hover:text-sky-800 hover:underline transition-colors duration-200">
                                 Lupa kata sandi?
                             </a>
                             </div>
@@ -121,7 +121,7 @@ const LoginPage = () => {
                         <div className="grid grid-cols-1 gap-3">
                             <button
                                 type="button"
-                                className="w-full inline-flex justify-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring focus:ring-sky-700 transition-all duration-300"
+                                className="w-full inline-flex justify-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring focus:ring-sky-700 hover:cursor-pointer transition-all duration-300"
                                 onClick={() => window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL || ''}
                             >
                                 <FaGoogle size={20}/>
@@ -131,7 +131,7 @@ const LoginPage = () => {
                     </form>
                     <p className="text-center text-sm text-gray-700">
                     Belum punya akun?{' '}
-                    <a href="/auth/register" className="font-medium text-sky-700 hover:text-sky-800 transition-colors duration-200">
+                    <a href="/auth/register" className="font-medium text-sky-700 hover:text-sky-800 hover:underline transition-colors hover:cursor-pointer duration-200">
                         Daftar gratis
                     </a>
                     </p>

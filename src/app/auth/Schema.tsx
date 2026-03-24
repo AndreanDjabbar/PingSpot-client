@@ -15,6 +15,7 @@ export const RegisterSchema = z.object({
 export const LoginSchema = z.object({
     email: z.email({ message: "Format email tidak valid" }),
     password: z.string().min(6, "Kata sandi minimal 6 karakter"),
+    provider: z.string().optional(),
 });
 
 export const VerificationSchema = z.object({

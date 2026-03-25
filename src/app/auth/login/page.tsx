@@ -37,7 +37,7 @@ const LoginPage = () => {
         if (isSuccess && data) {
             setTimeout(() => {
                 router.push("/main/home");
-            }, 1000);
+            }, 1500);
         }
     }, [isSuccess, data, router]);
 

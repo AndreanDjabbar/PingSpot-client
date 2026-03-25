@@ -17,7 +17,7 @@ const GoogleAuthClient = () => {
             if (status === '202') {
                 setTimeout(() => {
                     router.push("/main/home");
-                }, 1000);
+                }, 1500);
                 toastSuccess('Akun berhasil diverifikasi');
             } else {
                 router.push("/auth/login");
@@ -32,7 +32,7 @@ const GoogleAuthClient = () => {
                 <p className="text-gray-800">Kami akan memverifikasi akun anda</p>
             </div>
             {status === '202' && (
-                <SuccessSection message="Akun berhasil diverifikasi melalui Google.." />
+                <SuccessSection message="Akun berhasil diverifikasi melalui Google" />
             )}
         </div>
     );

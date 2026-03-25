@@ -224,7 +224,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
                 >
                     <button
                         onClick={onClose}
-                        className="absolute top-2 right-4 z-10 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-all duration-200 group hover:cursor-pointer"
+                        className="absolute top-2 right-4 z-10 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-all duration-200 group cursor-pointer"
                         aria-label="Close modal"
                     >
                         <FaTimes className="w-5 h-5 text-gray-700 group-hover:text-gray-900" />

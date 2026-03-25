@@ -36,7 +36,7 @@ const SearchResultTabs: React.FC<SearchResultTabsProps> = ({
                         <button
                             key={tab.id}
                             onClick={() => onTabChange(tab.id)}
-                            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors relative isolate hover:cursor-pointer ${
+                            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors relative isolate cursor-pointer ${
                                 isActive
                                     ? 'text-sky-700 bg-sky-50'
                                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'

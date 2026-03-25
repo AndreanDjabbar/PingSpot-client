@@ -84,7 +84,7 @@ const SettingsPage = () => {
                     action={
                         <button 
                         onClick={() => router.push('/main/settings/profile')}
-                        className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors hover:cursor-pointer"
+                        className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors cursor-pointer"
                         >
                         Ubah
                         </button>
@@ -97,7 +97,7 @@ const SettingsPage = () => {
                     action={
                         <button 
                         onClick={() => router.push('/main/settings/security')}
-                        className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors hover:cursor-pointer"
+                        className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors cursor-pointer"
                         >
                         Ubah
                         </button>
@@ -120,7 +120,7 @@ const SettingsPage = () => {
                             <button
                                 key={lang.code}
                                 onClick={() => handleLanguageChange(lang.code)}
-                                className={`flex items-center p-3 rounded-lg border transition-all ${
+                                className={`flex items-center p-3 rounded-lg border transition-all cursor-pointer ${
                                 selectedLanguage === lang.code
                                     ? 'border-sky-500 bg-sky-50 text-sky-700'
                                     : 'border-gray-200 hover:bg-gray-50'

@@ -195,7 +195,7 @@ const VerificationClient = () => {
             <div className="text-center">
                 <p className="text-sm text-sky-800">
                     Kembali ke{' '}
-                    <a href="/auth/login" className="font-medium text-sky-700 hover:text-sky-800 hover:underline transition-colors duration-200">
+                    <a href="/auth/login" className="font-medium text-sky-700 hover:text-sky-800 hover:underline transition-colors duration-200 cursor-pointer">
                         Halaman Login
                     </a>
                 </p>

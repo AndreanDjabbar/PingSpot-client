@@ -78,7 +78,7 @@ const Stepper: React.FC<StepperProps> = ({
                                         onClick={() => handleStepClick(index)}
                                         disabled={isDisabled}
                                         className={cn(
-                                        "relative flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all duration-200",
+                                        "relative flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all duration-200 cursor-pointer",
                                         "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-600",
                                         isCompleted && "bg-sky-600 border-sky-600 text-white hover:bg-sky-700",
                                         isCurrent && "bg-white border-sky-600 text-sky-600 shadow-md",
@@ -112,7 +112,7 @@ const Stepper: React.FC<StepperProps> = ({
                                         onClick={() => handleStepClick(index)}
                                         disabled={isDisabled}
                                         className={cn(
-                                        "text-left transition-colors",
+                                        "text-left transition-colors cursor-pointer",
                                         isDisabled && "cursor-not-allowed"
                                         )}
                                     >
@@ -176,7 +176,7 @@ const Stepper: React.FC<StepperProps> = ({
                             onClick={() => handleStepClick(index)}
                             disabled={isDisabled}
                             className={cn(
-                                "relative flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all duration-200 z-10",
+                                "relative flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all duration-200 z-10 cursor-pointer",
                                 "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-600",
                                 isCompleted && "bg-sky-600 border-sky-600 text-white hover:bg-sky-700",
                                 isCurrent && "bg-white border-sky-600 text-sky-600 shadow-lg scale-110",

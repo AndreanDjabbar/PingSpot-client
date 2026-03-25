@@ -206,7 +206,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                         onSearchChange(searchTerm);
                     }
                 }}
-                className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors text-sm font-medium"
+                className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors text-sm font-medium cursor-pointer"
             >
                 Coba Lagi
             </button>
@@ -262,7 +262,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                     {activeTab === 'users' && searchResults.users.map((user) => (
                         <div 
                         key={user.userID} 
-                        className="p-4 hover:bg-gray-50 transition-colors cursor-pointer hover:cursor-pointer"
+                        className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
                         onClick={() => {
                             router.push(`/main/profile/${user.username}`);
                         }}

@@ -23,7 +23,7 @@ const ExploreSearch: React.FC<ExploreSearchProps> = ({
     return (
         <div className="">
             <div className="flex flex-col md:flex-row gap-3">
-                <div className="flex w-full gap-2" onClick={onSearchClick}>
+                <div className="flex w-full gap-2 cursor-pointer" onClick={onSearchClick}>
                     <div className='w-full relative'>
                         <InputField
                             id="search"
@@ -42,10 +42,10 @@ const ExploreSearch: React.FC<ExploreSearchProps> = ({
                                 e.stopPropagation();
                                 onNonModalClose();
                             }}
-                            className="p-2 hover:bg-gray-100 border border-gray-300 rounded-lg transition-colors duration-200 group"
+                            className="p-2 hover:bg-gray-100 border border-gray-300 rounded-lg transition-colors duration-200 group cursor-pointer"
                             aria-label="Close search"
                         >
-                            <BiX size={24} className="text-gray-500 group-hover:text-gray-700 hover:cursor-pointer" />
+                            <BiX size={24} className="text-gray-500 group-hover:text-gray-700" />
                         </button>
                     )}
                 </div>

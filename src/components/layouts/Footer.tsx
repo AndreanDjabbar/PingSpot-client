@@ -59,7 +59,7 @@ const Footer: React.FC<FooterProps> = ({ bottomNavHeightPosition = 0 }) => {
                                 <div className="space-y-3 sm:space-y-3 w-full max-w-sm group">
                                     <a 
                                         href="mailto:andreanjabar18@gmail.com"
-                                        className="flex items-center gap-2 rounded-lg text-white hover:bg-gray-700/50 transition-all duration-200 group"
+                                        className="flex items-center gap-2 rounded-lg text-white hover:bg-gray-700/50 transition-all duration-200 group cursor-pointer"
                                     >
                                         <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-lg flex items-center justify-center shadow-lg">
                                             <SiGmail className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
@@ -75,7 +75,7 @@ const Footer: React.FC<FooterProps> = ({ bottomNavHeightPosition = 0 }) => {
                                         href="https://github.com/AndreanDjabbar"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 rounded-lg text-white hover:bg-gray-700/50 transition-all duration-200 group"
+                                        className="flex items-center gap-2 rounded-lg text-white hover:bg-gray-700/50 transition-all duration-200 group cursor-pointer"
                                     >
                                         <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-lg flex items-center justify-center shadow-lg ">
                                             <FaGithub className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
@@ -101,7 +101,7 @@ const Footer: React.FC<FooterProps> = ({ bottomNavHeightPosition = 0 }) => {
                                     href="https://github.com/AndreanDjabbar"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="font-bold text-white hover:border-b hover:border-white"
+                                    className="font-bold text-white hover:border-b hover:border-white cursor-pointer"
                                 >
                                     Andrean Gusman Djabbar
                                 </a>

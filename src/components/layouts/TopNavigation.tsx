@@ -11,7 +11,7 @@ const TopNavigation: React.FC<TopNavigationProps> = ({ onMenuToggle }) => {
             <div className="flex items-center justify-between px-4 py-3">
                 <button
                 onClick={onMenuToggle}
-                className="p-2 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-colors"
+                className="p-2 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-colors cursor-pointer"
                 >
                     <BiMenu className="w-6 h-6 text-gray-300" />
                 </button>

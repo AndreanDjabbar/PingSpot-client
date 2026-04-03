@@ -84,12 +84,13 @@ const Homepage = () => {
             <HeaderSection 
             currentPath={currentPath}
             message='Kelola laporan dan pantau kondisi lingkungan sekitar Anda secara real-time.'>
-                <button 
-                    className="bg-sky-700 hover:bg-sky-800 text-white px-6 py-2.5 rounded-lg font-semibold shadow-sm transition-all flex items-center justify-center space-x-2 whitespace-nowrap cursor-pointer"
-                    onClick={() => router.push('/main/reports/create-report')}>
-                    <BiPlus className="w-5 h-5" />
+                <Button
+                icon={<BiPlus className="w-5 h-5" />}
+                onClick={() => router.push('/main/reports/create-report')}
+                className='px-6 py-2.5'
+                >
                     <span>Buat Laporan</span>
-                </button>
+                </Button>
             </HeaderSection>
 
             <div className='flex w-full justify-between gap-10'>

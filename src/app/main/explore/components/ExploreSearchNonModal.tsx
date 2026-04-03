@@ -11,6 +11,7 @@ import { useInView } from 'react-intersection-observer';
 import { getImageURL } from '@/utils';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components';
 
 interface SearchResult {
     users: IUserProfile[];
@@ -198,18 +199,15 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
             <p className="text-gray-600 text-sm max-w-xs mx-auto mb-4">
                 {error?.message || 'Gagal memuat hasil pencarian. Silakan coba lagi.'}
             </p>
-            <button
+            <Button
                 onClick={() => {
-                    if (refetch) {
-                        refetch();
-                    } else {
-                        onSearchChange(searchTerm);
-                    }
+                    refetch ? refetch() : onSearchChange(searchTerm);
                 }}
-                className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors text-sm font-medium cursor-pointer"
+                variant='primary'
+                className="px-4 py-2 text-sm w-full md:w-auto"
             >
                 Coba Lagi
-            </button>
+            </Button>
         </div>
     );
 

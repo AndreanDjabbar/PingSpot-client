@@ -154,12 +154,11 @@ const UpdateProgressPage = () => {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <p className="text-gray-600 mb-4">Anda tidak memiliki akses ke halaman ini</p>
-                    <button
-                        onClick={() => router.push('/main/reports')}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    <Button
+                        onClick={() => router.push('/main/reports')}    
                     >
                         Kembali ke Daftar Laporan
-                    </button>
+                    </Button>
                 </div>
             </div>
         );
@@ -225,9 +224,10 @@ const UpdateProgressPage = () => {
                                                 images={progressImages}
                                                 />
 
-                                                <div className="flex">
+                                                <div className="flex w-full items-center justify-center mt-10">
                                                     <Button
                                                         type='submit'
+                                                        className='w-full'
                                                         isLoading={isUploadProgressReportPending}
                                                     >
                                                         {selectedStatus === 'RESOLVED' ? 'Tutup Laporan' : 'Perbarui Status'}

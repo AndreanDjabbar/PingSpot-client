@@ -288,14 +288,14 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                 <>
                                     <button
                                         onClick={prevImage}
-                                        className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-opacity-100 hover:scale-110 transition-all shadow-lg"
+                                        className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-gray-200 transition-all shadow-lg hover:cursor-pointer"
                                         aria-label="Previous image"
                                     >
                                         <FaChevronLeft className="w-4 h-4" />
                                     </button>
                                     <button
                                         onClick={nextImage}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-opacity-100 transition-all shadow-lg"
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-gray-200 transition-all shadow-lg hover:cursor-pointer"
                                         aria-label="Next image"
                                     >
                                         <FaChevronRight className="w-4 h-4" />
@@ -314,9 +314,9 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                     <button
                                         key={index}
                                         onClick={() => setCurrentImageIndex(index)}
-                                        className={`h-2 rounded-full transition-all duration-200 ${
+                                        className={`h-2 rounded-full hover:cursor-pointer transition-all duration-200 ${
                                             index === currentImageIndex
-                                                ? 'w-6 bg-blue-600'
+                                                ? 'w-6 bg-sky-800'
                                                 : 'w-2 bg-gray-300 hover:bg-gray-400'
                                         }`}
                                         aria-label={`Go to image ${index + 1}`}

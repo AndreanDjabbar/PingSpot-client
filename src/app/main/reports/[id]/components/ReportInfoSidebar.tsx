@@ -95,27 +95,6 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
             <div className="flex items-center justify-between mb-4 lg:flex-col lg:items-start lg:gap-2 xl:items-center xl:flex-row">
                 <h3 className="font-bold text-lg text-gray-900">Informasi Laporan</h3>
-                {isReportOwner && report.hasProgress && (
-                    <div className='flex gap-2'>
-                        <Button
-                            onClick={() => router.push(`/main/reports/${report.id}/edit`)}
-                            icon={<BiEdit />}
-                            size='sm'
-                            disabled={report.reportStatus === 'RESOLVED' || report.reportStatus === 'EXPIRED'}
-                        >
-                            Perbarui  
-                        </Button>
-                        <Button
-                            onClick={() => openDeleteConfirm()}
-                            icon={<IoMdTrash />}
-                            size='sm'
-                            variant='danger'
-                            disabled={report.reportStatus === 'RESOLVED' || report.reportStatus === 'EXPIRED'}
-                        >
-                            Hapus  
-                        </Button>
-                    </div>
-                )}
             </div>
             <div className="space-y-3">
                 {report.hasProgress ? (
@@ -146,7 +125,7 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                             <div>
                             </div>
                         </div>
-                        <div className="h-px bg-gray-200"></div>
+                        <div className="h-px bg-gray-300"></div>
                     </>
                 ) : (
                     <>
@@ -154,7 +133,7 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                             <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Status</p>
                             <span className="text-xs text-gray-600 font-medium">Tipe Laporan Tidak Menggunakan Status</span>
                         </div>
-                        <div className="h-px bg-gray-200"></div>
+                        <div className="h-px bg-gray-300"></div>
                     </>
                 )}
                 <div>
@@ -165,12 +144,12 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                         })}
                     </p>
                 </div>
-                <div className="h-px bg-gray-200"></div>
+                <div className="h-px bg-gray-300"></div>
                 <div>
                     <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Kategori</p>
                     <p className="text-sm text-gray-900">{getReportTypeLabel(report.reportType)}</p>
                 </div>
-                <div className="h-px bg-gray-200"></div>
+                <div className="h-px bg-gray-300"></div>
                 <div>
                     <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Perkembangan diperbarui</p>
                     {report.hasProgress && report.reportProgress ? (
@@ -207,13 +186,13 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                                     <div>
                                         <span className="text-xs text-gray-600 font-medium">Tipe Laporan Tidak Menggunakan pembaruan status</span>
                                     </div>
-                                    <div className="h-px bg-gray-200"></div>
+                                    <div className="h-px bg-gray-300"></div>
                                 </>
                             )}
                         </>
                     )}
                 </div>
-                <div className="h-px bg-gray-200"></div>
+                <div className="h-px bg-gray-300"></div>
                 <div>
                     <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Laporan diperbarui oleh Pembuat</p>
                     {(report.reportUpdatedAt !== report.reportCreatedAt) && (report.reportUpdatedAt > report.reportCreatedAt) ? (
@@ -227,6 +206,27 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                     )}
                 </div>
             </div>
+            {isReportOwner && report.hasProgress && (
+                <div className='flex gap-2 mt-6'>
+                    <Button
+                        onClick={() => router.push(`/main/reports/${report.id}/edit`)}
+                        icon={<BiEdit />}
+                        size='sm'
+                        disabled={report.reportStatus === 'RESOLVED' || report.reportStatus === 'EXPIRED'}
+                    >
+                        Perbarui  
+                    </Button>
+                    <Button
+                        onClick={() => openDeleteConfirm()}
+                        icon={<IoMdTrash />}
+                        size='sm'
+                        variant='danger'
+                        disabled={report.reportStatus === 'RESOLVED' || report.reportStatus === 'EXPIRED'}
+                    >
+                        Hapus  
+                    </Button>
+                </div>
+            )}
         </div>
     );
 };

@@ -31,8 +31,8 @@ const Guide: React.FC<GuideProps> = ({
     icon,
     steps,
     alerts = [],
-    headerColor = 'bg-blue-700',
-    stepColor = 'bg-blue-700',
+    headerColor = 'bg-sky-800',
+    stepColor = 'bg-sky-800',
     className = '',
     sticky = true,
 }) => {
@@ -41,7 +41,7 @@ const Guide: React.FC<GuideProps> = ({
             case 'warning':
                 return 'bg-amber-50 border-amber-200';
             case 'info':
-                return 'bg-blue-50 border-blue-200';
+                return 'bg-sky-50 border-sky-200';
             case 'success':
                 return 'bg-green-50 border-green-200';
             case 'error':
@@ -56,7 +56,7 @@ const Guide: React.FC<GuideProps> = ({
             case 'warning':
                 return { title: 'text-amber-900', message: 'text-amber-800', emoji: 'text-amber-600' };
             case 'info':
-                return { title: 'text-blue-900', message: 'text-blue-800', emoji: 'text-blue-600' };
+                return { title: 'text-sky-900', message: 'text-sky-800', emoji: 'text-sky-600' };
             case 'success':
                 return { title: 'text-green-900', message: 'text-green-800', emoji: 'text-green-600' };
             case 'error':

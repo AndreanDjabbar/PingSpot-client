@@ -265,16 +265,14 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
                             >
                                 {selectedStatus === 'RESOLVED' ? 'Tutup Laporan' : 'Perbarui Status'}
                             </Button>
-                            
-                            <motion.button
-                                type="button"
-                                className="px-4 flex-1 sm:flex-none sm:w-32 py-3.5 rounded-xl text-sm font-bold bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
+                            <Button
+                                variant="outline"
+                                className="flex-1 sm:flex-none sm:w-32 py-3.5"
                                 onClick={handleCancel}
-                                whileTap={{ scale: 0.98 }}
                                 disabled={isUploadProgressReportPending}
                             >
                                 Batal
-                            </motion.button>
+                            </Button>
                         </div>
                     </motion.div>
                 )}

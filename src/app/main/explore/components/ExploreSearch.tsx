@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaSearch, FaSpinner } from 'react-icons/fa';
-import { InputField } from '@/components';
+import { Button, InputField } from '@/components';
 import { BiX } from 'react-icons/bi';
 
 interface ExploreSearchProps {
@@ -37,16 +37,17 @@ const ExploreSearch: React.FC<ExploreSearchProps> = ({
                         />
                     </div>
                     {isNonModalOpen && (
-                        <button
+                        <Button
                             onClick={(e) => {
                                 e.stopPropagation();
                                 onNonModalClose();
                             }}
-                            className="p-2 hover:bg-gray-100 border border-gray-300 rounded-lg transition-colors duration-200 group cursor-pointer"
+                            variant='outline'
+                            size='md'
                             aria-label="Close search"
                         >
-                            <BiX size={24} className="text-gray-500 group-hover:text-gray-700" />
-                        </button>
+                            <BiX size={18} />
+                        </Button>
                     )}
                 </div>
             </div>

@@ -247,33 +247,33 @@ const CreateReportPage = () => {
                             />
                         )}
 
-                        <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                            <button
-                                type="button"
+                        <div className="flex justify-between items-center pt-4 border-t border-gray-300">
+
+                            <Button
                                 onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}
                                 disabled={currentStep === 0}
-                                className="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                variant='outline'
                             >
                                 Kembali
-                            </button>
+                            </Button>
 
                             {currentStep < steps.length - 1 ? (
-                                <button
-                                    type="button"
+                                <Button
                                     onClick={() => {
                                         if (validateStep(currentStep)) {
                                             setCurrentStep(prev => Math.min(steps.length - 1, prev + 1));
                                         }
                                     }}
                                     disabled={!validateStep(currentStep)}
-                                    className="px-6 py-2.5 rounded-lg bg-sky-700 text-white font-medium hover:bg-sky-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                                 >
                                     Lanjut
-                                </button>
+                                </Button>
+
                             ) : (
                                 <Button
                                     className="px-6 py-2.5 rounded-lg bg-sky-700 hover:bg-sky-800 text-white font-medium "
                                     loadingText="Mengirim Laporan..."
+                                    type='submit'
                                     isLoading={isPending || reverseLoading}
                                 >
                                     Kirim Laporan

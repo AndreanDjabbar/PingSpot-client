@@ -82,12 +82,13 @@ const SettingsPage = () => {
                     description="Ubah informasi profil, foto, dan preferensi Anda"
                     icon={BiUser}
                     action={
-                        <button 
+                        <Button
                         onClick={() => router.push('/main/settings/profile')}
-                        className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors cursor-pointer"
+                        className="px-3 py-1 text-sm w-full md:w-auto"
+                        variant='outline'
                         >
-                        Ubah
-                        </button>
+                            Ubah
+                        </Button>
                     }
                     />
                     <SettingItem
@@ -95,12 +96,13 @@ const SettingsPage = () => {
                     description="Ubah password dan pengaturan keamanan"
                     icon={BiLock}
                     action={
-                        <button 
+                        <Button
                         onClick={() => router.push('/main/settings/security')}
-                        className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors cursor-pointer"
+                        className="px-3 py-1 text-sm w-full"
+                        variant='outline'
                         >
-                        Ubah
-                        </button>
+                            Ubah
+                        </Button>
                     }
                     />
                     <SettingItem

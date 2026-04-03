@@ -7,6 +7,7 @@ import { useCurrentLocation, useErrorToast } from '@/hooks';
 import { FaMapPin, FaSpinner, FaLocationArrow } from 'react-icons/fa';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import Button from './Button';
 
 interface DynamicMapProps {
     onMarkerPositionChange?: (position: { lat: number, lng: number }) => void;
@@ -318,54 +319,39 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
                 {showLocationButton && !disabled && (
                     <>
                         {location && isLocationDifferentFromMarker() && (
-                            <button 
-                                className="bg-sky-600 text-white hover:bg-sky-700 px-4 py-2 rounded-lg transition-colors flex items-center gap-2 text-sm shadow-md"
+                            <Button
                                 onClick={setToCurrentLocation}
                                 disabled={loading}
+                                variant='primary'
+                                className='px-4 py-2 text-sm flex items-center gap-2'
+                                icon={loading ? <FaSpinner className="animate-spin" /> : <FaMapPin />}
                             >
-                                {loading ? (
-                                    <>
-                                        <FaSpinner className="animate-spin" /> 
-                                        <span>Mencari lokasi...</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <FaMapPin /> 
-                                        <span>Gunakan Lokasi Saya</span>
-                                    </>
-                                )}
-                            </button>
+                                {loading ? 'Mencari lokasi...' : 'Gunakan Lokasi Saya'}
+                            </Button>
                         )}
                         {!location && (
-                            <button 
-                                className="bg-sky-700 text-white hover:bg-sky-800 px-4 py-2 rounded-lg transition-colors flex items-center gap-2 text-sm shadow-md"
+                            <Button
                                 onClick={handleDetectLocation}
                                 disabled={loading}
-                            >
-                                {loading ? (
-                                    <>
-                                        <FaSpinner className="animate-spin" /> 
-                                        <span>Mencari lokasi...</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <FaMapPin /> 
-                                        <span>Deteksi Lokasi saya</span>
-                                    </>
-                                )}
-                            </button>
+                                variant='primary'
+                                className='px-4 py-2 text-sm flex items-center gap-2'
+                                icon={loading ? <FaSpinner className="animate-spin" /> : <FaMapPin />}
+                                >
+                                {loading ? 'Mencari lokasi...' : 'Deteksi Lokasi Saya'}
+                            </Button>
                         )}
                     </>
                 )}
                 
                 {markerPosition && isAwayFromMarker && (
-                    <button 
-                        className="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-lg transition-colors flex items-center gap-2 text-sm shadow-md"
-                        onClick={goToMarker}
+                    <Button
+                    onClick={goToMarker}
+                    variant='success'
+                    className='px-4 py-2 text-sm'
+                    icon={<FaLocationArrow />}
                     >
-                        <FaLocationArrow /> 
-                        <span>Kembali ke Marker</span>
-                    </button>
+                        Kembali ke Marker
+                    </Button>
                 )}
             </div>
         </div>

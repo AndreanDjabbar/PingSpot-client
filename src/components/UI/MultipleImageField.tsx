@@ -6,6 +6,7 @@ import { IoMdAddCircle } from 'react-icons/io';
 import { FiMaximize2 } from 'react-icons/fi';
 import { cn } from '@/lib';
 import { ImageItem } from '@/types';
+import Button from './Button';
 
 interface MultipleImageFieldProps {
     id: string;
@@ -17,7 +18,6 @@ interface MultipleImageFieldProps {
     required?: boolean;
     maxImages?: number;
     images?: ImageItem[];
-    // onChange2?: (files: File[]) => void;
     onChange?: (items: ImageItem[]) => void;
     onImageClick?: (imageUrl: string) => void;
     height?: number;
@@ -36,7 +36,6 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
     buttonTitle = 'Pilih Foto',
     required = false,
     maxImages = 5,
-    // onChange2,
     images = [],
     onChange,
     onImageClick,
@@ -73,9 +72,6 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
                 
                 const updatedImages = [...(images || []), newImage];
 
-                // if (onChange) {
-                //     onChange(updatedImages.map(img => img.file).filter(Boolean) as File[]);
-                // }
                 if (onChange) {
                     onChange(updatedImages);
                 }
@@ -91,9 +87,6 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
     const handleRemoveImage = (index: number) => {
         if (disabled) return;
         const updatedImages = (images || []).filter((_, i) => i !== index);
-        // if (onChange) {
-        //     onChange(updatedImages.map(img => img.file).filter(Boolean) as File[]);
-        // }
         if (onChange) {
             onChange(updatedImages);
         }
@@ -162,16 +155,12 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
                 
                 {images.length === 0 && (
                     <div className="flex justify-center">
-                        <button
-                            type="button"
+                        <Button
                             onClick={handleAddClick}
                             disabled={disabled}
-                            className={cn("px-4 py-2 rounded-lg transition-colors text-md cursor-pointer",
-                                disabled ? "bg-gray-400 cursor-not-allowed" : "bg-sky-700 text-white hover:bg-sky-800"
-                            )}
                         >
                             {buttonTitle}
-                        </button>
+                        </Button>
                     </div>
                 )}
                 

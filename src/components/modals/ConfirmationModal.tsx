@@ -4,6 +4,7 @@ import { BiX } from 'react-icons/bi';
 import { MdOutlineWarning } from 'react-icons/md';
 import { FaInfoCircle } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { Button } from '../UI';
 
 interface ConfirmationModalProps {
     isOpen: boolean;
@@ -84,71 +85,33 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 </div>
 
                 <div className="flex justify-end space-x-3 p-5 pt-0">
-                    <button
-                        type="button"
+                    <Button
+                        variant="outline"
                         onClick={onClose}
-                        className="px-5 py-2 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                        disabled={isPending}
-                    >
+                        disabled={isPending}>
                         {cancelTitle}
-                    </button>
+                    </Button>
                     
                     {isWarning ? (
-                        <button
-                            type="button"
-                            onClick={onConfirm}
-                            disabled={isPending}
-                            className={`
-                                px-5 py-2 rounded-lg font-medium flex items-center justify-center gap-2
-                                text-white transition-colors cursor-pointer
-                                ${isPending 
-                                    ? 'bg-red-800 opacity-75 cursor-not-allowed' 
-                                    : 'bg-red-600 hover:bg-red-700 active:bg-red-800'
-                                }
-                            `}
-                        >
-                            {isPending ? (
-                                <>
-                                    <AiOutlineLoading3Quarters className='animate-spin' size={16} />
-                                    {confirmTitle}
-                                </>
-                            ) : (
-                                <>
-                                    <div className='w-4 h-4'>
-                                        {icon}
-                                    </div>
-                                    {confirmTitle}
-                                </>
-                            )}
-                        </button>
+                            <Button
+                                onClick={onConfirm}
+                                disabled={isPending}
+                                variant="danger"
+                                icon={isPending ? <AiOutlineLoading3Quarters className='animate-spin' size={16} /> : icon}
+                                iconPosition="left"
+                            >
+                                {confirmTitle}
+                            </Button>
                     ) : (
-                        <button
-                            type="button"
+                        <Button
                             onClick={onConfirm}
                             disabled={isPending}
-                            className={`
-                                px-5 py-2 rounded-lg font-medium flex items-center justify-center gap-2 cursor-pointer
-                                text-white transition-colors
-                                ${isPending 
-                                    ? 'bg-sky-800 opacity-75 cursor-not-allowed' 
-                                    : 'bg-sky-700 hover:bg-sky-800 active:bg-sky-900'
-                                }
-                            `}
+                            variant="primary"
+                            icon={isPending ? <AiOutlineLoading3Quarters className='animate-spin' size={16} /> : icon}
+                            iconPosition="left"
                         >
-                            {isPending ? (
-                                <>
-                                    <AiOutlineLoading3Quarters className='animate-spin' size={16} />
-                                    {confirmTitle}
-                                </>
-                            ) : (
-                                <>
-                                    <div className='w-4 h-4'>
-                                        {icon}
-                                    </div>
-                                    {confirmTitle}
-                                </>
-                            )}
-                        </button>
+                                {confirmTitle}
+                        </Button>
                     )}
                 </div>
             </div>

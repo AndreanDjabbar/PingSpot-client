@@ -29,15 +29,6 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
             <div className="flex items-center justify-between mb-4">
                 <h3 className="font-bold text-lg text-gray-900">Perkembangan Laporan</h3>
-                {isReportOwner && report.hasProgress && (
-                    <Button
-                        onClick={() => router.push(`/main/reports/${report.id}/update-progress`)}
-                        icon={<BiEdit />}
-                        size='sm'
-                    >
-                        Perbarui  
-                    </Button>
-                )}
             </div>
             
             {report.reportProgress && report.reportProgress.length > 0 ? (
@@ -205,6 +196,17 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                             </Accordion.Item>
                         </Accordion>
                     )}
+                    {isReportOwner && report.hasProgress && (
+                        <div className="">
+                            <Button
+                                onClick={() => router.push(`/main/reports/${report.id}/update-progress`)}
+                                icon={<BiEdit />}
+                                size='sm'
+                            >
+                                Perbarui
+                            </Button>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div>
@@ -217,6 +219,17 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                             <p className="text-xs text-gray-500">
                                 Perkembangan laporan akan ditampilkan di sini
                             </p>
+                            {isReportOwner && (
+                                <div className="mt-4">
+                                    <Button
+                                        onClick={() => router.push(`/main/reports/${report.id}/update-progress`)}
+                                        icon={<BiEdit />}
+                                        size='sm'
+                                    >
+                                        Perbarui
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <div className="text-center py-8">

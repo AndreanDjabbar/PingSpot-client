@@ -34,7 +34,7 @@ const Button: React.FC<ButtonProps> = ({
     const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
     const variantStyles: Record<ButtonVariant, string> = {
-        primary: 'bg-sky-700 text-white hover:bg-sky-800 focus:ring-sky-900',
+        primary: 'bg-pingspot-hoverable text-white',
         secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-800',
         danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-800',
         success: 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-800',

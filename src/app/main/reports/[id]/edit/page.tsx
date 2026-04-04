@@ -183,6 +183,7 @@ const EditReportPage = () => {
     };
 
     const onSubmit = (formData: IEditReportRequest) => {
+        console.log('Form data ready for submission:', formData);
         handleConfirmationModal(formData);
     };
 
@@ -380,7 +381,9 @@ const EditReportPage = () => {
                             {currentStep < steps.length - 1 ? (
                                 <Button
                                     variant="primary"
-                                    onClick={() => {
+                                    type='button'
+                                    onClick={(event) => {
+                                        event.preventDefault();
                                         if (validateStep(currentStep)) {
                                             setCurrentStep(prev => Math.min(steps.length - 1, prev + 1));
                                         }

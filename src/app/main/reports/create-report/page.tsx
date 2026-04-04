@@ -259,7 +259,9 @@ const CreateReportPage = () => {
 
                             {currentStep < steps.length - 1 ? (
                                 <Button
-                                    onClick={() => {
+                                    type='button'
+                                    onClick={(event) => {
+                                        event.preventDefault();
                                         if (validateStep(currentStep)) {
                                             setCurrentStep(prev => Math.min(steps.length - 1, prev + 1));
                                         }

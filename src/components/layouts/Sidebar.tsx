@@ -161,8 +161,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
                     <div className="fixed right-1/4 top-1/2 sm:right-1/3 md:right-1/3 ">
                         <button
                             onClick={onToggle}
-                            className="xl:hidden p-2 rounded-lg bg-gray-700 hover:bg-gray-600/50 
-                                transition-all duration-300 ease-out transform hover:scale-105"
+                            className="xl:hidden p-2 rounded-lg bg-gray-700 hover:bg-gray-800 
+                                transition-all duration-300  hover:cursor-pointer group"
                         >
                             <BiX className="w-8 h-8 text-gray-300 group-hover:text-white 
                                 transition-all duration-300 ease-out" />

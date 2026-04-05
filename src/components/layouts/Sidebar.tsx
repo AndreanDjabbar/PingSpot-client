@@ -2,7 +2,7 @@
 
 import { BiHome, BiX } from "react-icons/bi";
 import { PingspotLogo, ProfileBadge } from "../UI";
-import { FaMap, FaUsers } from "react-icons/fa";
+import { FaInbox, FaMap, FaUsers } from "react-icons/fa";
 import { GoAlert } from "react-icons/go";
 import { LuActivity, LuMessageCircle } from "react-icons/lu";
 import { CiSettings } from "react-icons/ci";
@@ -28,11 +28,12 @@ interface NavigationItem {
 const navigationItems: NavigationItem[] = [
     { id: 'home', label: 'Beranda', icon: BiHome },
     { id: 'explore', label: 'Jelajahi', icon: FaUsers },
+    { id: 'notifications', label: 'Notifikasi', icon: FaInbox },
     { id: 'reports', label: 'Laporan', icon: GoAlert,  },
     { id: 'map', label: 'Peta Interaktif', icon: FaMap },
     // { id: 'community', label: 'Komunitas', icon: FaUsers },
     // { id: 'messages', label: 'Pesan', icon: LuMessageCircle, badge: '12' },
-    { id: 'activity', label: 'Aktivitas', icon: LuActivity },
+    // { id: 'activity', label: 'Aktivitas', icon: LuActivity },
 ]
 
 const bottomNavigationItems = [

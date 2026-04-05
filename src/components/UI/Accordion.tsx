@@ -66,7 +66,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
     return (
         <div className={`border border-gray-200 rounded-xl shadow-sm bg-white ${className}`}>
             <div 
-                className={`flex items-center justify-between cursor-pointer p-4 hover:bg-gray-50 transition-colors duration-200 rounded-t-xl ${
+                className={`flex items-center justify-between cursor-pointer p-4 hover:bg-gray-300/50 transition-colors duration-200 rounded-t-xl ${
                 isOpen ? 'rounded-b-none' : 'rounded-b-xl'
                 } ${disabled ? 'cursor-not-allowed opacity-60' : ''} ${headerClassName}`}
                 onClick={handleToggle}
@@ -96,7 +96,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
                 <motion.div
                     animate={{ rotate: isOpen ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
-                    className={`hover:bg-gray-100 rounded-lg p-2 -m-2 transition-colors duration-200 ${
+                    className={`rounded-lg p-2 -m-2 ${
                     disabled ? 'hover:bg-transparent' : ''
                     }`}
                 >

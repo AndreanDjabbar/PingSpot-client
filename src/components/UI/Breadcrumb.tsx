@@ -58,7 +58,7 @@ const Breadcrumb = ({ path }: BreadcrumbProps) => {
                     </Link>
                 </>
             ) : (
-                <span className="text-gray-900 font-semibold text-2xl">
+                <span className="text-gray-900 font-bold text-2xl">
                     {paths.find((p) => p.id === item.label)?.label ?? item.label}
                 </span>
             )}

@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from 'react';
 import { FiBell, FiCheck, FiTrash2, FiUser, FiMail, FiAlertCircle, FiHeart } from 'react-icons/fi';
-import { Button } from '@/components';
+import { Button, HeaderSection } from '@/components';
 import { cn } from '@/lib/styles';
+import { usePathname } from 'next/navigation';
 
 interface Notification {
     id: string;
@@ -195,7 +196,7 @@ const NotificationCard: React.FC<{
 const NotificationsPage: React.FC = () => {
     const [notifications, setNotifications] = useState<Notification[]>(DUMMY_NOTIFICATIONS);
     const [filter, setFilter] = useState<'all' | 'unread'>('all');
-
+    const currentPath = usePathname();
     const unreadCount = notifications.filter(n => !n.isRead).length;
     const filteredNotifications = filter === 'unread'
         ? notifications.filter(n => !n.isRead)
@@ -225,17 +226,13 @@ const NotificationsPage: React.FC = () => {
 
     return (
         <div className="w-full">
-            {/* Header */}
-            <div className="mb-8">
-                <div className="flex items-center gap-3 mb-2">
-                    <FiBell className="w-8 h-8 text-sky-600" />
-                    <h1 className="text-3xl font-bold text-gray-900">
-                        Notifications
-                    </h1>
-                </div>
-                <p className="text-gray-600">
-                    Stay updated with reminders and activity notifications
-                </p>
+            <div className='mb-8'>
+                <HeaderSection
+                isCardHeader={false} 
+                currentPath={currentPath} 
+                showBreadcrumb={false}
+                message={"Kelola dan pantau semua notifikasi Anda, mulai dari pengingat, aktivitas terbaru, hingga informasi penting yang perlu segera ditindaklanjuti."}
+                ></HeaderSection>
             </div>
 
             {/* Filter and Actions */}

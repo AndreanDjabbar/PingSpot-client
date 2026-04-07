@@ -568,6 +568,8 @@ const ReportsPage = () => {
             return (
                 <div className=''>
                     <HeaderSection currentPath={currentPath || '/main/reports'}
+                    isCardHeader={false}
+                    showBreadcrumb={false}
                     message='Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.'>
                         <Button
                             icon={<BiPlus className='w-5 h-5'/>}
@@ -595,6 +597,8 @@ const ReportsPage = () => {
             <div className='flex gap-6 lg:gap-8 '>
                 <div className="flex-1 space-y-4">
                     <HeaderSection currentPath={currentPath || '/main/reports'}
+                    isCardHeader={false}
+                    showBreadcrumb={false}
                     message='Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.'>
                         <Button 
                         icon={<BiPlus className='w-5 h-5'/>}

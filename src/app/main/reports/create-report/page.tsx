@@ -181,6 +181,8 @@ const CreateReportPage = () => {
         <div className="space-y-8">
         <HeaderSection 
             currentPath={currentPath}
+            isCardHeader={false}
+            showBreadcrumb={false}
             message="Laporkan masalah atau kerusakan di sekitar Anda untuk membantu perbaikan lingkungan."
         />
 

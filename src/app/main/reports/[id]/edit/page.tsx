@@ -303,6 +303,8 @@ const EditReportPage = () => {
         <div className="min-h-screen flex flex-col gap-5">
             <HeaderSection 
             currentPath={customCurrentPath}
+            isCardHeader={false}
+            showBreadcrumb={false}
             message='Laporkan masalah atau kerusakan di sekitar Anda untuk membantu perbaikan lingkungan.'
             />
 

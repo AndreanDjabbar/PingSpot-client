@@ -81,6 +81,7 @@ const SecurityPage = () => {
         <div className="space-y-8">
             <HeaderSection 
             currentPath={currentPath}
+            isCardHeader={false}
             message='Perbarui kata sandi dan tingkatkan keamanan akun Anda.'/>
 
             {isSuccess && (

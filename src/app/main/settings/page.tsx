@@ -72,6 +72,8 @@ const SettingsPage = () => {
         <div className="space-y-8">
             <HeaderSection
             currentPath={currentPath || '/main/settings'}
+            isCardHeader={false}
+            showBreadcrumb={false}
             message='Sesuaikan PingSpot dengan preferensi Anda untuk pengalaman yang lebih baik.'/>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

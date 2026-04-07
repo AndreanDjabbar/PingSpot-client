@@ -488,6 +488,8 @@ const ReportDetailPage = () => {
             <div className="min-h-screen">
                 <HeaderSection
                 currentPath={customCurrentPath}
+                isCardHeader={false}
+                showBreadcrumb={false}
                 message='Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.' 
                 />
                 <div className='mt-4'>
@@ -511,6 +513,8 @@ const ReportDetailPage = () => {
             <div className="min-h-screen">
                 <HeaderSection
                 currentPath={customCurrentPath}
+                isCardHeader={false}
+                showBreadcrumb={false}
                 message='Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.' 
                 />
                 <div className='mt-4'>
@@ -535,6 +539,8 @@ const ReportDetailPage = () => {
         <div className="min-h-screen ">
             <HeaderSection
             currentPath={customCurrentPath}
+            isCardHeader={false}
+            showBreadcrumb={false}
             message='Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.' 
             />
 

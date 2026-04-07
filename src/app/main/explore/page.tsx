@@ -61,6 +61,8 @@ const ExplorePage = () => {
                     <div className="flex-1 space-y-4">
                         <HeaderSection 
                             currentPath={currentPath || '/main/explore'}
+                            isCardHeader={false}
+                            showBreadcrumb={false}
                             message='Jelajahi pengguna, laporan, dan komunitas yang ada di PingSpot untuk terhubung dan berkolaborasi dalam meningkatkan lingkungan bersama.'
                         />
                     </div>

@@ -166,7 +166,7 @@ const UpdateProgressPage = () => {
 
     return (
         <div className="min-h-screen">
-            <HeaderSection currentPath={customCurrentPath} message='Perbarui status perkembangan laporan Anda untuk memberi informasi terkini kepada komunitas.'/>
+            <HeaderSection currentPath={customCurrentPath} isCardHeader={false} showBreadcrumb={false} message='Perbarui status perkembangan laporan Anda untuk memberi informasi terkini kepada komunitas.'/>
             <div className="max-w-7xl mx-auto py-8">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div className="lg:col-span-2">

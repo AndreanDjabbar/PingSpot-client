@@ -145,6 +145,7 @@ const ProfilePage = () => {
         <div className="space-y-8">
             <HeaderSection 
             currentPath={currentPath}
+            isCardHeader={false}
             message='Sesuaikan PingSpot dengan preferensi Anda untuk pengalaman yang lebih baik.'/>
 
             {isSuccess && (

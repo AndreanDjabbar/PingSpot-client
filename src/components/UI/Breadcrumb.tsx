@@ -16,6 +16,7 @@ const paths = [
     { id: 'settings', label: '⚙️ Pengaturan', },
     { id: 'help', label: 'Bantuan' },
     { id: 'profile', label: 'Profil' },
+    { id: 'notifications', label: '🔔 Notifikasi' },
     { id: 'security', label: 'Keamanan' },
     { id: 'reports', label: '📝 Laporan' },
     { id: 'create-report', label: 'Buat Laporan' },
@@ -51,13 +52,13 @@ const Breadcrumb = ({ path }: BreadcrumbProps) => {
                 <>
                     <Link
                     href={`/${parentPath}/${item.href}`}
-                    className="hover:text-sky-800 transition-colors duration-200"
+                    className="hover:text-sky-800 transition-colors duration-200 text-2xl"
                     >
                         {paths.find((p) => p.id === item.label)?.label ?? item.label}
                     </Link>
                 </>
             ) : (
-                <span className="text-gray-900 font-semibold">
+                <span className="text-gray-900 font-semibold text-2xl">
                     {paths.find((p) => p.id === item.label)?.label ?? item.label}
                 </span>
             )}

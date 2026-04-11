@@ -130,6 +130,10 @@ const EditReportPage = () => {
         openImagePreview(imageUrl);
     };
 
+    const getFileNameFromURL = (url: string): string => {
+        return url.split("/").filter(Boolean).pop() || "";
+    };
+    
     const validateStep = (stepIndex: number): boolean => {
         if (stepIndex === 0) {
             return !!markerPosition?.lat && !!markerPosition?.lng;
@@ -154,17 +158,12 @@ const EditReportPage = () => {
         data.append('longitude', formData.longitude)
         data.append('hasProgress', formData.hasProgress ? 'true' : 'false');
 
-        const getFileNameFromURL = (url: string): string => {
-            return url.split("/").filter(Boolean).pop() || "";
-        };
-
         const newImages = reportImages.filter(img => !img.isExisting && img.file);
         const existingImages = reportImages
             .filter(img => img.isExisting && img.existingUrl)
             .map(img => {
                 try {
-                    const urlParam = new URL(img?.existingUrl || "", window.location.origin).searchParams.get("url");
-                    return urlParam ? getFileNameFromURL(decodeURIComponent(urlParam)) : img.existingUrl;
+                    return getFileNameFromURL(decodeURIComponent(img.existingUrl || ""));
                 } catch {
                     return img.existingUrl;
                 }
@@ -183,7 +182,6 @@ const EditReportPage = () => {
     };
 
     const onSubmit = (formData: IEditReportRequest) => {
-        console.log('Form data ready for submission:', formData);
         handleConfirmationModal(formData);
     };
 

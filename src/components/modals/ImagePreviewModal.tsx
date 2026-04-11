@@ -133,7 +133,7 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({ imageUrl, isOpen,
                                     </button>
                                 </div>
                                 <TransformComponent
-                                    wrapperClass="w-full h-[60vh] bg-gray-900 flex items-center justify-center"
+                                    wrapperClass="w-full h-[60vh] backdrop-blur-sm bg-gray-200 border border-gray-300 flex items-center justify-center"
                                 >
                                     <img
                                         src={imageUrl}

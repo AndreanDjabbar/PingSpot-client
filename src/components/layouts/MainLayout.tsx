@@ -62,7 +62,7 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
 
     return (
         <main className="flex-1 min-h-screen bg-gradient-to-br from-gray-50 via-sky-50/30 to-indigo-50/30">
-            <div className="h-full p-4 lg:p-8">
+            <div className="h-full py-4 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     {children}
                 </div>

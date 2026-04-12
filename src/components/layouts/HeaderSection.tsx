@@ -34,7 +34,7 @@ const HeaderSection: React.FC<HeaderSectionProps> = ({
 }) => {
     const currentPathParts = currentPath.split("/").filter(Boolean);
     return (
-        <div className={`${isCardHeader ? 'p-6 bg-white rounded-lg border border-gray-200 shadow-sm' : 'py-6'}`}>
+        <div className={`${isCardHeader ? 'p-6 bg-white rounded-lg border border-gray-200 shadow-sm' : 'py-3 mb-4'}`}>
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div className='flex flex-col gap-3'>
                     {showBreadcrumb ? (

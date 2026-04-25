@@ -44,8 +44,8 @@ const LoginPage = () => {
     return (
         <div className="space-y-8">
             <div className="text-center space-y-2">
-                <h1 className="text-3xl font-bold text-gray-900">Masuk</h1>
-                <p className="text-gray-800">Masuk ke akun Anda untuk melanjutkan</p>
+                <h1 className="text-3xl font-bold text-gray-900">Selamat Datang di PingSpot</h1>
+                <p className="text-gray-800">Silahkan masuk ke akun Anda untuk melanjutkan</p>
             </div>
 
             {isSuccess && (

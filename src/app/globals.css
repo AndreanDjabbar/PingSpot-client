@@ -1,20 +1,34 @@
 @import "tailwindcss";
 
+@theme {
+    --color-primary: #6C5CE7;
+    --color-surface: #2D3436;
+    --color-background: #F1F2F6;
+    --color-muted: #D1D8DB;
+
+    --color-success: #55E6C1;
+    --color-success-dark: #008B74;
+    --color-danger: #FF7675;        
+    --color-danger-dark: #D63031;
+    --color-primary-hover: #5B4BC4; 
+}
+
+html, body {
+    @apply bg-background text-surface;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
 .bg-pingspot {
-    @apply bg-sky-800;
+    @apply bg-primary text-white;
 }
 
 .bg-pingspot-hoverable {
-    @apply bg-sky-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-900 transition-colors duration-300;
+    @apply bg-primary text-white 
+    transition-colors duration-300 
+    focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
 }
 
 .bg-pingspot-hoverable:hover {
-    @apply bg-sky-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-900 transition-colors duration-300;
-}
-
-
-html, body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    @apply bg-primary-hover;
 }

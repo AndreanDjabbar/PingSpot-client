@@ -249,7 +249,7 @@ const CreateReportPage = () => {
                             />
                         )}
 
-                        <div className="flex justify-between items-center pt-4 border-t border-gray-300">
+                        <div className="flex justify-between items-center pt-4 border-t border-muted">
 
                             <Button
                                 onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}

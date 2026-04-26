@@ -187,7 +187,7 @@ const ProfilePage = () => {
                                             File dipilih: {profilePicture.name}
                                         </div>
                                     )}
-                                    <div className="text-red-500 text-sm font-semibold">{errors.profilePicture?.message as string}</div>
+                                    <div className="text-danger-dark text-sm font-semibold">{errors.profilePicture?.message as string}</div>
                                 </div>
 
                                 <div className='flex flex-col gap-6 md:flex-row'>
@@ -202,7 +202,7 @@ const ProfilePage = () => {
                                             icon={<IoPersonSharp size={20}/>} 
                                             placeHolder="Masukkan nama lengkap Anda"
                                         />
-                                        <div className="text-red-500 text-sm font-semibold">{errors.fullName?.message as string}</div>
+                                        <div className="text-danger-dark text-sm font-semibold">{errors.fullName?.message as string}</div>
                                     </div>
                                     <div className="w-full">
                                         <InputField
@@ -216,7 +216,7 @@ const ProfilePage = () => {
                                             placeHolder="Masukkan username Anda"
                                             disabled
                                         />
-                                        <div className="text-red-500 text-sm font-semibold">{errors.username?.message as string}</div>
+                                        <div className="text-danger-dark text-sm font-semibold">{errors.username?.message as string}</div>
                                     </div>
                                 </div>
                                 
@@ -237,7 +237,7 @@ const ProfilePage = () => {
                                             max={"2023-12-31"}
                                             min={"1905-01-01"}
                                         />
-                                        <div className="text-red-500 text-sm font-semibold">{errors.birthday?.message as string}</div>
+                                        <div className="text-danger-dark text-sm font-semibold">{errors.birthday?.message as string}</div>
                                     </div>
 
                                     <div className='w-full'>
@@ -254,7 +254,7 @@ const ProfilePage = () => {
                                             }}
                                             layout='horizontal'
                                         />
-                                        <div className="text-red-500 text-sm font-semibold">{errors?.gender?.message as string}</div>
+                                        <div className="text-danger-dark text-sm font-semibold">{errors?.gender?.message as string}</div>
                                     </div>
                                 </div>
 
@@ -267,7 +267,7 @@ const ProfilePage = () => {
                                         labelTitle="Bio Anda"
                                         placeHolder="Masukkan bio Anda"
                                     />
-                                    <div className="text-red-500 text-sm font-semibold">{errors.bio?.message as string}</div>
+                                    <div className="text-danger-dark text-sm font-semibold">{errors.bio?.message as string}</div>
                                 </div>
                                 
                                 <div className="w-full flex justify-end mt-6">

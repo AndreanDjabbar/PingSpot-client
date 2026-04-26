@@ -73,14 +73,14 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
         <div className={`space-y-1 ${className}`}>
             {withLabel && (
                 <div className="flex items-center space-x-2">
-                    {icon && <span className="text-gray-700">{icon}</span>}
-                    <label htmlFor={id} className="block text-sm font-semibold text-gray-900">
+                    {icon && <span className="text-surface">{icon}</span>}
+                    <label htmlFor={id} className="block text-sm font-semibold text-surface">
                         {labelTitle}
-                        {required && <span className="text-red-500 ml-1">*</span>}
+                        {required && <span className="text-danger-dark ml-1">*</span>}
                     </label>
                     {informationTitle && informationDescription && (
                         <div 
-                            className="flex items-center text-sky-800 hover:text-sky-900 hover:scale-110 transition-all duration-300 cursor-pointer" 
+                            className="flex items-center text-primary hover:text-primary-hover hover:scale-110 transition-all duration-300 cursor-pointer" 
                             title={informationTitle}
                             onClick={handleShowInfo}
                         >
@@ -112,7 +112,7 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
                             htmlFor={`${id}-${option.value}`}
                             className={cn(
                                 "ml-2 block text-sm font-medium cursor-pointer",
-                                (disabled || option.disabled) ? "text-gray-400 cursor-not-allowed" : "text-gray-800"
+                                (disabled || option.disabled) ? "text-muted cursor-not-allowed" : "text-surface"
                             )}
                         >
                             {option.label}

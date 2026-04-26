@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 
 interface PingspotLogoProps {
-    variant?: 'primary' | 'secondary'
+    variant?: 'full' | 'semi'
     size: string | number;
     className?: string;
 }
@@ -12,7 +12,7 @@ const PingspotLogo: React.FC<PingspotLogoProps> = ({
     size = '150',
     className = ''
 }) => {
-    const src = (variant === 'primary' ? '/images/pingspot-primary-icon.png' : '/images/pingspot-secondary-icon.png')
+    const src = (variant === 'full' ? '/images/pingspot-full.png' : '/images/pingspot-semi.png')
 
     return (
         <Image

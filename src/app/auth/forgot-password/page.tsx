@@ -40,8 +40,8 @@ const ForgotPasswordPage = () => {
     return (
         <div className="space-y-8">
             <div className="text-center space-y-2">
-                <h1 className="text-3xl font-bold text-gray-900">Lupa Kata Sandi?</h1>
-                <p className="text-gray-800">Masukan email anda agar kami dapat mengirimkan link untuk mengatur ulang kata sandi</p>
+                <h1 className="text-3xl font-bold text-surface">Lupa Kata Sandi?</h1>
+                <p className="text-surface">Masukan email anda agar kami dapat mengirimkan link untuk mengatur ulang kata sandi</p>
             </div>
 
             {isSuccess && (
@@ -69,12 +69,12 @@ const ForgotPasswordPage = () => {
                                 icon={<MdMailOutline size={20} />}
                                 placeHolder="Masukkan email Anda"
                             />
-                            <div className="text-red-500 text-sm font-semibold">{errors.email?.message as string}</div>
+                            <div className="text-danger-dark text-sm font-semibold">{errors.email?.message as string}</div>
                         </div>
                         
-                        <p className="text-center text-sm text-gray-700">
+                        <p className="text-center text-sm text-surface">
                             Sudah punya akun?{' '}
-                            <a href="/auth/login" className="font-medium text-sky-700 hover:text-sky-800 hover:underline transition-colors duration-200 cursor-pointer">
+                            <a href="/auth/login" className="font-medium text-primary hover:text-primary-hover hover:underline transition-colors duration-200 cursor-pointer">
                                 Masuk
                             </a>
                         </p>
@@ -90,17 +90,17 @@ const ForgotPasswordPage = () => {
 
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-gray-300" />
+                                <div className="w-full border-t border-muted" />
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-white text-gray-700">Atau lanjutkan dengan</span>
+                                <span className="px-2 bg-background text-surface">Atau lanjutkan dengan</span>
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 gap-3">
                             <button
                                 type="button"
-                                className="w-full inline-flex justify-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring focus:ring-sky-700 cursor-pointer transition-all duration-300"
+                                className="w-full inline-flex justify-center py-2.5 px-4 border border-muted rounded-lg shadow-sm bg-white text-sm font-medium text-surface hover:bg-muted focus:outline-none focus:ring focus:ring-primary cursor-pointer transition-all duration-300"
                                 onClick={() => window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL || ''}
                             >
                                 <FaGoogle size={20}/>
@@ -108,9 +108,9 @@ const ForgotPasswordPage = () => {
                             </button>
                         </div>
                     </form>
-                    <p className="text-center text-sm text-gray-700">
+                    <p className="text-center text-sm text-surface">
                     Belum punya akun?{' '}
-                    <a href="/auth/register" className="font-medium text-sky-700 hover:text-sky-800 hover:underline transition-colors duration-200 cursor-pointer">
+                    <a href="/auth/register" className="font-medium text-primary hover:text-primary-hover hover:underline transition-colors duration-200 cursor-pointer">
                         Daftar gratis
                     </a>
                     </p>

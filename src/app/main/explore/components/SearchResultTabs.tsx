@@ -26,7 +26,7 @@ const SearchResultTabs: React.FC<SearchResultTabsProps> = ({
     ];
 
     return (
-        <div className="border-b border-gray-200">
+        <div className="border-b border-muted">
             <div className="flex overflow-x-auto overflow-y-hidden relative">
                 {tabs.map((tab) => {
                     const Icon = tab.icon;
@@ -38,8 +38,8 @@ const SearchResultTabs: React.FC<SearchResultTabsProps> = ({
                             onClick={() => onTabChange(tab.id)}
                             className={`flex-1 px-4 py-3 text-sm font-medium transition-colors relative isolate cursor-pointer ${
                                 isActive
-                                    ? 'text-sky-700 bg-sky-50'
-                                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                                    ? 'text-primary bg-background'
+                                    : 'text-muted hover:text-surface hover:bg-background/50'
                             }`}
                         >
                             <motion.div 

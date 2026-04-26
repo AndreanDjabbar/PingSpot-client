@@ -38,8 +38,8 @@ const Button: React.FC<ButtonProps> = ({
         secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-800',
         danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-800',
         success: 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-800',
-        outline: 'border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-gray-500',
-        ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-500',
+        outline: 'border border-muted text-surface bg-white hover:bg-background focus:ring-primary',
+        ghost: 'text-surface hover:bg-muted focus:ring-primary',
     };
 
     const sizeStyles: Record<ButtonSize, string> = {

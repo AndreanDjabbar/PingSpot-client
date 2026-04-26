@@ -51,8 +51,8 @@ const Loading: React.FC<LoadingProps> = ({
     };
 
     const colorClasses = {
-        primary: 'text-sky-700',
-        secondary: 'text-gray-600',
+        primary: 'text-primary',
+        secondary: 'text-muted',
         white: 'text-white'
     };
 

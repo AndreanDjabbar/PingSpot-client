@@ -67,7 +67,7 @@ const DateTimeField: React.FC<DateTimeFieldProps> = ({
                 </label>
             )}
             <div className='relative'>
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500 cursor-pointer">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-muted cursor-pointer">
                     {icon}
                 </div>
                 <div className="relative cursor-pointer" onClick={() => inputRef.current?.showPicker?.() || inputRef.current?.focus()}>
@@ -79,7 +79,7 @@ const DateTimeField: React.FC<DateTimeFieldProps> = ({
                         required={required}
                         min={min}
                         max={max}
-                        className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 cursor-pointer"
+                        className="block w-full pl-10 pr-3 py-3 border border-muted rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 cursor-pointer"
                         value={formattedValue}
                         onChange={handleChange}
                         onBlur={onBlur}

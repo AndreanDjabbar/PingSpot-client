@@ -155,7 +155,7 @@ const OptionsModal: React.FC = () => {
                         {(triangleLeft !== null || triangleRight !== null) && (
                             placement === 'bottom' ? (
                                 <div
-                                    className="absolute -top-2 w-4 h-4 bg-white transform rotate-45 border-l border-t border-gray-200"
+                                    className="absolute -top-2 w-4 h-4 bg-white transform rotate-45 border-l border-t border-muted"
                                     style={
                                         triangleLeft !== null
                                             ? { left: `${triangleLeft}px` }
@@ -164,7 +164,7 @@ const OptionsModal: React.FC = () => {
                                 />
                             ) : (
                                 <div
-                                    className="absolute -bottom-2 w-4 h-4 bg-white transform rotate-45 border-r border-b border-gray-200"
+                                    className="absolute -bottom-2 w-4 h-4 bg-white transform rotate-45 border-r border-b border-muted"
                                     style={
                                         triangleLeft !== null
                                             ? { left: `${triangleLeft}px` }
@@ -174,7 +174,7 @@ const OptionsModal: React.FC = () => {
                             )
                         )}
 
-                        <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col max-h-[420px]">
+                        <div className="bg-white rounded-2xl shadow-2xl border border-muted flex flex-col max-h-[420px]">
                             <div className="flex-1 overflow-y-auto py-2">
                                 {optionsList && optionsList.length > 0 ? (
                                     <div className="divide-y divide-gray-100">
@@ -189,14 +189,14 @@ const OptionsModal: React.FC = () => {
                                                 <div className="flex-1">
                                                     <div className="text-sm font-medium text-gray-900">{opt.label}</div>
                                                     {opt.description && (
-                                                        <div className="text-xs text-gray-500">{opt.description}</div>
+                                                        <div className="text-xs text-muted">{opt.description}</div>
                                                     )}
                                                 </div>
                                             </button>
                                         ))}
                                     </div>
                                 ) : (
-                                    <div className="px-4 py-3 text-sm text-gray-500">No options</div>
+                                    <div className="px-4 py-3 text-sm text-muted">No options</div>
                                 )}
                             </div>
                         </div>

@@ -13,7 +13,7 @@ const TopNavigation: React.FC<TopNavigationProps> = ({ onMenuToggle }) => {
                 onClick={onMenuToggle}
                 className="p-2 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
                 >
-                    <BiMenu className="w-6 h-6 text-gray-300" />
+                    <BiMenu className="w-6 h-6 text-muted" />
                 </button>
                 
                 <PingspotLogo size="150"/>

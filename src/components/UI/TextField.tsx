@@ -46,13 +46,13 @@ const InputField: React.FC<InputFieldProps> = ({
     return (
         <div className={`space-y-1 ${className}`}>
             {withLabel && (
-                <label htmlFor={id} className="block text-sm font-semibold text-gray-900">
+                <label htmlFor={id} className="block text-sm font-semibold ">
                     {labelTitle}
-                    {required && <span className="text-red-500 ml-1">*</span>}
+                    {required && <span className="text-danger-dark ml-1">*</span>}
                 </label>
             )}
             <div className='relative'>
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     {icon}
                 </div>
                 <input
@@ -61,7 +61,12 @@ const InputField: React.FC<InputFieldProps> = ({
                     name={name}
                     type={inputType}
                     required={required}
-                    className={cn("block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-800 focus:border-sky-800 transition-all duration-200", disabled ? 'bg-gray-200 cursor-not-allowed' : 'bg-white', )}
+                    className={cn(
+                    "block w-full pl-10 pr-3 py-3 rounded-lg shadow-sm transition-all duration-200",
+                    "bg-white border border-muted placeholder-surface/40 text-surface",
+                    "focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary",
+                    disabled ? "bg-muted cursor-not-allowed opacity-60" : "hover:border-primary/50",
+                    )}
                     placeholder={placeHolder || `Masukkan ${labelTitle.toLowerCase()}`}
                     value={value}
                     disabled={disabled}
@@ -73,7 +78,7 @@ const InputField: React.FC<InputFieldProps> = ({
                     <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                         <button
                         type="button"
-                        className="text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
+                        className="transition-colors cursor-pointer"
                         onClick={() => setShowPassword(!showPassword)}
                         >
                         {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}

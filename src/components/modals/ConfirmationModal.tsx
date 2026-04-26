@@ -36,8 +36,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     if (!isOpen) return null;
 
     const isWarning = type === 'warning';
-    const iconColorClass = isWarning ? 'text-red-600' : 'text-gray-800';
-    const iconBgClass = isWarning ? 'bg-red-100' : 'bg-gray-200';
+    const iconColorClass = isWarning ? 'text-danger-dark' : 'text-surface';
+    const iconBgClass = isWarning ? 'bg-danger/10' : 'bg-muted';
 
     return (
         <div 
@@ -48,7 +48,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 className="bg-white rounded-xl shadow-xl w-full max-w-lg transform transition-all"
                 onClick={e => e.stopPropagation()}
             >
-                <div className="flex items-center justify-between p-5 border-b border-gray-200">
+                <div className="flex items-center justify-between p-5 border-b border-muted">
                     <div className="flex items-center gap-3">
                         <div className={`p-2 ${iconBgClass} rounded-full`}>
                             {isWarning ? (
@@ -63,7 +63,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                     </div>
                     <button 
                         onClick={onClose} 
-                        className="p-1 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+                        className="p-1 rounded-full hover:bg-muted transition-colors cursor-pointer"
                         disabled={isPending}
                         aria-label="Close modal"
                     >
@@ -73,11 +73,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
                 <div className="p-6 space-y-4">
                     <div>
-                        <h4 className="text-base font-semibold text-gray-900 mb-2">
+                        <h4 className="text-base font-semibold text-surface mb-2">
                             {message}
                         </h4>
                         {explanation && (
-                            <p className="text-sm text-gray-700 leading-relaxed">
+                            <p className="text-sm text-surface leading-relaxed">
                                 {explanation}
                             </p>
                         )}

@@ -77,7 +77,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
                         <div className={`${collapsed ? 'p-4' : 'p-4'} border-b border-white`}>
                             {collapsed ? (
                                 <div className="flex justify-center">
-                                    <PingspotLogo size='60' type="full"/>
+                                    <PingspotLogo size='60'/>
                                 </div>
                             ) : (
                                 <ProfileBadge
@@ -116,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
                                         <>
                                             <span className="ml-3 font-medium">{item.label}</span>
                                             {item.badge && (
-                                            <span className="ml-auto bg-red-500 text-gray-200 text-xs rounded-full px-2 py-1 min-w-[20px] h-5 flex items-center justify-center">
+                                            <span className="ml-auto bg-danger text-background text-xs rounded-full px-2 py-1 min-w-[20px] h-5 flex items-center justify-center">
                                                 {item.badge}
                                             </span>
                                             )}

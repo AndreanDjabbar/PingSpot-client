@@ -11,6 +11,10 @@
     --color-danger: #FF7675;        
     --color-danger-dark: #D63031;
     --color-primary-hover: #5B4BC4; 
+
+    --color-secondary: #818CF8;        
+    --color-secondary-dark: #4F46E5;
+    --color-secondary-hover: #6366F1;
 }
 
 html, body {
@@ -31,4 +35,18 @@ html, body {
 
 .bg-pingspot-hoverable:hover {
     @apply bg-primary-hover;
+}
+
+.bg-secondary-pingspot {
+    @apply bg-secondary text-white;
+}
+
+.bg-secondary-pingspot-hoverable {
+    @apply bg-secondary text-white 
+    transition-all duration-300 
+    focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2;
+}
+
+.bg-secondary-pingspot-hoverable:hover {
+    @apply bg-secondary-hover -translate-y-0.5 shadow-lg shadow-secondary/20;
 }

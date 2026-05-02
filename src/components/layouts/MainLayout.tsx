@@ -28,10 +28,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     };
 
     return (
-        <div className="h-screen flex flex-col">
+        <div className="h-screen flex flex-col ">
             <TopNavigation onMenuToggle={toggleSidebar} />
 
-            <div className="flex flex-1 overflow-hidden">
+            <div className="flex flex-1 overflow-hidden bg-background">
                 <Sidebar 
                     isOpen={sidebarOpen} 
                     onToggle={toggleSidebar} 
@@ -61,7 +61,7 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
     }, [loadUser]);
 
     return (
-        <main className="flex-1 min-h-screen bg-gradient-to-br from-gray-50 via-sky-50/30 to-indigo-50/30">
+        <main className="flex-1 min-h-screen">
             <div className="h-full py-4 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     {children}

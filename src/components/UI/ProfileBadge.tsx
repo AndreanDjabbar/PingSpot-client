@@ -59,7 +59,7 @@ const ProfileBadge: React.FC<ProfileBadgeProps> = ({
     return (
         <div
             className={`flex items-center ${currentSize.container} ${
-                onClick ? 'cursor-pointer hover:bg-gray-700/50 rounded-xl p-2 transition-all duration-200' : ''
+                onClick ? 'cursor-pointer hover:bg-white/10 rounded-xl p-2 transition-all duration-200 group' : ''
             } ${className}`}
             onClick={onClick}
         >
@@ -75,11 +75,11 @@ const ProfileBadge: React.FC<ProfileBadgeProps> = ({
             </div>
 
             <div className="flex-1 min-w-0">
-                <div className={`${currentSize.name} font-bold text-white truncate`}>
+                <div className={`${currentSize.name} font-bold text-white truncate group-hover:text-muted`}>
                     {name}
                 </div>
                 {email && (
-                    <div className={`${currentSize.email} text-gray-300 truncate`}>
+                    <div className={`${currentSize.email} text-white group-hover:text-muted truncate`}>
                         {email}
                     </div>
                 )}
@@ -88,16 +88,16 @@ const ProfileBadge: React.FC<ProfileBadgeProps> = ({
                         {followers !== undefined && (
                             <div className="flex items-center gap-1">
                                 <span className="font-semibold text-white">{followers}</span>
-                                <span>Pengikut</span>
+                                <span className="text-muted">Pengikut</span>
                             </div>
                         )}
                         {followers !== undefined && following !== undefined && (
-                            <span className="text-gray-200">•</span>
+                            <span className="text-white group-hover:text-muted">•</span>
                         )}
                         {following !== undefined && (
                             <div className="flex items-center gap-1">
-                                <span className="font-semibold text-white">{following}</span>
-                                <span>Mengikuti</span>
+                                <span className="font-semibold text-white group-hover:text-muted">{following}</span>
+                                <span className="text-muted">Mengikuti</span>
                             </div>
                         )}
                     </div>

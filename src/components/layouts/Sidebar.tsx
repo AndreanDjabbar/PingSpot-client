@@ -81,15 +81,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
                                     <PingspotLogo size='60'/>
                                 </div>
                             ) : (
-                                <ProfileBadge
-                                    name={user?.username || 'User'}
-                                    email={user?.email || 'User@email.com'}
-                                    followers={123}
-                                    imageUrl={user?.profilePicture}
-                                    following={456}
-                                    size="md"
-                                    onClick={() => router.push('/main/settings/profile')}
-                                />
+                                <div className="">
+                                    <ProfileBadge
+                                        name={user?.username || 'User'}
+                                        email={user?.email || 'User@email.com'}
+                                        followers={123}
+                                        imageUrl={user?.profilePicture}
+                                        following={456}
+                                        size="md"
+                                        onClick={() => router.push('/main/settings/profile')}
+                                    />
+                                </div>
                             )}
                         </div>
 

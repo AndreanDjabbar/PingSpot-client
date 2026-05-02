@@ -42,9 +42,9 @@ const Footer: React.FC<FooterProps> = ({ bottomNavHeightPosition = 0 }) => {
             <div className="px-4 flex flex-col justify-center items">
                 <div className='flex flex-col py-1 px-8 gap-10'>
                     <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 sm:gap-8 lg:gap-12">
-                        <div className='flex gap-15 justify-between w-full items-center pt-3 px-3'>
+                        <div className='flex gap-15 justify-between w-full items-center pt-8 px-3'>
                             <div className="flex flex-col items-center">
-                                <div className="lg:w-40 sm:w-30 md:w-35 w-20">
+                                <div className="lg:w-38 sm:w-30 md:w-35 w-20">
                                     <PingspotLogo size={logoSize} variant='full' color='white' />
                                 </div>
                             </div>

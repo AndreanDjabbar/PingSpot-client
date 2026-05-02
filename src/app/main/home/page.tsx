@@ -61,6 +61,13 @@ const Homepage = () => {
     const totalReportsThisMonth = reportStatisticsData?.data?.monthlyReportCounts[thisMonth] || 0;
     const totalUsers = userStatisticsData?.data?.totalUsers || 0;
     
+    const cardBase = "bg-white/80 backdrop-blur-sm rounded-xl border border-muted shadow-md p-6";
+    const labelClass = "text-sm font-medium text-surface/70 mb-1";
+    const valueClass = "text-xl font-bold text-surface";
+    const iconWrapClass = "p-3 rounded-lg bg-primary";
+    const iconClass = "w-6 h-6 text-white";
+    const loadingWrapClass = "pt-3";
+
     const reportErrorSection = (
         <ErrorSection 
         errors={errorReportStatistics}
@@ -79,6 +86,12 @@ const Homepage = () => {
         />
     ) 
 
+    const StatCardSkeleton = () => (
+        <div className={loadingWrapClass}>
+            <Loading type="dots" text="Memuat..." />
+        </div>
+    );
+
     return (
         <div>
             <HeaderSection 
@@ -89,7 +102,7 @@ const Homepage = () => {
                 <Button
                 icon={<BiPlus className="w-5 h-5" />}
                 onClick={() => router.push('/main/reports/create-report')}
-                className='px-6 py-2.5'
+                className='px-6 py-4'
                 >
                     <span>Buat Laporan</span>
                 </Button>
@@ -109,77 +122,68 @@ const Homepage = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-muted shadow-md p-6">
+                    <div className={cardBase}>
                         {loadingReportStatistics ? (
-                            <div className='pt-3'>
-                                <Loading type='dots'text='Memuat...'/>
-                            </div>
+                            <StatCardSkeleton />
                         ) : (
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-muted mb-1">Total Laporan</p>
-                                    <p className="text-xl font-bold text-surface">{totalReports} Laporan</p>
-                                    <p className="text-sm text-green-600 font-medium"></p>
+                                    <p className={labelClass}>Total Laporan</p>
+                                    <p className={valueClass}>{totalReports} Laporan</p>
                                 </div>
-                                <div className={`p-3 rounded-lg bg-sky-800`}>
-                                    <GoAlert className="w-6 h-6 text-white" />
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-muted shadow-md p-6\">
-                            {loadingReportStatistics ? (
-                                <div className='pt-3'>
-                                    <Loading type='dots'text='Memuat...'/>
-                                </div>
-                            ) : (
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-muted mb-1">Total Laporan Aktif</p>
-                                    <p className="text-xl font-bold text-surface">{totalActiveReports} Laporan</p>
-                                    <p className="text-sm text-green-600 font-medium"></p>
-                                </div>
-                                <div className={`p-3 rounded-lg bg-primary`}>
-                                    <IoMdPulse className="w-6 h-6 text-white" />
+                                <div className={iconWrapClass}>
+                                    <GoAlert className={iconClass} />
                                 </div>
                             </div>
                         )}
                     </div>
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-muted shadow-md p-6">
+                    
+                    <div className={cardBase}>
                         {loadingReportStatistics ? (
-                            <div className='pt-3'>
-                                <Loading type='dots'text='Memuat...'/>
-                            </div>
+                            <StatCardSkeleton />
                         ) : (
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-muted mb-1">Total Laporan Bulan Ini</p>
-                                    <p className="text-xl font-bold text-surface">{totalReportsThisMonth} Laporan</p>
-                                    <p className="text-sm text-green-600 font-medium"></p>
+                                    <p className={labelClass}>Total Laporan Aktif</p>
+                                    <p className={valueClass}>{totalActiveReports} Laporan</p>
                                 </div>
-                                <div className={`p-3 rounded-lg bg-primary`}>
-                                    <MdCalendarMonth className="w-6 h-6 text-white" />
+                                <div className={iconWrapClass}>
+                                    <IoMdPulse className={iconClass} />
                                 </div>
                             </div>
                         )}
                     </div>
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-muted shadow-md p-6">
-                    {loadingUserStatistics ? (
-                            <div className='pt-3'>
-                                <Loading type='dots'text='Memuat...'/>
+                    
+                    <div className={cardBase}>
+                        {loadingReportStatistics ? (
+                            <StatCardSkeleton />
+                        ) : (
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className={labelClass}>Total Laporan Bulan Ini</p>
+                                    <p className={valueClass}>{totalReportsThisMonth} Laporan</p>
+                                </div>
+                                <div className={iconWrapClass}>
+                                    <MdCalendarMonth className={iconClass} />
+                                </div>
                             </div>
-                    ) : (
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-medium text-muted mb-1">Total Pengguna Aktif</p>
-                                <p className="text-xl font-bold text-surface">{totalUsers} Pengguna</p>
-                                <p className="text-sm text-green-600 font-medium"></p>
+                        )}
+                    </div>
+                    
+                    <div className={cardBase}>
+                        {loadingUserStatistics ? (
+                            <StatCardSkeleton />
+                        ) : (
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className={labelClass}>Total Pengguna Aktif</p>
+                                    <p className={valueClass}>{totalUsers} Pengguna</p>
+                                </div>
+                                <div className={iconWrapClass}>
+                                    <FaUser className={iconClass} />
+                                </div>
                             </div>
-                            <div className={`p-3 rounded-lg bg-primary`}>
-                                <FaUser className="w-6 h-6 text-white" />
-                            </div>
-                        </div>
-                    )}
+                        )}
                     </div>
                 </div>
 

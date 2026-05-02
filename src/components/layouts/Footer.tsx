@@ -42,14 +42,11 @@ const Footer: React.FC<FooterProps> = ({ bottomNavHeightPosition = 0 }) => {
             <div className="px-4 flex flex-col justify-center items">
                 <div className='flex flex-col py-1 px-8 gap-10'>
                     <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 sm:gap-8 lg:gap-12">
-                        <div className='flex gap-10 justify-between w-full items-center py-3'>
+                        <div className='flex gap-15 justify-between w-full items-center pt-3 px-3'>
                             <div className="flex flex-col items-center">
-                                <div className="scale-90 sm:scale-100 origin-center ml-2 ">
-                                    <PingspotLogo size={logoSize} type="full" variant='primary' />
+                                <div className="lg:w-40 sm:w-30 md:w-35 w-20">
+                                    <PingspotLogo size={logoSize} variant='full' color='white' />
                                 </div>
-                                <p className="text-gray-300 text-xs sm:text-sm lg:text-base leading-relaxed text-center px-2 sm:px-4 lg:px-0 lg:pl-2 max-w-md">
-                                    Platform pelaporan masalah infrastruktur berbasis komunitas untuk membangun lingkungan yang lebih baik bersama-sama.
-                                </p>
                             </div>
 
                             <div className="flex flex-col gap-1 items-center lg:items-start">

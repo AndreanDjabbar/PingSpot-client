@@ -40,11 +40,11 @@ const HeaderSection: React.FC<HeaderSectionProps> = ({
                     {showBreadcrumb ? (
                         <Breadcrumb path={currentPath}/>
                     ) : (
-                        <h1 className="text-2xl font-bold text-gray-900">
+                        <h1 className="text-2xl font-bold text-surface">
                             {paths.find((p) => p.id === currentPathParts[1])?.label || (currentPathParts.length > 0 ? currentPathParts[currentPathParts.length - 1].charAt(0).toUpperCase() + currentPathParts[currentPathParts.length - 1].slice(1) : 'Dashboard')}
                         </h1>
                     )}
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-surface text-sm">
                         {message}
                     </p>
                 </div>

@@ -1,5 +1,4 @@
 import { ImageResponse } from 'next/og'
-import { FaMapMarkerAlt } from 'react-icons/fa'
 
 export const size = {
     width: 32,
@@ -8,25 +7,19 @@ export const size = {
 export const contentType = 'image/png'
 
 export default function Icon() {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+
     return new ImageResponse(
         (
-        <div
-            style={{
-            fontSize: 24,
-            padding: 4,
-            borderRadius: '50%',
-            display: 'flex',
-            fontWeight: 'bold',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#ffffff',
-            }}
-        >
-            <FaMapMarkerAlt size={25}/>
-        </div>
+            <img
+                src={`${baseUrl}/images/pingspot-semi.png`}
+                width={32}
+                height={32}
+                style={{
+                    objectFit: 'contain',
+                }}
+            />
         ),
-        {
-        ...size,
-        }
+        { ...size }
     )
 }

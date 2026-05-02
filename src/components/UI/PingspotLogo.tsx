@@ -3,16 +3,24 @@ import Image from 'next/image'
 
 interface PingspotLogoProps {
     variant?: 'full' | 'semi'
+    color?: 'primary' | 'white';
     size: string | number;
     className?: string;
 }
 
 const PingspotLogo: React.FC<PingspotLogoProps> = ({
     variant = 'primary',
+    color = 'primary',
     size = '150',
     className = ''
 }) => {
-    const src = (variant === 'full' ? '/images/pingspot-full.png' : '/images/pingspot-semi.png')
+    const src = color === 'primary'
+        ? variant === 'full' 
+            ? '/images/pingspot-full.png'
+            : '/images/pingspot-semi.png'
+        : variant === 'full'
+            ? '/images/pingspot-full-white.png'
+            : '/images/pingspot-semi-white.png';
 
     return (
         <Image

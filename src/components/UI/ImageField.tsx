@@ -214,7 +214,7 @@ const ImageField: React.FC<ImageFieldProps> = ({
                 <button
                     type="button"
                     onClick={handleAvatarClick}
-                    className="px-4 py-1 bg-sky-700 text-white rounded-lg hover:bg-sky-800 transition-colors text-md cursor-pointer"
+                    className="px-4 py-1 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-md cursor-pointer"
                 >
                     {buttonTitle}
                 </button>
@@ -289,7 +289,7 @@ const ImageField: React.FC<ImageFieldProps> = ({
                             <button
                                 type="button"
                                 onClick={handleCropSave}
-                                className="px-4 py-2 bg-sky-700 text-white rounded-lg hover:bg-sky-800 transition-colors"
+                                className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
                             >
                                 Simpan
                             </button>

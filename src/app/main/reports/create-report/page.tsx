@@ -275,7 +275,7 @@ const CreateReportPage = () => {
 
                             ) : (
                                 <Button
-                                    className="px-6 py-2.5 rounded-lg bg-sky-700 hover:bg-sky-800 text-white font-medium "
+                                    className="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium "
                                     loadingText="Mengirim Laporan..."
                                     type='submit'
                                     isLoading={isPending || reverseLoading}

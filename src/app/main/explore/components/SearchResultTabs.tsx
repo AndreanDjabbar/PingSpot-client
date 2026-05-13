@@ -74,7 +74,7 @@ const SearchResultTabs: React.FC<SearchResultTabsProps> = ({
                                         key={`${tab.id}-${tab.count}`}
                                         className={`px-2 py-0.5 rounded-full text-xs font-semibold flex-shrink-0 ${
                                             isActive
-                                                ? 'bg-sky-200 text-sky-800'
+                                                ? 'bg-primary/20 text-primary'
                                                 : 'bg-gray-200 text-gray-700'
                                         }`}
                                         initial={{ scale: 0.8, opacity: 0 }}
@@ -92,7 +92,7 @@ const SearchResultTabs: React.FC<SearchResultTabsProps> = ({
                             
                             {isActive && (
                                 <motion.div
-                                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-sky-600"
+                                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
                                     initial={{ scaleX: 0, opacity: 0 }}
                                     animate={{ scaleX: 1, opacity: 1 }}
                                     transition={{ 

@@ -177,19 +177,19 @@ const OptionsModal: React.FC = () => {
                         <div className="bg-white rounded-2xl shadow-2xl border border-muted flex flex-col max-h-[420px]">
                             <div className="flex-1 overflow-y-auto py-2">
                                 {optionsList && optionsList.length > 0 ? (
-                                    <div className="divide-y divide-gray-100">
+                                    <div className="divide-y divide-surface/10">
                                         {optionsList.map((opt, idx) => (
                                             <button
                                                 key={idx}
                                                 onClick={() => onOptionClick(opt)}
-                                                className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-4 cursor-pointer"
+                                                className="w-full text-left px-4 py-3 hover:bg-surface/10 flex items-center gap-4 cursor-pointer"
                                                 type="button"
                                             >
-                                                {opt.icon && <span className=" text-gray-600">{opt.icon}</span>}
+                                                {opt.icon && <span className=" text-surface">{opt.icon}</span>}
                                                 <div className="flex-1">
-                                                    <div className="text-sm font-medium text-gray-900">{opt.label}</div>
+                                                    <div className="text-sm font-medium text-surface">{opt.label}</div>
                                                     {opt.description && (
-                                                        <div className="text-xs text-muted">{opt.description}</div>
+                                                        <div className="text-xs text-surface/90">{opt.description}</div>
                                                     )}
                                                 </div>
                                             </button>

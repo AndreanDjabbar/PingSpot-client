@@ -50,3 +50,9 @@ html, body {
 .bg-secondary-pingspot-hoverable:hover {
     @apply bg-secondary-hover -translate-y-0.5 shadow-lg shadow-secondary/20;
 }
+
+.card-pingspot {
+    @apply bg-white rounded-2xl p-6 
+    border border-muted/50 
+    shadow-sm shadow-surface/10;
+}

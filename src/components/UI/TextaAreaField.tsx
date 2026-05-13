@@ -72,7 +72,7 @@ const TextAreaField = React.forwardRef<HTMLTextAreaElement, TextAreaFieldProps>(
                     style={{ minHeight: '50px' }}
                     className={cn("block w-full", 
                         icon ? 'pl-10' : 'pl-3',
-                        "pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-800 focus:border-sky-800 transition-all duration-200",
+                        "pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200",
                         disabled ? 'bg-gray-200 cursor-not-allowed' : 'bg-white',
                         disableRowsResize ? 'resize-none' : 'resize-y',
                     )}

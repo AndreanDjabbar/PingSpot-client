@@ -151,15 +151,25 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
             ? [Number(location.lat), Number(location.lng)]
             : defaultPosition;
 
-    const customIcon = useMemo(() => new L.Icon({
-        iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-        iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    }), []);
+    const createPrimaryIcon = () => {
+        const svgIcon = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 41" width="25" height="41">
+                <path d="M12.5 0C5.596 0 0 5.596 0 12.5c0 12.5 12.5 28.5 12.5 28.5s12.5-16 12.5-28.5C25 5.596 19.404 0 12.5 0z" fill="#6C5CE7"/>
+                <circle cx="12.5" cy="12.5" r="4.5" fill="white"/>
+            </svg>
+        `;
+        const blob = new Blob([svgIcon], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        
+        return new L.Icon({
+            iconUrl: url,
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+        });
+    };
+
+    const customIcon = useMemo(() => createPrimaryIcon(), []);
 
     const mapKey = useMemo(() => {
         const locPart = location ? `loc-${location.lat}-${location.lng}` : 'no-loc';

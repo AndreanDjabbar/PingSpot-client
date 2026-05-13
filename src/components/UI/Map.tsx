@@ -104,13 +104,13 @@ const Map = () => {
             </div>
             <div className='flex w-full justify-between items-start'>
                 <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                    <FaMap className="w-6 h-6 text-sky-800 mr-2" />
+                    <FaMap className="w-6 h-6 text-primary mr-2" />
                     Peta
                 </h2>
                 <div className="flex flex-col items-end">
                     {!location &&  <>
                         <button
-                            className="bg-sky-600 text-white hover:bg-sky-700 px-6 py-2 rounded-lg transition-colors"
+                            className="bg-primary text-white hover:bg-primary/90 px-6 py-2 rounded-lg transition-colors"
                             disabled={loading}
                             onClick={() => requestLocation(false)}
                         >
@@ -128,7 +128,7 @@ const Map = () => {
                     {location && (
                         <div className='flex flex-col items-center gap-2'>
                             <button 
-                                className="bg-sky-800 flex items-center px-6 py-2 gap-2 text-white rounded-lg hover:bg-sky-900 transition-colors"
+                                className="bg-primary flex items-center px-6 py-2 gap-2 text-white rounded-lg hover:bg-primary/90 transition-colors"
                                 onClick={() => requestLocation(true)}
                                 disabled={loading}
                             >
@@ -149,7 +149,7 @@ const Map = () => {
                     )}
                 </div>
             </div>
-            <div className="bg-gradient-to-br from-sky-100 to-indigo-100 rounded-lg p-8 text-center border-2 border-dashed border-sky-200">
+            <div className="bg-gradient-to-br from-primary/10 to-indigo-100 rounded-lg p-8 text-center border-2 border-dashed border-primary/30">
                 <div className='h-96 w-full'>
                     {location ? (
                         <MapContainer 

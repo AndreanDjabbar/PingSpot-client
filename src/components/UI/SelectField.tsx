@@ -137,14 +137,14 @@ const SelectField: React.FC<SelectFieldProps> = ({
                     disabled={disabled}
                     className={cn(
                         "w-full flex items-center justify-between px-3 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-left transition-all duration-200",
-                        "focus:outline-none focus:ring-2 focus:ring-sky-800 focus:border-sky-800",
-                        disabled && "bg-gray-200 cursor-not-allowed",
+                        "focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary",
+                        disabled ? "bg-gray-200 cursor-not-allowed" : "cursor-pointer",
                         error && "border-red-500 focus:ring-red-500 focus:border-red-500",
                         icon ? "pl-10" : "pl-3"
                     )}
                 >
                     {icon && (
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-surface">
                             {icon}
                         </div>
                     )}
@@ -158,7 +158,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
                     
                     <IoChevronDown 
                         className={cn(
-                            "w-5 h-5 text-gray-400 transition-transform duration-200",
+                            "w-5 h-5 text-surface/90 transition-transform duration-200",
                             isOpen && "transform rotate-180"
                         )}
                     />
@@ -188,7 +188,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
                                 ease: "easeOut"
                             }}
                             className={cn(
-                                "absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-2xl max-h-72 overflow-hidden",
+                                "absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-2xl max-h-72 overflow-hidden cursor-pointer",
                                 dropdownPosition === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
                             )}
                         >
@@ -199,7 +199,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
                                         placeholder="Cari..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer"
                                         onClick={(e) => e.stopPropagation()}
                                     />
                                 </div>
@@ -213,18 +213,18 @@ const SelectField: React.FC<SelectFieldProps> = ({
                                             type="button"
                                             onClick={() => handleSelect(option.value)}
                                             className={cn(
-                                                "w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 transition-colors",
-                                                option.value === value && "bg-sky-50 hover:bg-sky-100"
+                                                "w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 transition-colors cursor-pointer",
+                                                option.value === value && "bg-primary-50 hover:bg-primary-100"
                                             )}
                                         >
                                             <span className={cn(
                                                 "text-sm font-medium",
-                                                option.value === value ? "text-sky-700" : "text-gray-900"
+                                                option.value === value ? "text-primary" : "text-gray-900"
                                             )}>
                                                 {option.label}
                                             </span>
                                             {option.value === value && (
-                                                <FaCheck className="w-4 h-4 text-sky-700" />
+                                                <FaCheck className="w-4 h-4 text-primary" />
                                             )}
                                         </button>
                                     ))

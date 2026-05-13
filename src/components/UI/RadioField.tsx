@@ -70,7 +70,7 @@ const RadioField: React.FC<RadioFieldProps> = ({
                     {required && <span className="text-red-500 ml-1">*</span>}
                 </label>
                 {informationTitle && (
-                <div className="flex items-center text-sky-700 hover:text-sky-800 hover:scale-110 transition-all duration-300 cursor-pointer" title={informationTitle} onClick={handleShowInfo}>
+                <div className="flex items-center text-primary hover:text-primary/80 hover:scale-110 transition-all duration-300 cursor-pointer" title={informationTitle} onClick={handleShowInfo}>
                     <BsFillInfoCircleFill size={16} />
                 </div>
                 )}
@@ -92,7 +92,7 @@ const RadioField: React.FC<RadioFieldProps> = ({
                 onChange={handleChange}
                 onBlur={onBlur}
                 {...(register || {})}
-                className="h-4 w-4 focus:outline-none cursor-pointer accent-blue-600"
+                className="h-4 w-4 focus:outline-none cursor-pointer accent-primary"
                 />
                 <label
                 htmlFor={`${id}-${option.value}`}

@@ -38,13 +38,13 @@ const Breadcrumb = ({ path }: BreadcrumbProps) => {
 
     return (
         <nav
-        className="flex items-center text-xl lg:text-2xl text-muted"
+        className="flex items-center text-xl lg:text-2xl text-surface/70"
         aria-label="Breadcrumb"
         >
         {items.map((item, idx) => (
             <div key={idx} className="flex items-center gap-2">
             {idx > 0 && (
-                <div className="ml-2 text-muted">
+                <div className="ml-2 text-surface/70">
                     /
                 </div>
             )}

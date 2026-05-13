@@ -123,7 +123,7 @@ const CommentList: React.FC<CommentListProps> = ({
                             {hasMoreComments && (
                                 <div ref={ref} className="p-6 text-center border-t border-gray-200">
                                     {isFetchingMoreComments && (
-                                        <div className="flex items-center space-x-2 text-sky-500 w-full justify-center">
+                                        <div className="flex items-center space-x-2 text-primary/70 w-full justify-center">
                                             <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
                                             <span className="text-sm">Memuat lebih banyak...</span>
                                         </div>
@@ -248,7 +248,7 @@ const CommentList: React.FC<CommentListProps> = ({
                         {hasMoreComments && (
                             <div ref={ref} className="p-6 text-center border-t border-gray-200">
                                 {isFetchingMoreComments && (
-                                    <div className="flex items-center space-x-2 text-sky-500 w-full justify-center">
+                                    <div className="flex items-center space-x-2 text-primary/70 w-full justify-center">
                                         <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
                                         <span className="text-sm">Memuat lebih banyak...</span>
                                     </div>

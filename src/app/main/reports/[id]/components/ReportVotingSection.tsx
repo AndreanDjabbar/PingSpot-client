@@ -195,9 +195,9 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
             <h3 className="font-bold text-lg text-gray-900 mb-4">Hasil Voting Pengguna</h3>
             <div className="space-y-4">
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-100">
-                    <p className="text-xs font-semibold text-sky-700 uppercase tracking-wide mb-1">Total Voting</p>
-                    <p className="text-3xl font-bold text-sky-800">{report.totalVotes}</p>
-                    <p className="text-xs text-sky-700 mt-1">Pengguna telah memberikan voting</p>
+                    <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">Total Voting</p>
+                    <p className="text-3xl font-bold text-primary">{report.totalVotes}</p>
+                    <p className="text-xs text-primary mt-1">Pengguna telah memberikan voting</p>
                 </div>
 
                 <div className="h-px bg-gray-200"></div>

@@ -201,7 +201,7 @@ const MentionInput: React.FC<MentionInputProps> = ({
                             type="button"
                             onClick={() => insertMention(user)}
                             className={`w-full flex items-center space-x-3 px-3 py-2 hover:bg-gray-50 transition-colors ${
-                                index === selectedIndex ? 'bg-sky-50' : ''
+                                index === selectedIndex ? 'bg-primary/10' : ''
                             }`}
                         >
                             <div className="w-8 h-8 rounded-full overflow-hidden border border-gray-200 flex-shrink-0">

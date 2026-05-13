@@ -26,12 +26,12 @@ const FormInformationModal: React.FC<FormInformationModalProps> = ({
     const typeConfig = {
         info: {
             icon: <BsFillInfoCircleFill size={24} />,
-            iconBg: 'bg-blue-100',
-            iconColor: 'text-blue-700',
+            iconBg: 'bg-primary/20',
+            iconColor: 'text-primary',
             headerText: 'Informasi',
-            additionalBg: 'bg-sky-50 border-sky-200',
+            additionalBg: 'bg-primary/10 border-primary/30',
             additionalText: 'text-primary',
-            buttonBg: 'bg-sky-700 hover:bg-sky-800 active:bg-sky-950'
+            buttonBg: 'bg-primary hover:bg-primary/90 active:bg-primary/80'
         },
         warning: {
             icon: <MdWarning size={24} />,

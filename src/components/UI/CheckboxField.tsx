@@ -80,7 +80,7 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
                     </label>
                     {informationTitle && informationDescription && (
                         <div 
-                            className="flex items-center text-primary hover:text-primary-hover hover:scale-110 transition-all duration-300 cursor-pointer" 
+                            className="flex items-center text-primary hover:text-primary-hover hover:scale-110 transition-all duration-300 cursor-pointer pt-1" 
                             title={informationTitle}
                             onClick={handleShowInfo}
                         >
@@ -106,7 +106,7 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
                             onBlur={onBlur}
                             disabled={disabled || option.disabled}
                             {...(register || {})}
-                            className="h-4 w-4 rounded focus:outline-none cursor-pointer accent-sky-800 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="h-4 w-4 rounded focus:outline-none cursor-pointer accent-primary disabled:cursor-not-allowed disabled:opacity-50"
                         />
                         <label
                             htmlFor={`${id}-${option.value}`}

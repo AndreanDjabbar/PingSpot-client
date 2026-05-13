@@ -125,7 +125,7 @@ const ProfilePageByUsername = () => {
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-3xl shadow-lg overflow-hidden relative pb-50">
           <div className="h-24 sm:h-32 md:h-33 lg:h-48 bg-pingspot relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-sky-300/30 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-transparent"></div>
           </div>
 
           <div className=''>

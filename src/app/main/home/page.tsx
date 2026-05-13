@@ -14,6 +14,7 @@ import { useCurrentLocation, useGetReportStatistics, useErrorToast, useGetUserSt
 import { getErrorResponseMessage, getFormattedDate, getRelativeTime, isInternalServerError } from '@/utils';
 import { IoMdPulse } from 'react-icons/io';
 import { MdCalendarMonth } from 'react-icons/md';
+import Card from '@/components/UI/Card';
 
 const Map = dynamic(() => import('@/components/UI/StaticMap'), {
     ssr: false,
@@ -61,7 +62,7 @@ const Homepage = () => {
     const totalReportsThisMonth = reportStatisticsData?.data?.monthlyReportCounts[thisMonth] || 0;
     const totalUsers = userStatisticsData?.data?.totalUsers || 0;
     
-    const cardBase = "bg-white/80 backdrop-blur-sm rounded-xl border border-muted shadow-md p-6";
+    const cardBase = "card-pingspot";
     const labelClass = "text-sm font-medium text-surface/70 mb-1";
     const valueClass = "text-xl font-bold text-surface";
     const iconWrapClass = "p-3 rounded-lg bg-primary";
@@ -122,7 +123,7 @@ const Homepage = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className={cardBase}>
+                    <Card>
                         {loadingReportStatistics ? (
                             <StatCardSkeleton />
                         ) : (
@@ -136,9 +137,9 @@ const Homepage = () => {
                                 </div>
                             </div>
                         )}
-                    </div>
+                    </Card>
                     
-                    <div className={cardBase}>
+                    <Card>
                         {loadingReportStatistics ? (
                             <StatCardSkeleton />
                         ) : (
@@ -152,9 +153,9 @@ const Homepage = () => {
                                 </div>
                             </div>
                         )}
-                    </div>
+                    </Card>
                     
-                    <div className={cardBase}>
+                    <Card>
                         {loadingReportStatistics ? (
                             <StatCardSkeleton />
                         ) : (
@@ -168,9 +169,9 @@ const Homepage = () => {
                                 </div>
                             </div>
                         )}
-                    </div>
+                    </Card>
                     
-                    <div className={cardBase}>
+                    <Card>
                         {loadingUserStatistics ? (
                             <StatCardSkeleton />
                         ) : (
@@ -184,18 +185,18 @@ const Homepage = () => {
                                 </div>
                             </div>
                         )}
-                    </div>
+                    </Card>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-muted shadow-md p-6">
+                    <Card className="">
                         <div className='flex justify-between items-center mb-4'>
                             <div className='flex flex-col'>
                                 <h2 className="text-xl font-semibold text-surface">
                                     Lokasi Anda
                                 </h2>
                                 {location?.lastUpdated && (
-                                    <p className="text-xs text-muted mt-1">
+                                    <p className="text-xs text-surface/70 mt-1">
                                         Diperbarui {getRelativeTime(location.lastUpdated)}
                                     </p>
                                 )}
@@ -238,12 +239,12 @@ const Homepage = () => {
                                 </div>
                             </div>
                         )}
-                    </div>
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-muted shadow-md p-6">
+                    </Card>
+                    <Card className="p-6">
                         <h2 className="text-xl font-semibold text-surface mb-6 flex items-center">
                             Aktivitas Terbaru
                         </h2>
-                        <h4 className='text-muted'>
+                        <h4 className='text-surface/70'>
                             Fitur ini akan segera hadir. Nantikan pembaruan selanjutnya!
                         </h4>
                         {/* <div className="space-y-4">
@@ -263,7 +264,7 @@ const Homepage = () => {
                             </div>
                             ))}
                         </div> */}
-                    </div>
+                    </Card>
                     {/* <Map/> */}
                 </div>
             </div>

@@ -26,31 +26,25 @@ const StaticMap: React.FC<StaticMapProps> = ({
     popupText = 'Lokasi',
     className = ''
 }) => {
-    const customIcon = useMemo(() => {
-    if (markerColor === "red") {
+    const createPrimaryIcon = () => {
+        const svgIcon = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 41" width="25" height="41">
+                <path d="M12.5 0C5.596 0 0 5.596 0 12.5c0 12.5 12.5 28.5 12.5 28.5s12.5-16 12.5-28.5C25 5.596 19.404 0 12.5 0z" fill="#6C5CE7"/>
+                <circle cx="12.5" cy="12.5" r="4.5" fill="white"/>
+            </svg>
+        `;
+        const blob = new Blob([svgIcon], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        
         return new L.Icon({
-        iconUrl:
-            "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
-        shadowUrl:
-            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41],
+            iconUrl: url,
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
         });
-    }
+    };
 
-    return new L.Icon({
-        iconUrl:
-        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-        shadowUrl:
-        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41],
-    });
-    }, [markerColor]);
+    const customIcon = useMemo(() => createPrimaryIcon(), [markerColor]);
 
 
     const mapKey = `map-${latitude}-${longitude}`;

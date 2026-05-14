@@ -63,17 +63,17 @@ const LoginPage = () => {
                     <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <InputField
-                                id="email"
-                                name="email"
-                                type="email"
-                                register={register("email")}
+                                id="emailOrUsername"
+                                name="emailOrUsername"
+                                type="text"
+                                register={register("emailOrUsername")}
                                 className="w-full"
                                 withLabel={true}
-                                labelTitle="Alamat Email"
+                                labelTitle="Alamat Email atau Username"
                                 icon={<MdMailOutline size={20} />}
-                                placeHolder="Masukkan email Anda"
+                                placeHolder="Masukkan email atau username Anda"
                             />
-                            <div className="text-danger-dark text-sm font-semibold">{errors.email?.message as string}</div>
+                            <div className="text-danger-dark text-sm font-semibold">{errors.emailOrUsername?.message as string}</div>
                         </div>
                         <div>
                             <InputField

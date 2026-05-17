@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar';
 import TopNavigation from './TopNavigation';
 import Footer from './Footer';
-import { useUserProfileStore } from '@/stores';
+import { useUserProfileStore, useConfirmationModalStore } from '@/stores';
+import { useRouter } from 'next/navigation';
 
 interface MainLayoutProps {
     children: React.ReactNode;
@@ -20,8 +21,33 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [bottomNavHeightPosition, setBottomNavHeightPosition] = useState(0);
+    const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
+    const userProfile = useUserProfileStore((s) => s.userProfile);
+    const loadUser = useUserProfileStore((state) => state.loadUser);
+    const router = useRouter();
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
+    const openEditProfileConfirm = () => {
+        openConfirm({
+            title: "Perbarui Informasi Profil",
+            description: "Profil Anda masih belum lengkap. Anda perlu memperbarui informasi profil anda.",
+            onConfirm: () => {
+                router.push("/main/settings/profile");
+            },
+            confirmTitle: "Perbarui Profil",
+        });
+    };
+
+    useEffect(() => {
+        loadUser();
+    }, [loadUser]);
+
+    useEffect(() => {
+        if (userProfile && !userProfile.isCompleteProfile) {
+            openEditProfileConfirm();
+        }
+    }, [userProfile]);
 
     const handleBottomNavHeightChange = (position: number) => {
         setBottomNavHeightPosition(position);
@@ -54,12 +80,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 }
 
 const MainContent: React.FC<MainContentProps> = ({ children }) => {
-    const loadUser = useUserProfileStore((state) => state.loadUser);
-    
-    useEffect(() => {
-        loadUser();
-    }, [loadUser]);
-
     return (
         <main className="flex-1 min-h-screen">
             <div className="h-full py-4 px-4 sm:px-6 lg:px-8">

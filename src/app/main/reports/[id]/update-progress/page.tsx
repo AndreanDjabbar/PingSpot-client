@@ -66,16 +66,14 @@ const UpdateProgressPage = () => {
             title: formData.progressStatus === 'RESOLVED'
                 ?   "Konfirmasi Penutupan Laporan"
                 :   "Konfirmasi Pembaruan Status Laporan",
-            message: formData.progressStatus === 'RESOLVED'
+            subtitle: formData.progressStatus === 'RESOLVED'
                 ?   "Apakah Anda yakin ingin menutup laporan ini?"
                 :   "Apakah Anda yakin ingin memperbarui status laporan ini?",
             isPending: isUploadProgressReportPending,
-            explanation: formData.progressStatus === 'RESOLVED'
+            description: formData.progressStatus === 'RESOLVED'
                 ?   "Perkembangan Laporan yang sudah ditutup tidak bisa dibuka kembali."
                 :   "Perkembangan Laporan ini akan diperbarui.",
             confirmTitle: formData.progressStatus === 'RESOLVED' ? "Tutup Laporan" : "Perbarui Status",
-            cancelTitle: "Batal",
-            icon: <LuNotebookText />,
             onConfirm: () => onSubmit(formData),
         });
     };

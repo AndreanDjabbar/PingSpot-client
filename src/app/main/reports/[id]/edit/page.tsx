@@ -189,12 +189,10 @@ const EditReportPage = () => {
         openConfirm({
             type: "info",
             title: "Konfirmasi Perbarui Laporan",
-            message: "Apakah Anda yakin ingin memperbarui laporan ini?",
+            subtitle: "Apakah Anda yakin ingin memperbarui laporan ini?",
             isPending: isEditing || reverseLoading,
-            explanation: "Perubahan akan disimpan ke laporan yang sudah ada. Pastikan semua informasi sudah benar sebelum melanjutkan.",
+            description: "Perubahan akan disimpan ke laporan yang sudah ada. Pastikan semua informasi sudah benar sebelum melanjutkan.",
             confirmTitle: "Perbarui",
-            cancelTitle: "Batal",
-            icon: <LuNotebookText />,
             onConfirm: async() => {
                 const preparedData = await prepareFormData(formData);
                 confirmSubmit(preparedData);

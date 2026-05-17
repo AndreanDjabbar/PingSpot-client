@@ -109,12 +109,10 @@ const ProfilePage = () => {
         openConfirm({
             type: "info",
             title: "Konfirmasi Perubahan Profil",
-            message: "Apakah Anda yakin ingin ubah?",
+            subtitle: "Apakah Anda yakin ingin ubah?",
             isPending: isPending,
-            explanation: "Informasi profil anda akan diubah.",
+            description: "Informasi profil anda akan diubah.",
             confirmTitle: "Ubah",
-            cancelTitle: "Batal",
-            icon: <IoPersonSharp />,
             onConfirm: async() => await submitData(formData),  
         });
     };
@@ -214,7 +212,6 @@ const ProfilePage = () => {
                                             labelTitle="Username"
                                             icon={<IoPersonSharp size={20}/>} 
                                             placeHolder="Masukkan username Anda"
-                                            disabled
                                         />
                                         <div className="text-danger-dark text-sm font-semibold">{errors.username?.message as string}</div>
                                     </div>

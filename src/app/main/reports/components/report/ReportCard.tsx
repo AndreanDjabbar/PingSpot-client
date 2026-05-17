@@ -137,11 +137,10 @@ const ReportCard: React.FC<ReportCardProps> = ({
     const openDeleteConfirm = () => {
         openConfirm({ 
             title: 'Hapus laporan', 
-            message: 'Yakin ingin menghapus laporan ini?', 
-            type: 'warning', 
-                icon: <FaTrash className='text-white' />,
-            confirmTitle: 'Hapus', 
-            cancelTitle: 'Batal',
+            subtitle: 'Yakin ingin menghapus laporan ini?',
+            description: 'Laporan yang dihapus tidak dapat dikembalikan.',
+            type: 'warning',
+            confirmTitle: 'Hapus',
             onConfirm: () => { onDeleteClick(report.id); } 
         });
     }

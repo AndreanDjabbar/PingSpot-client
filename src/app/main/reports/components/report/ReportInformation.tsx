@@ -5,7 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useErrorToast, useSuccessToast, useUploadProgressReport } from '@/hooks';
 import { FaUsers } from 'react-icons/fa';
-import { useReportsStore, useUserProfileStore, useConfirmationModalStore, useFormInformationModalStore } from '@/stores';
+import { useReportsStore, useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { compressImages, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { ImageItem, IUploadProgressReportRequest } from '@/types';
 import { useForm } from 'react-hook-form';
@@ -37,7 +37,6 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
     const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
     const [progressImages, setProgressImages] = useState<ImageItem[]>([]);
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
-    const openFormInfo = useFormInformationModalStore((s) => s.openFormInfo);
 
     const handleVote = (voteType: string) => {
         if (isLoading || currentStatus === 'RESOLVED') return;
@@ -95,16 +94,14 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
             title: formData.progressStatus === 'RESOLVED'
                 ?   "Konfirmasi Penutupan Laporan"
                 :   "Konfirmasi Pembaruan Perkembangan Laporan",
-            message: formData.progressStatus === 'RESOLVED'
+            subtitle: formData.progressStatus === 'RESOLVED'
                 ?   "Apakah Anda yakin ingin menutup laporan ini?."
                 :   "Apakah Anda yakin ingin memperbarui perkembangan laporan ini?",
             isPending: isUploadProgressReportPending,
-            explanation: formData.progressStatus === 'RESOLVED'
+            description: formData.progressStatus === 'RESOLVED'
                 ?   "Perkembangan Laporan yang sudah ditutup tidak bisa dibuka kembali."
                 :   "Perkembangan Laporan ini akan diperbarui.",
             confirmTitle: formData.progressStatus === 'RESOLVED' ? "Tutup Laporan" : "Perbarui Status",
-            cancelTitle: "Batal",
-            icon: <LuNotebookText />,
             onConfirm: () => onSubmit(formData),
         });
     }
@@ -231,7 +228,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                             </div>
                             {showWarning && (
                                 <button 
-                                    onClick={() => openFormInfo({
+                                    onClick={() => openConfirm({
                                         title: 'Konfirmasi Penyelesaian Laporan',
                                         type: 'warning',
                                         description: 'Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.',

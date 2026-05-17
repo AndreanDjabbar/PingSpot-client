@@ -7,4 +7,7 @@ export interface IUserProfile {
     gender?: string;
     bio?: string;
     birthday? : string;
+    isDefaultUsername: boolean;
+    isCompleteProfile: boolean;
+    missingFields: string[];
 }

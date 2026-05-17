@@ -1,40 +1,31 @@
 import { create } from "zustand";
-import { ReactNode } from "react";
 import { OptionItem } from "@/types";
 
 type ConfirmationModalType = "warning" | "info";
-type FormInformationType = "info" | "warning";
 
 interface ConfirmationModalState {
     isOpen: boolean;
     title?: string;
-    message?: string;
-    explanation?: string;
-    type?: ConfirmationModalType;
-    icon?: ReactNode;
-    confirmTitle?: string;
-    cancelTitle?: string;
+    subtitle?: string;
     isPending?: boolean;
-    onConfirm?: () => void;
-    closeConfirm?: () => void;
-    openConfirm: (
-        options: Omit<ConfirmationModalState, "isOpen" | "openConfirm" | "closeConfirm">
-    ) => void;
-}
-
-interface FormInformationModalState {
-    isOpen: boolean;
-    title?: string;
-    type?: FormInformationType;
+    confirmTitle?: string;
+    type?: ConfirmationModalType;
     description?: string;
     additionalInfo?: string;
-    openFormInfo: (options: {
+    openConfirm: (options: {
         title: string;
-        type?: FormInformationType;
+        subtitle?: string;
+        onConfirm?: () => void;
+        onClose?: () => void;
+        type?: ConfirmationModalType;
         description: string;
         additionalInfo?: string;
+        confirmTitle?: string;
+        isPending?: boolean;
     }) => void;
-    closeFormInfo: () => void;
+    onClose?: () => void;
+    onConfirm?: () => void;
+    closeConfirm: () => void;
 }
 
 interface ImagePreviewModalState {
@@ -58,29 +49,35 @@ interface OptionsModalState {
 export const useConfirmationModalStore = create<ConfirmationModalState>(
     (set) => ({
         isOpen: false,
-        openConfirm: (options) => set({ ...options, isOpen: true }),
-        closeConfirm: () => set({ isOpen: false }),
-    })
-);
-
-export const useFormInformationModalStore = create<FormInformationModalState>(
-    (set) => ({
-        isOpen: false,
         title: "",
+        onClose: undefined,
+        onConfirm: undefined,
         type: "info",
         description: "",
         additionalInfo: undefined,
+        subtitle: undefined,
+        isPending: undefined,
+        confirmTitle: undefined,
+        openConfirm: (options) =>
+        set({ 
+            ...options, 
+            type: options.type || "info", 
+            isOpen: true,
+            isPending: options.isPending || false,
+            onConfirm: options.onConfirm,
+            onClose: options.onClose 
+        }),
 
-        openFormInfo: (options) =>
-        set({ ...options, type: options.type || "info", isOpen: true }),
-
-        closeFormInfo: () =>
+        closeConfirm: () =>
         set({
             isOpen: false,
             title: "",
             type: "info",
             description: "",
             additionalInfo: undefined,
+            subtitle: undefined,
+            isPending: undefined,
+            confirmTitle: undefined,
         }),
     })
 );

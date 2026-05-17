@@ -128,9 +128,11 @@ const DetailStep: React.FC<DetailStepProps> = ({
                         options={[
                             { value: 'enable', label: 'Aktifkan progress laporan' }
                         ]}
+                        informationSubtitle='Apa itu Fitur Progress Laporan?'
                         informationTitle="Fitur Progress Laporan"
                         informationDescription="Dengan mengaktifkan fitur progress, Anda dapat melacak dan mendokumentasikan perkembangan penanganan laporan secara berkala. Setiap tahapan perbaikan atau tindak lanjut dapat Anda catat dengan menambahkan update progress beserta foto pendukung."
                         informationAdditionalInfo="Fitur ini sangat berguna untuk laporan yang memerlukan penanganan bertahap atau jangka panjang, sehingga Anda dan pihak terkait dapat memantau kemajuan perbaikan secara transparan dan terstruktur."
+                        informationConfirmTitle="Mengerti"
                         layout="vertical"
                     />
                 </div>

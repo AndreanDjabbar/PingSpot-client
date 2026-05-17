@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib';
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import { useFormInformationModalStore } from '@/stores';
+import { useConfirmationModalStore } from '@/stores';
 
 interface RadioOption {
     value: string;
@@ -50,13 +50,14 @@ const RadioField: React.FC<RadioFieldProps> = ({
         onChange(event.target.value);
         }
     };
-    const { openFormInfo } = useFormInformationModalStore();
+    const { openConfirm } = useConfirmationModalStore();
 
     const handleShowInfo = () => {
-        openFormInfo({
-            title: informationTitle || '',
+        openConfirm({
+            title: informationTitle || 'Informasi',
             description: informationDescription || '',
-            additionalInfo: informationAdditionalInfo
+            additionalInfo: informationAdditionalInfo,
+            confirmTitle: 'Mengerti'
         });
     };
 

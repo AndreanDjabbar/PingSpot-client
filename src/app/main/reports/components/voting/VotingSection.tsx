@@ -45,12 +45,10 @@ const VotingSection: React.FC<VotingSectionProps> = ({
         openConfirm({
             type: "info",
             title: "Konfirmasi Pemilihan Status Laporan",
-            message: `Apakah Anda yakin memilih status "${getStatusLabel(voteType)}" untuk laporan ini?`,
+            subtitle: `Apakah Anda yakin memilih status "${getStatusLabel(voteType)}" untuk laporan ini?`,
             isPending: isLoading,
-            explanation: "Status laporan akan diperbarui sesuai pilihan Anda.",
+            description: "Status laporan akan diperbarui sesuai pilihan Anda.",
             confirmTitle: "Ya, Pilih Status",
-            cancelTitle: "Batal",
-            icon: <FaUsers />,
             onConfirm: () => handleVote(voteType),
         })
     }

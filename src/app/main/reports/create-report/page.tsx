@@ -10,7 +10,6 @@ import { useErrorToast, useSuccessToast, useCreateReport, useReverseCurrentLocat
 import { CreateReportSchema } from '../../schema';
 import { ICreateReportRequest } from '@/types/api/report';
 import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
-import { LuNotebookText } from "react-icons/lu";
 import { AttachmentStep, DetailStep, MapStep, SummaryStep } from './components';
 import { ImageItem } from '@/types';
 
@@ -105,12 +104,10 @@ const CreateReportPage = () => {
         openConfirm({
             type: "info",
             title: "Konfirmasi Pembuatan Laporan",
-            message: "Apakah Anda yakin ingin membuat laporan ?",
+            subtitle: "Apakah Anda yakin ingin membuat laporan ?",
             isPending: isPending || reverseLoading,
-            explanation: "Anda akan membuat laporan baru. Pastikan semua informasi sudah benar sebelum melanjutkan.",
+            description: "Anda akan membuat laporan baru. Pastikan semua informasi sudah benar sebelum melanjutkan.",
             confirmTitle: "Buat",
-            cancelTitle: "Batal",
-            icon: <LuNotebookText />,
             onConfirm: () => confirmSubmit(preparedData),
         });
     }

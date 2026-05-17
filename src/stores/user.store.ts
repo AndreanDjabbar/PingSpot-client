@@ -8,11 +8,14 @@ interface UserProfileStore {
     userProfile: IUserProfile | null;
     loadUser: () => Promise<void>;
     clearUser: () => void;
+    hasShownUpdateProfileModal?: boolean;
+    setHasShownUpdateProfileModal?: (value: boolean) => void;
 }
 
 export const useUserProfileStore = create<UserProfileStore>((set) => ({
     userProfile: null,
-
+    hasShownUpdateProfileModal: false,
+    setHasShownUpdateProfileModal: (value: boolean) => set({ hasShownUpdateProfileModal: value }),
     loadUser: async () => {
         try {
         const profileData = await getMyProfileService();
@@ -29,6 +32,9 @@ export const useUserProfileStore = create<UserProfileStore>((set) => ({
                 formatStr: "yyyy-MM-dd",
             }) || "",
             profilePicture: profileData?.data?.profilePicture || "",
+            isDefaultUsername: profileData?.data?.isDefaultUsername || false,
+            isCompleteProfile: profileData?.data?.isCompleteProfile || false,
+            missingFields: profileData?.data?.missingFields || [],
         };
 
         set({ userProfile: mappedData });

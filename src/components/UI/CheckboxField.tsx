@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib';
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import { useFormInformationModalStore } from '@/stores';
+import { useConfirmationModalStore } from '@/stores';
 
 interface CheckboxOption {
     value: string;
@@ -22,8 +22,10 @@ interface CheckboxFieldProps {
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
     register?: unknown;
     informationTitle?: string;
+    informationSubtitle?: string;
     informationDescription?: string;
     informationAdditionalInfo?: string;
+    informationConfirmTitle?: string;
     layout?: 'vertical' | 'horizontal';
     icon?: React.ReactNode;
     disabled?: boolean;
@@ -42,13 +44,15 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
     onBlur,
     register,
     informationTitle = '',
+    informationSubtitle = '',
+    informationConfirmTitle = 'Mengerti',
     informationDescription = '',
     informationAdditionalInfo = '',
     layout = 'vertical',
     icon,
     disabled = false
 }) => {
-    const { openFormInfo } = useFormInformationModalStore();
+    const { openConfirm } = useConfirmationModalStore();
 
     const handleChange = (optionValue: string, isChecked: boolean) => {
         if (onChange) {
@@ -61,10 +65,12 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
 
     const handleShowInfo = () => {
         if (informationTitle && informationDescription) {
-            openFormInfo({
+            openConfirm({
                 title: informationTitle,
+                subtitle: informationSubtitle,
                 description: informationDescription,
-                additionalInfo: informationAdditionalInfo
+                additionalInfo: informationAdditionalInfo,
+                confirmTitle: informationConfirmTitle
             });
         }
     };

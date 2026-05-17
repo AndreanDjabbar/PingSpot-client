@@ -3,7 +3,7 @@
 import React from 'react';
 import { IReport, ReportType } from '@/types';
 import { getFormattedDate as formattedDate } from '@/utils';
-import { useConfirmationModalStore, useFormInformationModalStore, useUserProfileStore } from '@/stores';
+import { useConfirmationModalStore, useUserProfileStore } from '@/stores';
 import { MdWarning } from 'react-icons/md';
 import { ImInfo } from 'react-icons/im';
 import { Button } from '@/components';
@@ -69,7 +69,6 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
     const router = useRouter();
     const userProfile = useUserProfileStore((s) => s.userProfile);
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
-    const openFormInfo = useFormInformationModalStore((s) => s.openFormInfo);
     const currentUserId = userProfile ? Number(userProfile.userID) : null;
     const isReportOwner = report && currentUserId === report.userID;
     const isPotentiallyResolved = report?.reportStatus === 'POTENTIALLY_RESOLVED';
@@ -78,11 +77,10 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
     const openDeleteConfirm = () => {
         openConfirm({ 
             title: 'Hapus laporan', 
-            message: 'Yakin ingin menghapus laporan ini?', 
-            type: 'warning', 
-                icon: <FaTrash className='text-white' />,
-            confirmTitle: 'Hapus', 
-            cancelTitle: 'Batal',
+            subtitle: 'Yakin ingin menghapus laporan ini?',
+            description: 'Laporan yang dihapus tidak dapat dikembalikan.',
+            type: 'warning',
+            confirmTitle: 'Hapus',
             onConfirm: () => { onDeleteClick(report.id); } 
         });
     }
@@ -108,7 +106,7 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                                     </span>
                                     {showWarning && (
                                         <button 
-                                            onClick={() => openFormInfo({
+                                            onClick={() => openConfirm({
                                                 title: 'Konfirmasi Penyelesaian Laporan',
                                                 type: 'warning',
                                                 description: 'Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.',
@@ -164,7 +162,7 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                             </div>
                             {report.lastUpdatedBy === 'OWNER' && (
                                 <button 
-                                    onClick={() => openFormInfo({
+                                    onClick={() => openConfirm({
                                         title: 'Laporan Diperbarui Oleh Pemilik Laporan',
                                         type: 'warning',
                                         description: 'Status laporan ini diperbarui oleh pemilik laporan. Kebenaran informasi sepenuhnya bergantung pada validasi dari pemilik laporan.',

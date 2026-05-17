@@ -55,7 +55,7 @@ const StaticMap: React.FC<StaticMapProps> = ({
     };
 
     return (
-        <div className={`relative overflow-hidden rounded-lg ${className}`} style={containerStyle}>
+        <div className={`relative overflow-hidden rounded-lg ${className} z-0`} style={containerStyle}>
             <MapContainer 
                 center={[latitude, longitude]} 
                 zoom={zoom} 

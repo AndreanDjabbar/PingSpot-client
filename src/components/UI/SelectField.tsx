@@ -2,6 +2,7 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '@/lib';
 import { AnimatePresence, motion } from 'framer-motion';
 import { IoChevronDown } from 'react-icons/io5';
@@ -50,9 +51,9 @@ const SelectField: React.FC<SelectFieldProps> = ({
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [dropdownPosition, setDropdownPosition] = useState<'bottom' | 'top'>('bottom');
+    const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
     const dropdownRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
-    
     const hiddenInputRef = useRef<HTMLInputElement>(null);
 
     const selectedOption = options.find(opt => opt.value === value);
@@ -84,18 +85,37 @@ const SelectField: React.FC<SelectFieldProps> = ({
     }, [isOpen]);
 
     useEffect(() => {
-        if (isOpen && buttonRef.current) {
-            const buttonRect = buttonRef.current.getBoundingClientRect();
-            const spaceBelow = window.innerHeight - buttonRect.bottom;
-            const spaceAbove = buttonRect.top;
-            const dropdownHeight = 300; 
-            
-            if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
-                setDropdownPosition('top');
-            } else {
-                setDropdownPosition('bottom');
+        const calculatePosition = () => {
+            if (isOpen && buttonRef.current) {
+                const rect = buttonRef.current.getBoundingClientRect();
+                const spaceBelow = window.innerHeight - rect.bottom;
+                const spaceAbove = rect.top;
+                const dropdownHeight = 300;
+
+                const isTop = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
+                setDropdownPosition(isTop ? 'top' : 'bottom');
+                setDropdownStyle({
+                    position: 'fixed',
+                    width: rect.width,
+                    left: rect.left,
+                    ...(isTop
+                        ? { bottom: window.innerHeight - rect.top + 8 }
+                        : { top: rect.bottom + 8 }
+                    ),
+                    zIndex: 9999,
+                });
             }
-        }
+        };
+
+        calculatePosition();
+
+        window.addEventListener('scroll', calculatePosition, true);
+        window.addEventListener('resize', calculatePosition);
+
+        return () => {
+            window.removeEventListener('scroll', calculatePosition, true);
+            window.removeEventListener('resize', calculatePosition);
+        };
     }, [isOpen]);
 
     const handleSelect = (optionValue: string) => {
@@ -119,7 +139,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
                     {required && <span className="text-red-500 ml-1">*</span>}
                 </label>
             )}
-            
+
             <div className="relative">
                 <input
                     ref={hiddenInputRef}
@@ -129,7 +149,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
                     value={value || ''}
                     {...(register || {})}
                 />
-                
+
                 <button
                     ref={buttonRef}
                     type="button"
@@ -148,15 +168,15 @@ const SelectField: React.FC<SelectFieldProps> = ({
                             {icon}
                         </div>
                     )}
-                    
+
                     <span className={cn(
                         "block truncate",
                         selectedOption ? "text-gray-900" : "text-gray-400"
                     )}>
                         {selectedOption ? selectedOption.label : placeholder}
                     </span>
-                    
-                    <IoChevronDown 
+
+                    <IoChevronDown
                         className={cn(
                             "w-5 h-5 text-surface/90 transition-transform duration-200",
                             isOpen && "transform rotate-180"
@@ -164,79 +184,80 @@ const SelectField: React.FC<SelectFieldProps> = ({
                     />
                 </button>
 
-                <AnimatePresence>
-                    {isOpen && (
-                        <motion.div
-                            ref={dropdownRef}
-                            initial={{ 
-                                opacity: 0, 
-                                y: dropdownPosition === 'top' ? 10 : -10,
-                                scale: 0.95
-                            }}
-                            animate={{ 
-                                opacity: 1, 
-                                y: 0,
-                                scale: 1
-                            }}
-                            exit={{ 
-                                opacity: 0, 
-                                y: dropdownPosition === 'top' ? 10 : -10,
-                                scale: 0.95
-                            }}
-                            transition={{ 
-                                duration: 0.2,
-                                ease: "easeOut"
-                            }}
-                            className={cn(
-                                "absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-2xl max-h-72 overflow-hidden cursor-pointer",
-                                dropdownPosition === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
-                            )}
-                        >
-                            {options.length > 5 && (
-                                <div className="p-2 border-b border-gray-200">
-                                    <input
-                                        type="text"
-                                        placeholder="Cari..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer"
-                                        onClick={(e) => e.stopPropagation()}
-                                    />
-                                </div>
-                            )}
-
-                            <div className="overflow-y-auto max-h-60">
-                                {filteredOptions.length > 0 ? (
-                                    filteredOptions.map((option) => (
-                                        <button
-                                            key={option.value}
-                                            type="button"
-                                            onClick={() => handleSelect(option.value)}
-                                            className={cn(
-                                                "w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 transition-colors cursor-pointer",
-                                                option.value === value && "bg-primary-50 hover:bg-primary-100"
-                                            )}
-                                        >
-                                            <span className={cn(
-                                                "text-sm font-medium",
-                                                option.value === value ? "text-primary" : "text-gray-900"
-                                            )}>
-                                                {option.label}
-                                            </span>
-                                            {option.value === value && (
-                                                <FaCheck className="w-4 h-4 text-primary" />
-                                            )}
-                                        </button>
-                                    ))
-                                ) : (
-                                    <div className="px-4 py-8 text-center text-gray-500 text-sm">
-                                        Tidak ada hasil ditemukan
+                {typeof window !== 'undefined' && createPortal(
+                    <AnimatePresence>
+                        {isOpen && (
+                            <motion.div
+                                ref={dropdownRef}
+                                style={dropdownStyle}
+                                initial={{
+                                    opacity: 0,
+                                    y: dropdownPosition === 'top' ? 10 : -10,
+                                    scale: 0.95
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                    scale: 1
+                                }}
+                                exit={{
+                                    opacity: 0,
+                                    y: dropdownPosition === 'top' ? 10 : -10,
+                                    scale: 0.95
+                                }}
+                                transition={{
+                                    duration: 0.2,
+                                    ease: "easeOut"
+                                }}
+                                className="bg-white border border-gray-200 rounded-lg shadow-2xl max-h-72 overflow-hidden cursor-pointer"
+                            >
+                                {options.length > 5 && (
+                                    <div className="p-2 border-b border-gray-200">
+                                        <input
+                                            type="text"
+                                            placeholder="Cari..."
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer"
+                                            onClick={(e) => e.stopPropagation()}
+                                        />
                                     </div>
                                 )}
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+
+                                <div className="overflow-y-auto max-h-60">
+                                    {filteredOptions.length > 0 ? (
+                                        filteredOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                type="button"
+                                                onClick={() => handleSelect(option.value)}
+                                                className={cn(
+                                                    "w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 transition-colors cursor-pointer",
+                                                    option.value === value && "bg-primary-50 hover:bg-primary-100"
+                                                )}
+                                            >
+                                                <span className={cn(
+                                                    "text-sm font-medium",
+                                                    option.value === value ? "text-primary" : "text-gray-900"
+                                                )}>
+                                                    {option.label}
+                                                </span>
+                                                {option.value === value && (
+                                                    <FaCheck className="w-4 h-4 text-primary" />
+                                                )}
+                                            </button>
+                                        ))
+                                    ) : (
+                                        <div className="px-4 py-8 text-center text-gray-500 text-sm">
+                                            Tidak ada hasil ditemukan
+                                        </div>
+                                    )}
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>,
+                    document.body
+                )}
             </div>
 
             {error && (

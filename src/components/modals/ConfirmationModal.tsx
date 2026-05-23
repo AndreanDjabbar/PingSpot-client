@@ -46,11 +46,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         },
         warning: {
             icon: <MdWarning size={24} />,
-            iconBg: 'bg-amber-100',
-            iconColor: 'text-amber-700',
-            additionalBg: 'bg-amber-50 border-amber-200',
-            additionalText: 'text-amber-700',
-            buttonBg: 'bg-amber-600 hover:bg-amber-700 active:bg-amber-800'
+            iconBg: 'bg-red-100',
+            iconColor: 'text-red-700',
+            additionalBg: 'bg-red-50 border-red-200',
+            additionalText: 'text-red-700',
+            buttonBg: 'bg-red-600 hover:bg-red-700 active:bg-red-800'
         }
     };
 
@@ -115,6 +115,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                             }
                             onClose();
                         }}
+                        className={config.buttonBg}
                         disabled={isPending}
                         isLoading={isPending}
                         iconPosition="left"

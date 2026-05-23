@@ -41,12 +41,12 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
     return (
         <>
             {images.length > 0 && (
-                <div className="px-6 pb-3">
+                <div className="px-4 pb-3">
                     <div className="flex items-center justify-center">
                         <div className="inline-flex items-center w-full max-w-md rounded-lg overflow-hidden shadow-sm">
                             <button
                                 onClick={() => setViewMode('map')}
-                                className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium transition-all cursor-pointer duration-200 ${
+                                className={`flex-1 flex items-center justify-center gap-2 px-1 py-2 text-xs font-medium transition-all cursor-pointer duration-200 ${
                                     viewMode === 'map'
                                         ? 'bg-gray-400 text-white'
                                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -57,7 +57,7 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                             </button>
                             <button
                                 onClick={() => setViewMode('attachment')}
-                                className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium cursor-pointer transition-all duration-200 ${
+                                className={`flex-1 flex items-center justify-center gap-2 px-1 py-2 text-xs font-medium cursor-pointer transition-all duration-200 ${
                                     viewMode === 'attachment'
                                         ? 'bg-gray-400 text-white'
                                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -71,7 +71,7 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                 </div>
             )}
 
-            <div className="w-full px-6 pb-6">
+            <div className="w-full px-4 pb-4">
                 {viewMode === 'attachment' && images.length > 0 && (
                     <div className="relative">
                         <div className="relative h-[480px] rounded-xl overflow-hidden bg-gray-100 shadow-md">
@@ -139,7 +139,7 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                         </div>
                         <div className="mt-4 bg-gray-100 rounded-lg p-4">
                             <div className="flex items-start gap-2">
-                                <FaMapMarkerAlt className="text-red-500 mt-0.5 flex-shrink-0" size={16} />
+                                <FaMapMarkerAlt className="text-primary mt-0.5 flex-shrink-0" size={16} />
                                 <div className="flex-1">
                                     <p className="text-sm font-medium text-gray-900">{report.location.detailLocation}</p>
                                     <p className="text-xs text-gray-600 mt-1">

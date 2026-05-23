@@ -167,20 +167,20 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
 
     if (!report.reportProgress) {
         if (!report.hasProgress) {
-            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-                <h3 className="font-bold text-lg text-gray-900 mb-4">Hasil Voting Pengguna</h3>
+            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+                <h3 className="font-bold text-base text-gray-900 mb-4">Hasil Voting Pengguna</h3>
                 {renderEmptyState('Tipe laporan ini tidak akan menyediakan fitur voting pengguna')}
             </div>;
         }
         if (report.reportStatus === 'WAITING') {
-            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-                <h3 className="font-bold text-lg text-gray-900 mb-4">Hasil Voting Pengguna</h3>
+            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+                <h3 className="font-bold text-base text-gray-900 mb-4">Hasil Voting Pengguna</h3>
                 {renderEmptyState('Voting akan tersedia setelah pembuat laporan mengunggah progress pertama')}
             </div>;
         }
         if (isReportOwner && !report.reportVotes) {
-            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-                <h3 className="font-bold text-lg text-gray-900 mb-4">Hasil Voting Pengguna</h3>
+            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+                <h3 className="font-bold text-base text-gray-900 mb-4">Hasil Voting Pengguna</h3>
                 {renderEmptyState('Belum ada pengguna yang memberikan voting pada laporan ini')}
             </div>;
         }
@@ -189,8 +189,8 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
     const majorityStyle = getMajorityStyle(majorityVote);
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-            <h3 className="font-bold text-lg text-gray-900 mb-4">Hasil Voting Pengguna</h3>
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+            <h3 className="font-bold text-base text-gray-900 mb-4">Hasil Voting Pengguna</h3>
             <div className="space-y-4">
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-100">
                     <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">Total Voting</p>

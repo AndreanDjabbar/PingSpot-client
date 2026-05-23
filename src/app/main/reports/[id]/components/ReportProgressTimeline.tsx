@@ -26,9 +26,9 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
     const router = useRouter();
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
             <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-lg text-gray-900">Perkembangan Laporan</h3>
+                <h3 className="font-bold text-base text-gray-900">Perkembangan Laporan</h3>
             </div>
             
             {report.reportProgress && report.reportProgress.length > 0 ? (

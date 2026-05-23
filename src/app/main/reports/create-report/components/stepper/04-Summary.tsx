@@ -1,51 +1,69 @@
 import React from 'react';
 import { UseFormWatch } from 'react-hook-form';
-import { FaCheckCircle } from 'react-icons/fa';
-import { MdOutlineNoteAlt, MdTrackChanges } from 'react-icons/md';
-import { IoLocationOutline } from 'react-icons/io5';
-import { IoMdImages } from "react-icons/io";
-import { LuNotebookText } from "react-icons/lu";
-import { BsFillInfoCircleFill } from "react-icons/bs";
+import { BsFillInfoCircleFill } from 'react-icons/bs';
+import { MdDescription, MdLocationOn, MdPhoto, MdTitle, MdTrackChanges } from 'react-icons/md';
 import { Accordion } from '@/components';
-import { ICreateReportRequest } from '@/types';
+import { ICreateReportRequest, ImageItem } from '@/types';
+import { FaFile, FaFileAlt, FaTags, FaUser } from 'react-icons/fa';
+import Image from 'next/image';
+import { useImagePreviewModalStore } from '@/stores';
 
 interface SummaryStepProps {
     watch: UseFormWatch<ICreateReportRequest>;
+    reportImages: ImageItem[]; 
     reportImagesCount: number;
 }
 
-const SummaryStep: React.FC<SummaryStepProps> = ({ watch, reportImagesCount }) => {
-    const issueTypes = [
-        { value: 'infrastructure', label: 'Infrastruktur' },
-        { value: 'environment', label: 'Lingkungan' },
-        { value: 'safety', label: 'Keamanan' },
-        { value: 'traffic', label: 'Lalu Lintas' },
-        { value: 'public_facility', label: 'Fasilitas Umum' },
-        { value: 'waste', label: 'Sampah' },
-        { value: 'water', label: 'Air' },
-        { value: 'electricity', label: 'Listrik' },
-        { value: 'health', label: 'Kesehatan' },
-        { value: 'social', label: 'Sosial' },
-        { value: 'education', label: 'Pendidikan' },
-        { value: 'administrative', label: 'Administrasi' },
-        { value: 'disaster', label: 'Bencana Alam' },
-        { value: 'other', label: 'Lainnya' },
-    ];
+const issueTypes = [
+    { value: 'infrastructure', label: 'Infrastruktur' },
+    { value: 'environment', label: 'Lingkungan' },
+    { value: 'safety', label: 'Keamanan' },
+    { value: 'traffic', label: 'Lalu Lintas' },
+    { value: 'public_facility', label: 'Fasilitas Umum' },
+    { value: 'waste', label: 'Sampah' },
+    { value: 'water', label: 'Air' },
+    { value: 'electricity', label: 'Listrik' },
+    { value: 'health', label: 'Kesehatan' },
+    { value: 'social', label: 'Sosial' },
+    { value: 'education', label: 'Pendidikan' },
+    { value: 'administrative', label: 'Administrasi' },
+    { value: 'disaster', label: 'Bencana Alam' },
+    { value: 'other', label: 'Lainnya' },
+];
 
+const SummaryRow: React.FC<{ icon: React.ReactNode; label: string; children: React.ReactNode }> = ({
+    icon, label, children,
+}) => (
+    <div className="grid grid-cols-[160px_1fr] gap-2 py-3.5 px-3 border-b border-surface/5 last:border-b items-start">
+        <div className="flex items-center gap-2 text-sm md:text-md">
+            <span className="text-surface">{icon}</span>
+            {label}
+        </div>
+        <div className="text-sm md:text-md text-surface min-w-0 break-words">{children}</div>
+    </div>
+);
+
+const SummaryStep: React.FC<SummaryStepProps> = ({ watch, reportImagesCount, reportImages }) => {
     const hasProgressValue = watch('hasProgress');
+    const reportType = issueTypes.find(t => t.value === watch('reportType'))?.label;
+     const openImagePreview = useImagePreviewModalStore((s) => s.openImagePreview);
+
+     const onImageClick = (imageURL: string) => {
+        openImagePreview(imageURL);
+    }
 
     return (
-        <div className="space-y-6">
-            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg p-5 border-l-4 border-amber-400">
+        <div className="space-y-4">
+            <div className="bg-primary/10 rounded-lg py-4 px-3 border-l-5 border-primary">
                 <div className="flex items-center gap-3">
                     <div className="">
-                        <BsFillInfoCircleFill className="w-5 h-5 text-amber-600" />
+                        <BsFillInfoCircleFill className="w-4.5 h-4.5 text-primary" />
                     </div>
                     <div>
-                        <p className="text-sm font-medium text-amber-800">
+                        <p className="text-sm font-medium text-primary">
                             Pastikan semua informasi sudah benar sebelum mengirim laporan.
                         </p>
-                        <p className="text-sm text-amber-700 mt-1">
+                        <p className="text-sm text-primary mt-1">
                             Anda dapat kembali ke langkah sebelumnya untuk memeriksa atau mengubah data.
                         </p>
                     </div>
@@ -56,96 +74,69 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ watch, reportImagesCount }) =
                 <Accordion.Item
                     id="summary"
                     title="Ringkasan Laporan"
-                    icon={<FaCheckCircle className="w-5 h-5 text-gray-700" />}
-                    headerClassName="bg-gradient-to-r from-blue-50 to-indigo-50"
-                    className="border-2 border-gray-300"
+                    headerClassName="bg-gray-50"
+                    className="border border-gray-200 rounded-xl overflow-hidden"
                 >
-                    <Accordion type="multiple" defaultValue={['info', 'location', 'description', 'attachment']} className='mt-4'>
-                        <Accordion.Item
-                            id="info"
-                            title="Informasi Dasar"
-                            icon={<LuNotebookText className="w-5 h-5 text-gray-700" />}
-                        >
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                                        Judul Laporan
-                                    </label>
-                                    <p className="text-base text-gray-900 mt-1 font-medium">
-                                        {watch('reportTitle') || '-'}
-                                    </p>
-                                </div>
-                                <div>
-                                    <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                                        Jenis Laporan
-                                    </label>
-                                    <p className="text-base text-gray-900 mt-2">
-                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                                            {issueTypes.find(t => t.value === watch('reportType'))?.label || '-'}
-                                        </span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                                        Fitur Progress
-                                    </label>
-                                    <p className="text-base text-gray-900 mt-2">
-                                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${hasProgressValue ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                                            {hasProgressValue && <MdTrackChanges size={16} />}
-                                            {hasProgressValue ? 'Diaktifkan' : 'Tidak Diaktifkan'}
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                        </Accordion.Item>
+                    <div className="divide-y divide-gray-100">
+                        <SummaryRow icon={<FaFileAlt />} label="Judul laporan">
+                            <span className="font-medium">{watch('reportTitle') || '-'}</span>
+                        </SummaryRow>
 
-                        <Accordion.Item
-                            id="location"
-                            title="Lokasi"
-                            icon={<IoLocationOutline className="w-5 h-5 text-gray-700" />}
-                        >
-                            <div>
-                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                                    Detail Lokasi
-                                </label>
-                                <p className="text-base text-gray-900 mt-1">
-                                    {watch('location') || '-'}
-                                </p>
-                            </div>
-                        </Accordion.Item>
+                        <SummaryRow icon={<FaTags />} label="Jenis laporan">
+                            {reportType
+                                ? <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary text-white">{reportType}</span>
+                                : <span className="text-gray-400">-</span>
+                            }
+                        </SummaryRow>
 
-                        <Accordion.Item
-                            id="description"
-                            title="Deskripsi Permasalahan"
-                            icon={<MdOutlineNoteAlt className="w-5 h-5 text-gray-700" />}
-                        >
-                            <div>
-                                <p className="text-base text-gray-700 leading-relaxed">
-                                    {watch('reportDescription') || '-'}
-                                </p>
-                            </div>
-                        </Accordion.Item>
+                        <SummaryRow icon={<MdTrackChanges />} label="Fitur progress">
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
+                                hasProgressValue ? 'bg-primary text-white' : 'bg-gray-100 text-gray-500'
+                            }`}>
+                                {hasProgressValue && <MdTrackChanges size={13} />}
+                                {hasProgressValue ? 'Diaktifkan' : 'Tidak diaktifkan'}
+                            </span>
+                        </SummaryRow>
 
-                        <Accordion.Item
-                            id="attachment"
-                            title="Lampiran Foto"
-                            icon={<IoMdImages className="w-5 h-5 text-gray-700" />}
-                        >
-                            <div>
-                                {reportImagesCount > 0 ? (
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-base text-gray-900 font-medium">
-                                            {reportImagesCount} foto dilampirkan
-                                        </span>
+                        <SummaryRow icon={<MdLocationOn />} label="Lokasi">
+                            <span className="text-gray-700">{watch('location') || '-'}</span>
+                        </SummaryRow>
+
+                        <SummaryRow icon={<MdDescription />} label="Deskripsi">
+                            <span className="text-gray-600 leading-relaxed">
+                                {watch('reportDescription') || '-'}
+                            </span>
+                        </SummaryRow>
+
+                        <SummaryRow icon={<MdPhoto />} label="Lampiran foto">
+                            {reportImagesCount > 0 ? (
+                                <div className="space-y-2">
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-primary text-white">
+                                        {reportImagesCount} foto dilampirkan
+                                    </span>
+                                    <div className="flex flex-wrap gap-2">
+                                        {reportImages.map((img, index) => (
+                                            <div
+                                                key={index}
+                                                className="cursor-pointer rounded-lg overflow-hidden border border-gray-200 "
+                                                onClick={() => onImageClick(img.preview)}
+                                            >
+                                                <Image
+                                                    src={img.preview}
+                                                    alt={`Lampiran ${index + 1}`}
+                                                    width={72}
+                                                    height={72}
+                                                    className="w-18 h-18 object-cover"
+                                                />
+                                            </div>
+                                        ))}
                                     </div>
-                                ) : (
-                                    <p className="text-base text-gray-500 italic">
-                                        Tidak ada foto yang dilampirkan
-                                    </p>
-                                )}
-                            </div>
-                        </Accordion.Item>
-                    </Accordion>
+                                </div>
+                            ) : (
+                                <span className="text-gray-400 italic text-sm">Tidak ada foto</span>
+                            )}
+                        </SummaryRow>
+                    </div>
                 </Accordion.Item>
             </Accordion>
         </div>

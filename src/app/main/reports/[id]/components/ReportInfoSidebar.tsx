@@ -90,9 +90,9 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
     }
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
             <div className="flex items-center justify-between mb-4 lg:flex-col lg:items-start lg:gap-2 xl:items-center xl:flex-row">
-                <h3 className="font-bold text-lg text-gray-900">Informasi Laporan</h3>
+                <h3 className="font-bold text-base text-gray-900">Informasi Laporan</h3>
             </div>
             <div className="space-y-3">
                 {report.hasProgress ? (

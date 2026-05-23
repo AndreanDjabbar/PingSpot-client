@@ -242,6 +242,7 @@ const CreateReportPage = () => {
                         {currentStep === 3 && (
                             <SummaryStep
                                 watch={watch}
+                                reportImages={reportImages}
                                 reportImagesCount={reportImages.length}
                             />
                         )}

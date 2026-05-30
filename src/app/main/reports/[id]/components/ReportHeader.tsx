@@ -76,7 +76,7 @@ export const ReportHeader: React.FC<ReportHeaderProps> = ({
             title: 'Hapus laporan', 
             subtitle: 'Yakin ingin menghapus laporan ini?',
             description: 'Laporan yang dihapus tidak dapat dikembalikan.',
-            type: 'warning',
+            type: 'danger',
             confirmTitle: 'Hapus',
             onConfirm: () => { onDeleteClick(report.id); } 
         });

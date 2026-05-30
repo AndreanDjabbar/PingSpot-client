@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { OptionItem } from "@/types";
 
-type ConfirmationModalType = "warning" | "info";
+type ConfirmationModalType = "warning" | "info" | "danger";
 
 interface ConfirmationModalState {
     isOpen: boolean;

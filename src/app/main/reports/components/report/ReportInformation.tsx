@@ -123,13 +123,13 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
             case 'EXPIRED':
                 return 'Kadaluarsa';
             case 'POTENTIALLY_RESOLVED':
-                return 'Dalam Peninjauan';
+                return 'Menunggu Verifikasi';
             case 'NOT_RESOLVED':
-                return 'Belum Terselesaikan';
+                return 'Tidak Terselesaikan';
             case 'ON_PROGRESS':
-                return 'Sedang Dikerjakan';
+                return 'Sedang Diproses';
             default:
-                return 'Menunggu';
+                return 'Belum Diproses';
         }
     };
     

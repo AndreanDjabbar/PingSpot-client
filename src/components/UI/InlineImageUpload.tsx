@@ -102,14 +102,14 @@ const InlineImageUpload: React.FC<InlineImageUploadProps> = ({
         <>
             <Button
                 onClick={handleButtonClick}
-                variant="secondary"
+                variant="primary"
                 size={buttonSize}
                 type="button"
                 disabled={disabled}
                 className={`flex-shrink-0 ${buttonClassName}`}
                 aria-label="Unggah gambar"
             >
-                <IoMdImages size={20} />
+                <IoMdImages size={23} />
             </Button>
 
             <input

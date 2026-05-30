@@ -34,13 +34,13 @@ const getStatusLabel = (status: string) => {
         case 'EXPIRED':
             return 'Kadaluarsa';
         case 'POTENTIALLY_RESOLVED':
-            return 'Dalam Peninjauan';
+            return 'Menunggu Verifikasi';
         case 'NOT_RESOLVED':
-            return 'Belum Terselesaikan';
+            return 'Tidak Terselesaikan';
         case 'ON_PROGRESS':
-            return 'Sedang Dikerjakan';
+            return 'Sedang Diproses';
         default:
-            return 'Menunggu';
+            return 'Belum Diproses';
     }
 };
 
@@ -79,7 +79,7 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
             title: 'Hapus laporan', 
             subtitle: 'Yakin ingin menghapus laporan ini?',
             description: 'Laporan yang dihapus tidak dapat dikembalikan.',
-            type: 'warning',
+            type: 'danger',
             confirmTitle: 'Hapus',
             onConfirm: () => { onDeleteClick(report.id); } 
         });

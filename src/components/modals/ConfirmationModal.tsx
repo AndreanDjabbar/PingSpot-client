@@ -10,7 +10,7 @@ interface ConfirmationModalProps {
     isOpen: boolean;
     title: string;
     subtitle?: string;
-    type: 'info' | 'warning';
+    type: 'info' | 'warning' | 'danger';
     onClose:       () => void;
     onConfirm?:     () => void;
     isPending:     boolean;
@@ -44,13 +44,21 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             additionalText: 'text-primary',
             buttonBg: 'bg-primary hover:bg-primary/90 active:bg-primary/80'
         },
-        warning: {
+        danger: {
             icon: <MdWarning size={24} />,
             iconBg: 'bg-red-100',
             iconColor: 'text-red-700',
             additionalBg: 'bg-red-50 border-red-200',
             additionalText: 'text-red-700',
             buttonBg: 'bg-red-600 hover:bg-red-700 active:bg-red-800'
+        },
+        warning: {
+            icon: <MdWarning size={24} />,
+            iconBg: 'bg-yellow-100',
+            iconColor: 'text-yellow-700',
+            additionalBg: 'bg-yellow-50 border-yellow-200',
+            additionalText: 'text-yellow-700',
+            buttonBg: 'bg-yellow-600 hover:bg-yellow-700 active:bg-yellow-800'
         }
     };
 

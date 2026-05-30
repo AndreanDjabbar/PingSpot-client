@@ -1,92 +1,132 @@
 import React from 'react';
 import { cn } from '@/lib';
 
-interface TextAreaFieldProps {
+type ResizeOption = 'none' | 'y' | 'x' | 'both';
+type VariantOption = 'default' | 'filled' | 'ghost';
+type SizeOption = 'sm' | 'md' | 'lg';
+
+interface TextAreaFieldProps
+    extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
     className?: string;
-    withLabel: boolean;
+    wrapperClassName?: string;
+    withLabel?: boolean;
     labelTitle?: string;
-    id: string;
-    name?: string;
-    required?: boolean;
-    disableRowsResize?: boolean;
     labelIcon?: React.ReactNode;
+    labelClassName?: string;
     icon?: React.ReactNode;
-    placeHolder?: string;
-    value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-    onBlur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
-    onKeyDown?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
-    register?: unknown;
     rows?: number;
-    disabled?: boolean;
-    autoFocus?: boolean;
+    size?: SizeOption;
+    variant?: VariantOption;
+    resize?: ResizeOption;
+    error?: string;
 }
 
-const TextAreaField = React.forwardRef<HTMLTextAreaElement, TextAreaFieldProps>(({
-    id,
-    name,
-    required = false,
-    className = '',
-    placeHolder = '',
-    withLabel = true,
-    labelTitle = '',
-    labelIcon,
-    disableRowsResize = false,
-    icon,
-    value,
-    onChange,
-    onBlur,
-    onKeyDown,
-    register,
-    rows = 4,
-    disabled = false,
-    autoFocus = false,
-}, ref) => {
-    return (
-        <div className={`space-y-1 ${className}`}>
-            {withLabel && (
-                <div className='flex gap-2'>
-                    {labelIcon && (
-                        <span className="text-gray-700">{labelIcon}</span>
-                    )}
-                    <label htmlFor={id} className="block text-sm font-semibold text-gray-900">
-                    {labelTitle}
-                    {required && <span className="text-red-500 ml-1">*</span>}
-                    </label>
-                </div>
-            )}
-            <div className="relative flex">
-                {icon && (
-                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2 pl-3 flex items-center pointer-events-none text-gray-500">
-                        {icon}
+const sizeClasses: Record<SizeOption, string> = {
+    sm: 'py-1.5 text-xs',
+    md: 'py-2.5 text-sm',
+    lg: 'py-3.5 text-base',
+};
+
+const variantClasses: Record<VariantOption, string> = {
+    default: 'bg-white border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary',
+    filled:  'bg-gray-100 border border-transparent focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary',
+    ghost:   'bg-transparent border-b border-gray-300 rounded-none shadow-none focus:ring-0 focus:border-primary',
+};
+
+const resizeClasses: Record<ResizeOption, string> = {
+    none:  'resize-none',
+    y:     'resize-y',
+    x:     'resize-x',
+    both:  'resize',
+};
+
+const TextAreaField = React.forwardRef<HTMLTextAreaElement, TextAreaFieldProps>(
+    (
+        {
+            className,
+            wrapperClassName,
+            withLabel = true,
+            labelTitle = '',
+            labelIcon,
+            labelClassName,
+            icon,
+            rows = 4,
+            size = 'md',
+            variant = 'default',
+            resize = 'y',
+            error,
+            id,
+            required,
+            disabled,
+            placeholder,
+            ...rest
+        },
+        ref,
+    ) => {
+        const resolvedPlaceholder =
+            placeholder ?? (labelTitle ? `Masukkan ${labelTitle.toLowerCase()}` : '');
+
+        return (
+            <div className={cn('space-y-1', wrapperClassName)}>
+                {withLabel && labelTitle && (
+                    <div className="flex gap-2 items-center">
+                        {labelIcon && (
+                            <span className="text-gray-500">{labelIcon}</span>
+                        )}
+                        <label
+                            htmlFor={id}
+                            className={cn(
+                                'block text-sm font-semibold text-gray-900',
+                                labelClassName,
+                            )}
+                        >
+                            {labelTitle}
+                            {required && (
+                                <span className="text-red-500 ml-1">*</span>
+                            )}
+                        </label>
                     </div>
                 )}
-                <textarea
-                    ref={ref}
-                    id={id}
-                    name={name}
-                    required={required}
-                    rows={rows}
-                    disabled={disabled}
-                    autoFocus={autoFocus}
-                    style={{ minHeight: '50px' }}
-                    className={cn("block w-full", 
-                        icon ? 'pl-10' : 'pl-3',
-                        "pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200",
-                        disabled ? 'bg-gray-200 cursor-not-allowed' : 'bg-white',
-                        disableRowsResize ? 'resize-none' : 'resize-y',
+
+                <div className="relative flex">
+                    {icon && (
+                        <div className="absolute left-3 top-3 flex items-start pointer-events-none text-gray-400">
+                            {icon}
+                        </div>
                     )}
-                    placeholder={placeHolder || `Masukkan ${labelTitle.toLowerCase()}`}
-                    value={value}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    onKeyDown={onKeyDown}
-                    {...(register || {})}
-                />
+
+                    <textarea
+                        ref={ref}
+                        id={id}
+                        required={required}
+                        disabled={disabled}
+                        rows={rows}
+                        placeholder={resolvedPlaceholder}
+                        className={cn(
+                            'block w-full rounded-lg shadow-sm',
+                            'placeholder-gray-400',
+                            'transition-all duration-200',
+                            'focus:outline-none',
+                            icon ? 'pl-10' : 'pl-3',
+                            'pr-3',
+                            sizeClasses[size],
+                            variantClasses[variant],
+                            resizeClasses[resize],
+                            disabled && 'bg-gray-100 cursor-not-allowed opacity-60',
+                            error && '!border-red-400 focus:!ring-red-400 focus:!border-red-400',
+                            className,
+                        )}
+                        {...rest}
+                    />
+                </div>
+
+                {error && (
+                    <p className="text-xs text-red-500 mt-0.5">{error}</p>
+                )}
             </div>
-        </div>
-    );
-});
+        );
+    },
+);
 
 TextAreaField.displayName = 'TextAreaField';
 

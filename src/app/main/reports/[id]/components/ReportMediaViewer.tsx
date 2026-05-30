@@ -87,14 +87,14 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                                 <>
                                     <button
                                         onClick={prevImage}
-                                        className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-opacity-100 hover:scale-110 transition-all shadow-lg"
+                                        className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-opacity-100 hover:scale-110 transition-all shadow-lg cursor-pointer"
                                         aria-label="Previous image"
                                     >
                                         <FaChevronLeft className="w-4 h-4" />
                                     </button>
                                     <button
                                         onClick={nextImage}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-opacity-100 hover:scale-110 transition-all shadow-lg"
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-opacity-100 hover:scale-110 transition-all shadow-lg cursor-pointer"
                                         aria-label="Next image"
                                     >
                                         <FaChevronRight className="w-4 h-4" />
@@ -113,9 +113,9 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                                     <button
                                         key={index}
                                         onClick={() => setCurrentImageIndex(index)}
-                                        className={`h-2 rounded-full transition-all duration-200 ${
+                                        className={`h-2 rounded-full transition-all duration-200 cursor-pointer ${
                                             index === currentImageIndex
-                                                ? 'w-6 bg-blue-600'
+                                                ? 'w-6 bg-primary'
                                                 : 'w-2 bg-gray-300 hover:bg-gray-400'
                                         }`}
                                         aria-label={`Go to image ${index + 1}`}
@@ -138,7 +138,7 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                             />
                         </div>
                         <div className="mt-4 bg-gray-100 rounded-lg p-4">
-                            <div className="flex items-start gap-2">
+                            <div className="flex items-center gap-2">
                                 <FaMapMarkerAlt className="text-primary mt-0.5 flex-shrink-0" size={16} />
                                 <div className="flex-1">
                                     <p className="text-sm font-medium text-gray-900">{report.location.detailLocation}</p>

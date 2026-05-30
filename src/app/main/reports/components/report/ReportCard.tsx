@@ -139,7 +139,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
             title: 'Hapus laporan', 
             subtitle: 'Yakin ingin menghapus laporan ini?',
             description: 'Laporan yang dihapus tidak dapat dikembalikan.',
-            type: 'warning',
+            type: 'danger',
             confirmTitle: 'Hapus',
             onConfirm: () => { onDeleteClick(report.id); } 
         });
@@ -339,7 +339,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                 />
                         </div>
                         <div className="mt-4 bg-gray-100 rounded-lg p-4">
-                            <div className="flex items-start gap-2">
+                            <div className="flex items-center gap-2">
                                 <FaMapMarkerAlt className="text-primary mt-0.5 flex-shrink-0" size={16} />
                                 <div className="flex-1">
                                     <p className="text-sm font-medium text-gray-900">{report.location.detailLocation}</p>

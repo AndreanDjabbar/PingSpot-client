@@ -79,9 +79,8 @@ const SelectField: React.FC<SelectFieldProps> = ({
             document.addEventListener('mousedown', handleClickOutside);
         }
 
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
+        document.removeEventListener('mousedown', handleClickOutside);
+
     }, [isOpen]);
 
     useEffect(() => {
@@ -111,11 +110,6 @@ const SelectField: React.FC<SelectFieldProps> = ({
 
         window.addEventListener('scroll', calculatePosition, true);
         window.addEventListener('resize', calculatePosition);
-
-        return () => {
-            window.removeEventListener('scroll', calculatePosition, true);
-            window.removeEventListener('resize', calculatePosition);
-        };
     }, [isOpen]);
 
     const handleSelect = (optionValue: string) => {

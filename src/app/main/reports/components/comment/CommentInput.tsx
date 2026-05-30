@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { BiSend } from 'react-icons/bi';
+import { FaSpinner } from 'react-icons/fa';
 import { ImagePreview, InlineImageUpload, TextAreaField, Button } from '@/components';
 
 interface CommentInputProps {
@@ -39,19 +40,30 @@ const CommentInput: React.FC<CommentInputProps> = ({
     };
 
     return (
-        <div className={`bg-white border-t border-gray-200 px-4 sm:px-6 py-4 shadow-lg ${className}`}>
-            <div className="p-2 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-3">
-                    <div className="flex-1">
-                        {imagePreview && (
-                            <ImagePreview 
+        <div className={`py-6 px-3 border-b border-gray-200 bg-gray-50 ${className}`}>
+            <div className="flex items-start gap-3">
+                <div className="flex-1">
+                    {imagePreview && (
+                        <ImagePreview 
+                            preview={imagePreview}
+                            onRemove={onImageRemove}
+                            className="mb-3"
+                        />
+                    )}
+                    
+                    <div className="flex w-full gap-2 justify-center items-center">
+                        {(
+                            <InlineImageUpload
                                 preview={imagePreview}
-                                onRemove={onImageRemove}
-                                className="mb-3"
+                                onImageSelect={onImageSelect}
+                                onImageRemove={onImageRemove}
+                                maxSizeMB={5}
+                                buttonSize='sm'
+                                buttonClassName='h-11'
+                                previewPosition="separate"
                             />
                         )}
-                        
-                        <div className="flex gap-2">
+                        <div className="flex-1">
                             <TextAreaField 
                                 id='commentContent'
                                 value={commentContent}
@@ -59,50 +71,44 @@ const CommentInput: React.FC<CommentInputProps> = ({
                                     onCommentContentChange(e.target.value);
                                 }}
                                 onKeyDown={handleKeyDown}
-                                placeHolder='Tulis komentar...'
-                                className='w-full'
-                                rows={1}
-                                disableRowsResize
+                                placeholder='Tulis komentar...'
+                                className='h-11'
+                                resize='none'
                                 withLabel={false}
                                 disabled={isSubmitting}
                             />
-                            <InlineImageUpload
-                                preview={imagePreview}
-                                onImageSelect={onImageSelect}
-                                onImageRemove={onImageRemove}
-                                maxSizeMB={5}
-                                buttonSize='sm'
-                                previewPosition="separate"
-                            />
+                        </div>
+                        <div className="flex items-center gap-2">
                             <Button
                                 variant="primary"
                                 size='sm'
                                 onClick={onSubmitComment}
                                 disabled={(!commentContent.trim() && !commentMediaImage) || isSubmitting}
+                                className='bg-transparent'
                             >
                                 {isSubmitting ? (
-                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                    <FaSpinner size={23} className='text-primary animate-spin' />
                                 ) : (
-                                    <BiSend size={20} />
+                                    <BiSend size={23} className='text-primary' />
                                 )}
                             </Button>
                         </div>
-
-                        {(validationErrors.commentContent || validationErrors.mediaFile) && (
-                            <div className='flex flex-col gap-1 mt-2'>
-                                {validationErrors.commentContent && (
-                                    <p className="text-red-500 text-sm">
-                                        {validationErrors.commentContent}
-                                    </p>
-                                )}
-                                {validationErrors.mediaFile && (
-                                    <p className="text-red-500 text-sm">
-                                        {validationErrors.mediaFile}
-                                    </p>
-                                )}
-                            </div>
-                        )}
                     </div>
+
+                    {(validationErrors.commentContent || validationErrors.mediaFile) && (
+                        <div className='flex flex-col gap-1 mt-2'>
+                            {validationErrors.commentContent && (
+                                <p className="text-red-500 text-sm">
+                                    {validationErrors.commentContent}
+                                </p>
+                            )}
+                            {validationErrors.mediaFile && (
+                                <p className="text-red-500 text-sm">
+                                    {validationErrors.mediaFile}
+                                </p>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

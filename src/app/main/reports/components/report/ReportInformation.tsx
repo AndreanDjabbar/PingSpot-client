@@ -12,7 +12,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadProgressReportSchema } from '../../../schema';
 import { useQueryClient } from '@tanstack/react-query';
-import { LuNotebookText } from 'react-icons/lu';
 import { FiEdit } from 'react-icons/fi';
 import { Accordion, ErrorSection, SuccessSection } from '@/components';
 import { MdWarning } from 'react-icons/md';
@@ -65,8 +64,6 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
     const totalVotes = report?.totalVotes || 0;
     const userCurrentVote = report?.isResolvedByCurrentUser 
         ? 'RESOLVED'
-        : report?.isNotResolvedByCurrentUser
-            ? 'NOT_RESOLVED'
             : report?.isOnProgressByCurrentUser
                 ? 'ON_PROGRESS'
                 : null
@@ -79,8 +76,6 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                 return 'bg-blue-700 border-blue-700 text-white';
             case 'EXPIRED':
                 return 'bg-indigo-700 text-white';
-            case 'NOT_RESOLVED':
-                return 'bg-red-700 text-white';
             case 'ON_PROGRESS':
                 return 'bg-yellow-500 text-white';
             default:
@@ -124,8 +119,6 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                 return 'Kadaluarsa';
             case 'POTENTIALLY_RESOLVED':
                 return 'Menunggu Verifikasi';
-            case 'NOT_RESOLVED':
-                return 'Tidak Terselesaikan';
             case 'ON_PROGRESS':
                 return 'Sedang Diproses';
             default:
@@ -305,7 +298,6 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                                         totalVotes={totalVotes}
                                         totalResolvedVotes={report?.totalResolvedVotes || 0}
                                         totalOnProgressVotes={report?.totalOnProgressVotes || 0}
-                                        totalNotResolvedVotes={report?.totalNotResolvedVotes || 0}
                                         />
                                     )}
                                 </Accordion.Item>
@@ -317,7 +309,6 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                                 totalVotes={totalVotes}
                                 totalResolvedVotes={report?.totalResolvedVotes || 0}
                                 totalOnProgressVotes={report?.totalOnProgressVotes || 0}
-                                totalNotResolvedVotes={report?.totalNotResolvedVotes || 0}
                                 userCurrentVote={userCurrentVote}
                                 onVote={handleVote}
                                 isLoading={isLoading}

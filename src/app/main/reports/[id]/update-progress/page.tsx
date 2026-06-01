@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { useQueryClient } from '@tanstack/react-query';
 import { FaCheck } from 'react-icons/fa';
-import { LuNotebookText } from 'react-icons/lu';
 import { useErrorToast, useSuccessToast, useUploadProgressReport, useGetReportByID } from '@/hooks';
 import { useReportsStore, useUserProfileStore, useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
 import { IUploadProgressReportRequest, ImageItem } from '@/types';
@@ -23,7 +22,7 @@ const UpdateProgressPage = () => {
     const reportId = Number(params.id);
     const queryClient = useQueryClient();
     
-    const [selectedStatus, setSelectedStatus] = useState<'RESOLVED' | 'ON_PROGRESS' | 'NOT_RESOLVED' | null>(null);
+    const [selectedStatus, setSelectedStatus] = useState<'RESOLVED' | 'ON_PROGRESS' | null>(null);
     const [progressImages, setProgressImages] = useState<ImageItem[]>([]);
     
     const reports = useReportsStore((s) => s.reports);
@@ -118,7 +117,7 @@ const UpdateProgressPage = () => {
         setProgressImages(files);
     }
 
-    const handleStatusChange = (status: 'RESOLVED' | 'ON_PROGRESS' | 'NOT_RESOLVED') => {
+    const handleStatusChange = (status: 'RESOLVED' | 'ON_PROGRESS') => {
         setSelectedStatus(status);
         setValue('progressStatus', status);
     };

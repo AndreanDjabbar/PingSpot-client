@@ -4,7 +4,7 @@ import { FaCheck, FaTimes } from 'react-icons/fa';
 import { RiProgress3Fill } from 'react-icons/ri';
 import { FieldErrors } from 'react-hook-form';
 
-type ProgressStatus = 'RESOLVED' | 'ON_PROGRESS' | 'NOT_RESOLVED';
+type ProgressStatus = 'RESOLVED' | 'ON_PROGRESS';
 
 interface ProgressSectionProps {
     selectedStatus: ProgressStatus | null;
@@ -21,17 +21,6 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
 }) => {
     const statusOptions = [
         {
-            value: 'RESOLVED' as const,
-            label: 'Terselesaikan',
-            description: 'Masalah selesai',
-            icon: FaCheck,
-            colorActive: 'bg-green-600 text-white border-green-700',
-            colorInactive: 'bg-white text-green-700 border-gray-200 hover:border-green-300 hover:bg-green-50',
-            iconBg: 'bg-green-100',
-            iconColor: 'text-green-600',
-            descriptionColor: 'text-green-100',
-        },
-        {
             value: 'ON_PROGRESS' as const,
             label: 'Dalam Proses',
             description: 'Sedang ditangani',
@@ -43,15 +32,15 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
             descriptionColor: 'text-yellow-100',
         },
         {
-            value: 'NOT_RESOLVED' as const,
-            label: 'Tidak Ada Proses',
-            description: 'Belum ditangani',
-            icon: FaTimes,
-            colorActive: 'bg-red-600 text-white border-red-700',
-            colorInactive: 'bg-white text-red-700 border-gray-200 hover:border-red-300 hover:bg-red-50',
-            iconBg: 'bg-red-100',
-            iconColor: 'text-red-600',
-            descriptionColor: 'text-red-100',
+            value: 'RESOLVED' as const,
+            label: 'Terselesaikan',
+            description: 'Masalah selesai',
+            icon: FaCheck,
+            colorActive: 'bg-green-600 text-white border-green-700',
+            colorInactive: 'bg-white text-green-700 border-gray-200 hover:border-green-300 hover:bg-green-50',
+            iconBg: 'bg-green-100',
+            iconColor: 'text-green-600',
+            descriptionColor: 'text-green-100',
         },
     ];
 
@@ -60,7 +49,7 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
             <label className="block text-sm font-bold text-gray-900 mb-3">
                 Pilih Status Progress *
             </label>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-3">
                 {statusOptions.map((option) => {
                     const Icon = option.icon;
                     const isSelected = selectedStatus === option.value;

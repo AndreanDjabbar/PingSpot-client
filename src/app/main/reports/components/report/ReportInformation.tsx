@@ -72,8 +72,8 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
         switch (status) {
             case 'RESOLVED':
                 return 'bg-green-700 border-green-700 text-white';
-            case 'POTENTIALLY_RESOLVED':
-                return 'bg-blue-700 border-blue-700 text-white';
+            case 'WAITING_CONFIRMATION':
+                return 'bg-sky-600 border-sky-600 text-white';
             case 'EXPIRED':
                 return 'bg-indigo-700 text-white';
             case 'ON_PROGRESS':
@@ -117,8 +117,8 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                 return 'Terselesaikan';
             case 'EXPIRED':
                 return 'Kadaluarsa';
-            case 'POTENTIALLY_RESOLVED':
-                return 'Menunggu Verifikasi';
+            case 'WAITING_CONFIRMATION':
+                return 'Menunggu Konfirmasi';
             case 'ON_PROGRESS':
                 return 'Sedang Diproses';
             default:

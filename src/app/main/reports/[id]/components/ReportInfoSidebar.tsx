@@ -33,10 +33,8 @@ const getStatusLabel = (status: string) => {
             return 'Terselesaikan';
         case 'EXPIRED':
             return 'Kadaluarsa';
-        case 'POTENTIALLY_RESOLVED':
-            return 'Menunggu Verifikasi';
-        case 'NOT_RESOLVED':
-            return 'Tidak Terselesaikan';
+        case 'WAITING_CONFIRMATION':
+            return 'Menunggu Konfirmasi';
         case 'ON_PROGRESS':
             return 'Sedang Diproses';
         default:
@@ -50,10 +48,8 @@ const getStatusColor = (status: string) => {
             return 'bg-green-700 border-green-700 text-white';
         case 'EXPIRED':
             return 'bg-indigo-700 text-white';
-        case 'POTENTIALLY_RESOLVED':
-            return 'bg-blue-700 text-white';
-        case 'NOT_RESOLVED':
-            return 'bg-red-700 text-white';
+        case 'WAITING_CONFIRMATION':
+            return 'bg-sky-600 border-sky-600 text-white';
         case 'ON_PROGRESS':
             return 'bg-yellow-500 text-white';
         default:

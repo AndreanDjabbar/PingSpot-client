@@ -8,6 +8,7 @@ type SizeOption = 'sm' | 'md' | 'lg';
 interface TextAreaFieldProps
     extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
     className?: string;
+    register?: unknown;
     wrapperClassName?: string;
     withLabel?: boolean;
     labelTitle?: string;
@@ -45,6 +46,7 @@ const TextAreaField = React.forwardRef<HTMLTextAreaElement, TextAreaFieldProps>(
         {
             className,
             wrapperClassName,
+            register,
             withLabel = true,
             labelTitle = '',
             labelIcon,
@@ -117,6 +119,7 @@ const TextAreaField = React.forwardRef<HTMLTextAreaElement, TextAreaFieldProps>(
                             className,
                         )}
                         {...rest}
+                        {...(register || {})}
                     />
                 </div>
 

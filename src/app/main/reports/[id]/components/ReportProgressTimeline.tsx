@@ -201,6 +201,7 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                             <Button
                                 onClick={() => router.push(`/main/reports/${report.id}/update-progress`)}
                                 icon={<BiEdit />}
+                                disabled={report.reportStatus && report.reportStatus === 'RESOLVED'}
                                 size='sm'
                             >
                                 Perbarui

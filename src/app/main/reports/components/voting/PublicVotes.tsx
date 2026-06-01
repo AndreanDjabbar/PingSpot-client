@@ -28,7 +28,7 @@ const PublicVotes: React.FC<PublicVotesProps> = ({
                     <span className='text-sm text-gray-600'>Pendapat komunitas mengenai proses perkembangan laporan:</span>
                 </div>
                 <div className="space-y-3">
-                                        <div className="space-y-2">
+                    <div className="space-y-2">
                         <div className="flex items-center justify-between text-sm">
                             <div className='flex gap-2 font-medium text-yellow-700 items-center'>
                                 <RiProgress3Fill/>

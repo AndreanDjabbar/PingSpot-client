@@ -177,7 +177,11 @@ type voteReportParams = {
 }
 
 export const useVoteReport = () => {
+    const queryClient = useQueryClient();
     return useMutation<IVoteReportResponse, Error, voteReportParams>({
         mutationFn: ({ reportID, data }) => voteReportService(reportID, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['report'] });
+        },
     });
 };

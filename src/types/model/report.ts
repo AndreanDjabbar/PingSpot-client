@@ -16,7 +16,7 @@ export type ReportType =
     | 'DISASTER' 
     | 'OTHER';
 
-export type ReportStatus = 'WAITING' | 'RESOLVED' | 'POTENTIALLY_RESOLVED' | 'ON_PROGRESS' | 'EXPIRED';
+export type ReportStatus = 'WAITING' | 'RESOLVED' | 'WAITING_CONFIRMATION' | 'ON_PROGRESS' | 'EXPIRED';
 
 export interface IReportImage {
     id: number;
@@ -56,7 +56,7 @@ export interface IReportReactions {
 }
 
 export type ReportSortOption = 'latest' | 'oldest' | 'most_liked' | 'least_liked';
-export type ReportStatusFilter = 'all' | 'WAITING' | 'ON_PROGRESS' | 'RESOLVED' | 'POTENTIALLY_RESOLVED' | 'NOT_RESOLVED' | 'EXPIRED';
+export type ReportStatusFilter = 'all' | 'WAITING' | 'ON_PROGRESS' | 'RESOLVED' | 'WAITING_CONFIRMATION' | 'EXPIRED';
 export type ReportDistanceFilter = 'all' | '1000' | '5000' | '10000';
 export type ReportProgressFilter = 'all' | 'true' | 'false';
 

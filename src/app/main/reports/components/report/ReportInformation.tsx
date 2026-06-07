@@ -14,7 +14,7 @@ import { UploadProgressReportSchema } from '../../../schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { FiEdit } from 'react-icons/fi';
 import { Accordion, ErrorSection, SuccessSection } from '@/components';
-import { MdWarning } from 'react-icons/md';
+import { MdInfo, MdWarning } from 'react-icons/md';
 import { CurrentProgress, ProgressHistory, ProgressSection } from '../progress';
 import ResolvedReport from './ResolvedReport';
 import { PublicVotes, VotingSection } from '../voting';
@@ -56,11 +56,12 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
     const currentStatus = report?.reportStatus || '';
     const currentUserId = userProfile ? Number(userProfile.userID) : null;
     const isReportOwner = report && currentUserId === report.userID;
+    const isUserCanVote = !isReportOwner && currentStatus !== 'RESOLVED' && currentStatus !== 'EXPIRED' && !report?.isOnProgressByCurrentUser && !report?.isResolvedByCurrentUser;
     const isReportResolved = (report?.reportStatus ?? currentStatus) === 'RESOLVED';
     const isReportExpired = (report?.reportStatus ?? currentStatus) === 'EXPIRED';
-    const isPotentiallyResolved = report?.reportStatus === 'POTENTIALLY_RESOLVED';
+    const isWaitingConfirmation = report?.reportStatus === 'WAITING_CONFIRMATION';
     const progressData = report?.reportProgress || [];
-    const showWarning = isReportOwner && isPotentiallyResolved;
+    const showWarning = isReportOwner && isWaitingConfirmation;
     const totalVotes = report?.totalVotes || 0;
     const userCurrentVote = report?.isResolvedByCurrentUser 
         ? 'RESOLVED'
@@ -221,16 +222,19 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                             </div>
                             {showWarning && (
                                 <button 
-                                    onClick={() => openConfirm({
-                                        title: 'Konfirmasi Penyelesaian Laporan',
-                                        type: 'warning',
-                                        description: 'Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.',
-                                        additionalInfo: 'Jika tidak ada konfirmasi dalam 1 minggu, status akan otomatis berubah menjadi "Terselesaikan".'
-                                    })}
-                                    className='inline-flex items-center p-1.5 sm:p-2 hover:bg-blue-50 rounded-full transition-colors group'
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        openConfirm({
+                                            title: 'Konfirmasi Penyelesaian Laporan',
+                                            type: 'warning',
+                                            description: 'Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.',
+                                            additionalInfo: 'Jika tidak ada konfirmasi dalam 1 minggu, status akan otomatis berubah menjadi "Terselesaikan".'
+                                        })}
+                                    }
+                                    className='inline-flex items-center p-1.5 sm:p-2 hover:bg-primary/10 rounded-full transition-colors group cursor-pointer'
                                     aria-label="Informasi status laporan"
                                 >
-                                    <MdWarning size={25} className="text-blue-600 group-hover:text-blue-700 transition-colors sm:w-6 sm:h-6"/>
+                                    <MdInfo size={25} className="text-primary transition-colors sm:w-6 sm:h-6"/>
                                 </button>
                             )}
                         </div>
@@ -314,6 +318,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                                 isLoading={isLoading}
                                 isReportResolved={isReportResolved}
                                 isReportExpired={isReportExpired}
+                                isUserCanVote={isUserCanVote}
                                 getStatusLabel={getStatusLabel}
                             />
                         )}

@@ -9,6 +9,7 @@ interface VotingSectionProps {
     totalResolvedVotes: number;
     totalOnProgressVotes: number;
     isReportResolved: boolean;
+    isUserCanVote: boolean;
     isReportExpired: boolean;
     getStatusLabel: (status: string) => string;
     userCurrentVote: 'RESOLVED' | 'ON_PROGRESS' | null;
@@ -21,6 +22,7 @@ const VotingSection: React.FC<VotingSectionProps> = ({
     totalResolvedVotes,
     totalOnProgressVotes,
     isReportResolved,
+    isUserCanVote,
     isReportExpired,
     userCurrentVote,
     isLoading,
@@ -39,12 +41,23 @@ const VotingSection: React.FC<VotingSectionProps> = ({
     }
 
     const handleVoteConfirmationModal = (voteType: 'RESOLVED' | 'ON_PROGRESS') => {
+        if (!isUserCanVote) {
+            openConfirm({
+                type: "warning",
+                title: "Tidak Bisa Memberi Pendapat",
+                subtitle: "Anda tidak dapat memberikan pendapat pada laporan ini.",
+                description: "Pengguna hanya dapat memberikan pendapat satu kali pada setiap laporan (kecuali ada konfirmasi perubahan status dari pemilik laporan).",
+                confirmTitle: "Tutup",
+            })
+            return;
+        }
+
         openConfirm({
             type: "info",
             title: "Konfirmasi Pemilihan Status Laporan",
-            subtitle: `Apakah Anda yakin memilih status "${getStatusLabel(voteType)}" untuk laporan ini?`,
+            subtitle: `Apakah Anda yakin memilih status "${getStatusLabel(voteType)}" sebagai pendapat untuk laporan ini?`,
             isPending: isLoading,
-            description: "Status laporan akan diperbarui sesuai pilihan Anda.",
+            description: "Anda hanya dapat memberikan pendapat satu kali pada setiap laporan (kecuali ada konfirmasi perubahan status dari pemilik laporan). Status laporan akan diperbarui sesuai pilihan Anda.",
             confirmTitle: "Ya, Pilih Status",
             onConfirm: () => handleVote(voteType),
         })
@@ -142,15 +155,15 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                                     </p>
                                 </div>
                                 
-                                <div className="grid grid-cols-2 sm:grid-cols-2 gap-3">
+                                <div className="grid grid-cols-2 sm:grid-cols-2 gap-5">
                                     <motion.button
                                         className={`relative flex flex-col items-center justify-center p-4 rounded-xl font-semibold transition-all duration-300 border-2 ${
                                             userCurrentVote === 'RESOLVED'
                                                 ? 'bg-green-600 text-white border-green-700 shadow-lg scale-105'
                                                 : 'bg-white text-green-700 border-gray-200 hover:border-green-300 hover:bg-green-50 shadow-sm'
-                                        } ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                                        } ${isLoading || !isUserCanVote  ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                                         onClick={() => handleVoteConfirmationModal('RESOLVED')}
-                                        disabled={isLoading}
+                                        disabled={isLoading || !isUserCanVote}
                                         animate={animateButton === 'RESOLVED' ? { scale: [1, 1.05, 1] } : {}}
                                         transition={{ duration: 0.3 }}
                                         whileTap={{ scale: isLoading ? 1 : 0.98 }}
@@ -179,9 +192,9 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                                             userCurrentVote === 'ON_PROGRESS'
                                                 ? 'bg-yellow-600 text-white border-yellow-700 shadow-lg scale-105'
                                                 : 'bg-white text-yellow-700 border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 shadow-sm'
-                                        } ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                                        } ${isLoading || !isUserCanVote  ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                                         onClick={() => handleVoteConfirmationModal('ON_PROGRESS')}
-                                        disabled={isLoading}
+                                        disabled={isLoading || !isUserCanVote}
                                         animate={animateButton === 'ON_PROGRESS' ? { scale: [1, 1.05, 1] } : {}}
                                         transition={{ duration: 0.3 }}
                                         whileTap={{ scale: isLoading ? 1 : 0.98 }}
@@ -227,7 +240,7 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                                     </span>
                                 </p>
                                 <p className="text-xs text-gray-500 mt-0.5">
-                                    Klik lagi untuk mengubah pendapat
+                                    Anda telah memberikan pendapat pada laporan ini. Terima kasih atas partisipasi Anda!
                                 </p>
                             </div>
                         </div>

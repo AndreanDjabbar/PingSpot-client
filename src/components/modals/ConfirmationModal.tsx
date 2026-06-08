@@ -44,7 +44,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             iconColor: 'text-primary',
             additionalBg: 'bg-primary/10 border-primary/30',
             additionalText: 'text-primary',
-            buttonBg: 'bg-primary hover:bg-primary/90 active:bg-primary/80'
+            buttonBg: 'bg-primary hover:bg-primary/90 active:bg-primary/80 focus:ring-primary-500'
         },
         danger: {
             icon: <MdWarning size={24} />,
@@ -52,7 +52,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             iconColor: 'text-red-700',
             additionalBg: 'bg-red-50 border-red-200',
             additionalText: 'text-red-700',
-            buttonBg: 'bg-red-600 hover:bg-red-700 active:bg-red-800'
+            buttonBg: 'bg-red-600 hover:bg-red-700 active:bg-red-800 focus:ring-red-500'
         },
         warning: {
             icon: <MdWarning size={24} />,
@@ -60,7 +60,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             iconColor: 'text-yellow-700',
             additionalBg: 'bg-yellow-50 border-yellow-200',
             additionalText: 'text-yellow-700',
-            buttonBg: 'bg-yellow-600 hover:bg-yellow-700 active:bg-yellow-800'
+            buttonBg: 'bg-yellow-600 hover:bg-yellow-700 active:bg-yellow-800 focus:ring-yellow-500'
         }
     };
 

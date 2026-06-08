@@ -172,9 +172,8 @@ const MentionInput: React.FC<MentionInputProps> = ({
             <TextAreaField
             id='comment'
             withLabel
-            placeHolder={placeholder}
+            placeholder={placeholder}
             rows={rows}
-            disableRowsResize
             ref={textareaRef}
             value={value}
             onChange={handleChange}

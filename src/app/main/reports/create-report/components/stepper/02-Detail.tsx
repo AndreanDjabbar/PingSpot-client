@@ -92,7 +92,7 @@ const DetailStep: React.FC<DetailStepProps> = ({
                     className="w-full"
                     withLabel={true}
                     labelTitle="Deskripsi Permasalahan"
-                    placeHolder="Jelaskan permasalahan dengan detail"
+                    placeholder="Jelaskan permasalahan dengan detail"
                 />
                 <div className="text-red-500 text-sm font-semibold">
                     {errors.reportDescription?.message as string}

@@ -262,7 +262,7 @@ const ProfilePage = () => {
                                         withLabel={true}
                                         register={register("bio")}
                                         labelTitle="Bio Anda"
-                                        placeHolder="Masukkan bio Anda"
+                                        placeholder="Masukkan bio Anda"
                                     />
                                     <div className="text-danger-dark text-sm font-semibold">{errors.bio?.message as string}</div>
                                 </div>

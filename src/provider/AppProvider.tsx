@@ -17,6 +17,7 @@ export const ConfirmationModalProvider = () => {
         type,
         isPending,
         description,
+        useCancelButton,
         additionalInfo,
         confirmTitle,
         closeConfirm,
@@ -29,6 +30,7 @@ export const ConfirmationModalProvider = () => {
         <ConfirmationModal
             isOpen={isOpen}
             type={type || "info"}
+            useCancelButton={useCancelButton}
             onClose={closeConfirm}
             onConfirm={onConfirm || closeConfirm}
             isPending={isPending || false}

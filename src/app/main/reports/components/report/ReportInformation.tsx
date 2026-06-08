@@ -227,6 +227,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                                         openConfirm({
                                             title: 'Konfirmasi Penyelesaian Laporan',
                                             type: 'warning',
+                                            useCancelButton: false,
                                             description: 'Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.',
                                             additionalInfo: 'Jika tidak ada konfirmasi dalam 1 minggu, status akan otomatis berubah menjadi "Terselesaikan".'
                                         })}

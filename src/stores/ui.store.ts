@@ -11,6 +11,7 @@ interface ConfirmationModalState {
     confirmTitle?: string;
     type?: ConfirmationModalType;
     description?: string;
+    useCancelButton?: boolean;
     additionalInfo?: string;
     openConfirm: (options: {
         title: string;
@@ -22,6 +23,7 @@ interface ConfirmationModalState {
         additionalInfo?: string;
         confirmTitle?: string;
         isPending?: boolean;
+        useCancelButton?: boolean;
     }) => void;
     onClose?: () => void;
     onConfirm?: () => void;
@@ -54,6 +56,7 @@ export const useConfirmationModalStore = create<ConfirmationModalState>(
         onConfirm: undefined,
         type: "info",
         description: "",
+        useCancelButton: true,
         additionalInfo: undefined,
         subtitle: undefined,
         isPending: undefined,

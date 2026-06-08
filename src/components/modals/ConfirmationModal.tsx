@@ -11,6 +11,7 @@ interface ConfirmationModalProps {
     title: string;
     subtitle?: string;
     type: 'info' | 'warning' | 'danger';
+    useCancelButton?: boolean;
     onClose:       () => void;
     onConfirm?:     () => void;
     isPending:     boolean;
@@ -25,6 +26,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     title=(type === 'info' ? 'Informasi' : 'Peringatan'),
     subtitle,
     description, 
+    useCancelButton=true,
     isOpen, 
     onClose,
     onConfirm=onClose,
@@ -113,9 +115,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 </div>
 
                 <div className="flex justify-end p-5 pt-0 gap-4">
-                    <Button variant="outline" onClick={onClose} disabled={isPending}>
-                        {cancelTitle}
-                    </Button>
+                    {useCancelButton && (
+                        <Button variant="outline" onClick={onClose} disabled={isPending}>
+                            {cancelTitle}
+                        </Button>
+                    )}
                     <Button
                         onClick={() => {
                             if (onConfirm) {

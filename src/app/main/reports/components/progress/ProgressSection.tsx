@@ -41,7 +41,7 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
     progressImages,
     setProgressImages,
 }) => {
-    const handleStatusChange = (status: 'RESOLVED' | 'ON_PROGRESS' | 'NOT_RESOLVED') => {
+    const handleStatusChange = (status: 'RESOLVED' | 'ON_PROGRESS') => {
         if (selectedStatus === status) {
             setSelectedStatus(null);
             setProgressImages([]);
@@ -109,37 +109,8 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
                 <label className="block text-sm font-bold text-gray-900 mb-3">
                     Pilih Status Perkembangan
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    {/* RESOLVED Button */}
-                    <motion.button
-                        type="button"
-                        className={`relative flex flex-col items-center justify-center p-4 rounded-xl font-semibold transition-all duration-300 border-2 ${
-                            selectedStatus === 'RESOLVED'
-                                ? 'bg-green-600 text-white border-green-700 shadow-lg scale-105'
-                                : 'bg-white text-green-700 border-gray-200 hover:border-green-300 hover:bg-green-50 shadow-sm'
-                        } ${isUploadProgressReportPending ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-                        onClick={() => handleStatusChange('RESOLVED')}
-                        disabled={isUploadProgressReportPending}
-                        whileTap={{ scale: isUploadProgressReportPending ? 1 : 0.98 }}
-                    >
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-300 ${
-                            selectedStatus === 'RESOLVED' ? 'bg-white/20' : 'bg-green-100'
-                        }`}>
-                            <FaCheck className={`w-5 h-5 ${
-                                selectedStatus === 'RESOLVED' ? 'text-white' : 'text-green-600'
-                            }`} />
-                        </div>
-                        <span className="text-xs sm:text-sm font-bold text-center leading-tight">
-                            Terselesaikan
-                        </span>
-                        <span className={`text-xs mt-1 text-center ${
-                            selectedStatus === 'RESOLVED' ? 'text-green-100' : 'text-gray-500'
-                        }`}>
-                            Masalah selesai
-                        </span>
-                    </motion.button>
-
-                    {/* ON_PROGRESS Button */}
+                <div className="grid grid-cols-2 sm:grid-cols-2 gap-3">
+                                        {/* ON_PROGRESS Button */}
                     <motion.button
                         type="button"
                         className={`relative flex flex-col items-center justify-center p-4 rounded-xl font-semibold transition-all duration-300 border-2 ${
@@ -168,32 +139,32 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
                         </span>
                     </motion.button>
 
-                    {/* NOT_RESOLVED Button */}
+                    {/* RESOLVED Button */}
                     <motion.button
                         type="button"
                         className={`relative flex flex-col items-center justify-center p-4 rounded-xl font-semibold transition-all duration-300 border-2 ${
-                            selectedStatus === 'NOT_RESOLVED'
-                                ? 'bg-red-600 text-white border-red-700 shadow-lg scale-105'
-                                : 'bg-white text-red-700 border-gray-200 hover:border-red-300 hover:bg-red-50 shadow-sm'
+                            selectedStatus === 'RESOLVED'
+                                ? 'bg-green-600 text-white border-green-700 shadow-lg scale-105'
+                                : 'bg-white text-green-700 border-gray-200 hover:border-green-300 hover:bg-green-50 shadow-sm'
                         } ${isUploadProgressReportPending ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-                        onClick={() => handleStatusChange('NOT_RESOLVED')}
+                        onClick={() => handleStatusChange('RESOLVED')}
                         disabled={isUploadProgressReportPending}
                         whileTap={{ scale: isUploadProgressReportPending ? 1 : 0.98 }}
                     >
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-300 ${
-                            selectedStatus === 'NOT_RESOLVED' ? 'bg-white/20' : 'bg-red-100'
+                            selectedStatus === 'RESOLVED' ? 'bg-white/20' : 'bg-green-100'
                         }`}>
-                            <FaTimes className={`w-5 h-5 ${
-                                selectedStatus === 'NOT_RESOLVED' ? 'text-white' : 'text-red-600'
+                            <FaCheck className={`w-5 h-5 ${
+                                selectedStatus === 'RESOLVED' ? 'text-white' : 'text-green-600'
                             }`} />
                         </div>
                         <span className="text-xs sm:text-sm font-bold text-center leading-tight">
-                            Tidak Ada Proses
+                            Terselesaikan
                         </span>
                         <span className={`text-xs mt-1 text-center ${
-                            selectedStatus === 'NOT_RESOLVED' ? 'text-red-100' : 'text-gray-500'
+                            selectedStatus === 'RESOLVED' ? 'text-green-100' : 'text-gray-500'
                         }`}>
-                            Belum ditangani
+                            Masalah selesai
                         </span>
                     </motion.button>
                 </div>
@@ -223,7 +194,7 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
                                 withLabel={true}
                                 labelTitle="Catatan Progress"
                                 labelIcon={<BiMessageDetail size={20} />}
-                                placeHolder="Jelaskan detail progress dari laporan ini. Misalnya: perbaikan sudah dimulai, material sudah disiapkan, dll."
+                                placeholder="Jelaskan detail progress dari laporan ini. Misalnya: perbaikan sudah dimulai, material sudah disiapkan, dll."
                             />
                             {progressErrors.progressNotes && (
                                 <p className="text-red-500 text-sm font-semibold mt-2">

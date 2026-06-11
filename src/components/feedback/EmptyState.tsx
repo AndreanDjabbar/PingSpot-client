@@ -1,6 +1,6 @@
 import React from "react";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BiPlus } from "react-icons/bi";
+import { Button } from "../UI";
 
 interface EmptyStateProps {
     emptyTitle: string;
@@ -26,32 +26,24 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     commandLoading = false,
 }) => {
     return (
-        <div className="bg-white backdrop-blur-sm rounded-2xl border border-gray-200 shadow-sm p-12 text-center">
-        <div className="text-5xl text-gray-300 mb-4 flex justify-center">
+        <div className="bg-white backdrop-blur-sm rounded-2xl p-12 text-center">
+        <div className="text-5xl text-surface/70 mb-4 flex justify-center">
             {emptyIcon}
         </div>
 
-        <h3 className="text-xl font-medium text-gray-600 mb-2">{emptyTitle}</h3>
-        <p className="text-gray-500 mb-4">{emptyMessage}</p>
+        <h3 className="text-xl font-medium text-surface mb-2">{emptyTitle}</h3>
+        <p className="text-surface/70 mb-4">{emptyMessage}</p>
 
         {showCommandButton && onCommandButton && (
-            <button
-            className="bg-pingspot-hoverable text-white px-6 py-3 rounded-lg font-semibold transition-all flex items-center space-x-2 mx-auto cursor-pointer"
+            <Button
+            isLoading={commandLoading}
+            loadingText={commandLoadingMessage}
             onClick={onCommandButton}
-            disabled={commandLoading}
+            className="py-6"
+            icon={commandIcon ? commandIcon : <BiPlus className="w-4 h-4" />}
             >
-            {commandLoading ? (
-                <>
-                    <AiOutlineLoading3Quarters className="animate-spin mr-2 text-lg" />
-                    <span>{commandLoadingMessage}</span>
-                </>
-            ) : (
-                <>
-                    {commandIcon ? commandIcon : <BiPlus className="w-4 h-4" />}
-                    <span>{commandLabel}</span>
-                </>
-            )}
-            </button>
+                {commandLabel}
+            </Button>
         )}
         </div>
     );

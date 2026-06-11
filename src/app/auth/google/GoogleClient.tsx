@@ -28,8 +28,8 @@ const GoogleAuthClient = () => {
     return (
         <div className="space-y-8">
             <div className="text-center space-y-1">
-                <h1 className="text-3xl font-bold text-gray-900">Verifikasi Akun Google</h1>
-                <p className="text-gray-800">Kami akan memverifikasi akun anda</p>
+                <h1 className="text-3xl font-bold text-surface">Verifikasi Akun Google</h1>
+                <p className="text-surface">Kami akan memverifikasi akun anda</p>
             </div>
             {status === '202' && (
                 <SuccessSection message="Akun berhasil diverifikasi melalui Google" />

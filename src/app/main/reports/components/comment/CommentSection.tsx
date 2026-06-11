@@ -88,7 +88,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
                             onChange={setNewComment}
                             onMentionsChange={setNewCommentMentions}
                             placeholder="Tulis komentar Anda..."
-                            className={`w-full ${isCompact ? 'p-2 text-sm' : 'p-4'} border border-gray-200 ${isCompact ? 'rounded-lg' : 'rounded-2xl'} resize-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white`}
+                            className={`w-full ${isCompact ? 'p-2 text-sm' : 'p-4'} border border-gray-200 ${isCompact ? 'rounded-lg' : 'rounded-2xl'} resize-none focus:ring-2 focus:ring-primary focus:border-primary bg-white`}
                             rows={isCompact ? 2 : 3}
                             disabled={isLoading || isSubmitting}
                             users={availableUsers}
@@ -99,7 +99,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
                                 <button
                                     onClick={handleSubmit}
                                     disabled={!newComment.trim() || isSubmitting || isLoading}
-                                    className="px-3 py-1 bg-sky-600 text-white text-sm rounded-lg hover:bg-sky-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="px-3 py-1 bg-primary text-white text-sm rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 >
                                     {isSubmitting ? (
                                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -113,7 +113,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
                                 <button
                                     onClick={handleSubmit}
                                     disabled={!newComment.trim() || isSubmitting || isLoading}
-                                    className="px-4 py-2 bg-sky-600 text-white rounded-xl hover:bg-sky-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 flex items-center space-x-2"
+                                    className="px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 flex items-center space-x-2"
                                 >
                                     {isSubmitting ? (
                                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

@@ -14,10 +14,11 @@ import { useCurrentLocation, useGetReportStatistics, useErrorToast, useGetUserSt
 import { getErrorResponseMessage, getFormattedDate, getRelativeTime, isInternalServerError } from '@/utils';
 import { IoMdPulse } from 'react-icons/io';
 import { MdCalendarMonth } from 'react-icons/md';
+import Card from '@/components/UI/Card';
 
 const Map = dynamic(() => import('@/components/UI/StaticMap'), {
     ssr: false,
-    loading: () => <div className="w-full h-[200px] bg-gray-200 animate-pulse rounded-lg"></div>
+    loading: () => <div className="w-full h-[200px] bg-muted animate-pulse rounded-lg"></div>
 });
 
 const Homepage = () => {
@@ -61,6 +62,13 @@ const Homepage = () => {
     const totalReportsThisMonth = reportStatisticsData?.data?.monthlyReportCounts[thisMonth] || 0;
     const totalUsers = userStatisticsData?.data?.totalUsers || 0;
     
+    const cardBase = "card-pingspot";
+    const labelClass = "text-sm font-medium text-surface/70 mb-1";
+    const valueClass = "text-xl font-bold text-surface";
+    const iconWrapClass = "p-3 rounded-lg bg-primary";
+    const iconClass = "w-6 h-6 text-white";
+    const loadingWrapClass = "pt-3";
+
     const reportErrorSection = (
         <ErrorSection 
         errors={errorReportStatistics}
@@ -79,6 +87,12 @@ const Homepage = () => {
         />
     ) 
 
+    const StatCardSkeleton = () => (
+        <div className={loadingWrapClass}>
+            <Loading type="dots" text="Memuat..." />
+        </div>
+    );
+
     return (
         <div>
             <HeaderSection 
@@ -89,7 +103,7 @@ const Homepage = () => {
                 <Button
                 icon={<BiPlus className="w-5 h-5" />}
                 onClick={() => router.push('/main/reports/create-report')}
-                className='px-6 py-2.5'
+                className='px-6 py-4'
                 >
                     <span>Buat Laporan</span>
                 </Button>
@@ -109,89 +123,80 @@ const Homepage = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-md p-6">
+                    <Card>
                         {loadingReportStatistics ? (
-                            <div className='pt-3'>
-                                <Loading type='dots'text='Memuat...'/>
-                            </div>
+                            <StatCardSkeleton />
                         ) : (
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600 mb-1">Total Laporan</p>
-                                    <p className="text-xl font-bold text-gray-900">{totalReports} Laporan</p>
-                                    <p className="text-sm text-green-600 font-medium"></p>
+                                    <p className={labelClass}>Total Laporan</p>
+                                    <p className={valueClass}>{totalReports} Laporan</p>
                                 </div>
-                                <div className={`p-3 rounded-lg bg-sky-800`}>
-                                    <GoAlert className="w-6 h-6 text-white" />
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-md p-6">
-                            {loadingReportStatistics ? (
-                                <div className='pt-3'>
-                                    <Loading type='dots'text='Memuat...'/>
-                                </div>
-                            ) : (
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-gray-600 mb-1">Total Laporan Aktif</p>
-                                    <p className="text-xl font-bold text-gray-900">{totalActiveReports} Laporan</p>
-                                    <p className="text-sm text-green-600 font-medium"></p>
-                                </div>
-                                <div className={`p-3 rounded-lg bg-sky-800`}>
-                                    <IoMdPulse className="w-6 h-6 text-white" />
+                                <div className={iconWrapClass}>
+                                    <GoAlert className={iconClass} />
                                 </div>
                             </div>
                         )}
-                    </div>
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-md p-6">
+                    </Card>
+                    
+                    <Card>
                         {loadingReportStatistics ? (
-                            <div className='pt-3'>
-                                <Loading type='dots'text='Memuat...'/>
-                            </div>
+                            <StatCardSkeleton />
                         ) : (
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600 mb-1">Total Laporan Bulan Ini</p>
-                                    <p className="text-xl font-bold text-gray-900">{totalReportsThisMonth} Laporan</p>
-                                    <p className="text-sm text-green-600 font-medium"></p>
+                                    <p className={labelClass}>Total Laporan Aktif</p>
+                                    <p className={valueClass}>{totalActiveReports} Laporan</p>
                                 </div>
-                                <div className={`p-3 rounded-lg bg-sky-800`}>
-                                    <MdCalendarMonth className="w-6 h-6 text-white" />
+                                <div className={iconWrapClass}>
+                                    <IoMdPulse className={iconClass} />
                                 </div>
                             </div>
                         )}
-                    </div>
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-md p-6">
-                    {loadingUserStatistics ? (
-                            <div className='pt-3'>
-                                <Loading type='dots'text='Memuat...'/>
+                    </Card>
+                    
+                    <Card>
+                        {loadingReportStatistics ? (
+                            <StatCardSkeleton />
+                        ) : (
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className={labelClass}>Total Laporan Bulan Ini</p>
+                                    <p className={valueClass}>{totalReportsThisMonth} Laporan</p>
+                                </div>
+                                <div className={iconWrapClass}>
+                                    <MdCalendarMonth className={iconClass} />
+                                </div>
                             </div>
-                    ) : (
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-medium text-gray-600 mb-1">Total Pengguna Aktif</p>
-                                <p className="text-xl font-bold text-gray-900">{totalUsers} Pengguna</p>
-                                <p className="text-sm text-green-600 font-medium"></p>
+                        )}
+                    </Card>
+                    
+                    <Card>
+                        {loadingUserStatistics ? (
+                            <StatCardSkeleton />
+                        ) : (
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className={labelClass}>Total Pengguna Aktif</p>
+                                    <p className={valueClass}>{totalUsers} Pengguna</p>
+                                </div>
+                                <div className={iconWrapClass}>
+                                    <FaUser className={iconClass} />
+                                </div>
                             </div>
-                            <div className={`p-3 rounded-lg bg-sky-800`}>
-                                <FaUser className="w-6 h-6 text-white" />
-                            </div>
-                        </div>
-                    )}
-                    </div>
+                        )}
+                    </Card>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-md p-6">
+                    <Card className="">
                         <div className='flex justify-between items-center mb-4'>
                             <div className='flex flex-col'>
-                                <h2 className="text-xl font-semibold text-gray-900">
+                                <h2 className="text-xl font-semibold text-surface">
                                     Lokasi Anda
                                 </h2>
                                 {location?.lastUpdated && (
-                                    <p className="text-xs text-gray-500 mt-1">
+                                    <p className="text-xs text-surface/70 mt-1">
                                         Diperbarui {getRelativeTime(location.lastUpdated)}
                                     </p>
                                 )}
@@ -234,32 +239,32 @@ const Homepage = () => {
                                 </div>
                             </div>
                         )}
-                    </div>
-                    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-md p-6">
-                        <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    </Card>
+                    <Card className="p-6">
+                        <h2 className="text-xl font-semibold text-surface mb-6 flex items-center">
                             Aktivitas Terbaru
                         </h2>
-                        <h4 className='text-gray-500'>
+                        <h4 className='text-surface/70'>
                             Fitur ini akan segera hadir. Nantikan pembaruan selanjutnya!
                         </h4>
                         {/* <div className="space-y-4">
                             {[
                             { action: 'Laporan baru', desc: 'Jalan rusak di Jl. Sudirman', time: '5 menit lalu', status: 'new' },
                             ].map((activity, index) => (
-                            <div key={index} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50/50 transition-colors">
+                            <div key={index} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-background/50 transition-colors">
                                 <div className={`w-2 h-2 rounded-full mt-2 ${
                                 activity.status === 'new' ? 'bg-orange-400' :
                                 activity.status === 'resolved' ? 'bg-green-400' : 'bg-blue-400'
                                 }`} />
                                 <div className="flex-1">
-                                <p className="font-medium text-gray-900">{activity.action}</p>
-                                <p className="text-gray-600 text-sm">{activity.desc}</p>
-                                <p className="text-gray-400 text-xs mt-1">{activity.time}</p>
+                                <p className="font-medium text-surface">{activity.action}</p>
+                                <p className="text-muted text-sm">{activity.desc}</p>
+                                <p className="text-muted/60 text-xs mt-1">{activity.time}</p>
                                 </div>
                             </div>
                             ))}
                         </div> */}
-                    </div>
+                    </Card>
                     {/* <Map/> */}
                 </div>
             </div>

@@ -64,14 +64,14 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
     };
 
     return (
-        <div className={`border border-gray-200 rounded-xl shadow-sm bg-white ${className}`}>
-            <div 
-                className={`flex items-center justify-between cursor-pointer p-4 hover:bg-gray-300/50 transition-colors duration-200 rounded-t-xl ${
+        <div className={`border border-muted rounded-xl shadow-sm bg-white ${className}`}>
+            <div
+                className={`flex items-center justify-between cursor-pointer p-4 hover:bg-muted/50 border-b border-surface/15 transition-colors duration-200 rounded-t-xl ${
                 isOpen ? 'rounded-b-none' : 'rounded-b-xl'
                 } ${disabled ? 'cursor-not-allowed opacity-60' : ''} ${headerClassName}`}
                 onClick={handleToggle}
             >
-                <div className="flex items-center space-x-3 flex-1 text-gray-900">
+                <div className="flex items-center space-x-3 flex-1 text-surface">
                     {icon && (
                         <div className="flex-shrink-0">
                             {icon}
@@ -100,7 +100,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
                     disabled ? 'hover:bg-transparent' : ''
                     }`}
                 >
-                    <FaChevronDown className="w-4 h-4 text-gray-500" />
+                    <FaChevronDown className="w-4 h-4 text-surface" />
                 </motion.div>
                 </div>
             </div>

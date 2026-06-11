@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { BiSend } from 'react-icons/bi';
 import { IReportComment, ICreateReportCommentRequest } from '@/types';
 import { ImagePreview, InlineImageUpload, TextAreaField, Button } from '@/components';
-import { FaComment } from 'react-icons/fa';;
+import { FaComment, FaSpinner } from 'react-icons/fa';;
 import { useInView } from 'react-intersection-observer';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import CommentItem from './CommentItem';
@@ -123,7 +123,7 @@ const CommentList: React.FC<CommentListProps> = ({
                             {hasMoreComments && (
                                 <div ref={ref} className="p-6 text-center border-t border-gray-200">
                                     {isFetchingMoreComments && (
-                                        <div className="flex items-center space-x-2 text-sky-500 w-full justify-center">
+                                        <div className="flex items-center space-x-2 text-primary/70 w-full justify-center">
                                             <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
                                             <span className="text-sm">Memuat lebih banyak...</span>
                                         </div>
@@ -156,7 +156,7 @@ const CommentList: React.FC<CommentListProps> = ({
             </div>
 
             {showCommentInput && (
-                <div className="p-6 border-b border-gray-200 bg-gray-50">
+                <div className="py-6 px-3 border-b border-gray-200 bg-gray-50">
                     <div className="flex items-start gap-3">
                         <div className="flex-1">
                             {imagePreview && (
@@ -167,45 +167,50 @@ const CommentList: React.FC<CommentListProps> = ({
                                 />
                             )}
                             
-                            <div className="flex gap-2">
-                                <TextAreaField 
-                                    id='commentContent'
-                                    value={commentContent}
-                                    onChange={(e) => {
-                                        if (onCommentContentChange) {
-                                            onCommentContentChange(e.target.value);
-                                        }
-                                    }}
-                                    onKeyDown={handleKeyDown}
-                                    placeHolder='Tulis komentar...'
-                                    className='w-full'
-                                    rows={1}
-                                    disableRowsResize
-                                    withLabel={false}
-                                    disabled={isSubmitting}
-                                />
+                            <div className="flex w-full gap-2 justify-center items-center">
                                 {onImageSelect && (
-                                    <InlineImageUpload
-                                        preview={imagePreview}
-                                        onImageSelect={handleImageSelect}
-                                        onImageRemove={handleRemoveImage}
-                                        maxSizeMB={5}
-                                        buttonSize='sm'
-                                        previewPosition="separate"
-                                    />
-                                )}
-                                <Button
-                                    variant="primary"
-                                    size='sm'
-                                    onClick={onSubmitComment}
-                                    disabled={(!commentContent.trim() && !commentMediaImage) || isSubmitting}
-                                >
-                                    {isSubmitting ? (
-                                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                    ) : (
-                                        <BiSend size={20} />
+                                        <InlineImageUpload
+                                            preview={imagePreview}
+                                            onImageSelect={handleImageSelect}
+                                            onImageRemove={handleRemoveImage}
+                                            maxSizeMB={5}
+                                            buttonSize='sm'
+                                            buttonClassName='h-11'
+                                            previewPosition="separate"
+                                        />
                                     )}
-                                </Button>
+                                <div className="flex-1">
+                                    <TextAreaField 
+                                        id='commentContent'
+                                        value={commentContent}
+                                        onChange={(e) => {
+                                            if (onCommentContentChange) {
+                                                onCommentContentChange(e.target.value);
+                                            }
+                                        }}
+                                        onKeyDown={handleKeyDown}
+                                        placeholder='Tulis komentar...'
+                                        className='h-11'
+                                        resize='none'
+                                        withLabel={false}
+                                        disabled={isSubmitting}
+                                    />
+                                </div>
+                                <div className="flex items-center gap-2 ">
+                                    <Button
+                                        variant="primary"
+                                        size='sm'
+                                        onClick={onSubmitComment}
+                                        disabled={(!commentContent.trim() && !commentMediaImage) || isSubmitting}
+                                        className='bg-transparent'
+                                    >
+                                        {isSubmitting ? (
+                                            <FaSpinner size={23} className='text-primary animate-spin' />
+                                        ) : (
+                                            <BiSend size={23} className='text-primary' />
+                                        )}
+                                    </Button>
+                                </div>
                             </div>
 
                             {(validationErrors.commentContent || validationErrors.mediaFile) && (
@@ -248,7 +253,7 @@ const CommentList: React.FC<CommentListProps> = ({
                         {hasMoreComments && (
                             <div ref={ref} className="p-6 text-center border-t border-gray-200">
                                 {isFetchingMoreComments && (
-                                    <div className="flex items-center space-x-2 text-sky-500 w-full justify-center">
+                                    <div className="flex items-center space-x-2 text-primary/70 w-full justify-center">
                                         <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
                                         <span className="text-sm">Memuat lebih banyak...</span>
                                     </div>

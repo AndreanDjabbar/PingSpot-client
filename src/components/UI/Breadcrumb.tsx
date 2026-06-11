@@ -38,13 +38,13 @@ const Breadcrumb = ({ path }: BreadcrumbProps) => {
 
     return (
         <nav
-        className="flex items-center text-xl lg:text-2xl text-gray-600"
+        className="flex items-center text-xl lg:text-2xl text-surface/70"
         aria-label="Breadcrumb"
         >
         {items.map((item, idx) => (
             <div key={idx} className="flex items-center gap-2">
             {idx > 0 && (
-                <div className="ml-2 text-gray-400">
+                <div className="ml-2 text-surface/70">
                     /
                 </div>
             )}
@@ -52,13 +52,13 @@ const Breadcrumb = ({ path }: BreadcrumbProps) => {
                 <>
                     <Link
                     href={`/${parentPath}/${item.href}`}
-                    className="hover:text-sky-800 transition-colors duration-200 text-2xl"
+                    className="hover:text-primary hover:bg-background transition-colors duration-200 text-2xl"
                     >
                         {paths.find((p) => p.id === item.label)?.label ?? item.label}
                     </Link>
                 </>
             ) : (
-                <span className="text-gray-900 font-bold text-2xl">
+                <span className="text-surface font-bold text-2xl">
                     {paths.find((p) => p.id === item.label)?.label ?? item.label}
                 </span>
             )}

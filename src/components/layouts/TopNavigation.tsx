@@ -11,12 +11,13 @@ const TopNavigation: React.FC<TopNavigationProps> = ({ onMenuToggle }) => {
             <div className="flex items-center justify-between px-4 py-3">
                 <button
                 onClick={onMenuToggle}
-                className="p-2 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
+                className="p-2 rounded-lg hover:bg-white/10 hover:text-white/90 transition-colors cursor-pointer"
                 >
-                    <BiMenu className="w-6 h-6 text-gray-300" />
+                    <BiMenu className="w-6 h-6 text-white" />
                 </button>
-                
-                <PingspotLogo size="150"/>
+                <div className="w-17">
+                    <PingspotLogo size="60" className="p-1" variant="full" color="white"/>
+                </div>
             </div>
         </div>
     )

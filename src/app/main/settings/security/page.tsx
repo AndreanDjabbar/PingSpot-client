@@ -36,14 +36,12 @@ const SecurityPage = () => {
 
     const confirmationModal = () => {
         openConfirm({
-            type: "info",
+            type: "warning",
             title: "Konfirmasi Perubahan keamanan",
-            message: "Apakah Anda yakin ingin ubah?",
+            subtitle: "Apakah Anda yakin ingin ubah?",
             isPending: isPending,
-            explanation: "Informasi keamanan (kata sandi) anda akan diubah.",
+            description: "Informasi keamanan (kata sandi) anda akan diubah.",
             confirmTitle: "Ubah",
-            cancelTitle: "Batal",
-            icon: <IoKey />,
             onConfirm: () => confirmSubmit(),
         });
     }
@@ -112,7 +110,7 @@ const SecurityPage = () => {
                                             icon={<LuLockKeyhole size={20}/>} 
                                             placeHolder="Masukkan Kata Sandi Lama Anda"
                                         />
-                                        <div className="text-red-500 text-sm font-semibold">{errors.currentPassword?.message as string}</div>
+                                        <div className="text-danger-dark text-sm font-semibold">{errors.currentPassword?.message as string}</div>
                                     </div>
                                     <div className="w-full">
                                         <InputField
@@ -126,7 +124,7 @@ const SecurityPage = () => {
                                             icon={<LuLockKeyhole size={20}/>} 
                                             placeHolder="Masukkan Ulang Kata Sandi Anda"
                                         />
-                                        <div className="text-red-500 text-sm font-semibold">{errors.currentPasswordConfirmation?.message as string}</div>
+                                        <div className="text-danger-dark text-sm font-semibold">{errors.currentPasswordConfirmation?.message as string}</div>
                                     </div>
                                 </div>
                                 <div className='flex flex-col gap-6 md:flex-row'>
@@ -142,7 +140,7 @@ const SecurityPage = () => {
                                             icon={<LuLockKeyhole size={20}/>} 
                                             placeHolder="Masukkan Kata Sandi Baru Anda"
                                         />
-                                        <div className="text-red-500 text-sm font-semibold">{errors.newPassword?.message as string}</div>
+                                        <div className="text-danger-dark text-sm font-semibold">{errors.newPassword?.message as string}</div>
                                     </div>
                                     <div className="w-full">
                                         <InputField
@@ -156,7 +154,7 @@ const SecurityPage = () => {
                                             icon={<LuLockKeyhole size={20}/>} 
                                             placeHolder="Masukkan Ulang Kata Sandi Baru Anda"
                                         />
-                                        <div className="text-red-500 text-sm font-semibold">{errors.newPasswordConfirmation?.message as string}</div>
+                                        <div className="text-danger-dark text-sm font-semibold">{errors.newPasswordConfirmation?.message as string}</div>
                                     </div>
                                 </div>
                                 <div className="w-full flex justify-end mt-6">

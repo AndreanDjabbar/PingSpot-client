@@ -26,9 +26,9 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
     const router = useRouter();
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
             <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-lg text-gray-900">Perkembangan Laporan</h3>
+                <h3 className="font-bold text-base text-gray-900">Perkembangan Laporan</h3>
             </div>
             
             {report.reportProgress && report.reportProgress.length > 0 ? (
@@ -44,7 +44,7 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                             return (
                                 <>
                                     <div className="flex items-center justify-between mb-3">
-                                        <p className="text-xs font-bold text-sky-700 uppercase tracking-wide">Perkembangan Terakhir</p>
+                                        <p className="text-xs font-bold text-primary uppercase tracking-wide">Perkembangan Terakhir</p>
                                         <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${
                                             latestProgress.status === 'RESOLVED' 
                                                 ? 'bg-green-100 text-green-800' 
@@ -201,6 +201,7 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                             <Button
                                 onClick={() => router.push(`/main/reports/${report.id}/update-progress`)}
                                 icon={<BiEdit />}
+                                disabled={report.reportStatus && report.reportStatus === 'RESOLVED'}
                                 size='sm'
                             >
                                 Perbarui

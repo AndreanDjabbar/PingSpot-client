@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib';
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import { useFormInformationModalStore } from '@/stores';
+import { useConfirmationModalStore } from '@/stores';
 
 interface CheckboxOption {
     value: string;
@@ -22,8 +22,10 @@ interface CheckboxFieldProps {
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
     register?: unknown;
     informationTitle?: string;
+    informationSubtitle?: string;
     informationDescription?: string;
     informationAdditionalInfo?: string;
+    informationConfirmTitle?: string;
     layout?: 'vertical' | 'horizontal';
     icon?: React.ReactNode;
     disabled?: boolean;
@@ -42,13 +44,15 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
     onBlur,
     register,
     informationTitle = '',
+    informationSubtitle = '',
+    informationConfirmTitle = 'Mengerti',
     informationDescription = '',
     informationAdditionalInfo = '',
     layout = 'vertical',
     icon,
     disabled = false
 }) => {
-    const { openFormInfo } = useFormInformationModalStore();
+    const { openConfirm } = useConfirmationModalStore();
 
     const handleChange = (optionValue: string, isChecked: boolean) => {
         if (onChange) {
@@ -61,10 +65,12 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
 
     const handleShowInfo = () => {
         if (informationTitle && informationDescription) {
-            openFormInfo({
+            openConfirm({
                 title: informationTitle,
+                subtitle: informationSubtitle,
                 description: informationDescription,
-                additionalInfo: informationAdditionalInfo
+                additionalInfo: informationAdditionalInfo,
+                confirmTitle: informationConfirmTitle
             });
         }
     };
@@ -73,14 +79,14 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
         <div className={`space-y-1 ${className}`}>
             {withLabel && (
                 <div className="flex items-center space-x-2">
-                    {icon && <span className="text-gray-700">{icon}</span>}
-                    <label htmlFor={id} className="block text-sm font-semibold text-gray-900">
+                    {icon && <span className="text-surface">{icon}</span>}
+                    <label htmlFor={id} className="block text-sm font-semibold text-surface">
                         {labelTitle}
-                        {required && <span className="text-red-500 ml-1">*</span>}
+                        {required && <span className="text-danger-dark ml-1">*</span>}
                     </label>
                     {informationTitle && informationDescription && (
                         <div 
-                            className="flex items-center text-sky-800 hover:text-sky-900 hover:scale-110 transition-all duration-300 cursor-pointer" 
+                            className="flex items-center text-primary hover:text-primary-hover hover:scale-110 transition-all duration-300 cursor-pointer pt-1" 
                             title={informationTitle}
                             onClick={handleShowInfo}
                         >
@@ -106,13 +112,13 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
                             onBlur={onBlur}
                             disabled={disabled || option.disabled}
                             {...(register || {})}
-                            className="h-4 w-4 rounded focus:outline-none cursor-pointer accent-sky-800 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="h-4 w-4 rounded focus:outline-none cursor-pointer accent-primary disabled:cursor-not-allowed disabled:opacity-50"
                         />
                         <label
                             htmlFor={`${id}-${option.value}`}
                             className={cn(
                                 "ml-2 block text-sm font-medium cursor-pointer",
-                                (disabled || option.disabled) ? "text-gray-400 cursor-not-allowed" : "text-gray-800"
+                                (disabled || option.disabled) ? "text-muted cursor-not-allowed" : "text-surface"
                             )}
                         >
                             {option.label}

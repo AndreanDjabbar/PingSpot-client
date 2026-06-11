@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LuNotebookText } from 'react-icons/lu';
 import { Stepper, Button, ErrorSection, SuccessSection, HeaderSection } from '@/components';
 import { useGetReportByID, useReverseCurrentLocation, useEditReport, useErrorToast, useSuccessToast } from '@/hooks';
-import { useConfirmationModalStore, useFormInformationModalStore, useImagePreviewModalStore } from '@/stores';
+import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
 import { IReportImage, ImageItem, IEditReportRequest } from '@/types';
 import { EditReportSchema } from '../../../schema';
 import { compressImages, getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage, getImageURL } from '@/utils';
@@ -22,7 +22,7 @@ const EditReportPage = () => {
     const [markerPosition, setMarkerPosition] = useState<{ lat: number, lng: number } | null>(null);
     const [formDataToSubmit, setFormDataToSubmit] = useState<FormData | null>(null);
     const [currentStep, setCurrentStep] = useState(0);
-    const openFormInfo = useFormInformationModalStore((s) => s.openFormInfo);
+    const openFormInfo = useConfirmationModalStore((s) => s.openConfirm);
 
     const handleOpenInfo = useCallback(() => {
         openFormInfo({
@@ -189,12 +189,10 @@ const EditReportPage = () => {
         openConfirm({
             type: "info",
             title: "Konfirmasi Perbarui Laporan",
-            message: "Apakah Anda yakin ingin memperbarui laporan ini?",
+            subtitle: "Apakah Anda yakin ingin memperbarui laporan ini?",
             isPending: isEditing || reverseLoading,
-            explanation: "Perubahan akan disimpan ke laporan yang sudah ada. Pastikan semua informasi sudah benar sebelum melanjutkan.",
+            description: "Perubahan akan disimpan ke laporan yang sudah ada. Pastikan semua informasi sudah benar sebelum melanjutkan.",
             confirmTitle: "Perbarui",
-            cancelTitle: "Batal",
-            icon: <LuNotebookText />,
             onConfirm: async() => {
                 const preparedData = await prepareFormData(formData);
                 confirmSubmit(preparedData);
@@ -364,6 +362,7 @@ const EditReportPage = () => {
 
                         {currentStep === 3 && (
                             <SummaryStep
+                                reportImages={reportImages}
                                 watch={watch}
                                 reportImagesCount={reportImages.length}
                             />

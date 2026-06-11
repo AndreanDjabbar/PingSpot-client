@@ -58,7 +58,7 @@ const DUMMY_NOTIFICATIONS: Notification[] = [
         message: 'Sarah liked your report about the potholes on Main Street.',
         timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
         isRead: true,
-        icon: <FiHeart className="w-5 h-5 text-red-500" />,
+        icon: <FiHeart className="w-5 h-5 text-danger-dark" />,
     },
     {
         id: '5',
@@ -87,15 +87,15 @@ const NotificationIcon: React.FC<{ type: Notification['type'] }> = ({ type }) =>
     switch (type) {
         case 'profile':
         case 'reminder':
-            return <FiUser className={cn(iconClasses, 'text-sky-600')} />;
+            return <FiUser className={cn(iconClasses, 'text-primary')} />;
         case 'username':
             return <FiAlertCircle className={cn(iconClasses, 'text-amber-600')} />;
         case 'email':
-            return <FiMail className={cn(iconClasses, 'text-sky-600')} />;
+            return <FiMail className={cn(iconClasses, 'text-primary')} />;
         case 'activity':
             return <FiBell className={cn(iconClasses, 'text-blue-600')} />;
         default:
-            return <FiBell className={cn(iconClasses, 'text-gray-600')} />;
+            return <FiBell className={cn(iconClasses, 'text-muted')} />;
     }
 };
 
@@ -120,8 +120,8 @@ const NotificationCard: React.FC<{
             className={cn(
                 'p-4 rounded-lg border transition-all duration-200 hover:shadow-md',
                 notification.isRead
-                    ? 'border-gray-200 bg-white'
-                    : 'border-sky-200 bg-sky-50/50'
+                    ? 'border-muted bg-white'
+                    : 'border-primary/20 bg-background/50'
             )}
         >
             <div className="flex gap-4">
@@ -129,7 +129,7 @@ const NotificationCard: React.FC<{
                 <div className="flex-shrink-0 mt-1">
                     <div className={cn(
                         'p-2 rounded-lg',
-                        notification.isRead ? 'bg-gray-100' : 'bg-sky-100'
+                        notification.isRead ? 'bg-muted' : 'bg-background'
                     )}>
                         <NotificationIcon type={notification.type} />
                     </div>
@@ -141,21 +141,21 @@ const NotificationCard: React.FC<{
                         <div className="flex-1">
                             <h3 className={cn(
                                 'text-sm font-semibold',
-                                notification.isRead ? 'text-gray-900' : 'text-gray-900'
+                                notification.isRead ? 'text-surface' : 'text-surface'
                             )}>
                                 {notification.title}
                             </h3>
-                            <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                            <p className="text-sm text-muted mt-1 line-clamp-2">
                                 {notification.message}
                             </p>
                             <div className="flex items-center gap-3 mt-3">
-                                <span className="text-xs text-gray-500">
+                                <span className="text-xs text-muted">
                                     {formatTimeAgo(notification.timestamp)}
                                 </span>
                                 {notification.actionText && (
                                     <a
                                         href={notification.actionUrl || '#'}
-                                        className="text-xs font-medium text-sky-600 hover:text-sky-700 underline"
+                                        className="text-xs font-medium text-primary hover:text-primary-hover underline"
                                     >
                                         {notification.actionText}
                                     </a>
@@ -164,7 +164,7 @@ const NotificationCard: React.FC<{
                         </div>
 
                         {!notification.isRead && (
-                            <div className="flex-shrink-0 w-2 h-2 rounded-full bg-sky-500 mt-1" />
+                            <div className="flex-shrink-0 w-2 h-2 rounded-full bg-primary mt-1" />
                         )}
                     </div>
                 </div>
@@ -174,18 +174,18 @@ const NotificationCard: React.FC<{
                     {!notification.isRead && (
                         <button
                             onClick={() => onMarkAsRead(notification.id)}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-muted rounded-lg transition-colors"
                             title="Mark as read"
                         >
-                            <FiCheck className="w-4 h-4 text-gray-500" />
+                            <FiCheck className="w-4 h-4 text-muted" />
                         </button>
                     )}
                     <button
                         onClick={() => onDelete(notification.id)}
-                        className="p-2 hover:bg-red-50 rounded-lg transition-colors"
+                        className="p-2 hover:bg-danger/10 rounded-lg transition-colors"
                         title="Delete notification"
                     >
-                        <FiTrash2 className="w-4 h-4 text-gray-500 hover:text-red-500" />
+                        <FiTrash2 className="w-4 h-4 text-muted hover:text-danger-dark" />
                     </button>
                 </div>
             </div>
@@ -244,8 +244,8 @@ const NotificationsPage: React.FC = () => {
                             className={cn(
                                 'px-4 py-2 rounded-lg font-medium text-sm transition-colors',
                                 filter === 'all'
-                                    ? 'bg-sky-600 text-white'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    ? 'bg-primary text-white'
+                                    : 'bg-muted text-surface hover:bg-muted/80'
                             )}
                         >
                             All
@@ -255,8 +255,8 @@ const NotificationsPage: React.FC = () => {
                             className={cn(
                                 'px-4 py-2 rounded-lg font-medium text-sm transition-colors relative',
                                 filter === 'unread'
-                                    ? 'bg-sky-600 text-white'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    ? 'bg-primary text-white'
+                                    : 'bg-muted text-surface hover:bg-muted/80'
                             )}
                         >
                             Unread
@@ -273,7 +273,7 @@ const NotificationsPage: React.FC = () => {
                             variant="ghost"
                             size="sm"
                             onClick={handleMarkAllAsRead}
-                            className="text-sky-600 hover:text-sky-700"
+                            className="text-primary hover:text-primary-hover"
                         >
                             Mark all as read
                         </Button>
@@ -281,7 +281,7 @@ const NotificationsPage: React.FC = () => {
 
                     <button
                         onClick={handleDeleteAll}
-                        className="text-sm text-gray-500 hover:text-red-600 transition-colors"
+                        className="text-sm text-muted hover:text-danger-dark transition-colors"
                     >
                         Delete all
                     </button>
@@ -303,14 +303,14 @@ const NotificationsPage: React.FC = () => {
             ) : (
                 <div className="py-12 text-center">
                     <div className="flex justify-center mb-4">
-                        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-                            <FiBell className="w-8 h-8 text-gray-400" />
+                        <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center">
+                            <FiBell className="w-8 h-8 text-muted" />
                         </div>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    <h3 className="text-lg font-semibold text-surface mb-1">
                         {filter === 'unread' ? 'No unread notifications' : 'No notifications'}
                     </h3>
-                    <p className="text-gray-600">
+                    <p className="text-surface">
                         {filter === 'unread'
                             ? 'You\'re all caught up! Check back later for updates.'
                             : 'You\'re all set. New notifications will appear here.'}
@@ -321,9 +321,9 @@ const NotificationsPage: React.FC = () => {
             {/* Empty state tips */}
             {notifications.length === 0 && (
                 <div className="mt-12 max-w-md mx-auto">
-                    <div className="bg-sky-50 border border-sky-100 rounded-lg p-6">
-                        <h4 className="font-semibold text-gray-900 mb-2">Tips:</h4>
-                        <ul className="text-sm text-gray-600 space-y-2">
+                    <div className="bg-background border border-muted rounded-lg p-6">
+                        <h4 className="font-semibold text-surface mb-2">Tips:</h4>
+                        <ul className="text-sm text-muted space-y-2">
                             <li>• Complete your profile to unlock more features</li>
                             <li>• Verify your email to secure your account</li>
                             <li>• Enable notifications to stay updated</li>

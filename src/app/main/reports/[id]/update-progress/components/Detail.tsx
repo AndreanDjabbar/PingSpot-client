@@ -28,10 +28,11 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                     register={register("progressNotes")}
                     rows={5}
                     className="w-full"
+                    required
                     withLabel={true}
                     labelTitle="Catatan Progress"
                     labelIcon={<BiMessageDetail size={20} />}
-                    placeHolder="Jelaskan detail progress dari laporan ini. Misalnya: perbaikan sudah dimulai, material sudah disiapkan, dll."
+                    placeholder="Jelaskan detail progress dari laporan ini. Misalnya: perbaikan sudah dimulai, material sudah disiapkan, dll."
                 />
                 {errors?.progressNotes && (
                     <p className="text-red-500 text-sm font-semibold mt-2">

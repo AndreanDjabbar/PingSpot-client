@@ -50,7 +50,7 @@ const reportStatus = {
     },
     POTENTIALLY_RESOLVED: {
         label: 'Dalam Peninjauan',
-        color: 'bg-blue-700 text-white'
+        color: 'bg-primary text-white'
     },
     NOT_RESOLVED: {
         label: 'Belum Terselesaikan',
@@ -176,8 +176,8 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
 
     const renderLoadingState = () => (
         <div className="p-8 text-center border-t bg-gray-200">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sky-100 mb-4">
-                <AiOutlineLoading3Quarters className="w-7 h-7 text-sky-600 animate-spin" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/20 mb-4">
+                <AiOutlineLoading3Quarters className="w-7 h-7 text-primary animate-spin" />
             </div>
             <h4 className="text-lg font-semibold text-gray-800 mb-2">
                 Mencari...
@@ -267,7 +267,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                         >
                             <div className="flex items-center gap-3">
                                 {user.profilePicture ? (
-                                    <div className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center">
+                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                                         <Image
                                             src={getImageURL(user.profilePicture, 'user')}
                                             alt={user.fullName}
@@ -277,8 +277,8 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                                         />
                                     </div>
                                 ): (
-                                    <div className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center">
-                                        <FaUser className="w-5 h-5 text-sky-600" />
+                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <FaUser className="w-5 h-5 text-primary" />
                                     </div>
                                 )}
                                 <div>
@@ -296,13 +296,13 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                             router.push(`/main/reports/${report.id}`);
                         }}>
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center">
-                                    <GoAlert className="w-5 h-5 text-sky-700" />
+                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <GoAlert className="w-5 h-5 text-primary" />
                                 </div>
                                 <div className="flex-1">
                                     <p className="font-semibold text-gray-800">{report.reportTitle}</p>
                                     <div className="flex items-center gap-2 mt-1">
-                                        <span className={`inline-flex items-center px-2.5 py-1 bg-blue-50 text-xs font-bold text-sky-800 rounded-full`}>
+                                        <span className={`inline-flex items-center px-2.5 py-1 bg-primary/10 text-xs font-bold text-primary rounded-full`}>
                                             {getReportTypeLabel(report.reportType)}
                                         </span>
                                         <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${reportStatus[report.reportStatus].color}`}>{reportStatus[report.reportStatus].label}</span>
@@ -315,7 +315,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                         <div key={community.id} className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
-                                    <FaUsers className="w-5 h-5 text-purple-600" />
+                                    <FaUsers className="w-5 h-5 text-primary" />
                                 </div>
                                 <div>
                                     <p className="font-semibold text-gray-800">{community.name}</p>
@@ -329,7 +329,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                 {hasNextPage && (
                     <div ref={ref} className="py-4 flex justify-center border-t border-gray-200">
                         {isFetchingNextPage && (
-                            <div className="flex items-center space-x-2 text-sky-500">
+                            <div className="flex items-center space-x-2 text-primary/70">
                                 <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
                                 <span className="text-sm">Memuat lebih banyak...</span>
                             </div>
@@ -356,15 +356,15 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                                 <div className="sticky top-0 z-10 pt-1 bg-gray-50 border-b border-gray-200">
                                     <div className="flex items-center justify-between border-b border-gray-200 p-3">
                                         <div>
-                                            <h3 className="text-sm font-semibold text-gray-700">
+                                            <h3 className="text-sm font-semibold text-surface">
                                                 Hasil Pencarian
                                             </h3>
-                                            <p className="text-xs text-gray-600 mt-0.5">
-                                                Menampilkan hasil untuk <span className="font-semibold text-sky-700">&ldquo;{searchTerm}&rdquo;</span>
+                                            <p className="text-xs text-surface/80 mt-0.5">
+                                                Menampilkan hasil untuk <span className="font-semibold text-primary">&ldquo;{searchTerm}&rdquo;</span>
                                             </p>
                                         </div>
                                         {isLoading && (
-                                            <AiOutlineLoading3Quarters className="w-4 h-4 text-sky-600 animate-spin" />
+                                            <AiOutlineLoading3Quarters className="w-4 h-4 text-primary animate-spin" />
                                         )}
                                     </div>
                                     {searchTerm && (
@@ -394,17 +394,6 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                             )}
 
                             {searchTerm && renderResults()}
-                        </div>
-
-                        <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
-                            <div className="flex items-center justify-between text-xs text-gray-500">
-                                <div className="flex items-center gap-4">
-                                    <span className="flex items-center gap-1">
-                                        <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">Esc</kbd>
-                                        untuk tutup
-                                    </span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </motion.div>

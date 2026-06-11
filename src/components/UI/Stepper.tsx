@@ -79,10 +79,10 @@ const Stepper: React.FC<StepperProps> = ({
                                         disabled={isDisabled}
                                         className={cn(
                                         "relative flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all duration-200 cursor-pointer",
-                                        "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-600",
-                                        isCompleted && "bg-sky-600 border-sky-600 text-white hover:bg-sky-700",
-                                        isCurrent && "bg-white border-sky-600 text-sky-600 shadow-md",
-                                        !isCompleted && !isCurrent && !isDisabled && "bg-white border-gray-300 text-gray-500 hover:border-sky-400",
+                                        "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary",
+                                        isCompleted && "bg-primary border-primary text-white hover:bg-primary/90",
+                                        isCurrent && "bg-white border-primary text-primary shadow-md",
+                                        !isCompleted && !isCurrent && !isDisabled && "bg-white border-gray-300 text-gray-500 hover:border-primary/50",
                                         isDisabled && "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
                                         )}
                                         aria-current={isCurrent ? "step" : undefined}
@@ -99,7 +99,7 @@ const Stepper: React.FC<StepperProps> = ({
                                         <div
                                         className={cn(
                                             "w-0.5 h-12 my-1 transition-colors duration-200",
-                                            isCompleted ? "bg-sky-600" : "bg-gray-200"
+                                            isCompleted ? "bg-primary" : "bg-gray-200"
                                         )}
                                         aria-hidden="true"
                                         />
@@ -120,8 +120,8 @@ const Stepper: React.FC<StepperProps> = ({
                                         {step.icon && (
                                             <span className={cn(
                                             "transition-colors",
-                                            isCurrent && "text-sky-600",
-                                            isCompleted && "text-sky-600",
+                                            isCurrent && "text-primary",
+                                            isCompleted && "text-primary",
                                             !isCurrent && !isCompleted && !isDisabled && "text-gray-500",
                                             isDisabled && "text-gray-400"
                                             )}>
@@ -131,8 +131,8 @@ const Stepper: React.FC<StepperProps> = ({
                                         <span
                                             className={cn(
                                             "text-sm font-medium transition-colors",
-                                            isCurrent && "text-sky-900",
-                                            isCompleted && "text-sky-800",
+                                            isCurrent && "text-primary",
+                                            isCompleted && "text-primary",
                                             !isCurrent && !isCompleted && !isDisabled && "text-gray-700",
                                             isDisabled && "text-gray-400"
                                             )}
@@ -177,10 +177,10 @@ const Stepper: React.FC<StepperProps> = ({
                             disabled={isDisabled}
                             className={cn(
                                 "relative flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all duration-200 z-10 cursor-pointer",
-                                "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-600",
-                                isCompleted && "bg-sky-600 border-sky-600 text-white hover:bg-sky-700",
-                                isCurrent && "bg-white border-sky-600 text-sky-600 shadow-lg scale-110",
-                                !isCompleted && !isCurrent && !isDisabled && "bg-white border-gray-300 text-gray-500 hover:border-sky-400",
+                                "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary",
+                                isCompleted && "bg-primary border-primary text-white hover:bg-primary/90",
+                                isCurrent && "bg-white border-primary text-primary shadow-lg scale-110",
+                                !isCompleted && !isCurrent && !isDisabled && "bg-white border-gray-300 text-gray-500 hover:border-primary/50",
                                 isDisabled && "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
                             )}
                             aria-current={isCurrent ? "step" : undefined}
@@ -198,8 +198,8 @@ const Stepper: React.FC<StepperProps> = ({
                                     {step.icon && (
                                     <span className={cn(
                                         "text-sm transition-colors",
-                                        isCurrent && "text-sky-600",
-                                        isCompleted && "text-sky-600",
+                                        isCurrent && "text-blue-600",
+                                        isCompleted && "text-blue-600",
                                         !isCurrent && !isCompleted && !isDisabled && "text-gray-500",
                                         isDisabled && "text-gray-400"
                                     )}>
@@ -209,8 +209,8 @@ const Stepper: React.FC<StepperProps> = ({
                                     <span
                                     className={cn(
                                         "text-xs sm:text-sm font-medium transition-colors whitespace-nowrap",
-                                        isCurrent && "text-sky-900",
-                                        isCompleted && "text-sky-800",
+                                        isCurrent && "text-blue-950",
+                                        isCompleted && "text-blue-900",
                                         !isCurrent && !isCompleted && !isDisabled && "text-gray-700",
                                         isDisabled && "text-gray-400"
                                     )}
@@ -234,7 +234,7 @@ const Stepper: React.FC<StepperProps> = ({
                             className={cn(
                                 "absolute top-5 left-1/2 right-0 h-0.5 -z-0 transition-colors duration-200",
                                 "transform translate-x-5",
-                                isCompleted ? "bg-sky-600" : "bg-gray-200"
+                                isCompleted ? "bg-blue-600" : "bg-gray-200"
                             )}
                             style={{
                                 width: 'calc(100% - 2.5rem)',

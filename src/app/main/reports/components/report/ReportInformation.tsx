@@ -5,17 +5,16 @@
 import React, { useState, useEffect } from 'react';
 import { useErrorToast, useSuccessToast, useUploadProgressReport } from '@/hooks';
 import { FaUsers } from 'react-icons/fa';
-import { useReportsStore, useUserProfileStore, useConfirmationModalStore, useFormInformationModalStore } from '@/stores';
+import { useReportsStore, useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { compressImages, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { ImageItem, IUploadProgressReportRequest } from '@/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadProgressReportSchema } from '../../../schema';
 import { useQueryClient } from '@tanstack/react-query';
-import { LuNotebookText } from 'react-icons/lu';
 import { FiEdit } from 'react-icons/fi';
 import { Accordion, ErrorSection, SuccessSection } from '@/components';
-import { MdWarning } from 'react-icons/md';
+import { MdInfo, MdWarning } from 'react-icons/md';
 import { CurrentProgress, ProgressHistory, ProgressSection } from '../progress';
 import ResolvedReport from './ResolvedReport';
 import { PublicVotes, VotingSection } from '../voting';
@@ -37,7 +36,6 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
     const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
     const [progressImages, setProgressImages] = useState<ImageItem[]>([]);
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
-    const openFormInfo = useFormInformationModalStore((s) => s.openFormInfo);
 
     const handleVote = (voteType: string) => {
         if (isLoading || currentStatus === 'RESOLVED') return;
@@ -58,16 +56,15 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
     const currentStatus = report?.reportStatus || '';
     const currentUserId = userProfile ? Number(userProfile.userID) : null;
     const isReportOwner = report && currentUserId === report.userID;
+    const isUserCanVote = !isReportOwner && currentStatus !== 'RESOLVED' && currentStatus !== 'EXPIRED' && !report?.isOnProgressByCurrentUser && !report?.isResolvedByCurrentUser;
     const isReportResolved = (report?.reportStatus ?? currentStatus) === 'RESOLVED';
     const isReportExpired = (report?.reportStatus ?? currentStatus) === 'EXPIRED';
-    const isPotentiallyResolved = report?.reportStatus === 'POTENTIALLY_RESOLVED';
+    const isWaitingConfirmation = report?.reportStatus === 'WAITING_CONFIRMATION';
     const progressData = report?.reportProgress || [];
-    const showWarning = isReportOwner && isPotentiallyResolved;
+    const showWarning = isReportOwner && isWaitingConfirmation;
     const totalVotes = report?.totalVotes || 0;
     const userCurrentVote = report?.isResolvedByCurrentUser 
         ? 'RESOLVED'
-        : report?.isNotResolvedByCurrentUser
-            ? 'NOT_RESOLVED'
             : report?.isOnProgressByCurrentUser
                 ? 'ON_PROGRESS'
                 : null
@@ -76,12 +73,10 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
         switch (status) {
             case 'RESOLVED':
                 return 'bg-green-700 border-green-700 text-white';
-            case 'POTENTIALLY_RESOLVED':
-                return 'bg-blue-700 border-blue-700 text-white';
+            case 'WAITING_CONFIRMATION':
+                return 'bg-sky-600 border-sky-600 text-white';
             case 'EXPIRED':
                 return 'bg-indigo-700 text-white';
-            case 'NOT_RESOLVED':
-                return 'bg-red-700 text-white';
             case 'ON_PROGRESS':
                 return 'bg-yellow-500 text-white';
             default:
@@ -95,16 +90,14 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
             title: formData.progressStatus === 'RESOLVED'
                 ?   "Konfirmasi Penutupan Laporan"
                 :   "Konfirmasi Pembaruan Perkembangan Laporan",
-            message: formData.progressStatus === 'RESOLVED'
+            subtitle: formData.progressStatus === 'RESOLVED'
                 ?   "Apakah Anda yakin ingin menutup laporan ini?."
                 :   "Apakah Anda yakin ingin memperbarui perkembangan laporan ini?",
             isPending: isUploadProgressReportPending,
-            explanation: formData.progressStatus === 'RESOLVED'
+            description: formData.progressStatus === 'RESOLVED'
                 ?   "Perkembangan Laporan yang sudah ditutup tidak bisa dibuka kembali."
                 :   "Perkembangan Laporan ini akan diperbarui.",
             confirmTitle: formData.progressStatus === 'RESOLVED' ? "Tutup Laporan" : "Perbarui Status",
-            cancelTitle: "Batal",
-            icon: <LuNotebookText />,
             onConfirm: () => onSubmit(formData),
         });
     }
@@ -125,14 +118,12 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                 return 'Terselesaikan';
             case 'EXPIRED':
                 return 'Kadaluarsa';
-            case 'POTENTIALLY_RESOLVED':
-                return 'Dalam Peninjauan';
-            case 'NOT_RESOLVED':
-                return 'Belum Terselesaikan';
+            case 'WAITING_CONFIRMATION':
+                return 'Menunggu Konfirmasi';
             case 'ON_PROGRESS':
-                return 'Sedang Dikerjakan';
+                return 'Sedang Diproses';
             default:
-                return 'Menunggu';
+                return 'Belum Diproses';
         }
     };
     
@@ -231,16 +222,20 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                             </div>
                             {showWarning && (
                                 <button 
-                                    onClick={() => openFormInfo({
-                                        title: 'Konfirmasi Penyelesaian Laporan',
-                                        type: 'warning',
-                                        description: 'Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.',
-                                        additionalInfo: 'Jika tidak ada konfirmasi dalam 1 minggu, status akan otomatis berubah menjadi "Terselesaikan".'
-                                    })}
-                                    className='inline-flex items-center p-1.5 sm:p-2 hover:bg-blue-50 rounded-full transition-colors group'
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        openConfirm({
+                                            title: 'Konfirmasi Penyelesaian Laporan',
+                                            type: 'warning',
+                                            useCancelButton: false,
+                                            description: 'Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.',
+                                            additionalInfo: 'Jika tidak ada konfirmasi dalam 1 minggu, status akan otomatis berubah menjadi "Terselesaikan".'
+                                        })}
+                                    }
+                                    className='inline-flex items-center p-1.5 sm:p-2 hover:bg-primary/10 rounded-full transition-colors group cursor-pointer'
                                     aria-label="Informasi status laporan"
                                 >
-                                    <MdWarning size={25} className="text-blue-600 group-hover:text-blue-700 transition-colors sm:w-6 sm:h-6"/>
+                                    <MdInfo size={25} className="text-primary transition-colors sm:w-6 sm:h-6"/>
                                 </button>
                             )}
                         </div>
@@ -308,7 +303,6 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                                         totalVotes={totalVotes}
                                         totalResolvedVotes={report?.totalResolvedVotes || 0}
                                         totalOnProgressVotes={report?.totalOnProgressVotes || 0}
-                                        totalNotResolvedVotes={report?.totalNotResolvedVotes || 0}
                                         />
                                     )}
                                 </Accordion.Item>
@@ -320,12 +314,12 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                                 totalVotes={totalVotes}
                                 totalResolvedVotes={report?.totalResolvedVotes || 0}
                                 totalOnProgressVotes={report?.totalOnProgressVotes || 0}
-                                totalNotResolvedVotes={report?.totalNotResolvedVotes || 0}
                                 userCurrentVote={userCurrentVote}
                                 onVote={handleVote}
                                 isLoading={isLoading}
                                 isReportResolved={isReportResolved}
                                 isReportExpired={isReportExpired}
+                                isUserCanVote={isUserCanVote}
                                 getStatusLabel={getStatusLabel}
                             />
                         )}

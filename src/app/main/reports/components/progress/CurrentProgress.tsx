@@ -16,6 +16,36 @@ const CurrentProgress: React.FC<CurrentProgressProps> = ({
         handleImageClick(imageUrl);
     }
 
+    const getStatusLabel = (status: string) => {
+        switch (status) {
+            case 'RESOLVED':
+                return 'Terselesaikan';
+            case 'EXPIRED':
+                return 'Kadaluarsa';
+            case 'WAITING_CONFIRMATION':
+                return 'Menunggu Konfirmasi';
+            case 'ON_PROGRESS':
+                return 'Sedang Diproses';
+            default:
+                return 'Belum Diproses';
+        }
+    };
+
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case 'RESOLVED':
+                return 'bg-green-700 border-green-700 text-white';
+            case 'WAITING_CONFIRMATION':
+                return 'bg-sky-600 border-sky-600 text-white';
+            case 'EXPIRED':
+                return 'bg-indigo-700 text-white';
+            case 'ON_PROGRESS':
+                return 'bg-yellow-500 text-white';
+            default:
+                return 'bg-gray-500 text-white';
+        }
+    };
+
     const latestProgress = reportProgress[0];
     const latestImages = [
         latestProgress.attachment1,
@@ -23,22 +53,14 @@ const CurrentProgress: React.FC<CurrentProgressProps> = ({
     ].filter((url): url is string => typeof url === 'string' && url.length > 0);
     return (
         <div>
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
+            <div className="bg-primary/10 rounded-lg p-4 border border-primary">
                 <div>
                     <div className="flex items-center justify-between mb-3">
-                        <p className="text-xs font-bold text-sky-700 uppercase tracking-wide">Perkembangan Terakhir</p>
-                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${
-                            latestProgress.status === 'RESOLVED' 
-                                ? 'bg-green-100 text-green-800' 
-                                : latestProgress.status === 'ON_PROGRESS'
-                                ? 'bg-yellow-100 text-yellow-800'
-                                : 'bg-red-100 text-red-800'
+                        <p className="text-xs font-bold text-primary uppercase tracking-wide">Perkembangan Terakhir</p>
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
+                            getStatusColor(latestProgress.status)
                         }`}>
-                            {latestProgress.status === 'RESOLVED' 
-                                ? 'Terselesaikan' 
-                                : latestProgress.status === 'ON_PROGRESS'
-                                ? 'Dalam Proses'
-                                : 'Tidak Ada Proses'}
+                            {getStatusLabel(latestProgress.status)}
                         </span>
                     </div>
                     

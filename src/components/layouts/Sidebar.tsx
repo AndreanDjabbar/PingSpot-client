@@ -68,7 +68,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
         <>
             <div className={`
                 fixed overflow-y-auto xl:static inset-y-0 left-0 z-50 
-                ${collapsed ? 'w-16' : 'w-80'} bg-pingspot
+                ${collapsed ? 'w-16' : 'w-80'} bg-primary 
+                shadow-[12px_0_35px_-10px_rgba(108,92,231,0.3)]
                 transform transition-transform duration-300 ease-in-out
                 ${isOpen ? '' : '-translate-x-full xl:translate-x-0'}
             `}>
@@ -77,18 +78,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
                         <div className={`${collapsed ? 'p-4' : 'p-4'} border-b border-white`}>
                             {collapsed ? (
                                 <div className="flex justify-center">
-                                    <PingspotLogo size='60' type="full"/>
+                                    <PingspotLogo size='60'/>
                                 </div>
                             ) : (
-                                <ProfileBadge
-                                    name={user?.username || 'User'}
-                                    email={user?.email || 'User@email.com'}
-                                    followers={123}
-                                    imageUrl={user?.profilePicture}
-                                    following={456}
-                                    size="md"
-                                    onClick={() => router.push('/main/settings/profile')}
-                                />
+                                <div className="">
+                                    <ProfileBadge
+                                        name={user?.username || 'User'}
+                                        email={user?.email || 'User@email.com'}
+                                        followers={123}
+                                        imageUrl={user?.profilePicture}
+                                        following={456}
+                                        size="md"
+                                        onClick={() => router.push('/main/settings/profile')}
+                                    />
+                                </div>
                             )}
                         </div>
 
@@ -106,8 +109,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
                                         w-full flex items-center ${collapsed ? 'justify-center px-3' : 'px-4'} py-3 rounded-xl
                                         transition-all duration-200 group relative cursor-pointer
                                         ${item.id === currentPath
-                                            ? 'bg-white/20 text-gray-200' 
-                                            : 'text-gray-200 hover:bg-gray-700/50 hover:text-white'
+                                            ? 'bg-white/20 text-white' 
+                                            : 'text-white hover:bg-white/10 hover:text-muted'
                                         }
                                         `}
                                     >
@@ -116,7 +119,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
                                         <>
                                             <span className="ml-3 font-medium">{item.label}</span>
                                             {item.badge && (
-                                            <span className="ml-auto bg-red-500 text-gray-200 text-xs rounded-full px-2 py-1 min-w-[20px] h-5 flex items-center justify-center">
+                                            <span className="ml-auto bg-danger text-background text-xs rounded-full px-2 py-1 min-w-[20px] h-5 flex items-center justify-center">
                                                 {item.badge}
                                             </span>
                                             )}
@@ -146,8 +149,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
                                     w-full flex items-center ${collapsed ? 'justify-center px-3' : 'px-4'} py-3 rounded-xl
                                     text-gray-200 hover:bg-gray-700/50 hover:text-gray-300 transition-colors cursor-pointer
                                     ${item.id === currentPath
-                                            ? 'bg-white/20 text-gray-200' 
-                                            : 'text-gray-200 hover:bg-gray-700/50 hover:text-white'
+                                            ? 'bg-white/20 text-white' 
+                                            : 'text-white hover:bg-white/10 hover:text-muted'
                                     }`}
                                 >
                                     <item.icon className={`${collapsed ? 'w-6 h-6' : 'w-5 h-5'} flex-shrink-0`} />

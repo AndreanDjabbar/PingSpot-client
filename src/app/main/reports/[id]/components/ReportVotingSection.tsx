@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaCheck, FaHourglassEnd, FaTimes, FaUsers } from 'react-icons/fa';
+import { FaCheck, FaHourglassEnd } from 'react-icons/fa';
 import { RiProgress3Fill } from 'react-icons/ri';
 import { IReport } from '@/types';
 import { LuLock } from 'react-icons/lu';
@@ -17,13 +17,12 @@ interface ReportVotingSectionProps {
     animateButton: string | null;
     resolvedPercentage: number;
     onProgressPercentage: number;
-    notResolvedPercentage: number;
     majorityVote: string | null;
     majorityPercentage: number;
-    handleVote: (voteType: 'RESOLVED' | 'ON_PROGRESS' | 'NOT_RESOLVED') => void;
+    handleVote: (voteType: 'RESOLVED' | 'ON_PROGRESS') => void;
 }
 
-type VoteType = 'RESOLVED' | 'ON_PROGRESS' | 'NOT_RESOLVED';
+type VoteType = 'RESOLVED' | 'ON_PROGRESS';
 
 const VOTE_STATUS = {
     RESOLVED: {
@@ -54,29 +53,14 @@ const VOTE_STATUS = {
         badgeText: 'text-yellow-700',
         majorityBadge: 'bg-yellow-100 text-yellow-700',
     },
-    NOT_RESOLVED: {
-        label: 'Tidak Ada Proses',
-        description: 'Belum ditangani',
-        icon: FaTimes,
-        colorActive: 'bg-red-600 text-white border-red-700',
-        colorInactive: 'bg-white text-red-700 border-gray-200 hover:border-red-300 hover:bg-red-50',
-        iconBg: 'bg-red-100',
-        iconColor: 'text-red-600',
-        descriptionColor: 'text-red-100',
-        barColor: 'bg-gradient-to-r from-red-400 to-red-500',
-        badgeBg: 'bg-red-50 border-red-100',
-        badgeText: 'text-red-700',
-        majorityBadge: 'bg-red-100 text-red-700',
-    },
 };
 
 const getStatusLabel = (status: string) => {
     const labels: Record<string, string> = {
         RESOLVED: 'Terselesaikan',
         EXPIRED: 'Kadaluarsa',
-        POTENTIALLY_RESOLVED: 'Dalam Peninjauan',
-        NOT_RESOLVED: 'Belum Terselesaikan',
-        ON_PROGRESS: 'Sedang Dikerjakan',
+        WAITING_CONFIRMATION: 'Menunggu Konfirmasi',
+        ON_PROGRESS: 'Sedang Diproses',
     };
     return labels[status] || 'Menunggu';
 };
@@ -96,7 +80,6 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
     animateButton,
     resolvedPercentage,
     onProgressPercentage,
-    notResolvedPercentage,
     majorityVote,
     majorityPercentage,
     handleVote,
@@ -108,19 +91,16 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
     const voteDistributions = [
         { type: 'RESOLVED' as VoteType, count: report.totalResolvedVotes, percentage: resolvedPercentage },
         { type: 'ON_PROGRESS' as VoteType, count: report.totalOnProgressVotes, percentage: onProgressPercentage },
-        { type: 'NOT_RESOLVED' as VoteType, count: report.totalNotResolvedVotes, percentage: notResolvedPercentage },
     ];
 
     const handleVoteConfirmationModal = (voteType: VoteType) => {
         openConfirm({
             type: "info",
             title: "Konfirmasi Pemilihan Status Laporan",
-            message: `Apakah Anda yakin memilih status "${getStatusLabel(voteType)}" untuk laporan ini?`,
+            subtitle: `Apakah Anda yakin memilih status "${getStatusLabel(voteType)}" untuk laporan ini?`,
             isPending: isLoading,
-            explanation: "Status laporan akan diperbarui sesuai pilihan Anda.",
+            description: "Status laporan akan diperbarui sesuai pilihan Anda.",
             confirmTitle: "Ya, Pilih Status",
-            cancelTitle: "Batal",
-            icon: <FaUsers />,
             onConfirm: () => handleVote(voteType),
         });
     };
@@ -169,20 +149,20 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
 
     if (!report.reportProgress) {
         if (!report.hasProgress) {
-            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-                <h3 className="font-bold text-lg text-gray-900 mb-4">Hasil Voting Pengguna</h3>
+            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+                <h3 className="font-bold text-base text-gray-900 mb-4">Hasil Voting Pengguna</h3>
                 {renderEmptyState('Tipe laporan ini tidak akan menyediakan fitur voting pengguna')}
             </div>;
         }
         if (report.reportStatus === 'WAITING') {
-            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-                <h3 className="font-bold text-lg text-gray-900 mb-4">Hasil Voting Pengguna</h3>
+            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+                <h3 className="font-bold text-base text-gray-900 mb-4">Hasil Voting Pengguna</h3>
                 {renderEmptyState('Voting akan tersedia setelah pembuat laporan mengunggah progress pertama')}
             </div>;
         }
         if (isReportOwner && !report.reportVotes) {
-            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-                <h3 className="font-bold text-lg text-gray-900 mb-4">Hasil Voting Pengguna</h3>
+            return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+                <h3 className="font-bold text-base text-gray-900 mb-4">Hasil Voting Pengguna</h3>
                 {renderEmptyState('Belum ada pengguna yang memberikan voting pada laporan ini')}
             </div>;
         }
@@ -191,13 +171,13 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
     const majorityStyle = getMajorityStyle(majorityVote);
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-            <h3 className="font-bold text-lg text-gray-900 mb-4">Hasil Voting Pengguna</h3>
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+            <h3 className="font-bold text-base text-gray-900 mb-4">Hasil Voting Pengguna</h3>
             <div className="space-y-4">
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-100">
-                    <p className="text-xs font-semibold text-sky-700 uppercase tracking-wide mb-1">Total Voting</p>
-                    <p className="text-3xl font-bold text-sky-800">{report.totalVotes}</p>
-                    <p className="text-xs text-sky-700 mt-1">Pengguna telah memberikan voting</p>
+                <div className="bg-primary/10 rounded-xl p-4 border border-primary">
+                    <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">Total Voting</p>
+                    <p className="text-3xl font-bold text-primary">{report.totalVotes}</p>
+                    <p className="text-xs text-primary mt-1">Pengguna telah memberikan voting</p>
                 </div>
 
                 <div className="h-px bg-gray-200"></div>
@@ -279,16 +259,16 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
                     </div>
                 ) : canVote ? (
                     <>
-                        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 mb-4">
-                            <p className="text-sm text-blue-800 font-bold text-center">
+                        <div className="bg-primary/10 rounded-xl border border-primary p-4 mb-4">
+                            <p className="text-sm text-primary font-bold text-center">
                                 Bagaimana pendapat Anda tentang laporan ini?
                             </p>
-                            <p className="text-xs text-blue-600 text-center mt-1">
+                            <p className="text-xs text-primary text-center mt-1">
                                 Pilih salah satu untuk memberikan pendapat
                             </p>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            {(['RESOLVED', 'ON_PROGRESS', 'NOT_RESOLVED'] as VoteType[]).map(renderVoteButton)}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {(['RESOLVED', 'ON_PROGRESS'] as VoteType[]).map(renderVoteButton)}
                         </div>
                     </>
                 ) : null}

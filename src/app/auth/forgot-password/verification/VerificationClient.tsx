@@ -77,8 +77,8 @@ const VerificationClient = () => {
         return (
             <div className="space-y-8">
                 <div className="text-center space-y-1">
-                    <h1 className="text-3xl font-bold text-gray-900">Atur Ulang Kata Sandi</h1>
-                    <p className="text-gray-800">Atur ulang kata sandi Anda</p>
+                    <h1 className="text-3xl font-bold text-surface">Atur Ulang Kata Sandi</h1>
+                    <p className="text-surface">Atur ulang kata sandi Anda</p>
                 </div>
                 <ErrorSection 
                     message="Link reset password tidak valid. Silakan periksa kembali link yang Anda terima melalui email."
@@ -91,12 +91,12 @@ const VerificationClient = () => {
         return (
             <div className="space-y-8">
                 <div className="text-center space-y-1">
-                    <h1 className="text-3xl font-bold text-gray-900">Atur ulang Kata Sandi</h1>
-                    <p className="text-gray-800">Memverifikasi link atur ulang kata sandi...</p>
+                    <h1 className="text-3xl font-bold text-surface">Atur ulang Kata Sandi</h1>
+                    <p className="text-surface">Memverifikasi link atur ulang kata sandi...</p>
                 </div>
                 <div className="text-center">
-                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-                    <p className="mt-2 text-gray-800">Memverifikasi link...</p>
+                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-surface"></div>
+                    <p className="mt-2 text-surface">Memverifikasi link...</p>
                 </div>
             </div>
         );
@@ -106,8 +106,8 @@ const VerificationClient = () => {
         return (
             <div className="space-y-8">
                 <div className="text-center space-y-1">
-                    <h1 className="text-3xl font-bold text-gray-900">Atur ulang Kata Sandi</h1>
-                    <p className="text-gray-800">Verifikasi link gagal</p>
+                    <h1 className="text-3xl font-bold text-surface">Atur ulang Kata Sandi</h1>
+                    <p className="text-surface">Verifikasi link gagal</p>
                 </div>
                 <ErrorSection 
                     message={getErrorResponseMessage(errorVerify) || 'Link reset password tidak valid atau sudah kadaluarsa.'}
@@ -120,8 +120,8 @@ const VerificationClient = () => {
     return (
         <div className="space-y-8">
             <div className="text-center space-y-1">
-                <h1 className="text-3xl font-bold text-gray-900">Atur ulang Kata Sandi</h1>
-                <p className="text-gray-800">Atur ulang kata sandi Anda</p>
+                <h1 className="text-3xl font-bold text-surface">Atur ulang Kata Sandi</h1>
+                <p className="text-surface">Atur ulang kata sandi Anda</p>
             </div>
             
             {isSuccess && (
@@ -156,7 +156,7 @@ const VerificationClient = () => {
                             showPasswordToggle={true}
                         />
                         {errors.password?.message && (
-                            <div className="text-red-500 text-sm font-semibold mt-1">
+                            <div className="text-danger-dark text-sm font-semibold mt-1">
                                 {errors.password.message}
                             </div>
                         )}
@@ -175,7 +175,7 @@ const VerificationClient = () => {
                             showPasswordToggle={true}
                         />
                         {errors.passwordConfirmation?.message && (
-                            <div className="text-red-500 text-sm font-semibold mt-1">
+                            <div className="text-danger-dark text-sm font-semibold mt-1">
                                 {errors.passwordConfirmation.message}
                             </div>
                         )}
@@ -193,9 +193,9 @@ const VerificationClient = () => {
             )}
 
             <div className="text-center">
-                <p className="text-sm text-sky-800">
+                <p className="text-sm ">
                     Kembali ke{' '}
-                    <a href="/auth/login" className="font-medium text-sky-700 hover:text-sky-800 hover:underline transition-colors duration-200 cursor-pointer">
+                    <a href="/auth/login" className="font-medium text-primary hover:text-primary-hover hover:underline transition-colors duration-200 cursor-pointer">
                         Halaman Login
                     </a>
                 </p>

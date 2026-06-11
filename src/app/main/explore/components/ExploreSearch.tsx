@@ -42,11 +42,12 @@ const ExploreSearch: React.FC<ExploreSearchProps> = ({
                                 e.stopPropagation();
                                 onNonModalClose();
                             }}
+                            className='py-6'
                             variant='outline'
                             size='md'
                             aria-label="Close search"
                         >
-                            <BiX size={18} />
+                            <BiX size={20} />
                         </Button>
                     )}
                 </div>

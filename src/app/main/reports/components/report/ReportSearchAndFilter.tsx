@@ -17,7 +17,7 @@ const ReportSearchAndFilter: React.FC<ReportSearchAndFilterProps> = ({
     filterButtonRef
 }) => {
     return (
-        <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-4">
+        <div className="">
             <div className="flex flex-col md:flex-row gap-3">
                 <div className="flex-1">
                     <InputField
@@ -36,7 +36,7 @@ const ReportSearchAndFilter: React.FC<ReportSearchAndFilterProps> = ({
                     <IoFunnelOutline className="w-5 h-5" />
                     <span>Filter</span>
                     {activeFiltersCount > 0 && (
-                        <span className="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-sky-600 rounded-full border-2 border-white">
+                        <span className="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-primary rounded-full border-2 border-white">
                             {activeFiltersCount}
                         </span>
                     )}

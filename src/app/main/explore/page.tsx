@@ -67,7 +67,7 @@ const ExplorePage = () => {
                         />
                     </div>
                 </div>
-                <div className='bg-white rounded-lg border border-gray-200 shadow-sm p-4 relative gap-2 flex flex-col'>
+                <div className='relative gap-2 flex flex-col'>
                     <ExploreSearch 
                         onSearchChange={handleSearchChange}
                         searchTerm={searchTerm}

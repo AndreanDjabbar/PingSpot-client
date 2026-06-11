@@ -137,11 +137,10 @@ const ReportCard: React.FC<ReportCardProps> = ({
     const openDeleteConfirm = () => {
         openConfirm({ 
             title: 'Hapus laporan', 
-            message: 'Yakin ingin menghapus laporan ini?', 
-            type: 'warning', 
-                icon: <FaTrash className='text-white' />,
-            confirmTitle: 'Hapus', 
-            cancelTitle: 'Batal',
+            subtitle: 'Yakin ingin menghapus laporan ini?',
+            description: 'Laporan yang dihapus tidak dapat dikembalikan.',
+            type: 'danger',
+            confirmTitle: 'Hapus',
             onConfirm: () => { onDeleteClick(report.id); } 
         });
     }
@@ -201,7 +200,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
                         </div>
                     </div>
                     <div className='flex items-center gap-1 sm:gap-2 flex-shrink-0'>
-                        <span className={`inline-flex items-center px-2.5 py-1 bg-blue-50 text-xs font-bold text-sky-800 rounded-full`}>
+                        <span className={`inline-flex items-center px-2.5 py-1 bg-primary/10 text-xs font-bold text-primary rounded-full`}>
                             {getReportTypeLabel(report.reportType)}
                         </span>
                         {enableOptions && (
@@ -316,7 +315,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                         onClick={() => setCurrentImageIndex(index)}
                                         className={`h-2 rounded-full hover:cursor-pointer transition-all duration-200 ${
                                             index === currentImageIndex
-                                                ? 'w-6 bg-sky-800'
+                                                ? 'w-6 bg-primary'
                                                 : 'w-2 bg-gray-300 hover:bg-gray-400'
                                         }`}
                                         aria-label={`Go to image ${index + 1}`}
@@ -340,8 +339,8 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                 />
                         </div>
                         <div className="mt-4 bg-gray-100 rounded-lg p-4">
-                            <div className="flex items-start gap-2">
-                                <FaMapMarkerAlt className="text-red-500 mt-0.5 flex-shrink-0" size={16} />
+                            <div className="flex items-center gap-2">
+                                <FaMapMarkerAlt className="text-primary mt-0.5 flex-shrink-0" size={16} />
                                 <div className="flex-1">
                                     <p className="text-sm font-medium text-gray-900">{report.location.detailLocation}</p>
                                     <p className="text-xs text-gray-600 mt-1">

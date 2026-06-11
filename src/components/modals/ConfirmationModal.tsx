@@ -1,43 +1,70 @@
 "use client";
+import { cn } from '@/lib';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
-import { MdOutlineWarning } from 'react-icons/md';
-import { FaInfoCircle } from "react-icons/fa";
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { BsFillInfoCircleFill } from 'react-icons/bs';
+import { MdWarning } from 'react-icons/md';
 import { Button } from '../UI';
 
 interface ConfirmationModalProps {
     isOpen: boolean;
-    onClose: () => void;
-    onConfirm: () => void;
-    isPending: boolean;
-    type: 'warning' | 'info';
     title: string;
-    message: string;
-    explanation?: string;
-    icon: React.ReactNode;
-    confirmTitle?: string;
+    subtitle?: string;
+    type: 'info' | 'warning' | 'danger';
+    useCancelButton?: boolean;
+    onClose:       () => void;
+    onConfirm?:     () => void;
+    isPending:     boolean;
+    description: string;
+    additionalInfo?: string;
+    confirmTitle: string;
     cancelTitle?: string;
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ 
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+    type,
+    title=(type === 'info' ? 'Informasi' : 'Peringatan'),
+    subtitle,
+    description, 
+    useCancelButton=true,
     isOpen, 
-    onClose, 
-    onConfirm, 
+    onClose,
+    onConfirm=onClose,
     isPending,
-    type = 'warning',
-    title = 'Konfirmasi Keluar',
-    message='Apakah anda yakin?',
-    explanation='Anda akan keluar dari sesi PingSpot saat ini.',
-    icon,
-    confirmTitle = 'Keluar',
-    cancelTitle = 'Batal'
+    additionalInfo,
+    confirmTitle,
+    cancelTitle=(type === 'info' ? 'Tutup' : 'Batal')
 }) => {
     if (!isOpen) return null;
 
-    const isWarning = type === 'warning';
-    const iconColorClass = isWarning ? 'text-red-600' : 'text-gray-800';
-    const iconBgClass = isWarning ? 'bg-red-100' : 'bg-gray-200';
+    const typeConfig = {
+        info: {
+            icon: <BsFillInfoCircleFill size={24} />,
+            iconBg: 'bg-primary/20',
+            iconColor: 'text-primary',
+            additionalBg: 'bg-primary/10 border-primary/30',
+            additionalText: 'text-primary',
+            buttonBg: 'bg-primary hover:bg-primary/90 active:bg-primary/80 focus:ring-primary-500'
+        },
+        danger: {
+            icon: <MdWarning size={24} />,
+            iconBg: 'bg-red-100',
+            iconColor: 'text-red-700',
+            additionalBg: 'bg-red-50 border-red-200',
+            additionalText: 'text-red-700',
+            buttonBg: 'bg-red-600 hover:bg-red-700 active:bg-red-800 focus:ring-red-500'
+        },
+        warning: {
+            icon: <MdWarning size={24} />,
+            iconBg: 'bg-yellow-100',
+            iconColor: 'text-yellow-700',
+            additionalBg: 'bg-yellow-50 border-yellow-200',
+            additionalText: 'text-yellow-700',
+            buttonBg: 'bg-yellow-600 hover:bg-yellow-700 active:bg-yellow-800 focus:ring-yellow-500'
+        }
+    };
+
+    const config = typeConfig[type];
 
     return (
         <div 
@@ -48,71 +75,65 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 className="bg-white rounded-xl shadow-xl w-full max-w-lg transform transition-all"
                 onClick={e => e.stopPropagation()}
             >
-                <div className="flex items-center justify-between p-5 border-b border-gray-200">
+                <div className="flex items-center justify-between px-5 py-3 border-b border-muted">
                     <div className="flex items-center gap-3">
-                        <div className={`p-2 ${iconBgClass} rounded-full`}>
-                            {isWarning ? (
-                                <MdOutlineWarning className={`${iconColorClass}`} size={24} />
-                            ) : (
-                                <FaInfoCircle className={`${iconColorClass}`} size={24} />
-                            )}
+                        <div className={`p-2 rounded-full ${config.iconBg}`}>
+                            <span className={config.iconColor}>
+                                {config.icon}
+                            </span>
                         </div>
-                        <h3 className={`text-xl font-semibold ${iconColorClass}`}>
+                        <h3 className="text-xl font-semibold text-surface">
                             {title}
                         </h3>
                     </div>
                     <button 
                         onClick={onClose} 
-                        className="p-1 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
-                        disabled={isPending}
+                        className="p-1 rounded-full hover:bg-muted transition-colors cursor-pointer"
                         aria-label="Close modal"
                     >
-                        <BiX className={`w-6 h-6 ${iconColorClass}`} />
+                        <BiX className="w-6 h-6 text-surface" />
                     </button>
                 </div>
 
-                <div className="p-6 space-y-4">
+                <div className="px-6 py-4 space-y-4">
                     <div>
-                        <h4 className="text-base font-semibold text-gray-900 mb-2">
-                            {message}
+                        <h4 className="text-base font-semibold text-surface mb-0.5">
+                            {subtitle}
                         </h4>
-                        {explanation && (
-                            <p className="text-sm text-gray-700 leading-relaxed">
-                                {explanation}
-                            </p>
-                        )}
+                        <p className={cn("text-sm text-surface leading-relaxed", (!subtitle || subtitle === '') && "text-base")}>
+                            {description}
+                        </p>
                     </div>
+
+                    {additionalInfo && (
+                        <div className={`p-4 border rounded-lg ${config.additionalBg}`}>
+                            <p className={`text-sm ${config.additionalText}`}>
+                                {additionalInfo}
+                            </p>
+                        </div>
+                    )}
                 </div>
 
-                <div className="flex justify-end space-x-3 p-5 pt-0">
-                    <Button
-                        variant="outline"
-                        onClick={onClose}
-                        disabled={isPending}>
-                        {cancelTitle}
-                    </Button>
-                    
-                    {isWarning ? (
-                            <Button
-                                onClick={onConfirm}
-                                disabled={isPending}
-                                variant="danger"
-                                icon={isPending ? <AiOutlineLoading3Quarters className='animate-spin' size={16} /> : icon}
-                                iconPosition="left"
-                            >
-                                {confirmTitle}
-                            </Button>
-                    ) : (
-                        <Button
-                            onClick={onConfirm}
-                            disabled={isPending}
-                            variant="primary"
-                            icon={isPending ? <AiOutlineLoading3Quarters className='animate-spin' size={16} /> : icon}
-                            iconPosition="left"
-                        >
-                                {confirmTitle}
+                <div className="flex justify-end p-5 pt-0 gap-4">
+                    {useCancelButton && (
+                        <Button variant="outline" onClick={onClose} disabled={isPending}>
+                            {cancelTitle}
                         </Button>
                     )}
+                    <Button
+                        onClick={() => {
+                            if (onConfirm) {
+                                onConfirm();
+                            }
+                            onClose();
+                        }}
+                        className={config.buttonBg}
+                        disabled={isPending}
+                        isLoading={isPending}
+                        iconPosition="left"
+                    >
+                        {confirmTitle}
+                    </Button>
                 </div>
             </div>
         </div>

@@ -10,7 +10,6 @@ import { useErrorToast, useSuccessToast, useCreateReport, useReverseCurrentLocat
 import { CreateReportSchema } from '../../schema';
 import { ICreateReportRequest } from '@/types/api/report';
 import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
-import { LuNotebookText } from "react-icons/lu";
 import { AttachmentStep, DetailStep, MapStep, SummaryStep } from './components';
 import { ImageItem } from '@/types';
 
@@ -105,12 +104,10 @@ const CreateReportPage = () => {
         openConfirm({
             type: "info",
             title: "Konfirmasi Pembuatan Laporan",
-            message: "Apakah Anda yakin ingin membuat laporan ?",
+            subtitle: "Apakah Anda yakin ingin membuat laporan ?",
             isPending: isPending || reverseLoading,
-            explanation: "Anda akan membuat laporan baru. Pastikan semua informasi sudah benar sebelum melanjutkan.",
+            description: "Anda akan membuat laporan baru. Pastikan semua informasi sudah benar sebelum melanjutkan.",
             confirmTitle: "Buat",
-            cancelTitle: "Batal",
-            icon: <LuNotebookText />,
             onConfirm: () => confirmSubmit(preparedData),
         });
     }
@@ -245,11 +242,12 @@ const CreateReportPage = () => {
                         {currentStep === 3 && (
                             <SummaryStep
                                 watch={watch}
+                                reportImages={reportImages}
                                 reportImagesCount={reportImages.length}
                             />
                         )}
 
-                        <div className="flex justify-between items-center pt-4 border-t border-gray-300">
+                        <div className="flex justify-between items-center pt-4 border-t border-muted">
 
                             <Button
                                 onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}
@@ -275,7 +273,7 @@ const CreateReportPage = () => {
 
                             ) : (
                                 <Button
-                                    className="px-6 py-2.5 rounded-lg bg-sky-700 hover:bg-sky-800 text-white font-medium "
+                                    className="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium "
                                     loadingText="Mengirim Laporan..."
                                     type='submit'
                                     isLoading={isPending || reverseLoading}

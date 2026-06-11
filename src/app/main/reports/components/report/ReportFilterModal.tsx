@@ -202,11 +202,11 @@ const ReportFilterModal: React.FC<FilterModalProps> = ({
                                                 onClick={() => setFilters({ ...filters, sortBy: option.value as SortOption })}
                                                 className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all cursor-pointer ${
                                                     filters.sortBy === option.value
-                                                        ? 'border-sky-600 bg-sky-50 text-sky-700'
+                                                        ? 'border-primary bg-primary/10 text-primary'
                                                         : 'border-gray-200 hover:border-gray-300 text-gray-700'
                                                 }`}
                                             >
-                                                <span className={filters.sortBy === option.value ? 'text-sky-600' : 'text-gray-400'}>
+                                                <span className={filters.sortBy === option.value ? 'text-primary' : 'text-gray-400'}>
                                                     {option.icon}
                                                 </span>
                                                 <span className="text-xs sm:text-sm font-medium">{option.label}</span>
@@ -227,7 +227,7 @@ const ReportFilterModal: React.FC<FilterModalProps> = ({
                                                 onClick={() => setFilters({ ...filters, reportType: option.value as ReportType | 'all' })}
                                                 className={`p-3 sm:p-4 rounded-xl border-2 transition-all text-xs sm:text-sm font-medium cursor-pointer ${
                                                     filters.reportType === option.value
-                                                        ? 'border-sky-600 bg-sky-50 text-sky-700'
+                                                        ? 'border-primary bg-primary/10 text-primary'
                                                         : 'border-gray-200 hover:border-gray-300 text-gray-700'
                                                 }`}
                                             >
@@ -252,7 +252,7 @@ const ReportFilterModal: React.FC<FilterModalProps> = ({
                                                     disableStatus
                                                         ? 'opacity-50 cursor-not-allowed border-gray-200 bg-gray-100'
                                                         : filters.status === option.value
-                                                        ? 'border-sky-600 bg-sky-50'
+                                                        ? 'border-primary bg-primary/10'
                                                         : 'border-gray-200 hover:border-gray-300'
                                                 }`}
                                             >
@@ -260,7 +260,7 @@ const ReportFilterModal: React.FC<FilterModalProps> = ({
                                                     disableStatus
                                                         ? 'text-gray-300'
                                                         : filters.status === option.value
-                                                        ? 'text-sky-600'
+                                                        ? 'text-primary'
                                                         : option.color === 'green'
                                                         ? 'text-green-500'
                                                         : option.color === 'blue'
@@ -276,7 +276,7 @@ const ReportFilterModal: React.FC<FilterModalProps> = ({
                                                 <span className={`text-xs sm:text-sm font-medium ${
                                                     disableStatus
                                                         ? 'text-gray-400'
-                                                        : filters.status === option.value ? 'text-sky-700' : 'text-gray-700'
+                                                        : filters.status === option.value ? 'text-primary' : 'text-gray-700'
                                                 }`}>
                                                     {option.label}
                                                 </span>
@@ -305,11 +305,11 @@ const ReportFilterModal: React.FC<FilterModalProps> = ({
                                                 }}
                                                 className={`flex items-center gap-2 p-3 sm:p-4 rounded-xl border-2 transition-all cursor-pointer ${
                                                     filters.hasProgress === option.value
-                                                        ? 'border-sky-600 bg-sky-50 text-sky-700'
+                                                        ? 'border-primary bg-primary/10 text-primary'
                                                         : 'border-gray-200 hover:border-gray-300 text-gray-700'
                                                 }`}
                                             >
-                                                <span className={filters.hasProgress === option.value ? 'text-sky-600' : 'text-gray-400'}>
+                                                <span className={filters.hasProgress === option.value ? 'text-primary' : 'text-gray-400'}>
                                                     {option.icon}
                                                 </span>
                                                 <span className="text-xs sm:text-sm font-medium">{option.label}</span>
@@ -337,11 +337,11 @@ const ReportFilterModal: React.FC<FilterModalProps> = ({
                                                 }}
                                                 className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all cursor-pointer ${
                                                     filters.distance.distance === option.value
-                                                        ? 'border-sky-600 bg-sky-50 text-sky-700'
+                                                        ? 'border-primary bg-primary/10 text-primary'
                                                         : 'border-gray-200 hover:border-gray-300 text-gray-700'
                                                 }`}
                                             >
-                                                <span className={filters.distance.distance === option.value ? 'text-sky-600' : 'text-gray-400'}>
+                                                <span className={filters.distance.distance === option.value ? 'text-primary' : 'text-gray-400'}>
                                                     {option.icon}
                                                 </span>
                                                 <span className="text-xs sm:text-sm font-medium">{option.label}</span>

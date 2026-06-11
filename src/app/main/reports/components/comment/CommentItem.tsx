@@ -337,7 +337,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                         <button
                                             onClick={() => fetchMoreReplies()}
                                             disabled={isFetchingMoreReplies}
-                                            className="ml-4 mt-2 text-xs text-sky-700 hover:text-sky-800 font-medium disabled:opacity-50"
+                                            className="ml-4 mt-2 text-xs text-primary hover:text-primary/80 font-medium disabled:opacity-50"
                                         >
                                             {isFetchingMoreReplies ? 'Memuat...' : 'Muat lebih banyak'}
                                         </button>
@@ -433,7 +433,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                     onChange={setEditContent}
                                     onMentionsChange={setEditMentions}
                                     placeholder="Edit komentar..."
-                                    className="w-full p-2 border rounded-lg resize-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                                    className="w-full p-2 border rounded-lg resize-none focus:ring-2 focus:ring-primary focus:border-primary"
                                     rows={2}
                                     users={availableUsers}
                                     autoFocus
@@ -451,7 +451,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                     <button
                                         onClick={handleEdit}
                                         disabled={!editContent?.trim()}
-                                        className="px-3 py-1 text-sm bg-sky-600 text-white rounded-lg hover:bg-sky-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="px-3 py-1 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         Simpan
                                     </button>
@@ -504,7 +504,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                     setIsReplying(true)
                                     setShowReplies(true);
                                 }} 
-                                className="flex items-center space-x-1 text-xs font-medium text-gray-500 hover:text-sky-600 transition-colors cursor-pointer"
+                                className="flex items-center space-x-1 text-xs font-medium text-gray-500 hover:text-primary transition-colors cursor-pointer"
                             >
                                 <FaReply className="w-3 h-3" />
                                 <span>Balas</span>
@@ -512,7 +512,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                             {comment.totalReplies !== undefined && comment.totalReplies > 0 && (
                                 <button
                                     onClick={handleToggleReplies}
-                                    className="flex items-center space-x-1 text-xs font-semibold text-sky-700 hover:text-sky-800 transition-colors cursor-pointer"
+                                    className="flex items-center space-x-1 text-xs font-semibold text-primary hover:text-primary/80 transition-colors cursor-pointer"
                                 >
                                     {showReplies ? (
                                         <FaChevronUp className="w-3 h-3" />

@@ -631,13 +631,6 @@ const ReportDetailPage = () => {
                                 majorityPercentage={majorityPercentage}
                                 handleVote={handleVote}
                             />
-                            
-                            {/* <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-                                <h3 className="font-bold text-lg text-gray-900 mb-4">Laporan Terkait</h3>
-                                <div className="space-y-3">
-                                    <p className="text-sm text-gray-500">Belum ada laporan terkait</p>
-                                </div>
-                            </div> */}
                         </div>
                     </div>
                 </div>

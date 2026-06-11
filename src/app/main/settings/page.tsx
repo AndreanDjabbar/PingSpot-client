@@ -39,12 +39,10 @@ const SettingsPage = () => {
         openConfirm({
             type: "warning",
             title: "Konfirmasi Keluar",
-            message: "Apakah Anda yakin ingin keluar?",
+            subtitle: "Apakah Anda yakin ingin keluar?",
             isPending: isPending,
-            explanation: "Anda akan keluar dari sesi Pingspot saat ini.",
+            description: "Anda akan keluar dari sesi Pingspot saat ini.",
             confirmTitle: "Keluar",
-            cancelTitle: "Batal",
-            icon: <ImExit />,
             onConfirm: () => confirmLogout(),
         });
     }
@@ -118,7 +116,7 @@ const SettingsPage = () => {
                 <SettingCard title="Preferensi Umum" icon={BiCog}>
                 <div className="space-y-6">
                     <div>
-                        <h3 className="font-medium text-gray-900 mb-3">Bahasa</h3>
+                        <h3 className="font-medium text-surface mb-3">Bahasa</h3>
                         <div className="flex flex-col space-y-2">
                             {languages.map((lang) => (
                             <button
@@ -126,11 +124,11 @@ const SettingsPage = () => {
                                 onClick={() => handleLanguageChange(lang.code)}
                                 className={`flex items-center p-3 rounded-lg border transition-all cursor-pointer ${
                                 selectedLanguage === lang.code
-                                    ? 'border-sky-500 bg-sky-50 text-sky-700'
-                                    : 'border-gray-200 hover:bg-gray-50'
+                                    ? 'border-primary bg-background text-primary'
+                                    : 'border-muted hover:bg-background'
                                 }`}
                             >
-                                <MdOutlineLanguage className="mr-2 text-sky-800" />
+                                <MdOutlineLanguage className="mr-2 text-primary" />
                                 <span>{lang.name}</span>
                             </button>
                             ))}
@@ -138,7 +136,7 @@ const SettingsPage = () => {
                     </div>
 
                     <div>
-                        <h3 className="font-medium text-gray-900 mb-3">Notifikasi</h3>
+                        <h3 className="font-medium text-surface mb-3">Notifikasi</h3>
                         <div className="flex flex-col space-y-2">
                             <SettingItem
                             icon={IoIosNotifications}

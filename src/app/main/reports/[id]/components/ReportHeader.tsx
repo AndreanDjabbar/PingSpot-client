@@ -74,46 +74,45 @@ export const ReportHeader: React.FC<ReportHeaderProps> = ({
     const openDeleteConfirm = () => {
         openConfirm({ 
             title: 'Hapus laporan', 
-            message: 'Yakin ingin menghapus laporan ini?', 
-            type: 'warning', 
-                icon: <FaTrash className='text-white' />,
-            confirmTitle: 'Hapus', 
-            cancelTitle: 'Batal',
+            subtitle: 'Yakin ingin menghapus laporan ini?',
+            description: 'Laporan yang dihapus tidak dapat dikembalikan.',
+            type: 'danger',
+            confirmTitle: 'Hapus',
             onConfirm: () => { onDeleteClick(report.id); } 
         });
     }
 
     return (
-        <div className="p-6">
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-full overflow-hidden border-2 border-gray-200">
+        <div className="p-4">
+            <div className="flex items-start justify-between gap-2 mb-3">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div className="h-10 w-10 rounded-full overflow-hidden border border-gray-200 flex-shrink-0">
                         <Image
                             src={getImageURL(report.profilePicture || '', "user")}
                             alt={report.fullName}
-                            width={48}
-                            height={48}
+                            width={40}
+                            height={40}
                             className="object-cover h-full w-full"
                         />
                     </div>
-                    <div>
-                        <div className='flex items-center gap-2'>
-                            <div className="font-semibold text-base text-gray-900">{report.userName}</div>
+                    <div className="min-w-0 flex-1">
+                        <div className='flex gap-2 items-center'>
+                            <div className="font-semibold text-sm text-gray-900 truncate">{report.userName}</div>
                             <div>
                                 {isReportOwner && (  
                                     <FaCrown size={14} className='text-amber-500'/>
                                 )}
                             </div>
                         </div>
-                        <div className="text-sm text-gray-500">
+                        <div className="text-xs text-gray-500">
                             {formattedDate(report.reportCreatedAt, {
-                                formatStr: 'dd MMMM yyyy - HH:mm',
+                                formatStr: 'dd MMM yyyy - HH:mm',
                             })}
                         </div>
                     </div>
                 </div>
-                <div className="flex items-center gap-3">
-                    <span className="inline-flex items-center px-3 py-1.5 bg-blue-50 text-sm font-semibold text-blue-700 rounded-full">
+                <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                    <span className={`inline-flex items-center px-2.5 py-1 bg-primary/10 text-xs font-bold text-primary rounded-full`}>
                         {getReportTypeLabel(report.reportType)}
                     </span>
                     <button
@@ -143,18 +142,8 @@ export const ReportHeader: React.FC<ReportHeaderProps> = ({
                 </div>
             </div>
 
-            <h1 className="text-2xl font-bold text-gray-900 mb-3">{report.reportTitle}</h1>
-            <p className="text-base text-gray-700 leading-relaxed mb-4">{report.reportDescription}</p>
-
-            <div className="flex items-start gap-2 text-gray-600 bg-gray-50 rounded-lg p-3 border border-gray-200">
-                <FaMapMarkerAlt className="mt-1 text-red-500 flex-shrink-0" size={16} />
-                <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">{report?.location?.detailLocation}</p>
-                    {report?.location?.displayName && (
-                        <p className="text-xs text-gray-600 mt-1">{report?.location?.displayName}</p>
-                    )}
-                </div>
-            </div>
+            <h1 className="text-lg font-bold text-gray-900 mb-2">{report.reportTitle}</h1>
+            <p className="text-sm text-gray-700 leading-relaxed">{report.reportDescription}</p>
         </div>
     );
 };

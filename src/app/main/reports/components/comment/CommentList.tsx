@@ -52,7 +52,7 @@ const CommentList: React.FC<CommentListProps> = ({
                         <div className="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                 ) : comments.length > 0 ? (
-                    <div className="space-y-4">
+                    <div className="flex flex-col gap-3">
                         {comments.map((comment) => (
                             <CommentItem
                                 key={comment.commentID}

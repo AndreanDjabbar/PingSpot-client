@@ -137,8 +137,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({
                             <CommentItem
                                 key={comment.commentID}
                                 comment={comment}
-                                variant={variant}
-                                showLikes={showLikes}
                                 availableUsers={availableUsers}
                                 onReply={handleReply}
                                 onEdit={onEditComment}

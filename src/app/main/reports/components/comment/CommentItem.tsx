@@ -175,9 +175,10 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                     <Image
                                         src={comment.commentType === 'TEMP' ? comment.media.url : getImageURL(`/report/comments/${comment.media.url}`, "main")}
                                         alt="Comment media"
+                                        onClick={() => handleImageClick(getImageURL(`/report/comments/${comment?.media?.url}`, "main"))}
                                         width={comment?.media?.width || 200}
                                         height={comment?.media?.height || 150}
-                                        className="object-cover w-full h-auto"
+                                        className="object-cover w-full h-auto cursor-pointer"
                                     />
                                 </div>
                             ) : null}
@@ -234,32 +235,50 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                         />
                                     </div>
                                 )}
-                                <div className='flex space-x-2 items-center'>
-                                    <div className="flex-shrink-0">
-                                        <div className="w-6 h-6 rounded-full overflow-hidden border border-gray-200">
-                                            <Image 
-                                                src={getImageURL(userProfile?.profilePicture || '', "user")}
-                                                alt="Current User"
-                                                width={24}
-                                                height={24}
-                                                className="object-cover h-full w-full"
+                                <div className='flex items-center '>
+                                    <div className="flex-1 flex gap-2 justify-center items-center">
+                                        <InlineImageUpload
+                                            preview={replyImagePreview}
+                                            onImageSelect={(file) => {
+                                                setReplyMediaImage(file);
+                                                const reader = new FileReader();
+                                                reader.onloadend = () => {
+                                                    setReplyImagePreview(reader.result as string);
+                                                };
+                                                reader.readAsDataURL(file);
+                                            }}
+                                            onImageRemove={() => {
+                                                setReplyMediaImage(null);
+                                                setReplyImagePreview(null);
+                                            }}
+                                            maxSizeMB={5}
+                                            buttonSize='sm'
+                                            buttonClassName='h-11'
+                                            previewPosition="separate"
+                                        />
+                                            <MentionInput
+                                                value={replyContent}
+                                                onChange={setReplyContent}
+                                                onMentionsChange={setReplyMentions}
+                                                placeholder={`Balas ${comment.userInformation?.username || 'pengguna'}...`}
+                                                rows={2}
+                                                users={availableUsers}
+                                                autoFocus
+                                                onSubmit={handleReply}
                                             />
+                                        <div className="flex items-center gap-2 ">
+                                            <Button
+                                                onClick={handleReply}
+                                                size='sm'
+                                                disabled={!replyContent.trim() && !replyMediaImage}
+                                                className='bg-transparent'
+                                            >
+                                                <BiSend size={23} className="text-primary" />
+                                            </Button>
                                         </div>
                                     </div>
-                                    <div className="flex-1 flex gap-2">
-                                        <MentionInput
-                                            value={replyContent}
-                                            onChange={setReplyContent}
-                                            onMentionsChange={setReplyMentions}
-                                            placeholder={`Balas ${comment.userInformation?.username || 'pengguna'}...`}
-                                            rows={2}
-                                            users={availableUsers}
-                                            autoFocus
-                                            onSubmit={handleReply}
-                                        />
-                                    </div>
                                 </div>
-                                <div className="flex justify-end space-x-2 mt-2">
+                                <div className="flex justify-start space-x-2 mt-2">
                                     <Button
                                         onClick={() => {
                                             setIsReplying(false);
@@ -271,30 +290,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                         variant='outline'
                                     >
                                         Batal
-                                    </Button>
-                                    <InlineImageUpload
-                                        preview={replyImagePreview}
-                                        onImageSelect={(file) => {
-                                            setReplyMediaImage(file);
-                                            const reader = new FileReader();
-                                            reader.onloadend = () => {
-                                                setReplyImagePreview(reader.result as string);
-                                            };
-                                            reader.readAsDataURL(file);
-                                        }}
-                                        onImageRemove={() => {
-                                            setReplyMediaImage(null);
-                                            setReplyImagePreview(null);
-                                        }}
-                                        maxSizeMB={5}
-                                        buttonSize='sm'
-                                        previewPosition="separate"
-                                    />
-                                    <Button
-                                        onClick={handleReply}
-                                        disabled={!replyContent.trim() && !replyMediaImage}
-                                    >
-                                        <BiSend className="w-4 h-4" />
                                     </Button>
                                 </div>
                             </div>
@@ -308,17 +303,19 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                     Memuat balasan...
                                 </div>
                             )}
-                            {replies.map((reply) => (
-                                <CommentItem
-                                    key={reply.commentID}
-                                    comment={reply}
-                                    level={level + 1}
-                                    availableUsers={availableUsers}
-                                    onReply={onReply}
-                                    onEdit={onEdit}
-                                    onDelete={onDelete}
-                                />
-                            ))}
+                            <div className="flex flex-col gap-3">
+                                {replies.map((reply) => (
+                                    <CommentItem
+                                        key={reply.commentID}
+                                        comment={reply}
+                                        level={level + 1}
+                                        availableUsers={availableUsers}
+                                        onReply={onReply}
+                                        onEdit={onEdit}
+                                        onDelete={onDelete}
+                                    />
+                                ))}
+                            </div>
                             <div ref={loadMoreButtonRef}>
                                 {hasMoreReplies && !repliesLoading && (
                                     <button

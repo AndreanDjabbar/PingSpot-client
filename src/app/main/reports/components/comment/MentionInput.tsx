@@ -168,14 +168,16 @@ const MentionInput: React.FC<MentionInputProps> = ({
     }, [selectedIndex]);
 
     return (
-        <div className="relative w-full" >
+        <div className="w-full" >
             <TextAreaField
             id='comment'
             withLabel
+            resize='none'
             placeholder={placeholder}
             rows={rows}
             ref={textareaRef}
             value={value}
+            className="h-11"
             onChange={handleChange}
             onBlur={() => setShowSuggestions(false)}
             autoFocus={autoFocus}

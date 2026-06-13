@@ -4,10 +4,12 @@ import React from 'react';
 import { IReportComment, ICreateReportCommentRequest } from '@/types';
 import { z } from 'zod';
 import { CreateReportCommentSchema } from '@/app/main/schema';
-import { ErrorSection } from '@/components';
+import { Button, ErrorSection, ImagePreview, InlineImageUpload, TextAreaField } from '@/components';
 import { getErrorResponseDetails, getErrorResponseMessage, isInternalServerError } from '@/utils';
 import { useReportsStore } from '@/stores';
 import { CommentList } from '../../components';
+import { FaSpinner } from 'react-icons/fa';
+import { BiSend } from 'react-icons/bi';
 
 interface ReportCommentsSectionProps {
     comments: IReportComment[];
@@ -19,6 +21,7 @@ interface ReportCommentsSectionProps {
     onRetryFetchComments?: () => void;
     hasMoreComments?: boolean;
     isFetchingMoreComments?: boolean;
+    isSubmitting?: boolean;
     onFetchingMoreComments?: () => void;
 }
 
@@ -26,6 +29,7 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     comments,
     hasMoreComments,
     isFetchingMoreComments,
+    isSubmitting = false,
     errorFetchingComments = null,
     isFetchingCommentsError,
     onRetryFetchComments,
@@ -46,6 +50,15 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
             setImagePreview(reader.result as string);
         };
         reader.readAsDataURL(file);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            if ((commentContent.trim() || commentMediaImage)) {
+                handleSubmitComment();
+            }
+        }
     };
 
     const handleRemoveImage = () => {
@@ -130,24 +143,92 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     }
 
     return (
-        <CommentList
-            comments={comments}
-            commentCount={reportCommentCounts}
-            showCommentInput={true}
-            commentContent={commentContent}
-            commentMediaImage={commentMediaImage}
-            imagePreview={imagePreview}
-            validationErrors={validationErrors}
-            onCommentContentChange={handleCommentContentChange}
-            onImageSelect={handleImageSelect}
-            onImageRemove={handleRemoveImage}
-            onSubmitComment={handleSubmitComment}
-            onReply={handleReplyComment}
-            variant="full"
-            showLikes={true}
-            hasMoreComments={hasMoreComments}
-            isFetchingMoreComments={isFetchingMoreComments}
-            onFetchingMoreComments={onFetchingMoreComments}
-        />
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200">
+                <div className="flex items-center justify-between">
+                    <h2 className="text-lg font-bold text-gray-900">
+                        Komentar ({reportCommentCounts || 0})
+                    </h2>
+                </div>
+            </div>
+            <div className="flex w-full gap-2 justify-center items-center">
+                <div className="py-4 px-3 border-b border-gray-200 bg-gray-50 w-full">
+                    <div className="flex-1">
+                        {imagePreview && (
+                            <ImagePreview 
+                                preview={imagePreview}
+                                onRemove={handleRemoveImage}
+                                className="mb-3"
+                            />
+                        )}
+                        
+                        <div className="flex w-full gap-2 justify-center items-center">
+                            <InlineImageUpload
+                                preview={imagePreview}
+                                onImageSelect={handleImageSelect}
+                                onImageRemove={handleRemoveImage}
+                                maxSizeMB={5}
+                                buttonSize='sm'
+                                buttonClassName='h-11'
+                                previewPosition="separate"
+                            />
+                            <div className="flex-1">
+                                <TextAreaField 
+                                    id='commentContent'
+                                    value={commentContent}
+                                    onChange={(e) => {
+
+                                            handleCommentContentChange(e.target.value);
+                                    }}
+                                    onKeyDown={handleKeyDown}
+                                    placeholder='Tulis komentar...'
+                                    className='h-11'
+                                    resize='none'
+                                    withLabel={false}
+                                    disabled={isSubmitting}
+                                />
+                            </div>
+                            <div className="flex items-center gap-2 ">
+                                <Button
+                                    variant="primary"
+                                    size='sm'
+                                    onClick={handleSubmitComment}
+                                    disabled={(!commentContent.trim() && !commentMediaImage) || isSubmitting}
+                                    className='bg-transparent'
+                                >
+                                    {isSubmitting ? (
+                                        <FaSpinner size={23} className='text-primary animate-spin' />
+                                    ) : (
+                                        <BiSend size={23} className='text-primary' />
+                                    )}
+                                </Button>
+                            </div>
+                        </div>
+
+                        {(validationErrors.commentContent || validationErrors.mediaFile) && (
+                            <div className='flex flex-col gap-1 mt-2'>
+                                {validationErrors.commentContent && (
+                                    <p className="text-red-500 text-sm">
+                                        {validationErrors.commentContent}
+                                    </p>
+                                )}
+                                {validationErrors.mediaFile && (
+                                    <p className="text-red-500 text-sm">
+                                        {validationErrors.mediaFile}
+                                    </p>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+            <CommentList
+                comments={comments}
+                onReply={handleReplyComment}
+                hasMoreComments={hasMoreComments}
+                isFetchingMoreComments={isFetchingMoreComments}
+                onFetchingMoreComments={onFetchingMoreComments}
+            />
+        </div>
     );
 };

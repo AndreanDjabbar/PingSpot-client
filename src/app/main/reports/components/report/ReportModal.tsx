@@ -249,19 +249,23 @@ const ReportModal: React.FC<ReportModalProps> = ({
                                 />
                             </div>
                         )}
-
+                        <div>
+                        <div className="sticky top-0 bg-white border-t border-b border-gray-200 px-4 sm:px-6 py-4 shadow-sm z-10">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-lg font-bold text-gray-900">
+                                    Komentar ({reportCommentCounts || 0})
+                                </h2>
+                            </div>
+                        </div>
                         <CommentList
                             comments={reportComments!}
-                            commentCount={reportCommentCounts}
-                            showCommentInput={false}
                             onReply={handleReplyComment}
-                            variant="compact"
-                            showLikes={false}
                             commentsLoading={commentsLoading}
                             hasMoreComments={hasMoreComments}
                             onFetchingMoreComments={handleLoadMoreComments}
                             isFetchingMoreComments={isFetchingMoreComments}
                         />
+                        </div>
                     </div>
 
                     <CommentInput

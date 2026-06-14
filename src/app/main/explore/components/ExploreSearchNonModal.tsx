@@ -39,7 +39,7 @@ const getReportTypeLabel = (type: ReportType): string => {
     return types[type] || 'Lainnya';
 };
 
-const reportStatus = {
+const reportStatus: Record<string, { label: string; color: string }> = {
     RESOLVED: {
         label: 'Terselesaikan',
         color: 'bg-green-700 border-green-700 text-white'
@@ -48,13 +48,9 @@ const reportStatus = {
         label: 'Kadaluarsa',
         color: 'bg-indigo-700 text-white'
     },
-    POTENTIALLY_RESOLVED: {
-        label: 'Dalam Peninjauan',
-        color: 'bg-primary text-white'
-    },
-    NOT_RESOLVED: {
-        label: 'Belum Terselesaikan',
-        color: 'bg-red-700 text-white'
+    WAITING_CONFIRMATION: {
+        label: 'Menunggu Konfirmasi',
+        color: 'bg-sky-600 border-sky-600 text-white'
     },
     ON_PROGRESS: {
         label: 'Sedang Dikerjakan',
@@ -255,7 +251,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
         }
 
         return (
-            <>
+            <>  
                 <div className="divide-y divide-gray-200">
                     {activeTab === 'users' && searchResults.users.map((user) => (
                         <div 
@@ -288,9 +284,9 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                             </div>
                         </div>
                     ))}
-                    {activeTab === 'reports' && searchResults.reports.map((report) => (
+                    {activeTab === 'reports' && searchResults.reports.map((report, index) => (
                         <div 
-                        key={report.id} 
+                        key={`${report.id}-${index}`} 
                         className="p-4 hover:bg-gray-50 transition-colors cursor-pointer" 
                         onClick={() => {
                             router.push(`/main/reports/${report.id}`);
@@ -302,10 +298,10 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                                 <div className="flex-1">
                                     <p className="font-semibold text-gray-800">{report.reportTitle}</p>
                                     <div className="flex items-center gap-2 mt-1">
-                                        <span className={`inline-flex items-center px-2.5 py-1 bg-primary/10 text-xs font-bold text-primary rounded-full`}>
+                                        <span className={`inline-flex items-center px-3 py-1 bg-primary/10 text-xs font-bold text-primary rounded-full`}>
                                             {getReportTypeLabel(report.reportType)}
                                         </span>
-                                        <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${reportStatus[report.reportStatus].color}`}>{reportStatus[report.reportStatus].label}</span>
+                                        <span className={`text-xs  px-3 py-1 rounded-full font-semibold ${reportStatus[report.reportStatus].color}`}>{reportStatus[report.reportStatus].label}</span>
                                     </div>
                                 </div>
                             </div>
@@ -351,7 +347,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                     transition={{ duration: 0.20, ease: "easeOut" }}
                 >   
                     <div className="bg-white rounded-xl border border-gray-200 shadow-lg overflow-hidden">
-                        <div className="max-h-[380px] overflow-y-auto relative">
+                        <div className="relative">
                             {searchTerm && searchTerm.length >= 3 && (
                                 <div className="sticky top-0 z-10 pt-1 bg-gray-50 border-b border-gray-200">
                                     <div className="flex items-center justify-between border-b border-gray-200 p-3">
@@ -392,8 +388,9 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                                     </p>
                                 </div>
                             )}
-
-                            {searchTerm && renderResults()}
+                            <div className='max-h-[380px] overflow-y-auto'>
+                                {searchTerm && renderResults()}
+                            </div>
                         </div>
                     </div>
                 </motion.div>

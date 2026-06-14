@@ -67,8 +67,8 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
     const currentUserId = userProfile ? Number(userProfile.userID) : null;
     const isReportOwner = report && currentUserId === report.userID;
-    const isPotentiallyResolved = report?.reportStatus === 'POTENTIALLY_RESOLVED';
-    const showWarning = isReportOwner && isPotentiallyResolved;
+    const isWaitingConfirmation = report?.reportStatus === 'WAITING_CONFIRMATION';
+    const showWarning = isReportOwner && isWaitingConfirmation;
 
     const openDeleteConfirm = () => {
         openConfirm({ 

@@ -1,5 +1,6 @@
 import z from "zod";
 import { 
+    IMentionedUser,
     IUserProfile 
 } from "../model";
 import { SaveProfileSchema, SaveSecuritySchema } from "@/app/main/schema";
@@ -36,3 +37,12 @@ export interface IGetUserStatisticsResponse {
     }
 }
 
+export interface ISearchUsersResponse {
+    message: string;
+    data?: {
+        usersData: {
+            usersData: IMentionedUser[];
+        };
+        nextCursorUsersData?: number | null;
+    }
+}

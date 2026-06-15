@@ -11,3 +11,12 @@ export interface IUserProfile {
     isCompleteProfile: boolean;
     missingFields: string[];
 }
+
+export interface IMentionedUser {
+    userID: number;
+    username: string;
+    fullName: string;
+    profilePicture?: string;
+    birthday?: string;
+    bio?: string;
+}

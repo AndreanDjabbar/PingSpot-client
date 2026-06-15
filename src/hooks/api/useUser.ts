@@ -3,17 +3,20 @@ import {
     getProfileByUsernameService, 
     getUserStatisticsService, 
     saveProfileService, 
-    saveSecurityService 
+    saveSecurityService, 
+    searchUsersDataService
 } from "@/services";
 import { 
     IGetProfileResponse, 
     IGetUserStatisticsResponse, 
     ISaveProfileResponse, 
     ISaveSecurityRequest, 
-    ISaveSecurityResponse 
+    ISaveSecurityResponse, 
+    ISearchUsersResponse
 } from "@/types";
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query"
 import { AxiosError } from "axios";
+import { useDebounce } from "use-debounce";
 
 export const useGetProfileByUsername = (username: string) => {
     return useQuery<IGetProfileResponse, AxiosError>({
@@ -47,3 +50,32 @@ export const useSaveSecurity = () => {
         mutationFn: (data: ISaveSecurityRequest) => saveSecurityService(data) 
     })
 }
+    
+export const useSearchUsers = (searchQuery: string, enabled: boolean) => {
+    console.log('Search query in useSearchUsers:', searchQuery);
+    const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
+    
+    return useInfiniteQuery<ISearchUsersResponse, Error>({
+        queryKey: ['search-users', debouncedSearchQuery],
+        queryFn: ({ pageParam }) => {
+            const params = pageParam as { usersDataCursorID?: number };
+            return searchUsersDataService(
+                debouncedSearchQuery,
+                params?.usersDataCursorID,
+            );
+        },
+        getNextPageParam: (lastPage) => {
+            const nextUsersID = lastPage.data?.nextCursorUsersData;
+            
+            if (!nextUsersID) {
+                return undefined;
+            }
+            
+            return {
+                usersDataCursorID: nextUsersID,
+            };
+        },
+        initialPageParam: undefined,
+        enabled: enabled,
+    });
+};

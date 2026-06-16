@@ -9,10 +9,10 @@ import { motion } from 'framer-motion';
 import { getImageURL, getFormattedDate as formattedDate } from '@/utils';
 import { useUserProfileStore, useImagePreviewModalStore } from '@/stores';
 import { useGetReportCommentReplies } from '@/hooks';
-import MentionInput, { MentionUser } from './MentionInput';
+import MentionInput from './MentionInput';
 import MentionText from './MentionText';
 import { Button } from '@/components/UI';
-import { IReportComment, ICreateReportCommentRequest } from '@/types';
+import { IReportComment, ICreateReportCommentRequest, IMentionedUser } from '@/types';
 import { ImagePreview, InlineImageUpload } from '@/components/';
 
 interface CommentItemProps {
@@ -20,7 +20,7 @@ interface CommentItemProps {
     commentReplies?: IReportComment[];
     onChangeCommentReplies?: (replies: IReportComment[]) => void;
     level?: number;
-    availableUsers?: MentionUser[];
+    availableUsers?: IMentionedUser[];
     onReply: (formData: ICreateReportCommentRequest) => void;
     onEdit?: (commentId: number, content: string, mentions?: number[]) => void;
     onDelete?: (commentId: number) => void;

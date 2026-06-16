@@ -8,12 +8,12 @@ import { AnimatePresence } from 'framer-motion';
 import { getImageURL } from '@/utils';
 import { useUserProfileStore } from '@/stores';
 import CommentItem from './CommentItem';
-import MentionInput, { MentionUser } from './MentionInput';
-import { IReportComment, ICreateReportCommentRequest } from '@/types';
+import MentionInput from './MentionInput';
+import { IReportComment, ICreateReportCommentRequest, IMentionedUser } from '@/types';
 
 interface CommentSectionProps {
     comments: IReportComment[];
-    availableUsers?: MentionUser[];
+    availableUsers?: IMentionedUser[];
     onAddComment: (formData: ICreateReportCommentRequest) => void;
     onEditComment?: (commentId: number, content: string, mentions?: number[]) => void;
     onDeleteComment?: (commentId: number) => void;

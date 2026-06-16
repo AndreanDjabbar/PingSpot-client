@@ -4,13 +4,7 @@ import React, { useState, useRef, useEffect, KeyboardEvent } from 'react';
 import Image from 'next/image';
 import { getImageURL } from '@/utils';
 import { TextAreaField } from '@/components';
-
-export interface MentionUser {
-    userId: number;
-    userName: string;
-    fullName: string;
-    profilePicture?: string;
-}
+import { IMentionedUser } from '@/types';
 
 interface MentionInputProps {
     value: string;
@@ -22,7 +16,7 @@ interface MentionInputProps {
     disabled?: boolean;
     autoFocus?: boolean;
     onSubmit?: () => void;
-    users?: MentionUser[];
+    users?: IMentionedUser[];
 }
 
 const MentionInput: React.FC<MentionInputProps> = ({
@@ -37,7 +31,7 @@ const MentionInput: React.FC<MentionInputProps> = ({
     users = []
 }) => {
     const [showSuggestions, setShowSuggestions] = useState(false);
-    const [suggestions, setSuggestions] = useState<MentionUser[]>([]);
+    const [suggestions, setSuggestions] = useState<IMentionedUser[]>([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [mentionSearch, setMentionSearch] = useState('');
     const [cursorPosition, setCursorPosition] = useState(0);
@@ -51,9 +45,9 @@ const MentionInput: React.FC<MentionInputProps> = ({
 
         for (const match of matches) {
             const username = match[1];
-            const user = users.find(u => u.userName === username);
-            if (user && !mentionedUserIds.includes(user.userId)) {
-                mentionedUserIds.push(user.userId);
+            const user = users.find(u => u.username === username);
+            if (user && !mentionedUserIds.includes(user.userID)) {
+                mentionedUserIds.push(user.userID);
             }
         }
 
@@ -63,7 +57,6 @@ const MentionInput: React.FC<MentionInputProps> = ({
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = e.target.value;
         const newCursorPos = e.target.selectionStart;
-        
         onChange(newValue);
         setCursorPosition(newCursorPos);
 
@@ -75,7 +68,6 @@ const MentionInput: React.FC<MentionInputProps> = ({
         
         if (lastAtIndex !== -1) {
             const textAfterAt = textBeforeCursor.substring(lastAtIndex + 1);
-            
             if (textAfterAt.includes(' ')) {
                 setShowSuggestions(false);
                 return;
@@ -84,7 +76,7 @@ const MentionInput: React.FC<MentionInputProps> = ({
             setMentionSearch(textAfterAt);
             
             const filtered = users.filter(user => 
-                user.userName.toLowerCase().includes(textAfterAt.toLowerCase()) ||
+                user.username.toLowerCase().includes(textAfterAt.toLowerCase()) ||
                 user.fullName.toLowerCase().includes(textAfterAt.toLowerCase())
             ).slice(0, 5);
 
@@ -96,7 +88,7 @@ const MentionInput: React.FC<MentionInputProps> = ({
         }
     };
 
-    const insertMention = (user: MentionUser) => {
+    const insertMention = (user: IMentionedUser) => {
         const textBeforeCursor = value.substring(0, cursorPosition);
         const textAfterCursor = value.substring(cursorPosition);
         const lastAtIndex = textBeforeCursor.lastIndexOf('@');
@@ -104,7 +96,7 @@ const MentionInput: React.FC<MentionInputProps> = ({
         if (lastAtIndex !== -1) {
             const newValue = 
                 textBeforeCursor.substring(0, lastAtIndex) + 
-                `@${user.userName} ` + 
+                `@${user.username} ` + 
                 textAfterCursor;
             
             onChange(newValue);
@@ -116,7 +108,7 @@ const MentionInput: React.FC<MentionInputProps> = ({
             
             setTimeout(() => {
                 if (textareaRef.current) {
-                    const newCursorPos = lastAtIndex + user.userName.length + 2;
+                    const newCursorPos = lastAtIndex + user.username.length + 2;
                     textareaRef.current.setSelectionRange(newCursorPos, newCursorPos);
                     textareaRef.current.focus();
                 }
@@ -198,7 +190,7 @@ const MentionInput: React.FC<MentionInputProps> = ({
                 >
                     {suggestions.map((user, index) => (
                         <button
-                            key={user.userId}
+                            key={user.userID}
                             type="button"
                             onClick={() => insertMention(user)}
                             className={`w-full flex items-center space-x-3 px-3 py-2 hover:bg-gray-50 transition-colors ${
@@ -219,7 +211,7 @@ const MentionInput: React.FC<MentionInputProps> = ({
                                     {user.fullName}
                                 </div>
                                 <div className="text-xs text-gray-500 truncate">
-                                    @{user.userName}
+                                    @{user.username}
                                 </div>
                             </div>
                         </button>

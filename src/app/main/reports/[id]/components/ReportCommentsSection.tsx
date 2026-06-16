@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { IReportComment, ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
 import { z } from 'zod';
 import { CreateReportCommentSchema } from '@/app/main/schema';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { Button, ErrorSection, ImagePreview, InlineImageUpload, TextAreaField } from '@/components';
 import { getErrorResponseDetails, getErrorResponseMessage, getImageURL, isInternalServerError } from '@/utils';
 import { useReportsStore } from '@/stores';
@@ -11,7 +12,6 @@ import { CommentList } from '../../components';
 import { FaSpinner, FaUser } from 'react-icons/fa';
 import { BiSend } from 'react-icons/bi';
 import { InfiniteData } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 interface ReportCommentsSectionProps {
@@ -56,6 +56,37 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     isFetchingSearchUsers,
     errorSearchUsers,
 }) => {
+    const suggestionDropdownVariants: Variants = {
+        hidden: {
+            opacity: 0,
+            y: 10,
+            scale: 0.98,
+            filter: 'blur(4px)',
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: 'blur(0px)',
+            transition: {
+                type: 'spring',
+                stiffness: 420,
+                damping: 30,
+                mass: 0.7,
+            },
+        },
+        exit: {
+            opacity: 0,
+            y: 6,
+            scale: 0.98,
+            filter: 'blur(4px)',
+            transition: {
+                duration: 0.16,
+                ease: 'easeOut',
+            },
+        },
+    };
+
     const [commentContent, setCommentContent] = React.useState('');
     const [commentMediaImage, setCommentMediaImage] = React.useState<File | null>(null);
     const [imagePreview, setImagePreview] = React.useState<string | null>(null);
@@ -64,7 +95,6 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     const [suggestionPosition, setSuggestionPosition] = React.useState({ top: 0, right: 0 });
     const [suggestionsWidth, setSuggestionsWidth] = React.useState<number | undefined>(undefined);
 
-    const router = useRouter();
     const textAreaRef = React.useRef<HTMLDivElement>(null);
     const suggestionsRef = React.useRef<HTMLDivElement>(null);
 
@@ -303,15 +333,21 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
                                     disabled={isSubmitting}
                                 />
 
+                                <AnimatePresence>
                                 {showSuggestions && (
-                                    <div
+                                    <motion.div
                                         ref={suggestionsRef}
-                                        className="max-h-56 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                                        initial="hidden"
+                                        animate="visible"
+                                        exit="exit"
+                                        variants={suggestionDropdownVariants}
+                                        className="max-h-56 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-50 will-change-transform"
                                         style={{
                                             position: 'fixed',
                                             top: suggestionPosition.top,
                                             right: suggestionPosition.right,
                                             width: suggestionsWidth,
+                                            transformOrigin: 'top right',
                                         }}
                                     >
                                         {isSuggestionsStale ? (
@@ -328,51 +364,54 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
                                                 Tidak ada pengguna ditemukan
                                             </div>
                                         ) : (
-                                            <div>
+                                            <AnimatePresence>
                                                 {suggestions.map((user) => (
-                                                    <div key={user.userID}>
-                                                        <div
-                                                            className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
-                                                            onClick={() => {
-                                                                const cursorPosition = textAreaRef.current?.querySelector('textarea')?.selectionStart ?? commentContent.length;
-                                                                const textBeforeCursor = commentContent.slice(0, cursorPosition);
-                                                                const lastAtIndex = textBeforeCursor.lastIndexOf('@');
-                                                                if (lastAtIndex !== -1) {
-                                                                    const newText = textBeforeCursor.slice(0, lastAtIndex) + '@' + user.username + ' ' + commentContent.slice(cursorPosition);
-                                                                    setCommentContent(newText);
-                                                                    setShowSuggestions(false);
-                                                                    setIsSearchUsersOpen(false);
-                                                                }
-                                                            }}
-                                                        >
-                                                            <div className="flex items-center gap-3">
-                                                                {user.profilePicture ? (
-                                                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                                                                        <Image
-                                                                            src={getImageURL(user.profilePicture, 'user')}
-                                                                            alt={user.fullName}
-                                                                            width={40}
-                                                                            height={40}
-                                                                            className="object-cover w-full h-full rounded-full"
-                                                                        />
-                                                                    </div>
-                                                                ) : (
-                                                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                                                        <FaUser className="w-5 h-5 text-primary" />
-                                                                    </div>
-                                                                )}
-                                                                <div>
-                                                                    <p className="font-semibold text-gray-800">{user.fullName}</p>
-                                                                    <p className="text-sm text-gray-600">@{user.username}</p>
+                                                    <motion.div
+                                                        key={user.userID}
+                                                        initial={{ opacity: 0 }}
+                                                        animate={{ opacity: 1 }}
+                                                        exit={{ opacity: 0 }}
+                                                        className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+                                                        onClick={() => {
+                                                            const cursorPosition = textAreaRef.current?.querySelector('textarea')?.selectionStart ?? commentContent.length;
+                                                            const textBeforeCursor = commentContent.slice(0, cursorPosition);
+                                                            const lastAtIndex = textBeforeCursor.lastIndexOf('@');
+                                                            if (lastAtIndex !== -1) {
+                                                                const newText = textBeforeCursor.slice(0, lastAtIndex) + '@' + user.username + ' ' + commentContent.slice(cursorPosition);
+                                                                setCommentContent(newText);
+                                                                setShowSuggestions(false);
+                                                                setIsSearchUsersOpen(false);
+                                                            }
+                                                        }}
+                                                    >
+                                                        <div className="flex items-center gap-3">
+                                                            {user.profilePicture ? (
+                                                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                                                                    <Image
+                                                                        src={getImageURL(user.profilePicture, 'user')}
+                                                                        alt={user.fullName}
+                                                                        width={40}
+                                                                        height={40}
+                                                                        className="object-cover w-full h-full rounded-full"
+                                                                    />
                                                                 </div>
+                                                            ) : (
+                                                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                                                    <FaUser className="w-5 h-5 text-primary" />
+                                                                </div>
+                                                            )}
+                                                            <div>
+                                                                <p className="font-semibold text-gray-800">{user.fullName}</p>
+                                                                <p className="text-sm text-gray-600">@{user.username}</p>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </motion.div>
                                                 ))}
-                                            </div>
+                                            </AnimatePresence>
                                         )}
-                                    </div>
+                                    </motion.div>
                                 )}
+                                </AnimatePresence>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Button

@@ -143,6 +143,17 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === '@') {
+            const cursorPosition = e.currentTarget.selectionStart ?? commentContent.length;
+            const textBeforeCursor = commentContent.slice(0, cursorPosition);
+            const currentToken = textBeforeCursor.split(/\s/).pop() || '';
+
+            if (currentToken.includes('@')) {
+                e.preventDefault();
+                return;
+            }
+        }
+
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             if ((commentContent.trim() || commentMediaImage)) {
@@ -167,6 +178,7 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
         }
         if (lastAtIndex !== -1) {
             const textAfterAt = textBeforeCursor.slice(lastAtIndex + 1);
+            console.log('Text after @:', textAfterAt);
             if (textAfterAt.includes(' ')) {
                 setShowSuggestions(false);
                 return;
@@ -322,7 +334,15 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
                                                         <div
                                                             className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
                                                             onClick={() => {
-                                                                router.push(`/main/profile/${user.username}`);
+                                                                const cursorPosition = textAreaRef.current?.querySelector('textarea')?.selectionStart ?? commentContent.length;
+                                                                const textBeforeCursor = commentContent.slice(0, cursorPosition);
+                                                                const lastAtIndex = textBeforeCursor.lastIndexOf('@');
+                                                                if (lastAtIndex !== -1) {
+                                                                    const newText = textBeforeCursor.slice(0, lastAtIndex) + '@' + user.username + ' ' + commentContent.slice(cursorPosition);
+                                                                    setCommentContent(newText);
+                                                                    setShowSuggestions(false);
+                                                                    setIsSearchUsersOpen(false);
+                                                                }
                                                             }}
                                                         >
                                                             <div className="flex items-center gap-3">

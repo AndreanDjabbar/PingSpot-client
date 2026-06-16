@@ -22,7 +22,8 @@ import {
     useGetReportComments, 
     useCreateReportCommentReport, 
     useErrorToast, 
-    useSuccessToast 
+    useSuccessToast, 
+    useSearchUsers
 } from '@/hooks';
 import { 
     ReportHeader, 
@@ -73,6 +74,8 @@ const ReportDetailPage = () => {
     const router = useRouter();
     const reportId = Number(params.id);
     const [animateButton, setAnimateButton] = useState<string | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isSearchUsersOpen, setIsSearchUsersOpen] = useState(false);
     const commentsSectionRef = useRef<HTMLDivElement>(null);
 
     const openImagePreview = useImagePreviewModalStore((s) => s.openImagePreview);
@@ -92,6 +95,17 @@ const ReportDetailPage = () => {
         refetch: freshReportRefetch,
     } = useGetReportByID(reportId);
     
+    const { 
+        data: searchData, 
+        fetchNextPage: fetchNextSearchPage, 
+        hasNextPage: hasNextSearchPage, 
+        isFetching: isFetchingSearch, 
+        isLoading: isLoadingSearch,
+        isError: isErrorSearch,
+        error: errorSearch,
+        refetch: refetchSearch
+    } = useSearchUsers(searchTerm, isSearchUsersOpen);
+
     const { 
         data: getReportCommentsData, 
         isLoading: getReportCommentsLoading, 
@@ -592,6 +606,13 @@ const ReportDetailPage = () => {
                                     )}
                                     <ReportCommentsSection
                                     onCreateReportComment={handleCreateReportComment}
+                                    searchUsersData={searchData}
+                                    isSearchUsersLoading={isLoadingSearch}
+                                    isFetchingSearchUsers={isFetchingSearch}
+                                    hasNextPageSearchUsers={hasNextSearchPage}
+                                    fetchNextPageSearchUsers={fetchNextSearchPage}
+                                    setSearchTermChange={setSearchTerm}
+                                    setIsSearchUsersOpen={setIsSearchUsersOpen}
                                     comments={reportComments}
                                     errorFetchingComments={getReportCommentsError || undefined}
                                     isFetchingCommentsError={isGetReportCommentsError}
@@ -626,7 +647,6 @@ const ReportDetailPage = () => {
                                 animateButton={animateButton}
                                 resolvedPercentage={percentages.resolved}
                                 onProgressPercentage={percentages.onProgress}
-                                notResolvedPercentage={percentages.notResolved}
                                 majorityVote={majorityVote}
                                 majorityPercentage={majorityPercentage}
                                 handleVote={handleVote}

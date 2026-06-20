@@ -52,7 +52,6 @@ export const useSaveSecurity = () => {
 }
     
 export const useSearchUsers = (searchQuery: string, enabled: boolean) => {
-    console.log('Search query in useSearchUsers:', searchQuery);
     const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
     
     return useInfiniteQuery<ISearchUsersResponse, Error>({

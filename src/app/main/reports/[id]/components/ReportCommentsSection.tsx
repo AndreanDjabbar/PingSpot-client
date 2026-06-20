@@ -38,6 +38,11 @@ interface ReportCommentsSectionProps {
     fetchNextPageSearchUsers?: () => void;
 }
 
+interface SelectedMentions {
+    userID: string;
+    username: string;
+}
+
 export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({ 
     comments,
     hasMoreComments,
@@ -94,6 +99,7 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     const [showSuggestions, setShowSuggestions] = React.useState(false);
     const [suggestionPosition, setSuggestionPosition] = React.useState({ top: 0, right: 0 });
     const [suggestionsWidth, setSuggestionsWidth] = React.useState<number | undefined>(undefined);
+    const [selectedMentions, setSelectedMentions] = React.useState<SelectedMentions[]>([]);
 
     const textAreaRef = React.useRef<HTMLDivElement>(null);
     const suggestionsRef = React.useRef<HTMLDivElement>(null);
@@ -206,9 +212,13 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
         if (validationErrors.commentContent) {
             setValidationErrors(prev => ({ ...prev, commentContent: '' }));
         }
+
+        setSelectedMentions((prev) => {
+            return prev.filter(user => content.includes(`@${user.username}`));
+        })
+
         if (lastAtIndex !== -1) {
             const textAfterAt = textBeforeCursor.slice(lastAtIndex + 1);
-            console.log('Text after @:', textAfterAt);
             if (textAfterAt.includes(' ')) {
                 setShowSuggestions(false);
                 return;
@@ -224,8 +234,15 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     };
 
     const handleSubmitComment = () => {
+        let updatedCommentContent = commentContent;
+        selectedMentions.forEach(mention => {
+            const mentionedFormat = `[mention:${mention.userID}]`;
+            const mentionRegex = new RegExp(`@${mention.username}(?!\\w)`, 'g');
+            updatedCommentContent = updatedCommentContent.replace(mentionRegex, mentionedFormat);
+        });
+
         const newCommentFormat: ICreateReportCommentRequest = {
-            commentContent: commentContent,
+            commentContent: updatedCommentContent,
             mediaFile: commentMediaImage || undefined,
             mediaType: commentMediaImage ? 'IMAGE' : undefined,
         };
@@ -382,6 +399,7 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
                                                                 setShowSuggestions(false);
                                                                 setIsSearchUsersOpen(false);
                                                             }
+                                                            setSelectedMentions([...selectedMentions, { userID: user.userID.toString(), username: user.username }]);
                                                         }}
                                                     >
                                                         <div className="flex items-center gap-3">

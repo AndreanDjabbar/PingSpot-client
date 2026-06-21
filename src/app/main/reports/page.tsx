@@ -744,7 +744,8 @@ const ReportsPage = () => {
                             hasMoreComments={hasNextComments}
                             isCreateReportCommentError={isCreateReportCommentError}
                             createReportCommentError={createReportCommentError!}
-                            isFetchingMoreComments={isFetchingNextComments} setSearchTermChange={setSearchTerm} 
+                            isFetchingMoreComments={isFetchingNextComments}
+                            setSearchUsersTermChange={setSearchUsersTerm}
                             setIsSearchUsersOpen={setIsSearchUsersOpen} searchUsersData={searchUsersData}
                             errorSearchUsers={errorSearchUsers || undefined} 
                             isSearchUsersError={isErrorSearchUsers} isFetchingSearchUsers={isFetchingSearchUsers} isSearchUsersLoading={isLoadingSearchUsers}

@@ -32,7 +32,7 @@ interface ReportModalProps {
     createReportCommentError?: Error;
     isSubmitting?: boolean;
     onFetchingMoreComments?: () => void;
-    setSearchTermChange: React.Dispatch<React.SetStateAction<string>>;
+    setSearchUsersTermChange: React.Dispatch<React.SetStateAction<string>>;
     setIsSearchUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isSearchUsersLoading?: boolean;
     hasNextPageSearchUsers?: boolean;
@@ -58,7 +58,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
     isCreateReportCommentError,
     createReportCommentError,
     isSubmitting,
-    setSearchTermChange,
+    setSearchUsersTermChange,
     setIsSearchUsersOpen,
     isSearchUsersLoading,
     searchUsersData,
@@ -262,7 +262,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
                             onCreateReportComment={handleCreateReportComment}
                             isSubmitting={isSubmitting}
                             searchUsersData={searchUsersData}
-                            setSearchTermChange={setSearchTermChange}
+                            setSearchTermChange={setSearchUsersTermChange}
                             setIsSearchUsersOpen={setIsSearchUsersOpen}
                             isSearchUsersLoading={isSearchUsersLoading}
                             isFetchingSearchUsers={isFetchingSearchUsers}

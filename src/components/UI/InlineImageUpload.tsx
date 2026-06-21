@@ -173,7 +173,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ preview, onRemove, c
                 />
                 <button
                     onClick={handleRemove}
-                    className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 transition-colors shadow-lg"
+                    className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 transition-colors shadow-lg cursor-pointer"
                     type="button"
                     aria-label="Hapus gambar"
                 >

@@ -12,7 +12,8 @@ import {
     useErrorToast, 
     useSuccessToast,
     useVoteReport,
-    useCurrentLocation
+    useCurrentLocation,
+    useSearchUsers
 } from '@/hooks';
 import { RxCrossCircled } from "react-icons/rx";
 import { getErrorResponseDetails, getErrorResponseMessage, isInternalServerError } from '@/utils';
@@ -33,6 +34,8 @@ const ReportsPage = () => {
     const currentPath = usePathname();
     const [searchTerm, setSearchTerm] = useState("");
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+    const [searchUsersTerm, setSearchUsersTerm] = useState("");
+    const [isSearchUsersOpen, setIsSearchUsersOpen] = useState(false);
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const filterButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -104,6 +107,17 @@ const ReportsPage = () => {
         reportFilters.distance,
         hasCoords ? hasCoords : false
     );
+
+    const { 
+        data: searchUsersData, 
+        fetchNextPage: fetchNextSearchUsersPage, 
+        hasNextPage: hasNextSearchUsersPage, 
+        isFetching: isFetchingSearchUsers, 
+        isLoading: isLoadingSearchUsers,
+        isError: isErrorSearchUsers,
+        error: errorSearchUsers,
+        refetch: refetchSearchUsers
+    } = useSearchUsers(searchUsersTerm, isSearchUsersOpen);
 
     const {
         data: commentsData,
@@ -730,8 +744,11 @@ const ReportsPage = () => {
                             hasMoreComments={hasNextComments}
                             isCreateReportCommentError={isCreateReportCommentError}
                             createReportCommentError={createReportCommentError!}
-                            isFetchingMoreComments={isFetchingNextComments}
-                        />
+                            isFetchingMoreComments={isFetchingNextComments} setSearchTermChange={setSearchTerm} 
+                            setIsSearchUsersOpen={setIsSearchUsersOpen} searchUsersData={searchUsersData}
+                            errorSearchUsers={errorSearchUsers || undefined} 
+                            isSearchUsersError={isErrorSearchUsers} isFetchingSearchUsers={isFetchingSearchUsers} isSearchUsersLoading={isLoadingSearchUsers}
+                            />
                     )}
 
                     <ReportFilterModal

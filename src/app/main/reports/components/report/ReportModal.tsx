@@ -1,18 +1,16 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes } from 'react-icons/fa';
 import 'leaflet/dist/leaflet.css';
 import { compressImages, getErrorResponseMessage } from '@/utils';
-import { IReportComment } from '@/types';
+import { IReportComment, ISearchUsersResponse } from '@/types';
 import { useReportsStore, useUserProfileStore } from '@/stores';
 import ReportCard from './ReportCard';
 import { ICreateReportCommentRequest, ICreateReportCommentResponse } from '@/types/api/report';
-import { ErrorSection } from '@/components/';
-import { UseMutateFunction } from '@tanstack/react-query';
-import z from 'zod';
-import { CreateReportCommentSchema } from '@/app/main/schema';
+import { ErrorSection, ImagePreview } from '@/components/';
+import { InfiniteData, UseMutateFunction } from '@tanstack/react-query';
 import { CommentInput, CommentList } from '../comment';
 
 interface ReportModalProps {
@@ -32,6 +30,18 @@ interface ReportModalProps {
     createReportCommentMutation?: UseMutateFunction<ICreateReportCommentResponse, Error, { reportID: number; data: FormData; }, unknown>;
     isCreateReportCommentError: boolean;
     createReportCommentError?: Error;
+    isSubmitting?: boolean;
+    onFetchingMoreComments?: () => void;
+    setSearchTermChange: React.Dispatch<React.SetStateAction<string>>;
+    setIsSearchUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isSearchUsersLoading?: boolean;
+    hasNextPageSearchUsers?: boolean;
+    searchUsersData: InfiniteData<ISearchUsersResponse> | undefined;
+    isSearchUsersError?: boolean;
+    isFetchingSearchUsers?: boolean;
+    errorSearchUsers?: Error;
+    refetchSearchUsers?: () => void;
+    fetchNextPageSearchUsers?: () => void;
 }
 
 const ReportModal: React.FC<ReportModalProps> = ({
@@ -47,14 +57,20 @@ const ReportModal: React.FC<ReportModalProps> = ({
     isFetchingMoreComments = false,
     isCreateReportCommentError,
     createReportCommentError,
+    isSubmitting,
+    setSearchTermChange,
+    setIsSearchUsersOpen,
+    isSearchUsersLoading,
+    searchUsersData,
+    isSearchUsersError,
+    isFetchingSearchUsers,
+    errorSearchUsers,
 }) => {
-    const [validationErrors, setValidationErrors] = React.useState<Record<string, string>>({});
-    const [commentContent, setCommentContent] = React.useState('');
     const [commentMediaImage, setCommentMediaImage] = React.useState<File | null>(null);
     const [imagePreview, setImagePreview] = React.useState<string | null>(null);
 
     const userProfile = useUserProfileStore((state) => state.userProfile);
-    const report = useReportsStore((state) => state.selectedReport)
+    const report = useReportsStore((state) => state.selectedReport);
     const reportComments = useReportsStore((state) => state.reportComments);
     const reportCommentCounts = useReportsStore((state) => state.reportCommentsCount);
     const setReportCommentCounts = useReportsStore((state) => state.setReportCommentsCount);
@@ -64,36 +80,36 @@ const ReportModal: React.FC<ReportModalProps> = ({
         if (onLoadMoreComments) {
             onLoadMoreComments();
         }
-    }
+    };
 
     const setOptimisticComment = (formData: ICreateReportCommentRequest) => {
         if (formData.parentCommentID) {
             setReportComments(
                 reportComments.map((comment) =>
                     comment.commentID === formData.parentCommentID
-                ? {
-                        ...comment,
-                        replies: [
-                        ...(comment.replies ?? []),
-                        {
-                            commentID: 'temp-id-' + Date.now(),
-                            reportID: report?.id || 0,
-                            createdAt: Math.floor(Date.now() / 1000),
-                            content: formData.commentContent,
-                            media: formData.mediaFile
-                                ? {
-                                    url: URL.createObjectURL(formData.mediaFile),
-                                    type: 'IMAGE',
-                                    height: 100,
-                                    width: 100,
-                                }
-                                : undefined,
-                            userInformation: userProfile!,
-                            commentType: 'TEMP',
-                        } as IReportComment
-                        ],
+                        ? {
+                            ...comment,
+                            replies: [
+                                ...(comment.replies ?? []),
+                                {
+                                    commentID: 'temp-id-' + Date.now(),
+                                    reportID: report?.id || 0,
+                                    createdAt: Math.floor(Date.now() / 1000),
+                                    content: formData.commentContent,
+                                    media: formData.mediaFile
+                                        ? {
+                                            url: URL.createObjectURL(formData.mediaFile),
+                                            type: 'IMAGE',
+                                            height: 100,
+                                            width: 100,
+                                        }
+                                        : undefined,
+                                    userInformation: userProfile!,
+                                    commentType: 'TEMP',
+                                } as IReportComment,
+                            ],
                         }
-                    : comment
+                        : comment
                 )
             );
         } else {
@@ -114,9 +130,9 @@ const ReportModal: React.FC<ReportModalProps> = ({
                 commentType: 'TEMP',
             } as IReportComment]);
         }
-    }
+    };
 
-    const prepareFormData = async(formData: ICreateReportCommentRequest): Promise<FormData> => {
+    const prepareFormData = async (formData: ICreateReportCommentRequest): Promise<FormData> => {
         const data = new FormData();
         data.append('reportID', String(report?.id || 0));
         data.append('content', formData.commentContent);
@@ -134,74 +150,40 @@ const ReportModal: React.FC<ReportModalProps> = ({
         return data;
     };
 
+    // Single entry point for both the main composer and replies.
+    // CommentInput / CommentList already validate before calling this.
     const handleCreateReportComment = async (formData: ICreateReportCommentRequest) => {
         if (!report?.id) return;
+
         setOptimisticComment(formData);
         setReportCommentCounts(reportCommentCounts + 1);
-        
-        
+
         const preparedData = await prepareFormData(formData);
         createReportCommentMutation!({
             reportID: report.id,
-            data: preparedData
+            data: preparedData,
         });
+
+        // Only the main composer's image is owned here; clear it after a successful send.
+        if (!formData.parentCommentID) {
+            setCommentMediaImage(null);
+            setImagePreview(null);
+        }
     };
 
-    const handleImageSelect = (file:File) => {
+    const handleImageSelect = (file: File) => {
         setCommentMediaImage(file);
         const reader = new FileReader();
         reader.onloadend = () => {
             setImagePreview(reader.result as string);
         };
         reader.readAsDataURL(file);
-    }
+    };
 
     const handleRemoveImage = () => {
         setCommentMediaImage(null);
         setImagePreview(null);
-    }
-
-    const handleCommentContentChange = (content: string) => {
-        setCommentContent(content);
-        if (validationErrors.commentContent) {
-            setValidationErrors(prev => ({ ...prev, commentContent: '' }));
-        }
     };
-
-    const handleSubmitComment = () => {
-        const newCommentFormat: ICreateReportCommentRequest = {
-            commentContent: commentContent,
-            mediaFile: commentMediaImage || undefined,
-            mediaType: commentMediaImage ? 'IMAGE' : undefined,
-        };
-
-        setCommentContent('');
-        handleCreateReportComment(newCommentFormat);
-        setCommentMediaImage(null);
-        setImagePreview(null);
-    };
-
-    const handleReplyComment = (formData: ICreateReportCommentRequest) => {
-        try {
-            CreateReportCommentSchema.parse(formData);
-            setValidationErrors({});
-            handleCreateReportComment(formData);
-
-            setCommentContent('');
-            setCommentMediaImage(null);
-            setImagePreview(null);
-        } catch (error) {
-            if (error instanceof z.ZodError) {
-                const errors: Record<string, string> = {};
-                error.issues.forEach((issue) => {
-                    if (issue.path[0]) {
-                        errors[issue.path[0].toString()] = issue.message;
-                    }
-                });
-                setValidationErrors(errors);
-            }
-        }
-    }
 
     if (!isOpen) return null;
 
@@ -232,7 +214,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
 
                     <div className="flex-1 overflow-y-auto">
                         <div className="p-4 sm:p-6 bg-gradient-to-b from-gray-50 to-white">
-                            <ReportCard 
+                            <ReportCard
                                 reportID={reportID}
                                 onLike={onLike}
                                 enableOptions={false}
@@ -244,40 +226,54 @@ const ReportModal: React.FC<ReportModalProps> = ({
                         {isCreateReportCommentError && (
                             <div className='mb-4 px-4'>
                                 <ErrorSection
-                                    message={getErrorResponseMessage(createReportCommentError) || 'Terjadi kesalahan saat mengirim komentar'} 
+                                    message={getErrorResponseMessage(createReportCommentError) || 'Terjadi kesalahan saat mengirim komentar'}
                                     errors={createReportCommentError}
                                 />
                             </div>
                         )}
                         <div>
-                        <div className="sticky top-0 bg-white border-t border-b border-gray-200 px-4 sm:px-6 py-4 shadow-sm z-10">
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-bold text-gray-900">
-                                    Komentar ({reportCommentCounts || 0})
-                                </h2>
+                            <div className="sticky top-0 bg-white border-t border-b border-gray-200 px-4 sm:px-6 py-4 shadow-sm z-10">
+                                <div className="flex items-center justify-between">
+                                    <h2 className="text-lg font-bold text-gray-900">
+                                        Komentar ({reportCommentCounts || 0})
+                                    </h2>
+                                </div>
                             </div>
-                        </div>
-                        <CommentList
-                            comments={reportComments!}
-                            onReply={handleReplyComment}
-                            commentsLoading={commentsLoading}
-                            hasMoreComments={hasMoreComments}
-                            onFetchingMoreComments={handleLoadMoreComments}
-                            isFetchingMoreComments={isFetchingMoreComments}
-                        />
+                            <CommentList
+                                comments={reportComments!}
+                                onReply={handleCreateReportComment}
+                                commentsLoading={commentsLoading}
+                                hasMoreComments={hasMoreComments}
+                                onFetchingMoreComments={handleLoadMoreComments}
+                                isFetchingMoreComments={isFetchingMoreComments}
+                            />
                         </div>
                     </div>
-
-                    <CommentInput
-                        commentContent={commentContent}
-                        commentMediaImage={commentMediaImage}
-                        imagePreview={imagePreview}
-                        validationErrors={validationErrors}
-                        onCommentContentChange={handleCommentContentChange}
-                        onImageSelect={handleImageSelect}
-                        onImageRemove={handleRemoveImage}
-                        onSubmitComment={handleSubmitComment}
-                    />
+                    <div className={`py-4 px-3 border-t border-gray-200 bg-gray-50 w-full`}
+                    >
+                        {imagePreview && (
+                            <ImagePreview
+                                preview={imagePreview}
+                                onRemove={handleRemoveImage}
+                                className="mb-3"
+                            />
+                        )}
+                        <CommentInput
+                            onCreateReportComment={handleCreateReportComment}
+                            isSubmitting={isSubmitting}
+                            searchUsersData={searchUsersData}
+                            setSearchTermChange={setSearchTermChange}
+                            setIsSearchUsersOpen={setIsSearchUsersOpen}
+                            isSearchUsersLoading={isSearchUsersLoading}
+                            isFetchingSearchUsers={isFetchingSearchUsers}
+                            isSearchUsersError={isSearchUsersError}
+                            errorSearchUsers={errorSearchUsers}
+                            onImageSelect={handleImageSelect}
+                            onImageRemove={handleRemoveImage}
+                            imagePreview={imagePreview}
+                            commentMediaImage={commentMediaImage}
+                        />
+                    </div>
                 </motion.div>
             </motion.div>
         </AnimatePresence>

@@ -148,6 +148,11 @@ export interface IReportCommentMedia {
     height?: number;
 }
 
+export interface IReportCommentMentions {
+    userID: number;
+    username: string;
+}
+
 export interface IReportComment {
     commentID: string;
     reportID: number;
@@ -157,7 +162,7 @@ export interface IReportComment {
     createdAt: number;
     parentCommentID?: string;
     threadRootID?: string;
-    mentions?: number[];
+    mentions?: IReportCommentMentions[];
     replyTo?: IUserProfile;
     media?: IReportCommentMedia;
     replies?: IReportComment[];

@@ -4,13 +4,12 @@ import React from 'react';
 import { IReport, ReportType } from '@/types';
 import { getFormattedDate as formattedDate } from '@/utils';
 import { useConfirmationModalStore, useUserProfileStore } from '@/stores';
-import { MdWarning } from 'react-icons/md';
+import { MdInfo } from 'react-icons/md';
 import { ImInfo } from 'react-icons/im';
 import { Button } from '@/components';
 import { BiEdit } from 'react-icons/bi';
 import { useRouter } from 'next/navigation';
 import { IoMdTrash } from 'react-icons/io';
-import { FaTrash } from 'react-icons/fa';
 
 interface ReportInfoSidebarProps {
     report: IReport;
@@ -102,16 +101,20 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                                     </span>
                                     {showWarning && (
                                         <button 
-                                            onClick={() => openConfirm({
-                                                title: 'Konfirmasi Penyelesaian Laporan',
-                                                type: 'warning',
-                                                description: 'Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.',
-                                                additionalInfo: 'Jika tidak ada konfirmasi dalam 1 minggu, status akan otomatis berubah menjadi "Terselesaikan".'
-                                            })}
-                                            className='inline-flex items-center p-1.5 sm:p-2 hover:bg-blue-50 rounded-full transition-colors group'
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                openConfirm({
+                                                    title: 'Konfirmasi Penyelesaian Laporan',
+                                                    type: 'warning',
+                                                    useCancelButton: false,
+                                                    description: 'Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.',
+                                                    additionalInfo: 'Jika tidak ada konfirmasi dalam 1 minggu, status akan otomatis berubah menjadi "Terselesaikan".'
+                                                })}
+                                            }
+                                            className='inline-flex items-center p-1.5 sm:p-2 hover:bg-primary/10 rounded-full transition-colors group cursor-pointer'
                                             aria-label="Informasi status laporan"
                                         >
-                                            <MdWarning size={25} className="text-blue-600 group-hover:text-blue-700 transition-colors sm:w-6 sm:h-6"/>
+                                            <MdInfo size={25} className="text-primary transition-colors sm:w-6 sm:h-6"/>
                                         </button>
                                     )}
                                 </div>

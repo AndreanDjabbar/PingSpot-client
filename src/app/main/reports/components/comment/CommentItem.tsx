@@ -22,8 +22,6 @@ interface CommentItemProps {
     level?: number;
     availableUsers?: IMentionedUser[];
     onReply: (formData: ICreateReportCommentRequest) => void;
-    onEdit?: (commentId: number, content: string, mentions?: number[]) => void;
-    onDelete?: (commentId: number) => void;
 }
 
 const CommentItem: React.FC<CommentItemProps> = ({ 
@@ -31,10 +29,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
     level = 0, 
     availableUsers = [],
     onReply,
-    onEdit,
-    onDelete 
 }) => {
-    
     const [isReplying, setIsReplying] = useState(false);
     const [replyContent, setReplyContent] = useState('');
     const [replyMentions, setReplyMentions] = useState<number[]>([]);
@@ -42,7 +37,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
     const [replyImagePreview, setReplyImagePreview] = useState<string | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [editContent, setEditContent] = useState(comment.content);
-    const [editMentions, setEditMentions] = useState<number[]>(comment.mentions || []);
     const [showMenu, setShowMenu] = useState(false);
     const [liked, setLiked] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
@@ -51,8 +45,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
     const replyInputRef = useRef<HTMLTextAreaElement>(null);
     const editInputRef = useRef<HTMLTextAreaElement>(null);
     const loadMoreButtonRef = useRef<HTMLDivElement>(null);
-    const userProfile = useUserProfileStore((s) => s.userProfile);
-    const currentUserId = userProfile ? Number(userProfile.userID) : null;
     const openPreviewModal = useImagePreviewModalStore((s) => s.openImagePreview);
 
     const { 
@@ -87,6 +79,16 @@ const CommentItem: React.FC<CommentItemProps> = ({
         setShowReplies(!showReplies);
     };
 
+    const parseMentionsFormat = (commentContent: string): string => {
+        const mentions = comment.mentions || [];
+        const mentionRegex = /\[mention:(\d+)\]/g;
+
+        return commentContent.replace(mentionRegex, (match, userID) => {
+            const mention = mentions.find((m) => String(m.userID) === userID);
+            return mention ? `@${mention.username}` : match;
+        });
+    };
+
     const handleReply = () => {
         if (replyContent.trim() || replyMediaImage) {
             onReply({
@@ -113,22 +115,8 @@ const CommentItem: React.FC<CommentItemProps> = ({
         }
     };
 
-    const handleEdit = () => {
-        if (editContent?.trim() && onEdit) {
-            onEdit(Number(comment.commentID), editContent, editMentions);
-            setIsEditing(false);
-        }
-    };
-
     const handleImageClick = (imageURL: string) => {
         openPreviewModal(imageURL);
-    }
-
-    const handleDelete = () => {
-        if (onDelete) {
-            onDelete(Number(comment.commentID));
-        }
-        setShowMenu(false);
     };
 
     const marginLeft = Math.min(level * 16, 32);
@@ -163,7 +151,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                         <span className="text-sm text-gray-800 break-words">
                             <MentionText 
                             commentUserID={Number(comment.userInformation?.userID || 0)}
-                            text={comment.content || ""}
+                            text={parseMentionsFormat(comment.content || "")}
                             userMentioned={comment.replyTo || null} 
                             />
                         </span>
@@ -311,8 +299,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                         level={level + 1}
                                         availableUsers={availableUsers}
                                         onReply={onReply}
-                                        onEdit={onEdit}
-                                        onDelete={onDelete}
                                     />
                                 ))}
                             </div>

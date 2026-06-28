@@ -79,16 +79,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
         setShowReplies(!showReplies);
     };
 
-    const parseMentionsFormat = (commentContent: string): string => {
-        const mentions = comment.mentions || [];
-        const mentionRegex = /\[mention:(\d+)\]/g;
-
-        return commentContent.replace(mentionRegex, (match, userID) => {
-            const mention = mentions.find((m) => String(m.userID) === userID);
-            return mention ? `@${mention.username}` : match;
-        });
-    };
-
     const handleReply = () => {
         if (replyContent.trim() || replyMediaImage) {
             onReply({
@@ -151,8 +141,9 @@ const CommentItem: React.FC<CommentItemProps> = ({
                         <span className="text-sm text-gray-800 break-words">
                             <MentionText 
                             commentUserID={Number(comment.userInformation?.userID || 0)}
-                            text={parseMentionsFormat(comment.content || "")}
+                            text={comment.content || ""}
                             userMentioned={comment.replyTo || null} 
+                            commentMentions={comment.mentions || []}
                             />
                         </span>
                     </div>

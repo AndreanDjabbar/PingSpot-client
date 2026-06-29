@@ -68,31 +68,28 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
         <>
             <div className={`
                 fixed overflow-y-auto xl:static inset-y-0 left-0 z-50 
-                ${collapsed ? 'w-16' : 'w-80'} bg-primary 
+                ${collapsed ? 'w-16' : 'w-90'} bg-primary 
                 shadow-[12px_0_35px_-10px_rgba(108,92,231,0.3)]
                 transform transition-transform duration-300 ease-in-out
                 ${isOpen ? '' : '-translate-x-full xl:translate-x-0'}
             `}>
-                <div className="h-full flex flex-col">
+                <div className="h-full flex flex-col ">
+                    <div className={`${collapsed ? 'hidden' : 'block absolute top-1 right-1 cursor-pointer hover:bg-white/10 rounded-full p-1 transition-all duration-200'}`} onClick={onToggle}>
+                        <BiX size={30} className="text-white hover:text-muted" />
+                    </div>
                     <div className="flex flex-col h-full">
-                        <div className={`${collapsed ? 'p-4' : 'p-4'} border-b border-white`}>
-                            {collapsed ? (
-                                <div className="flex justify-center">
-                                    <PingspotLogo size='60'/>
-                                </div>
-                            ) : (
-                                <div className="">
-                                    <ProfileBadge
-                                        name={user?.username || 'User'}
-                                        email={user?.email || 'User@email.com'}
-                                        followers={123}
-                                        imageUrl={user?.profilePicture}
-                                        following={456}
-                                        size="md"
-                                        onClick={() => router.push('/main/settings/profile')}
-                                    />
-                                </div>
-                            )}
+                        <div className={`p-4 border-b border-white`}>
+                            <div className="">
+                                <ProfileBadge
+                                    name={user?.username || 'User'}
+                                    email={user?.email || 'User@email.com'}
+                                    followers={123}
+                                    imageUrl={user?.profilePicture}
+                                    following={456}
+                                    size="md"
+                                    onClick={() => router.push('/main/settings/profile')}
+                                />
+                            </div>
                         </div>
 
                         <div className="h-1/2">
@@ -161,18 +158,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
                         </div>
                     </div>
                 </div>
-                {!collapsed && (
-                    <div className="fixed right-1/4 top-1/2 sm:right-1/3 md:right-1/3 ">
-                        <button
-                            onClick={onToggle}
-                            className="xl:hidden p-2 rounded-lg bg-gray-700 hover:bg-gray-800 
-                                transition-all duration-300  hover:cursor-pointer group"
-                        >
-                            <BiX className="w-8 h-8 text-gray-300 group-hover:text-white 
-                                transition-all duration-300 ease-out" />
-                        </button>
-                    </div>
-                )}
             </div>
 
             {isOpen && (

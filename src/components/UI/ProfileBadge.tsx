@@ -59,7 +59,7 @@ const ProfileBadge: React.FC<ProfileBadgeProps> = ({
     return (
         <div
             className={`flex items-center ${currentSize.container} ${
-                onClick ? 'cursor-pointer hover:bg-white/10 rounded-xl p-2 transition-all duration-200 group' : ''
+                onClick ? 'cursor-pointer rounded-xl p-2 transition-all duration-200 group' : ''
             } ${className}`}
             onClick={onClick}
         >

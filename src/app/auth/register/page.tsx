@@ -61,8 +61,8 @@ const RegisterPage = () => {
 
             {!isSuccess && (
                 <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex justify-between w-full gap-4">
-                        <div className="w-1/2">
+                    <div className="flex flex-col lg:flex-col xl:flex-row md:flex-row justify-between w-full gap-4">
+                        <div className="xl:w-1/2 md:w-1/2 lg:w-full">
                             <InputField
                                 id="fullName"
                                 register={register("fullName")}
@@ -75,7 +75,7 @@ const RegisterPage = () => {
                             />
                             <div className="text-danger-dark text-sm font-semibold">{errors.fullName?.message as string}</div>
                         </div>
-                        <div className="w-1/2">
+                        <div className="xl:w-1/2 md:w-1/2 lg:w-full">
                             <InputField
                                 id="username"
                                 register={register("username")}

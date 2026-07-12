@@ -25,7 +25,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     const loadUser = useUserProfileStore((state) => state.loadUser);
     const router = useRouter();
 
-    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+    const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+    const closeSidebar = () => setSidebarOpen(false);
 
     const openEditProfileConfirm = () => {
         openConfirm({
@@ -59,7 +60,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
             <div className="flex flex-1 overflow-hidden bg-background">
                 <Sidebar 
                     isOpen={sidebarOpen} 
-                    onToggle={toggleSidebar} 
+                    onToggle={closeSidebar} 
                     onBottomNavHeightChange={handleBottomNavHeightChange}
                 />
 

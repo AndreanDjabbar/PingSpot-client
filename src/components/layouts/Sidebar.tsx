@@ -1,10 +1,10 @@
 /* eslint-disable react/display-name */
 "use client";
 
-import { BiSolidLogOut, BiX } from "react-icons/bi";
+import { BiX } from "react-icons/bi";
 import { ProfileBadge } from "../UI";
-import { FaInbox, FaMap } from "react-icons/fa";
-import { IoMdHelpCircle, IoMdHome, IoMdWarning } from "react-icons/io";
+import { FaInbox } from "react-icons/fa";
+import { IoMdHome, IoMdWarning } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 import { useConfirmationModalStore, useGlobalStore, useUserProfileStore } from "@/stores";
 import React, { useEffect, useRef } from "react";
@@ -150,7 +150,6 @@ const Sidebar: React.FC<SidebarProps> = ({
             <div className={`
                 fixed overflow-y-auto xl:static inset-y-0 left-0 z-50 
                 w-75 bg-primary 
-                shadow-[12px_0_35px_-10px_rgba(108,92,231,0.3)]
                 transform transition-transform duration-300 ease-in-out
                 ${isOpen ? '' : '-translate-x-full xl:translate-x-0'}
             `}>
@@ -183,9 +182,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                                         item={item}
                                         isActive={item.id === currentPath}
                                         onClick={() => {
+                                            onToggle();
                                             router.push(`/main/${item.id}`)
                                             setCurrentPage(item.id);
-                                            onToggle();
                                         }}
                                     />
                                 ))}

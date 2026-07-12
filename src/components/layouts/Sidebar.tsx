@@ -1,52 +1,133 @@
+/* eslint-disable react/display-name */
 "use client";
 
-import { BiHome, BiX } from "react-icons/bi";
-import { PingspotLogo, ProfileBadge } from "../UI";
-import { FaInbox, FaMap, FaUsers } from "react-icons/fa";
-import { GoAlert } from "react-icons/go";
-import { LuActivity, LuMessageCircle } from "react-icons/lu";
-import { CiSettings } from "react-icons/ci";
-import { IoMdHelpCircleOutline } from "react-icons/io";
+import { BiSolidLogOut, BiX } from "react-icons/bi";
+import { ProfileBadge } from "../UI";
+import { FaInbox, FaMap } from "react-icons/fa";
+import { IoMdHelpCircle, IoMdHome, IoMdWarning } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
-import { useGlobalStore, useUserProfileStore } from "@/stores";
-import { useEffect, useRef } from "react";
+import { useConfirmationModalStore, useGlobalStore, useUserProfileStore } from "@/stores";
+import React, { useEffect, useRef } from "react";
+import { IoSettings } from "react-icons/io5";
+import { IconType } from "react-icons/lib";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { ImExit } from "react-icons/im";
+import { useErrorToast, useLogout, useSuccessToast } from "@/hooks";
 
 interface SidebarProps {
     isOpen: boolean;
     onToggle: () => void;
-    collapsed?: boolean;
     onBottomNavHeightChange?: (position: number) => void;
 }
 
 interface NavigationItem {
     id: string;
     label: string;
-    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+    icon: IconType;
     badge?: string;
 }
 
+interface SidebarButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    item: NavigationItem;
+    isActive: boolean;
+    onClick: () => void;
+}
+
+
+const ButtonSidebar = React.forwardRef<HTMLButtonElement, SidebarButton>(({ 
+    item,
+    isActive,
+    onClick,
+    className,
+    ...props
+}, ref) => {
+    return (
+        <button
+            ref={ref}
+            onClick={onClick}
+            className={`
+                w-full flex items-center px-4 py-3 rounded-xl
+                transition-all duration-200 group relative cursor-pointer
+                ${isActive
+                    ? 'bg-white/20 text-white' 
+                    : 'text-white hover:bg-white/10 hover:text-muted'
+                }
+                ${className || ''}`}
+            {...props}
+        >
+            <item.icon size={20} />
+            <>
+                <span className="ml-3 font-medium">{item.label}</span>
+                {item.badge && (
+                <span className="ml-auto bg-danger text-background text-xs rounded-full px-2 py-1 min-w-[20px] h-5 flex items-center justify-center">
+                    {item.badge}
+                </span>
+                )}
+            </>
+            {item.badge && (
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {item.badge}
+            </span>
+            )}
+        </button>
+    )
+})
+
 const navigationItems: NavigationItem[] = [
-    { id: 'home', label: 'Beranda', icon: BiHome },
-    { id: 'explore', label: 'Jelajahi', icon: FaUsers },
+    { id: 'home', label: 'Beranda', icon: IoMdHome },
+    { id: 'explore', label: 'Jelajahi', icon: FaMagnifyingGlass },
     { id: 'notifications', label: 'Notifikasi', icon: FaInbox },
-    { id: 'reports', label: 'Laporan', icon: GoAlert,  },
-    { id: 'map', label: 'Peta Interaktif', icon: FaMap },
+    { id: 'reports', label: 'Laporan', icon: IoMdWarning,  },
+    // { id: 'map', label: 'Peta Interaktif', icon: FaMap },
+    { id: 'settings', label: 'Pengaturan', icon: IoSettings },
+    // { id: 'help', label: 'Bantuan', icon: IoMdHelpCircle },
     // { id: 'community', label: 'Komunitas', icon: FaUsers },
     // { id: 'messages', label: 'Pesan', icon: LuMessageCircle, badge: '12' },
     // { id: 'activity', label: 'Aktivitas', icon: LuActivity },
 ]
 
-const bottomNavigationItems = [
-    { id: 'settings', label: 'Pengaturan', icon: CiSettings, active: true },
-    { id: 'help', label: 'Bantuan', icon: IoMdHelpCircleOutline },
-]
-
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, onBottomNavHeightChange }) => {
+const Sidebar: React.FC<SidebarProps> = ({ 
+    isOpen, 
+    onToggle, 
+    onBottomNavHeightChange 
+}) => {
     const router = useRouter();
     const currentPath = usePathname().split('/')[2] || 'home';
     const { setCurrentPage } = useGlobalStore();
     const user = useUserProfileStore(state => state.userProfile);
     const bottomNavRef = useRef<HTMLDivElement>(null);
+    const openConfirm = useConfirmationModalStore((state) => state.openConfirm);
+    const { mutate: logout, isPending, isError, error, isSuccess, data } = useLogout();
+
+    const logoutConfirmationModal = () => {
+        openConfirm({
+            type: "warning",
+            title: "Konfirmasi Keluar",
+            subtitle: "Apakah Anda yakin ingin keluar?",
+            isPending: isPending,
+            description: "Anda akan keluar dari sesi Pingspot saat ini.",
+            confirmTitle: "Keluar",
+            onConfirm: () => confirmLogout(),
+        });
+    }
+    const confirmLogout = () => {
+        logout();
+    };
+
+    const handleLogout = () => {
+        logoutConfirmationModal();
+    };
+
+    useErrorToast(isError, error);
+    useSuccessToast(isSuccess, data);
+
+    useEffect(() => {
+        if (isSuccess) {
+            setTimeout(() => {
+                router.push("/auth/login");
+            }, 1000);
+        }
+    }, [isSuccess, router]);
 
     useEffect(() => {
         const updateBorderPosition = () => {
@@ -62,21 +143,23 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
         return () => {
             window.removeEventListener('resize', updateBorderPosition);
         };
-    }, [collapsed, onBottomNavHeightChange]);
+    }, [onBottomNavHeightChange]);
 
     return (
         <>
             <div className={`
                 fixed overflow-y-auto xl:static inset-y-0 left-0 z-50 
-                ${collapsed ? 'w-16' : 'w-90'} bg-primary 
+                w-75 bg-primary 
                 shadow-[12px_0_35px_-10px_rgba(108,92,231,0.3)]
                 transform transition-transform duration-300 ease-in-out
                 ${isOpen ? '' : '-translate-x-full xl:translate-x-0'}
             `}>
                 <div className="h-full flex flex-col ">
-                    <div className={`${collapsed ? 'hidden' : 'block absolute top-1 right-1 cursor-pointer hover:bg-white/10 rounded-full p-1 transition-all duration-200'}`} onClick={onToggle}>
-                        <BiX size={30} className="text-white hover:text-muted" />
-                    </div>
+                    {isOpen && (
+                        <div className={`block absolute top-1 right-1 cursor-pointer hover:bg-white/10 rounded-full p-1 transition-all duration-200`} onClick={onToggle}>
+                            <BiX size={25} className="text-white hover:text-muted" />
+                        </div>
+                    )}
                     <div className="flex flex-col h-full">
                         <div className={`p-4 border-b border-white`}>
                             <div className="">
@@ -92,69 +175,32 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, collapsed = false, 
                             </div>
                         </div>
 
-                        <div className="h-1/2">
-                            <nav className="flex-1 px-4 py-6 space-y-2">
+                        <div className="">
+                            <nav className="flex flex-col px-4 py-6 gap-3">
                                 {navigationItems.map((item) => (
-                                    <button
+                                    <ButtonSidebar
                                         key={item.id}
+                                        item={item}
+                                        isActive={item.id === currentPath}
                                         onClick={() => {
                                             router.push(`/main/${item.id}`)
                                             setCurrentPage(item.id);
                                             onToggle();
                                         }}
-                                        className={`
-                                        w-full flex items-center ${collapsed ? 'justify-center px-3' : 'px-4'} py-3 rounded-xl
-                                        transition-all duration-200 group relative cursor-pointer
-                                        ${item.id === currentPath
-                                            ? 'bg-white/20 text-white' 
-                                            : 'text-white hover:bg-white/10 hover:text-muted'
-                                        }
-                                        `}
-                                    >
-                                        <item.icon className={`${collapsed ? 'w-6 h-6' : 'w-5 h-5'} flex-shrink-0`} />
-                                        {!collapsed && (
-                                        <>
-                                            <span className="ml-3 font-medium">{item.label}</span>
-                                            {item.badge && (
-                                            <span className="ml-auto bg-danger text-background text-xs rounded-full px-2 py-1 min-w-[20px] h-5 flex items-center justify-center">
-                                                {item.badge}
-                                            </span>
-                                            )}
-                                        </>
-                                        )}
-                                        {collapsed && item.badge && (
-                                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                            {item.badge}
-                                        </span>
-                                        )}
-                                    </button>
+                                    />
                                 ))}
-                            </nav>    
-                        </div>
-
-                        <div className="h-full" ref={bottomNavRef}>
-                            <div  className="px-4 py-4 border-t border-white space-y-2">
-                                {bottomNavigationItems.map((item) => (
-                                <button
-                                    key={item.id}
-                                    onClick={() => {
-                                        setCurrentPage(item.id);
-                                        router.push(`/main/${item.id}`)
-                                        onToggle();
+                                <ButtonSidebar
+                                    item={{
+                                        id: 'logout',
+                                        label: 'Keluar',
+                                        icon: ImExit
                                     }}
-                                    className={`
-                                    w-full flex items-center ${collapsed ? 'justify-center px-3' : 'px-4'} py-3 rounded-xl
-                                    text-gray-200 hover:bg-gray-700/50 hover:text-gray-300 transition-colors cursor-pointer
-                                    ${item.id === currentPath
-                                            ? 'bg-white/20 text-white' 
-                                            : 'text-white hover:bg-white/10 hover:text-muted'
-                                    }`}
-                                >
-                                    <item.icon className={`${collapsed ? 'w-6 h-6' : 'w-5 h-5'} flex-shrink-0`} />
-                                    {!collapsed && <span className="ml-3 font-medium">{item.label}</span>}
-                                </button>
-                                ))}
-                            </div>
+                                    disabled={isPending}
+                                    isActive={false}
+                                    onClick={handleLogout}
+                                    className="mt-45"
+                                />
+                            </nav>    
                         </div>
                     </div>
                 </div>

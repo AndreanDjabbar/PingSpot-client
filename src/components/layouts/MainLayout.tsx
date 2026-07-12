@@ -17,7 +17,6 @@ interface MainContentProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({
     children,
-    sidebarCollapsed = false, 
 }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [bottomNavHeightPosition, setBottomNavHeightPosition] = useState(0);
@@ -61,15 +60,14 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                 <Sidebar 
                     isOpen={sidebarOpen} 
                     onToggle={toggleSidebar} 
-                    collapsed={sidebarCollapsed}
                     onBottomNavHeightChange={handleBottomNavHeightChange}
                 />
 
                 <div className={`flex-1 overflow-y-auto`}>
                     <MainContent>{children}</MainContent>
-                    <Footer 
+                    {/* <Footer 
                     bottomNavHeightPosition={bottomNavHeightPosition}
-                    />
+                    /> */}
                 </div>
 
                 <div>

@@ -1,10 +1,13 @@
 import { AuthLayout } from "@/components";
+import { Scrollbar } from "@/components";
 
 const AuthLayoutWrapper = ({children}: {children: React.ReactNode}) => {
     return (
-        <AuthLayout>
-            {children}
-        </AuthLayout>
+        <Scrollbar>
+            <AuthLayout>
+                {children}
+            </AuthLayout>
+        </Scrollbar>
     )
 }
 

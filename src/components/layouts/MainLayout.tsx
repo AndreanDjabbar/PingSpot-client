@@ -5,14 +5,11 @@ import TopNavigation from './TopNavigation';
 import Footer from './Footer';
 import { useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { useRouter } from 'next/navigation';
+import Scrollbar from './Scrollbar';
 
 interface MainLayoutProps {
     children: React.ReactNode;
     sidebarCollapsed?: boolean;
-}
-
-interface MainContentProps {
-    children?: React.ReactNode;
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({
@@ -54,40 +51,24 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     };
 
     return (
-        <div className="h-screen flex flex-col ">
+        <div className="flex flex-col">
             <TopNavigation onMenuToggle={toggleSidebar} />
 
-            <div className="flex flex-1 overflow-hidden bg-background">
+            <div className="flex overflow-hidden bg-background h-screen w-full">
                 <Sidebar 
                     isOpen={sidebarOpen} 
                     onToggle={closeSidebar} 
                     onBottomNavHeightChange={handleBottomNavHeightChange}
                 />
-
-                <div className={`flex-1 overflow-y-auto`}>
-                    <MainContent>{children}</MainContent>
-                    {/* <Footer 
-                    bottomNavHeightPosition={bottomNavHeightPosition}
-                    /> */}
-                </div>
-
-                <div>
+                <div className="flex-1 min-w-0 bg-violet-50 xl:ml-70">
+                    <Scrollbar>
+                        <div className="px-5">
+                            {children}
+                        </div>
+                    </Scrollbar>
                 </div>
             </div>
         </div>
     )
 }
-
-const MainContent: React.FC<MainContentProps> = ({ children }) => {
-    return (
-        <main className="flex-1 min-h-screen">
-            <div className="h-full py-4 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto">
-                    {children}
-                </div>
-            </div>
-        </main>
-    )
-}
-
 export default MainLayout

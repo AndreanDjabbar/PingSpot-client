@@ -148,8 +148,8 @@ const Sidebar: React.FC<SidebarProps> = ({
     return (
         <>
             <div className={`
-                fixed overflow-y-auto xl:static inset-y-0 left-0 z-50 
-                w-75 bg-primary 
+                fixed left-0 w-70 h-full inset-y-0  z-50 
+                bg-primary 
                 transform transition-transform duration-300 ease-in-out
                 ${isOpen ? '' : '-translate-x-full xl:translate-x-0'}
             `}>

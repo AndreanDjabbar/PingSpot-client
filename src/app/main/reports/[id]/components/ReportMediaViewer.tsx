@@ -130,9 +130,11 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                     <div className="relative z-0">
                         <div className="relative w-full overflow-hidden bg-gray-100 rounded-xl shadow-md">
                             <StaticMap
+                                key={report.id}
                                 latitude={report.location.latitude}
                                 longitude={report.location.longitude}
                                 height={480}
+                                zoom={(report.location.mapZoom != 0 && report.location.mapZoom) && report.location.mapZoom || 15}
                                 markerColor='red'
                                 popupText={report.reportTitle}
                             />

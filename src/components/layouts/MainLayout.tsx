@@ -62,7 +62,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                 />
                 <div className="flex-1 min-w-0 xl:ml-70">
                     <Scrollbar>
-                        <div className="px-5">
+                        <div className="p-5">
                             {children}
                         </div>
                     </Scrollbar>

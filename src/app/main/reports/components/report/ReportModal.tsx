@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes } from 'react-icons/fa';
 import 'leaflet/dist/leaflet.css';
@@ -9,7 +10,7 @@ import { IReportComment, ISearchUsersResponse } from '@/types';
 import { useReportsStore, useUserProfileStore } from '@/stores';
 import ReportCard from './ReportCard';
 import { ICreateReportCommentRequest, ICreateReportCommentResponse } from '@/types/api/report';
-import { ErrorSection, ImagePreview } from '@/components/';
+import { ErrorSection, ImagePreview, Scrollbar } from '@/components/';
 import { InfiniteData, UseMutateFunction } from '@tanstack/react-query';
 import { CommentInput, CommentList } from '../comment';
 
@@ -68,6 +69,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
 }) => {
     const [commentMediaImage, setCommentMediaImage] = React.useState<File | null>(null);
     const [imagePreview, setImagePreview] = React.useState<string | null>(null);
+    const [mounted, setMounted] = React.useState(false);
 
     const userProfile = useUserProfileStore((state) => state.userProfile);
     const report = useReportsStore((state) => state.selectedReport);
@@ -75,6 +77,20 @@ const ReportModal: React.FC<ReportModalProps> = ({
     const reportCommentCounts = useReportsStore((state) => state.reportCommentsCount);
     const setReportCommentCounts = useReportsStore((state) => state.setReportCommentsCount);
     const setReportComments = useReportsStore((state) => state.setReportComments);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    React.useEffect(() => {
+        if (isOpen) {
+            const originalOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            return () => {
+                document.body.style.overflow = originalOverflow;
+            };
+        }
+    }, [isOpen]);
 
     const handleLoadMoreComments = () => {
         if (onLoadMoreComments) {
@@ -150,8 +166,6 @@ const ReportModal: React.FC<ReportModalProps> = ({
         return data;
     };
 
-    // Single entry point for both the main composer and replies.
-    // CommentInput / CommentList already validate before calling this.
     const handleCreateReportComment = async (formData: ICreateReportCommentRequest) => {
         if (!report?.id) return;
 
@@ -164,7 +178,6 @@ const ReportModal: React.FC<ReportModalProps> = ({
             data: preparedData,
         });
 
-        // Only the main composer's image is owned here; clear it after a successful send.
         if (!formData.parentCommentID) {
             setCommentMediaImage(null);
             setImagePreview(null);
@@ -185,15 +198,15 @@ const ReportModal: React.FC<ReportModalProps> = ({
         setImagePreview(null);
     };
 
-    if (!isOpen) return null;
+    if (!isOpen || !mounted) return null;
 
-    return (
+    const modalContent = (
         <AnimatePresence>
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[999] px-2 sm:px-4"
+                className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] px-2 sm:px-4"
                 onClick={onClose}
             >
                 <motion.div
@@ -201,7 +214,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.95, opacity: 0, y: 20 }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="relative bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[95vh] overflow-hidden flex flex-col"
+                    className="relative bg-white rounded-2xl shadow-2xl w-full max-w-5xl overflow-hidden flex flex-col"
                     onClick={(e) => e.stopPropagation()}
                 >
                     <button
@@ -211,73 +224,79 @@ const ReportModal: React.FC<ReportModalProps> = ({
                     >
                         <FaTimes className="w-5 h-5 text-gray-700 group-hover:text-gray-900" />
                     </button>
+                    <Scrollbar height={'95vh'}>
 
-                    <div className="flex-1 overflow-y-auto">
-                        <div className="p-4 sm:p-6 bg-gradient-to-b from-gray-50 to-white">
-                            <ReportCard
-                                reportID={reportID}
-                                onLike={onLike}
-                                enableOptions={false}
-                                enableInformation={false}
-                                onShare={onShare}
-                            />
-                        </div>
-
-                        {isCreateReportCommentError && (
-                            <div className='mb-4 px-4'>
-                                <ErrorSection
-                                    message={getErrorResponseMessage(createReportCommentError) || 'Terjadi kesalahan saat mengirim komentar'}
-                                    errors={createReportCommentError}
+                        <div className="flex-1 overflow-y-auto">
+                            <div className="p-4 sm:p-6 bg-gradient-to-b from-gray-50 to-white">
+                                <ReportCard
+                                    reportID={reportID}
+                                    onLike={onLike}
+                                    enableOptions={false}
+                                    enableInformation={false}
+                                    onShare={onShare}
                                 />
                             </div>
-                        )}
-                        <div>
-                            <div className="sticky top-0 bg-white border-t border-b border-gray-200 px-4 sm:px-6 py-4 shadow-sm z-10">
-                                <div className="flex items-center justify-between">
-                                    <h2 className="text-lg font-bold text-gray-900">
-                                        Komentar ({reportCommentCounts || 0})
-                                    </h2>
+
+                            {isCreateReportCommentError && (
+                                <div className='mb-4 px-4'>
+                                    <ErrorSection
+                                        message={getErrorResponseMessage(createReportCommentError) || 'Terjadi kesalahan saat mengirim komentar'}
+                                        errors={createReportCommentError}
+                                    />
+                                </div>
+                            )}
+                            <div>
+                                <div className="sticky top-0 bg-white border-t border-b border-gray-200 px-4 sm:px-6 py-4 shadow-sm z-10">
+                                    <div className="flex items-center justify-between">
+                                        <h2 className="text-lg font-bold text-gray-900">
+                                            Komentar ({reportCommentCounts || 0})
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div className='px-4'>
+                                    <CommentList
+                                        comments={reportComments!}
+                                        onReply={handleCreateReportComment}
+                                        commentsLoading={commentsLoading}
+                                        hasMoreComments={hasMoreComments}
+                                        onFetchingMoreComments={handleLoadMoreComments}
+                                        isFetchingMoreComments={isFetchingMoreComments}
+                                    />
                                 </div>
                             </div>
-                            <CommentList
-                                comments={reportComments!}
-                                onReply={handleCreateReportComment}
-                                commentsLoading={commentsLoading}
-                                hasMoreComments={hasMoreComments}
-                                onFetchingMoreComments={handleLoadMoreComments}
-                                isFetchingMoreComments={isFetchingMoreComments}
+                        </div>
+                        <div className={`py-4 px-3 border-t border-gray-200 bg-gray-50 w-full`}
+                        >
+                            {imagePreview && (
+                                <ImagePreview
+                                    preview={imagePreview}
+                                    onRemove={handleRemoveImage}
+                                    className="mb-3"
+                                />
+                            )}
+                            <CommentInput
+                                onCreateReportComment={handleCreateReportComment}
+                                isSubmitting={isSubmitting}
+                                searchUsersData={searchUsersData}
+                                setSearchTermChange={setSearchUsersTermChange}
+                                setIsSearchUsersOpen={setIsSearchUsersOpen}
+                                isSearchUsersLoading={isSearchUsersLoading}
+                                isFetchingSearchUsers={isFetchingSearchUsers}
+                                isSearchUsersError={isSearchUsersError}
+                                errorSearchUsers={errorSearchUsers}
+                                onImageSelect={handleImageSelect}
+                                onImageRemove={handleRemoveImage}
+                                imagePreview={imagePreview}
+                                commentMediaImage={commentMediaImage}
                             />
                         </div>
-                    </div>
-                    <div className={`py-4 px-3 border-t border-gray-200 bg-gray-50 w-full`}
-                    >
-                        {imagePreview && (
-                            <ImagePreview
-                                preview={imagePreview}
-                                onRemove={handleRemoveImage}
-                                className="mb-3"
-                            />
-                        )}
-                        <CommentInput
-                            onCreateReportComment={handleCreateReportComment}
-                            isSubmitting={isSubmitting}
-                            searchUsersData={searchUsersData}
-                            setSearchTermChange={setSearchUsersTermChange}
-                            setIsSearchUsersOpen={setIsSearchUsersOpen}
-                            isSearchUsersLoading={isSearchUsersLoading}
-                            isFetchingSearchUsers={isFetchingSearchUsers}
-                            isSearchUsersError={isSearchUsersError}
-                            errorSearchUsers={errorSearchUsers}
-                            onImageSelect={handleImageSelect}
-                            onImageRemove={handleRemoveImage}
-                            imagePreview={imagePreview}
-                            commentMediaImage={commentMediaImage}
-                        />
-                    </div>
+                    </Scrollbar>
                 </motion.div>
             </motion.div>
         </AnimatePresence>
     );
+
+    return createPortal(modalContent, document.body);
 };
 
 export default ReportModal;

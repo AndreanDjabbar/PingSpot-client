@@ -56,3 +56,8 @@ html, body {
     border border-muted/50 
     shadow-sm shadow-surface/10;
 }
+
+.simplebar-scrollbar::before {
+    background: #6C5CE7 !important;
+    width: 6px !important;
+}

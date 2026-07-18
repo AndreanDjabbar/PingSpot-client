@@ -6,6 +6,7 @@ import TopNavigation from "./TopNavigation";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import HeaderSection from "./HeaderSection";
+import Scrollbar from "./Scrollbar";
 
 export {
     AuthLayout,
@@ -15,5 +16,6 @@ export {
     TopNavigation,
     Sidebar,
     Footer,
+    Scrollbar,
     HeaderSection,
 }

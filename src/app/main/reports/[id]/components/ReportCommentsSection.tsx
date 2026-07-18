@@ -106,7 +106,7 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     }
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
+        <div className="bg-white rounded-xl border overflow-hidden border-gray-200 shadow-sm">
             <div className="px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h2 className="text-lg font-bold text-gray-900">

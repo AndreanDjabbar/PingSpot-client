@@ -235,8 +235,8 @@ const ReportCard: React.FC<ReportCardProps> = ({
                 </div>
             </div>
 
-            <div className="px-4 pb-3 cursor-pointer hover:bg-gray-50 transition-colors rounded-lg" onClick={() => router.push(`/main/reports/${report.id}`)}>
-                <h2 className="text-base font-semibold text-gray-900 mb-1 hover:text-blue-600 transition-colors">{report.reportTitle}</h2>
+            <div className="px-4 pb-3 mb-2 cursor-pointer group hover:bg-gray-50 transition-colors rounded-lg" onClick={() => router.push(`/main/reports/${report.id}`)}>
+                <h2 className="text-base font-semibold text-gray-900 mb-1 group-hover:text-primary transition-colors">{report.reportTitle}</h2>
                 <p className="text-sm text-gray-700 mb-3 line-clamp-3">{report.reportDescription}</p>
             </div>
 

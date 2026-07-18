@@ -55,18 +55,6 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     const [commentMediaImage, setCommentMediaImage] = React.useState<File | null>(null);
     const [imagePreview, setImagePreview] = React.useState<string | null>(null);
 
-    const handleReplyComment = (formData: ICreateReportCommentRequest) => {
-        try {
-            CreateReportCommentSchema.parse(formData);
-            onCreateReportComment(formData);
-        } catch (error) {
-            if (error instanceof z.ZodError) {
-                // Reply validation errors are handled within CommentList/reply UI as needed.
-                console.error(error.issues);
-            }
-        }
-    };
-
     const handleSubmitComment = (formData: ICreateReportCommentRequest) => {
         if(onCreateReportComment) {
             setCommentMediaImage(null);
@@ -144,10 +132,21 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
 
             <CommentList
                 comments={comments}
-                onReply={handleReplyComment}
                 hasMoreComments={hasMoreComments}
                 isFetchingMoreComments={isFetchingMoreComments}
                 onFetchingMoreComments={onFetchingMoreComments}
+                onCreateReportComment={onCreateReportComment}
+                isSubmitting={isSubmitting}
+                searchUsersData={searchUsersData}
+                setSearchTermChange={setSearchTermChange}
+                setIsSearchUsersOpen={setIsSearchUsersOpen}
+                isSearchUsersLoading={isSearchUsersLoading}
+                isFetchingSearchUsers={isFetchingSearchUsers}
+                isSearchUsersError={isSearchUsersError}
+                errorSearchUsers={errorSearchUsers}
+                onImageRemove={handleRemoveImage}
+                imagePreview={imagePreview}
+                commentMediaImage={commentMediaImage}
             />
         </div>
     );

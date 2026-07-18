@@ -4,16 +4,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { FaReply, FaHeart, FaRegHeart, FaChevronUp } from 'react-icons/fa';
-import { BiSend } from 'react-icons/bi';
 import { motion } from 'framer-motion';
 import { getImageURL, getFormattedDate as formattedDate } from '@/utils';
-import { useUserProfileStore, useImagePreviewModalStore } from '@/stores';
+import { useImagePreviewModalStore } from '@/stores';
 import { useGetReportCommentReplies } from '@/hooks';
-import MentionInput from './MentionInput';
 import MentionText from './MentionText';
 import { Button } from '@/components/UI';
-import { IReportComment, ICreateReportCommentRequest, IMentionedUser } from '@/types';
-import { ImagePreview, InlineImageUpload } from '@/components/';
+import { IReportComment, ICreateReportCommentRequest, IMentionedUser, ISearchUsersResponse } from '@/types';
+import { ImagePreview } from '@/components/';
+import CommentInput from './CommentInput';
+import { InfiniteData } from '@tanstack/react-query';
 
 interface CommentItemProps {
     comment: IReportComment;
@@ -21,29 +21,46 @@ interface CommentItemProps {
     onChangeCommentReplies?: (replies: IReportComment[]) => void;
     level?: number;
     availableUsers?: IMentionedUser[];
-    onReply: (formData: ICreateReportCommentRequest) => void;
+
+    onCreateReportComment: (formData: ICreateReportCommentRequest) => void;
+    isSubmitting?: boolean;
+    searchUsersData: InfiniteData<ISearchUsersResponse> | undefined;
+    setSearchTermChange: React.Dispatch<React.SetStateAction<string>>;
+    setIsSearchUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isSearchUsersLoading?: boolean;
+    isFetchingSearchUsers?: boolean;
+    isSearchUsersError?: boolean;
+    errorSearchUsers?: Error;
+    className?: string;
+    onImageRemove?: () => void;
+    imagePreview?: string | null;
+    commentMediaImage?: File | null;
 }
 
 const CommentItem: React.FC<CommentItemProps> = ({ 
     comment, 
     level = 0, 
     availableUsers = [],
-    onReply,
+    onCreateReportComment,
+    isSubmitting,
+    searchUsersData,
+    setSearchTermChange,
+    setIsSearchUsersOpen,
+    isSearchUsersLoading,
+    isFetchingSearchUsers,
+    isSearchUsersError,
+    errorSearchUsers,
+    className,
+    onImageRemove,
+    imagePreview,
+    commentMediaImage
 }) => {
     const [isReplying, setIsReplying] = useState(false);
-    const [replyContent, setReplyContent] = useState('');
-    const [replyMentions, setReplyMentions] = useState<number[]>([]);
     const [replyMediaImage, setReplyMediaImage] = useState<File | null>(null);
     const [replyImagePreview, setReplyImagePreview] = useState<string | null>(null);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editContent, setEditContent] = useState(comment.content);
-    const [showMenu, setShowMenu] = useState(false);
     const [liked, setLiked] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
     const [replies, setReplies] = useState<IReportComment[]>([]);
-    
-    const replyInputRef = useRef<HTMLTextAreaElement>(null);
-    const editInputRef = useRef<HTMLTextAreaElement>(null);
     const loadMoreButtonRef = useRef<HTMLDivElement>(null);
     const openPreviewModal = useImagePreviewModalStore((s) => s.openImagePreview);
 
@@ -59,16 +76,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
     );
 
     useEffect(() => {
-        if (isReplying && replyInputRef.current) {
-            replyInputRef.current.focus();
-            setReplyContent(`@${comment.userInformation?.username || ''} `);
-        }
-        if (isEditing && editInputRef.current) {
-            editInputRef.current.focus();
-        }
-    }, [isReplying, isEditing, comment.userInformation?.username]);
-
-    useEffect(() => {
         if (repliesData) {
             const allReplies = repliesData.pages.flatMap(page => page.data?.replies.replies || []);
             setReplies(allReplies);
@@ -79,19 +86,13 @@ const CommentItem: React.FC<CommentItemProps> = ({
         setShowReplies(!showReplies);
     };
 
-    const handleReply = () => {
-        if (replyContent.trim() || replyMediaImage) {
-            onReply({
-                commentContent: replyContent,
-                mediaFile: replyMediaImage || undefined,
-                mediaType: replyMediaImage ? 'IMAGE' : undefined,
-                threadRootID: comment.threadRootID || comment.commentID,
-                parentCommentID: comment.commentID,
-            });
-            setReplyContent('');
-            setReplyMentions([]);
+    const handleSubmitComment = (formData: ICreateReportCommentRequest) => {
+        if(onCreateReportComment) {
             setReplyMediaImage(null);
             setReplyImagePreview(null);
+            formData.threadRootID = comment.threadRootID || comment.commentID;
+            formData.parentCommentID = comment.commentID;
+            onCreateReportComment(formData);
             setIsReplying(false);
             setShowReplies(true);
             if (hasMoreReplies) {
@@ -103,6 +104,20 @@ const CommentItem: React.FC<CommentItemProps> = ({
                 }, 100);
             }
         }
+    }
+
+    const handleImageSelect = (file: File) => {
+        setReplyMediaImage(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setReplyImagePreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleRemoveImage = () => {
+        setReplyMediaImage(null);
+        setReplyImagePreview(null);
     };
 
     const handleImageClick = (imageURL: string) => {
@@ -204,7 +219,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                         >
                             <div className="flex flex-col w-full">
                                 {replyImagePreview && (
-                                    <div className="ml-8 mb-2">
+                                    <div className="mb-1">
                                         <ImagePreview 
                                             preview={replyImagePreview}
                                             onRemove={() => {
@@ -216,53 +231,28 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                 )}
                                 <div className='flex items-center '>
                                     <div className="flex-1 flex gap-2 justify-center items-center">
-                                        <InlineImageUpload
-                                            preview={replyImagePreview}
-                                            onImageSelect={(file) => {
-                                                setReplyMediaImage(file);
-                                                const reader = new FileReader();
-                                                reader.onloadend = () => {
-                                                    setReplyImagePreview(reader.result as string);
-                                                };
-                                                reader.readAsDataURL(file);
-                                            }}
-                                            onImageRemove={() => {
-                                                setReplyMediaImage(null);
-                                                setReplyImagePreview(null);
-                                            }}
-                                            maxSizeMB={5}
-                                            buttonSize='sm'
-                                            buttonClassName='h-11'
-                                            previewPosition="separate"
-                                        />
-                                            <MentionInput
-                                                value={replyContent}
-                                                onChange={setReplyContent}
-                                                onMentionsChange={setReplyMentions}
-                                                placeholder={`Balas ${comment.userInformation?.username || 'pengguna'}...`}
-                                                rows={2}
-                                                users={availableUsers}
-                                                autoFocus
-                                                onSubmit={handleReply}
+                                        <CommentInput 
+                                            onCreateReportComment={handleSubmitComment} 
+                                            searchUsersData={searchUsersData} 
+                                            setSearchTermChange={setSearchTermChange} 
+                                            setIsSearchUsersOpen={setIsSearchUsersOpen} 
+                                            isSearchUsersLoading={isSearchUsersLoading} 
+                                            isFetchingSearchUsers={isFetchingSearchUsers} 
+                                            isSearchUsersError={isSearchUsersError} 
+                                            errorSearchUsers={errorSearchUsers} 
+                                            className={className} 
+                                            onImageSelect={handleImageSelect}
+                                            onImageRemove={handleRemoveImage} 
+                                            imagePreview={replyImagePreview} 
+                                            commentMediaImage={replyMediaImage} 
+                                            replyTo={comment.userInformation || null}
                                             />
-                                        <div className="flex items-center gap-2 ">
-                                            <Button
-                                                onClick={handleReply}
-                                                size='sm'
-                                                disabled={!replyContent.trim() && !replyMediaImage}
-                                                className='bg-transparent'
-                                            >
-                                                <BiSend size={23} className="text-primary" />
-                                            </Button>
-                                        </div>
                                     </div>
                                 </div>
                                 <div className="flex justify-start space-x-2 mt-2">
                                     <Button
                                         onClick={() => {
                                             setIsReplying(false);
-                                            setReplyContent('');
-                                            setReplyMentions([]);
                                             setReplyMediaImage(null);
                                             setReplyImagePreview(null);
                                         }}
@@ -289,7 +279,19 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                         comment={reply}
                                         level={level + 1}
                                         availableUsers={availableUsers}
-                                        onReply={onReply}
+                                        onCreateReportComment={onCreateReportComment}
+                                        isSubmitting={isSubmitting}
+                                        searchUsersData={searchUsersData}
+                                        setSearchTermChange={setSearchTermChange}
+                                        setIsSearchUsersOpen={setIsSearchUsersOpen}
+                                        isSearchUsersLoading={isSearchUsersLoading}
+                                        isFetchingSearchUsers={isFetchingSearchUsers}
+                                        isSearchUsersError={isSearchUsersError}
+                                        errorSearchUsers={errorSearchUsers}
+                                        className={className}
+                                        onImageRemove={onImageRemove}
+                                        imagePreview={imagePreview}
+                                        commentMediaImage={commentMediaImage}
                                     />
                                 ))}
                             </div>

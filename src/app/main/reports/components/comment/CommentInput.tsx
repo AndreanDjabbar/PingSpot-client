@@ -11,6 +11,7 @@ import { InlineImageUpload, TextAreaField, Button } from '@/components';
 import { getErrorResponseMessage, getImageURL } from '@/utils';
 import { CreateReportCommentSchema } from '@/app/main/schema';
 import { ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
+import { useUserProfileStore } from '@/stores';
 
 interface SelectedMentions {
     userID: string;
@@ -32,6 +33,10 @@ interface CommentInputProps {
     onImageRemove?: () => void;
     imagePreview?: string | null;
     commentMediaImage?: File | null;
+    replyTo?: {
+        userID: string;
+        username: string;
+    } | null;
 }
 
 const suggestionDropdownVariants: Variants = {
@@ -80,6 +85,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
     onImageRemove,
     imagePreview,
     commentMediaImage,
+    replyTo = null
 }) => {
     const [commentContent, setCommentContent] = React.useState('');
     const [validationErrors, setValidationErrors] = React.useState<Record<string, string>>({});
@@ -87,7 +93,8 @@ const CommentInput: React.FC<CommentInputProps> = ({
     const [suggestionPosition, setSuggestionPosition] = React.useState({ top: 0, right: 0 });
     const [suggestionsWidth, setSuggestionsWidth] = React.useState<number | undefined>(undefined);
     const [selectedMentions, setSelectedMentions] = React.useState<SelectedMentions[]>([]);
-
+    
+    const currentUser = useUserProfileStore((s) => s.userProfile);
     const textAreaRef = React.useRef<HTMLDivElement>(null);
     const suggestionsRef = React.useRef<HTMLDivElement>(null);
 
@@ -280,7 +287,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
                         value={commentContent}
                         onChange={handleCommentContentChange}
                         onKeyDown={handleKeyDown}
-                        placeholder='Tulis komentar...'
+                        placeholder={`${(replyTo && replyTo.username !== currentUser?.username) ? `Balas ke @${replyTo.username}` : 'Tulis komentar...'}`}
                         className='h-11'
                         resize='none'
                         withLabel={false}

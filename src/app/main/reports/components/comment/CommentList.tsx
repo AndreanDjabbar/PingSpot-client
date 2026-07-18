@@ -1,33 +1,57 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import { IReportComment, ICreateReportCommentRequest } from '@/types';
+import { IReportComment, ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
 import { FaComment } from 'react-icons/fa';;
 import { useInView } from 'react-intersection-observer';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import CommentItem from './CommentItem';
 import { Scrollbar } from '@/components';
+import { InfiniteData } from '@tanstack/react-query';
 
 interface CommentListProps {
     comments: IReportComment[];
-    onReply?: (formData: ICreateReportCommentRequest) => void;
     commentsLoading?: boolean;
     hasMoreComments?: boolean;
     isFetchingMoreComments?: boolean;
     onFetchingMoreComments?: () => void;
     emptyStateMessage?: string;
     className?: string;
+    onCreateReportComment: (formData: ICreateReportCommentRequest) => void;
+    isSubmitting?: boolean;
+    searchUsersData: InfiniteData<ISearchUsersResponse> | undefined;
+    setSearchTermChange: React.Dispatch<React.SetStateAction<string>>;
+    setIsSearchUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isSearchUsersLoading?: boolean;
+    isFetchingSearchUsers?: boolean;
+    isSearchUsersError?: boolean;
+    errorSearchUsers?: Error;
+    onImageSelect?: (file: File) => void;
+    onImageRemove?: () => void;
+    imagePreview?: string | null;
+    commentMediaImage?: File | null;
 }
 
 const CommentList: React.FC<CommentListProps> = ({
     comments,
-    onReply,
     commentsLoading = false,
     hasMoreComments = false,
     onFetchingMoreComments,
     isFetchingMoreComments = false,
     emptyStateMessage = 'Belum ada komentar',
     className = '',
+    onCreateReportComment,
+    isSubmitting = false,
+    searchUsersData,
+    setSearchTermChange,
+    setIsSearchUsersOpen,
+    isSearchUsersLoading,
+    isFetchingSearchUsers,
+    isSearchUsersError,
+    errorSearchUsers,
+    onImageRemove,
+    imagePreview,
+    commentMediaImage
 }) => {
     const { ref, inView } = useInView({
         threshold: 0,
@@ -58,7 +82,19 @@ const CommentList: React.FC<CommentListProps> = ({
                                 <CommentItem
                                     key={comment.commentID}
                                     comment={comment}
-                                    onReply={onReply || (() => {})}
+                                    onCreateReportComment={onCreateReportComment}
+                                    isSubmitting={isSubmitting}
+                                    searchUsersData={searchUsersData}
+                                    setSearchTermChange={setSearchTermChange}
+                                    setIsSearchUsersOpen={setIsSearchUsersOpen}
+                                    isSearchUsersLoading={isSearchUsersLoading}
+                                    isFetchingSearchUsers={isFetchingSearchUsers}
+                                    isSearchUsersError={isSearchUsersError}
+                                    errorSearchUsers={errorSearchUsers}
+                                    className={className}
+                                    onImageRemove={onImageRemove}
+                                    imagePreview={imagePreview}
+                                    commentMediaImage={commentMediaImage}
                                 />
                             ))}
                             {hasMoreComments && (

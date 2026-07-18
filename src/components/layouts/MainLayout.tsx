@@ -60,7 +60,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                     onToggle={closeSidebar} 
                     onBottomNavHeightChange={handleBottomNavHeightChange}
                 />
-                <div className="flex-1 min-w-0 bg-violet-50 xl:ml-70">
+                <div className="flex-1 min-w-0 xl:ml-70">
                     <Scrollbar>
                         <div className="px-5">
                             {children}

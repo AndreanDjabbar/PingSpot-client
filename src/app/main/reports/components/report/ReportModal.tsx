@@ -256,12 +256,14 @@ const ReportModal: React.FC<ReportModalProps> = ({
                                 <div className='px-4'>
                                     <CommentList
                                         comments={reportComments!}
-                                        onReply={handleCreateReportComment}
+                                        onCreateReportComment={handleCreateReportComment}
                                         commentsLoading={commentsLoading}
                                         hasMoreComments={hasMoreComments}
                                         onFetchingMoreComments={handleLoadMoreComments}
-                                        isFetchingMoreComments={isFetchingMoreComments}
-                                    />
+                                        isFetchingMoreComments={isFetchingMoreComments} 
+                                        searchUsersData={searchUsersData} 
+                                        setSearchTermChange={setSearchUsersTermChange} 
+                                        setIsSearchUsersOpen={setIsSearchUsersOpen}                                    />
                                 </div>
                             </div>
                         </div>

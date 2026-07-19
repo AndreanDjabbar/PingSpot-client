@@ -81,7 +81,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
             setReplies(allReplies);
         }
     }, [repliesData]);
-
+    
     const handleToggleReplies = () => {
         setShowReplies(!showReplies);
     };
@@ -125,6 +125,8 @@ const CommentItem: React.FC<CommentItemProps> = ({
     };
 
     const marginLeft = Math.min(level * 16, 32);
+    
+    const isMediaComment = comment.media && (comment.media.type === 'IMAGE' || comment.media.type === 'gif');
 
     return (
         <motion.div
@@ -148,38 +150,48 @@ const CommentItem: React.FC<CommentItemProps> = ({
                     </div>
                 </div>
                 
-                <div className="flex-1 min-w-0">
-                    <div className="flex items-start space-x-2">
+                <div className="flex-1 min-w-0 ">
+                    <div className="flex flex-wrap items-baseline gap-1">
                         <span className="font-semibold text-sm text-gray-900 shrink-0">
                             {comment.userInformation?.username || 'User'}
                         </span>
                         <span className="text-sm text-gray-800 break-words">
-                            <MentionText 
-                            commentUserID={Number(comment.userInformation?.userID || 0)}
-                            text={comment.content || ""}
-                            userMentioned={comment.replyTo || null} 
-                            commentMentions={comment.mentions || []}
-                            />
+                            {!isMediaComment && (
+                                <MentionText 
+                                commentUserID={Number(comment.userInformation?.userID || 0)}
+                                text={comment.content || ""}
+                                userMentioned={comment.replyTo || null} 
+                                commentMentions={comment.mentions || []}
+                                />
+                            )}
                         </span>
                     </div>
-                    {comment.media && (
-                        <div className="mt-2">
-                            {comment.media.type === 'IMAGE' || comment.media.type === 'gif' ? (
-                                <div className="relative rounded-lg overflow-hidden max-w-[200px]">
+                    {isMediaComment && (
+                        <div className="mt-1">
+                            <div className="flex flex-col gap-1">
+                                <div className="relative rounded-lg overflow-hidden max-w-[200px] sm:max-w-[240px]">
                                     <Image
-                                        src={comment.commentType === 'TEMP' ? comment.media.url : getImageURL(`/report/comments/${comment.media.url}`, "main")}
+                                        src={comment.commentType === 'TEMP' ? (comment.media?.url || '') : getImageURL(`/report/comments/${(comment.media?.url || '')}`, "main")}
                                         alt="Comment media"
-                                        onClick={() => handleImageClick(getImageURL(`/report/comments/${comment?.media?.url}`, "main"))}
+                                        onClick={() => handleImageClick(getImageURL(`/report/comments/${(comment.media?.url || '')}`, "main"))}
                                         width={comment?.media?.width || 200}
                                         height={comment?.media?.height || 150}
                                         className="object-cover w-full h-auto cursor-pointer"
                                     />
                                 </div>
-                            ) : null}
+                                <span className="text-sm text-gray-800 break-words">
+                                    <MentionText 
+                                    commentUserID={Number(comment.userInformation?.userID || 0)}
+                                    text={comment.content || ""}
+                                    userMentioned={comment.replyTo || null} 
+                                    commentMentions={comment.mentions || []}
+                                    />
+                                </span>
+                            </div>
                         </div>
                     )}
                     
-                    <div className="flex items-center space-x-3 mt-1">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
                         <span className="text-xs text-gray-400">
                             {formattedDate(comment.createdAt, { formatStr: 'dd MMM yyyy, HH:mm' })}
                         </span>

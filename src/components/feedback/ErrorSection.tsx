@@ -48,18 +48,18 @@ const ErrorSection: React.FC<ErrorSectionProps> = ({
     };
 
     return (
-        <div className="bg-danger/20 border border-danger/20 rounded-xl p-4 shadow-sm">
+        <div className="bg-danger/30 border border-danger/50 rounded-xl p-4 shadow-lg">
             <div className="flex flex-col">
                 <div className="flex gap-2 items-center mb-3">
-                    <FaRegCircleXmark size={20} className="text-danger-dark"/>
-                    <h3 className="text-sm font-semibold text-danger-dark">
+                    <FaRegCircleXmark size={20} className="text-danger"/>
+                    <h3 className="text-sm font-semibold text-danger">
                         {message || 'Silahkan perbaiki kesalahan berikut:'}
                     </h3>
                 </div>
 
                 <div className="flex-1 px-1">
                     {errors && typeof errors === "string" && (
-                        <div className="bg-white/90 rounded-lg px-3 py-2 border border-danger/10">
+                        <div className="bg-white rounded-lg px-3 py-2 border border-danger/10">
                             <p className="text-sm text-surface/90">{errors}</p>
                         </div>
                     )}
@@ -69,11 +69,11 @@ const ErrorSection: React.FC<ErrorSectionProps> = ({
                             {Object.entries(errors).map(([key, value]) => (
                                 <div
                                     key={key}
-                                    className="bg-white rounded-lg px-3 py-3 border border-muted shadow-sm"
+                                    className="bg-white rounded-lg px-3 py-3 border border-danger/10 shadow-sm"
                                 >
                                     <div className="flex flex-col">
                                         <div className='flex gap-2 items-center mb-1'>
-                                            <div className="text-danger-dark/70">
+                                            <div className="text-danger/70">
                                                 <MdCircle size={8}/>
                                             </div>
                                             <p className="text-xs font-bold text-surface uppercase tracking-widest">
@@ -90,7 +90,7 @@ const ErrorSection: React.FC<ErrorSectionProps> = ({
                     )}
                     
                     {!errors && message && (
-                        <div className="bg-white/90 rounded-lg px-3 py-2 border border-danger/10">
+                        <div className="bg-white/90 rounded-lg px-3 py-2 border border-red-700/10">
                             <p className="text-sm text-surface/90">
                                 {message}
                             </p>

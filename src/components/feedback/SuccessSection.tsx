@@ -28,14 +28,14 @@ const SuccessSection: React.FC<SuccessSectionProps> = ({
     const displayMessage = message || getDataResponseMessage(data);
 
     return (
-        <div className="bg-success/20 border border-success/20 rounded-xl p-4 shadow-sm transition-all duration-300 ease-in-out">
+        <div className="bg-success/20 border border-success/20 rounded-xl p-4 shadow-lg transition-all duration-300 ease-in-out">
             <div className="flex flex-col items-start justify-between">
                 <div className="flex space-x-2 items-center">
-                    <div className="text-success-dark">
+                    <div className="text-success">
                         <FaCircleCheck size={20} />
                     </div>
                     <div className="flex-1">
-                        <p className="font-bold text-sm leading-5 text-success-dark">
+                        <p className="font-bold text-sm leading-5 text-success">
                             {displayMessage}
                         </p>
                     </div>

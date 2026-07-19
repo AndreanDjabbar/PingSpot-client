@@ -21,6 +21,7 @@ html, body {
     @apply bg-background text-surface;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    overflow-y: hidden;
 }
 
 .bg-pingspot {

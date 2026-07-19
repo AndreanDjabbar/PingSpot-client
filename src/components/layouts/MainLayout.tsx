@@ -53,15 +53,14 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     return (
         <div className="flex flex-col">
             <TopNavigation onMenuToggle={toggleSidebar} />
-
             <div className="flex overflow-hidden bg-background h-screen w-full">
                 <Sidebar 
                     isOpen={sidebarOpen} 
                     onToggle={closeSidebar} 
                     onBottomNavHeightChange={handleBottomNavHeightChange}
                 />
-                <div className="flex-1 min-w-0 xl:ml-70">
-                    <Scrollbar>
+                <div className="flex-1 min-w-0 xl:ml-70 mt-18 xl:mt-0">
+                    <Scrollbar >
                         <div className="p-5">
                             {children}
                         </div>

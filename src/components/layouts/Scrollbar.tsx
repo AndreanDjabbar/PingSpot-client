@@ -12,7 +12,7 @@ interface SimpleBarProps {
     className?: string;
 }
 
-const Scrollbar = ({ children, height = '100vh', width = '100%', autoHide = true, className = '' }: SimpleBarProps) => {
+const Scrollbar = ({ children, height = '100%', width = '100%', autoHide = true, className = '' }: SimpleBarProps) => {
     return (
         <SimpleBar
         className={className}

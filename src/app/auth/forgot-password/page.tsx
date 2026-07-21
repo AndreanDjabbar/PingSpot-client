@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { MdMailOutline } from "react-icons/md";
 import { FaGoogle } from "react-icons/fa";
@@ -6,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { IForgotPasswordEmailVerificationRequest } from "@/types/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useEmailVerification, useErrorToast, useSuccessToast } from "@/hooks";
 import { useRouter } from "next/navigation";
 import { ForgotPasswordEmailVerificationSchema } from "../Schema";
@@ -20,12 +22,40 @@ const ForgotPasswordPage = () => {
         resolver: zodResolver(ForgotPasswordEmailVerificationSchema)
     });
     
-    const { mutate, isPending, isError, isSuccess, error, data } = useEmailVerification();
+    const { mutate, isPending, isError, isSuccess, error, data, reset } = useEmailVerification();
     const router = useRouter();
+    const [countdown, setCountdown] = useState<number | null>(null);
     
     useErrorToast(isError, error);
     useSuccessToast(isSuccess, data);
 
+    useEffect(() => {
+        if (isError && error) {
+            const errorDetails = getErrorResponseDetails(error) as any;
+            const countdownValue = errorDetails?.retry_after_seconds || null;
+            
+            if (countdownValue && countdown === null) {
+                setCountdown(countdownValue);
+            }
+        } else {
+            setCountdown(null);
+        }
+    }, [isError, error, countdown]);
+
+    useEffect(() => {
+        if (countdown === null || countdown <= 0) {
+            setCountdown(null);
+            reset();
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            setCountdown(prev => prev !== null ? prev - 1 : null);
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    }, [countdown]);
+    
     useEffect(() => {
         if (isSuccess && data) {
             setTimeout(() => {
@@ -50,8 +80,7 @@ const ForgotPasswordPage = () => {
 
             {isError && (
                 <ErrorSection 
-                message={getErrorResponseMessage(error)} 
-                errors={getErrorResponseDetails(error)}/>
+                message={countdown !== null ? `Silakan coba lagi dalam ${countdown} detik.` : getErrorResponseMessage(error)}/>
             )}
             
             {!isSuccess && (

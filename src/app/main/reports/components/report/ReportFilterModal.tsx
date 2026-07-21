@@ -8,7 +8,7 @@ import { useLocationStore, useReportsStore } from '@/stores';
 import { Button } from '@/components/UI';
 
 type SortOption = 'latest' | 'oldest' | 'most_liked' | 'least_liked';
-type StatusFilter = 'all' | 'WAITING' | 'ON_PROGRESS' | 'RESOLVED' | 'POTENTIALLY_RESOLVED' | 'NOT_RESOLVED' | 'EXPIRED';
+type StatusFilter = 'all' | 'WAITING' | 'ON_PROGRESS' | 'RESOLVED' | 'WAITING_CONFIRMATION' | 'EXPIRED';
 type DistanceFilter = 'all' | '1000' | '5000' | '10000';
 type ProgressFilter = 'all' | 'true' | 'false';
 

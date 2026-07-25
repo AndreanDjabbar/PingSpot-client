@@ -6,6 +6,7 @@ import { MdCheckCircle, MdAccessTime, MdCancel } from 'react-icons/md';
 import { ReportFilterOptions, ReportType } from '@/types/model/report';
 import { useLocationStore, useReportsStore } from '@/stores';
 import { Button } from '@/components/UI';
+import { Scrollbar } from '@/components';
 
 type SortOption = 'latest' | 'oldest' | 'most_liked' | 'least_liked';
 type StatusFilter = 'all' | 'WAITING' | 'ON_PROGRESS' | 'RESOLVED' | 'WAITING_CONFIRMATION' | 'EXPIRED';
@@ -189,179 +190,180 @@ const ReportFilterModal: React.FC<FilterModalProps> = ({
                         />
                         
                         <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col h-75 sm:h-78 md:h-95 lg:h-105 xl:h-120">
-                            <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
-                                <div>
-                                    <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
-                                        <BiLike className="w-4 h-4 sm:w-5 sm:h-5" />
-                                        Urutkan Berdasarkan
-                                    </label>
-                                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                                        {sortOptions.map((option) => (
-                                            <button
-                                                key={option.value}
-                                                onClick={() => setFilters({ ...filters, sortBy: option.value as SortOption })}
-                                                className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all cursor-pointer ${
-                                                    filters.sortBy === option.value
-                                                        ? 'border-primary bg-primary/10 text-primary'
-                                                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                                                }`}
-                                            >
-                                                <span className={filters.sortBy === option.value ? 'text-primary' : 'text-gray-400'}>
-                                                    {option.icon}
-                                                </span>
-                                                <span className="text-xs sm:text-sm font-medium">{option.label}</span>
-                                            </button>
-                                        ))}
+                            <Scrollbar height={'80%'}>
+                                <div className="flex-1 p-4 sm:p-6 space-y-4 sm:space-y-6 h-[80%]">
+                                    <div>
+                                        <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
+                                            <BiLike className="w-4 h-4 sm:w-5 sm:h-5" />
+                                            Urutkan Berdasarkan
+                                        </label>
+                                        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                                            {sortOptions.map((option) => (
+                                                <button
+                                                    key={option.value}
+                                                    onClick={() => setFilters({ ...filters, sortBy: option.value as SortOption })}
+                                                    className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all cursor-pointer ${
+                                                        filters.sortBy === option.value
+                                                            ? 'border-primary bg-primary/10 text-primary'
+                                                            : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                                                    }`}
+                                                >
+                                                    <span className={filters.sortBy === option.value ? 'text-primary' : 'text-gray-400'}>
+                                                        {option.icon}
+                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-medium">{option.label}</span>
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div>
-                                    <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
-                                        <BiCategory className="w-4 h-4 sm:w-5 sm:h-5" />
-                                        Kategori Laporan
-                                    </label>
-                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-                                        {reportTypeOptions.map((option) => (
-                                            <button
-                                                key={option.value}
-                                                onClick={() => setFilters({ ...filters, reportType: option.value as ReportType | 'all' })}
-                                                className={`p-3 sm:p-4 rounded-xl border-2 transition-all text-xs sm:text-sm font-medium cursor-pointer ${
-                                                    filters.reportType === option.value
-                                                        ? 'border-primary bg-primary/10 text-primary'
-                                                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                                                }`}
-                                            >
-                                                {option.label}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
-                                        <MdCheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-                                        Status Laporan
-                                    </label>
-                                    <div className="space-y-2">
-                                        {statusOptions.map((option) => (
-                                            <button
-                                                key={option.value}
-                                                disabled={disableStatus}
-                                                onClick={() => setFilters({ ...filters, status: option.value as StatusFilter })}
-                                                className={`w-full flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all cursor-pointer ${
-                                                    disableStatus
-                                                        ? 'opacity-50 cursor-not-allowed border-gray-200 bg-gray-100'
-                                                        : filters.status === option.value
-                                                        ? 'border-primary bg-primary/10'
-                                                        : 'border-gray-200 hover:border-gray-300'
-                                                }`}
-                                            >
-                                                <span className={`text-base sm:text-lg ${
-                                                    disableStatus
-                                                        ? 'text-gray-300'
-                                                        : filters.status === option.value
-                                                        ? 'text-primary'
-                                                        : option.color === 'green'
-                                                        ? 'text-green-500'
-                                                        : option.color === 'blue'
-                                                        ? 'text-blue-500'
-                                                        : option.color === 'yellow'
-                                                        ? 'text-yellow-500'
-                                                        : option.color === 'red'
-                                                        ? 'text-red-500'
-                                                        : 'text-gray-400'
-                                                }`}>
-                                                    {option.icon}
-                                                </span>
-                                                <span className={`text-xs sm:text-sm font-medium ${
-                                                    disableStatus
-                                                        ? 'text-gray-400'
-                                                        : filters.status === option.value ? 'text-primary' : 'text-gray-700'
-                                                }`}>
+                                    <div>
+                                        <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
+                                            <BiCategory className="w-4 h-4 sm:w-5 sm:h-5" />
+                                            Kategori Laporan
+                                        </label>
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+                                            {reportTypeOptions.map((option) => (
+                                                <button
+                                                    key={option.value}
+                                                    onClick={() => setFilters({ ...filters, reportType: option.value as ReportType | 'all' })}
+                                                    className={`p-3 sm:p-4 rounded-xl border-2 transition-all text-xs sm:text-sm font-medium cursor-pointer ${
+                                                        filters.reportType === option.value
+                                                            ? 'border-primary bg-primary/10 text-primary'
+                                                            : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                                                    }`}
+                                                >
                                                     {option.label}
-                                                </span>
-                                            </button>
-                                        ))}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
+                                            <MdCheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                                            Status Laporan
+                                        </label>
+                                        <div className="space-y-2">
+                                            {statusOptions.map((option) => (
+                                                <button
+                                                    key={option.value}
+                                                    disabled={disableStatus}
+                                                    onClick={() => setFilters({ ...filters, status: option.value as StatusFilter })}
+                                                    className={`w-full flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all cursor-pointer ${
+                                                        disableStatus
+                                                            ? 'opacity-50 cursor-not-allowed border-gray-200 bg-gray-100'
+                                                            : filters.status === option.value
+                                                            ? 'border-primary bg-primary/10'
+                                                            : 'border-gray-200 hover:border-gray-300'
+                                                    }`}
+                                                >
+                                                    <span className={`text-base sm:text-lg ${
+                                                        disableStatus
+                                                            ? 'text-gray-300'
+                                                            : filters.status === option.value
+                                                            ? 'text-primary'
+                                                            : option.color === 'green'
+                                                            ? 'text-green-500'
+                                                            : option.color === 'blue'
+                                                            ? 'text-blue-500'
+                                                            : option.color === 'yellow'
+                                                            ? 'text-yellow-500'
+                                                            : option.color === 'red'
+                                                            ? 'text-red-500'
+                                                            : 'text-gray-400'
+                                                    }`}>
+                                                        {option.icon}
+                                                    </span>
+                                                    <span className={`text-xs sm:text-sm font-medium ${
+                                                        disableStatus
+                                                            ? 'text-gray-400'
+                                                            : filters.status === option.value ? 'text-primary' : 'text-gray-700'
+                                                    }`}>
+                                                        {option.label}
+                                                    </span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
+                                            <RiProgress3Fill className="w-4 h-4 sm:w-5 sm:h-5" />
+                                            Tipe Progress Laporan
+                                        </label>
+                                        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                                            {progressOptions.map((option) => (
+                                                <button
+                                                    key={option.value}
+                                                    onClick={() => {
+                                                        if (option.value as ProgressFilter === 'false') {
+                                                            setDisableStatus(true);
+                                                            setFilters({ ...filters, hasProgress: option.value as ProgressFilter, status: 'all' });
+                                                        } else {
+                                                            setDisableStatus(false);
+                                                            setFilters({ ...filters, hasProgress: option.value as ProgressFilter });
+                                                        }
+                                                    }}
+                                                    className={`flex items-center gap-2 p-3 sm:p-4 rounded-xl border-2 transition-all cursor-pointer ${
+                                                        filters.hasProgress === option.value
+                                                            ? 'border-primary bg-primary/10 text-primary'
+                                                            : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                                                    }`}
+                                                >
+                                                    <span className={filters.hasProgress === option.value ? 'text-primary' : 'text-gray-400'}>
+                                                        {option.icon}
+                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-medium">{option.label}</span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
+                                            <BiMap className="w-4 h-4 sm:w-5 sm:h-5" />
+                                            Jarak Lokasi
+                                        </label>
+                                        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                                            {distanceOptions.map((option) => (
+                                                <button
+                                                    key={option.value}
+                                                    onClick={() => {
+                                                        const lat = option.value === 'all' ? null : userLocation?.lat || null;
+                                                        const lng = option.value === 'all' ? null : userLocation?.lng || null;
+                                                        setFilters({ 
+                                                            ...filters, 
+                                                            distance: { ...filters.distance, distance: option.value as DistanceFilter, lat: lat, lng: lng } 
+                                                        })
+                                                    }}
+                                                    className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all cursor-pointer ${
+                                                        filters.distance.distance === option.value
+                                                            ? 'border-primary bg-primary/10 text-primary'
+                                                            : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                                                    }`}
+                                                >
+                                                    <span className={filters.distance.distance === option.value ? 'text-primary' : 'text-gray-400'}>
+                                                        {option.icon}
+                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-medium">{option.label}</span>
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div>
-                                    <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
-                                        <RiProgress3Fill className="w-4 h-4 sm:w-5 sm:h-5" />
-                                        Tipe Progress Laporan
-                                    </label>
-                                    <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                                        {progressOptions.map((option) => (
-                                            <button
-                                                key={option.value}
-                                                onClick={() => {
-                                                    if (option.value as ProgressFilter === 'false') {
-                                                        setDisableStatus(true);
-                                                        setFilters({ ...filters, hasProgress: option.value as ProgressFilter, status: 'all' });
-                                                    } else {
-                                                        setDisableStatus(false);
-                                                        setFilters({ ...filters, hasProgress: option.value as ProgressFilter });
-                                                    }
-                                                }}
-                                                className={`flex items-center gap-2 p-3 sm:p-4 rounded-xl border-2 transition-all cursor-pointer ${
-                                                    filters.hasProgress === option.value
-                                                        ? 'border-primary bg-primary/10 text-primary'
-                                                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                                                }`}
-                                            >
-                                                <span className={filters.hasProgress === option.value ? 'text-primary' : 'text-gray-400'}>
-                                                    {option.icon}
-                                                </span>
-                                                <span className="text-xs sm:text-sm font-medium">{option.label}</span>
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
-                                        <BiMap className="w-4 h-4 sm:w-5 sm:h-5" />
-                                        Jarak Lokasi
-                                    </label>
-                                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                                        {distanceOptions.map((option) => (
-                                            <button
-                                                key={option.value}
-                                                onClick={() => {
-                                                    const lat = option.value === 'all' ? null : userLocation?.lat || null;
-                                                    const lng = option.value === 'all' ? null : userLocation?.lng || null;
-                                                    setFilters({ 
-                                                        ...filters, 
-                                                        distance: { ...filters.distance, distance: option.value as DistanceFilter, lat: lat, lng: lng } 
-                                                    })
-                                                }}
-                                                className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all cursor-pointer ${
-                                                    filters.distance.distance === option.value
-                                                        ? 'border-primary bg-primary/10 text-primary'
-                                                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                                                }`}
-                                            >
-                                                <span className={filters.distance.distance === option.value ? 'text-primary' : 'text-gray-400'}>
-                                                    {option.icon}
-                                                </span>
-                                                <span className="text-xs sm:text-sm font-medium">{option.label}</span>
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="p-4 sm:p-6 border-t border-gray-200 bg-gray-50">
+                            </Scrollbar>
+                            <div className="p-4 sm:p-6 border-t border-gray-200 bg-gray-50 h-[20%]">
                                 <div className="flex gap-2 sm:gap-3">
-                                    <button
+                                    <Button
                                         onClick={handleReset}
-                                        className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl border-2 border-gray-300 text-gray-700 text-sm sm:text-base font-semibold hover:bg-gray-100 transition-colors cursor-pointer"
+                                        className="flex-1 px-4 sm:px-6 bg-gray-200 py-2.5 sm:py-3 rounded-xl text-gray-700 hover:bg-gray-300 transition-colors cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
                                     >
                                         Reset
-                                    </button>
+                                    </Button>
                                     <Button
                                         onClick={handleApply}
-                                        className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl"
+                                        className="flex-1 px-4 sm:px-6 bg-primary py-2.5 sm:py-3 rounded-xl text-white hover:bg-primary/80 transition-colors cursor-pointer"
                                     >
                                         Terapkan Filter
                                     </Button>

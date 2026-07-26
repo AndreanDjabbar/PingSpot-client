@@ -1,4 +1,6 @@
 import { 
+    followService,
+    getFollowDataService,
     getMyProfileService, 
     getProfileByUsernameService, 
     getUserStatisticsService, 
@@ -42,6 +44,19 @@ export const useMyProfile = () => {
 export const useSaveProfile = () => {
     return useMutation<ISaveProfileResponse, AxiosError, FormData>({
         mutationFn: (data: FormData) => saveProfileService(data) 
+    })
+}
+
+export const useGetFollowData = (followingID: number, followingType: 'user' | 'community') =>{
+    return useQuery({
+        queryKey: ['follow-data', followingID, followingType],
+        queryFn: () => getFollowDataService(followingID, followingType),
+    })
+}
+
+export const useFollow = (followID: number, followingType: 'user' | 'community') => {
+    return useMutation({
+        mutationFn: () => followService(followID, followingType)
     })
 }
 

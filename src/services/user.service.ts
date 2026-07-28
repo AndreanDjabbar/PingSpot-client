@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IFollowResponse, IGetFollowDataResponse, IGetUserStatisticsResponse, ISaveSecurityRequest, ISaveSecurityResponse, ISearchUsersResponse } from "@/types/api/user";
+import { IGetUserStatisticsResponse, ISaveSecurityRequest, ISaveSecurityResponse, ISearchUsersResponse } from "@/types/api/user";
 import { IGetProfileResponse, ISaveProfileResponse } from "@/types";
 import axiosInstance from "@/lib/axiosInstance";
 
@@ -10,21 +10,6 @@ export const saveProfileService = async (payload: FormData): Promise<ISaveProfil
             'Accept': 'application/json',
         },
     });
-    return response.data;
-}
-
-export const followService = async (followID: number, followingType: 'user' | 'community'): Promise<IFollowResponse> => {
-    const response = await axiosInstance.post<IFollowResponse>(`/user/follow`, { followID, followingType }, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-    });
-    return response.data;
-}
-
-export const getFollowDataService = async (followingID: number, followingType: 'user' | 'community'): Promise<IGetFollowDataResponse> => {
-    const response = await axiosInstance.get<IGetFollowDataResponse>(`/user/follow/${followingID}/${followingType}`);
     return response.data;
 }
 

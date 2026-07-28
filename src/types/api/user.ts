@@ -22,35 +22,6 @@ export interface ISaveProfileResponse {
     data?: IUserProfile;
 }
 
-export interface IFollowRequest {
-    followID: number;
-    followingType: 'user' | 'community';
-}
-
-export interface IFollowResponse {
-    message: string;
-    data?: {
-        followingID: number;
-        followingType: 'user' | 'community';
-        followerUserID: number;
-        followProcess: 'follow' | 'unfollow';
-    }
-}
-
-export interface IGetFollowDataRequest {
-    followingID: number;
-    followingType: 'user' | 'community';
-}
-
-export interface IGetFollowDataResponse {
-    message: string;
-    data?: {
-        followingID: number;
-        followersCount: number;
-        followingCount: number;
-    }
-}
-
 export type ISaveSecurityRequest = z.infer<typeof SaveSecuritySchema>;
 
 export interface ISaveSecurityResponse {

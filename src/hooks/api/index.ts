@@ -4,3 +4,4 @@ export * from './useReport';
 export * from './useUser';
 export * from './useSearch';
 export * from './useGlobal';
+export * from './useSocial';

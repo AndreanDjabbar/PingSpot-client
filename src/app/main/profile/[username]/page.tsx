@@ -1,12 +1,14 @@
 "use client";
 
 import { useParams, useRouter } from 'next/navigation';
-import React from 'react';
 import Image from 'next/image';
-import { useGetProfileByUsername, useErrorToast, useGetFollowData } from '@/hooks';
-import { ErrorSection, Loading } from '@/components';
+import { useGetProfileByUsername, useErrorToast, useGetFollowData, useFollow } from '@/hooks';
+import { Button, ErrorSection, Loading } from '@/components';
 import { getErrorResponseMessage, getImageURL, isInternalServerError, isNotFoundError } from '@/utils';
 import { Skeleton } from './components';
+import { IoPersonAddSharp } from 'react-icons/io5';
+import { FaCheck } from 'react-icons/fa';
+import { BiSolidMessageRounded } from 'react-icons/bi';
 
 const ProfilePageByUsername = () => {
   const params = useParams();
@@ -31,8 +33,16 @@ const ProfilePageByUsername = () => {
     data: followData
   } = useGetFollowData(Number(userID) || 0, 'user');
 
+  const {
+    mutate: followMutate,
+    isError: isFollowError,
+    error: followError,
+    isPending: isFollowPending,
+  } = useFollow(Number(userID) || 0, 'user');
+
   const followingCount = followData?.data?.followingCount || 0;
   const followersCount = followData?.data?.followersCount || 0;
+  const isFollowed = (followData?.data?.myFollowData == null) ? false : true;
 
   const userProfile = {
     fullName: userData?.data?.fullName || "User's full name",
@@ -46,7 +56,12 @@ const ProfilePageByUsername = () => {
     likes: 548,
   };
 
-  useErrorToast(isErrorFetchingFollowData, errorFetchingFollowData?.message || "Gagal memuat data follow.");
+  useErrorToast(isErrorFetchingFollowData, errorFetchingFollowData || "Gagal memuat data follow.");
+  useErrorToast(isFollowError, followError || "Gagal melakukan follow/unfollow.");
+
+  const handleFollowClick = () => {
+    followMutate();
+  };
 
   if (isErrorFetchingUser) {
     const isNotFound = isNotFoundError(errorFetchingUser);
@@ -79,7 +94,7 @@ const ProfilePageByUsername = () => {
       </div>
 
       <div className="absolute top-14 left-4 md:left-10 flex flex-col md:flex-row items-center ">
-        <div className='flex items-center gap-35 sm:gap-35'>
+        <div className='flex items-center gap-25 sm:gap-35'>
           <div>
             <div className="rounded-2xl sm:rounded-3xl overflow-hidden ring-4 sm:ring-6 md:ring-8 ring-white shadow-2xl w-24 h-24 sm:w-30 sm:h-30 md:w-40 md:h-40 lg:w-58 lg:h-58 bg-gray-200">
               <Image
@@ -147,12 +162,20 @@ const ProfilePageByUsername = () => {
               </div>
             </div>
             <div className="flex gap-2 sm:gap-3 mt-2 text-xs sm:text-sm md:text-base md:flex">
-              <button className="bg-primary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium hover:bg-primary/80 transition-colors cursor-pointer">
-                Follow
-              </button>
-              <button className="bg-white text-gray-900 py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer">
-                Chat
-              </button>
+              <Button
+              onClick={handleFollowClick}
+                disabled={isFollowPending}
+                icon={isFollowed ? <FaCheck /> : <IoPersonAddSharp />}
+                className={
+                  isFollowed
+                    ? "bg-white text-gray-900 px-3 sm:px-4 py-2 sm:py-2 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-gray-900"
+                    : "bg-primary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                }>
+                  {isFollowed ? 'Followed' : 'Follow'}
+              </Button>
+              <Button className="bg-white text-gray-900 py-2 sm:py-2 px-3 sm:px-4 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900">
+                <BiSolidMessageRounded size={20} />
+              </Button>
             </div>
           </div>
         </div>
@@ -175,12 +198,23 @@ const ProfilePageByUsername = () => {
               </p>
             </div>
             <div className="flex gap-2 sm:gap-3 mt-2 text-xs sm:text-sm md:text-base md:flex">
-              <button className="bg-primary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium hover:bg-primary/80 transition-colors cursor-pointer">
-                Follow
-              </button>
-              <button className="bg-white text-gray-900 py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer">
-                Chat
-              </button>
+              <Button
+                onClick={handleFollowClick}
+                disabled={isFollowPending}
+                icon={isFollowed ? <FaCheck /> : <IoPersonAddSharp />}
+                className={
+                  isFollowed
+                    ? "bg-white text-gray-900 px-3 sm:px-5 py-1.5 sm:py-4 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-gray-900"
+                    : "bg-primary text-white px-3 sm:px-5 py-1.5 sm:py-4 rounded-lg font-medium border-2 border-primary hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                }
+              >
+                {isFollowed ? 'Followed' : 'Follow'}
+              </Button>
+              <Button 
+              className="bg-white text-gray-900 py-1.5 sm:py-4 px-3 sm:px-5 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900"
+              >
+                Message
+              </Button>
             </div>
           </div>
           <div className="gap-4 sm:gap-6 md:gap-8 hidden md:block">

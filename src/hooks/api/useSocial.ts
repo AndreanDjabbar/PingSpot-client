@@ -1,5 +1,5 @@
 import { followService, getFollowDataService } from "@/services"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 
 export const useGetFollowData = (followingID: number, followingType: 'user' | 'community') =>{
@@ -10,7 +10,11 @@ export const useGetFollowData = (followingID: number, followingType: 'user' | 'c
 }
 
 export const useFollow = (followID: number, followingType: 'user' | 'community') => {
+    const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: () => followService(followID, followingType)
+        mutationFn: () => followService(followID, followingType),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['follow-data', followID, followingType] });
+        }
     })
 }

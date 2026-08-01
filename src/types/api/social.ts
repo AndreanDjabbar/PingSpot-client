@@ -24,5 +24,12 @@ export interface IGetFollowDataResponse {
         followingID: number;
         followersCount: number;
         followingCount: number;
+        myFollowData?: {
+            id: number;
+            followingID: number;
+            followingType: 'user' | 'community';
+            followerUserID: number;
+            createdAt: number;
+        }
     }
 }

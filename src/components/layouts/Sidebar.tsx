@@ -167,7 +167,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                                     email={user?.email || 'User@email.com'}
                                     imageUrl={user?.profilePicture}
                                     size="md"
-                                    onClick={() => router.push('/main/settings/profile')}
+                                    onClick={() => router.push('/main/profile/' + user?.username)}
                                 />
                             </div>
                         </div>

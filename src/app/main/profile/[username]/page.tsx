@@ -7,13 +7,15 @@ import { Button, ErrorSection, Loading } from '@/components';
 import { getErrorResponseMessage, getImageURL, isInternalServerError, isNotFoundError } from '@/utils';
 import { Skeleton } from './components';
 import { IoPersonAddSharp } from 'react-icons/io5';
-import { FaCheck } from 'react-icons/fa';
+import { FaCheck, FaUserEdit } from 'react-icons/fa';
 import { BiSolidMessageRounded } from 'react-icons/bi';
+import { useUserProfileStore } from '@/stores';
 
 const ProfilePageByUsername = () => {
   const params = useParams();
   const username = Array.isArray(params.username) ? params.username[0] : params.username;
   const router = useRouter();
+  const currentUserData = useUserProfileStore((state) => state.userProfile);
 
   const {
     isPending: isFetchingUser,
@@ -43,6 +45,7 @@ const ProfilePageByUsername = () => {
   const followingCount = followData?.data?.followingCount || 0;
   const followersCount = followData?.data?.followersCount || 0;
   const isFollowed = (followData?.data?.myFollowData == null) ? false : true;
+  const isMyProfile = userData?.data?.userID === currentUserData?.userID;
 
   const userProfile = {
     fullName: userData?.data?.fullName || "User's full name",
@@ -128,7 +131,7 @@ const ProfilePageByUsername = () => {
             <div className="gap-4 sm:gap-6 md:gap-8 md:hidden">
               <div className="flex gap-4 sm:gap-6 md:gap-8 lg:gap-10">
                 <div className="flex flex-col items-center text-center gap-1">
-                  <div className="text-gray-600 text-xs sm:text-sm md:text-md">Followers</div>
+                  <div className="text-gray-600 text-xs sm:text-sm md:text-md">Pengikut</div>
                   <div className="text-sm sm:text-base md:text-md font-bold text-gray-900">
                     {isFetchingFollowData ? (
                       <div className='flex items-center justify-center pt-2'>
@@ -144,7 +147,7 @@ const ProfilePageByUsername = () => {
                   </div>
                 </div>
                 <div className="flex flex-col items-center text-center gap-1">
-                  <div className="text-gray-600 text-xs sm:text-sm md:text-md">Following</div>
+                  <div className="text-gray-600 text-xs sm:text-sm md:text-md">Mengikuti</div>
                   <div className="text-sm sm:text-base md:text-md font-bold text-gray-900">
                     {isFetchingFollowData ? (
                       <div className='flex items-center justify-center pt-2'>
@@ -162,20 +165,32 @@ const ProfilePageByUsername = () => {
               </div>
             </div>
             <div className="flex gap-2 sm:gap-3 mt-2 text-xs sm:text-sm md:text-base md:flex">
-              <Button
-              onClick={handleFollowClick}
-                disabled={isFollowPending}
-                icon={isFollowed ? <FaCheck /> : <IoPersonAddSharp />}
-                className={
-                  isFollowed
-                    ? "bg-white text-gray-900 px-3 sm:px-4 py-2 sm:py-2 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-gray-900"
-                    : "bg-primary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-                }>
-                  {isFollowed ? 'Followed' : 'Follow'}
-              </Button>
-              <Button className="bg-white text-gray-900 py-2 sm:py-2 px-3 sm:px-4 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900">
-                <BiSolidMessageRounded size={20} />
-              </Button>
+              {!isMyProfile ? (
+                <>
+                  <Button
+                  onClick={handleFollowClick}
+                    disabled={isFollowPending}
+                    icon={isFollowed ? <FaCheck /> : <IoPersonAddSharp />}
+                    className={
+                      isFollowed
+                        ? "bg-white text-gray-900 px-3 sm:px-4 py-2 sm:py-2 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-gray-900"
+                        : "bg-primary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                    }>
+                      {isFollowed ? 'Diikuti' : 'Ikuti'}
+                  </Button>
+                  <Button className="bg-white text-gray-900 py-2 sm:py-2 px-3 sm:px-4 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900">
+                    <BiSolidMessageRounded size={20} />
+                  </Button>
+                </>
+              ) : (
+                <Button
+                    onClick={() => router.push('/main/settings/profile')}
+                    icon={<FaUserEdit />}
+                    className={"bg-primary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                    }>
+                      Edit Profil
+                  </Button>
+              )}
             </div>
           </div>
         </div>
@@ -198,29 +213,41 @@ const ProfilePageByUsername = () => {
               </p>
             </div>
             <div className="flex gap-2 sm:gap-3 mt-2 text-xs sm:text-sm md:text-base md:flex">
-              <Button
-                onClick={handleFollowClick}
-                disabled={isFollowPending}
-                icon={isFollowed ? <FaCheck /> : <IoPersonAddSharp />}
-                className={
-                  isFollowed
-                    ? "bg-white text-gray-900 px-3 sm:px-5 py-1.5 sm:py-4 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-gray-900"
-                    : "bg-primary text-white px-3 sm:px-5 py-1.5 sm:py-4 rounded-lg font-medium border-2 border-primary hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-                }
-              >
-                {isFollowed ? 'Followed' : 'Follow'}
-              </Button>
-              <Button 
-              className="bg-white text-gray-900 py-1.5 sm:py-4 px-3 sm:px-5 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900"
-              >
-                Message
-              </Button>
+              {!isMyProfile ? (
+                <>
+                  <Button
+                    onClick={handleFollowClick}
+                    disabled={isFollowPending}
+                    icon={isFollowed ? <FaCheck /> : <IoPersonAddSharp />}
+                    className={
+                      isFollowed
+                        ? "bg-white text-gray-900 px-3 sm:px-5 py-1.5 sm:py-4 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-gray-900"
+                        : "bg-primary text-white px-3 sm:px-5 py-1.5 sm:py-4 rounded-lg font-medium border-2 border-primary hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                    }
+                  >
+                    {isFollowed ? 'Diikuti' : 'Ikuti'}
+                  </Button>
+                  <Button 
+                  className="bg-white text-gray-900 py-1.5 sm:py-4 px-3 sm:px-5 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900"
+                  >
+                    Pesan
+                  </Button>
+                </>
+              ) : (
+                <Button
+                    onClick={() => router.push('/main/settings/profile')}
+                    icon={<FaUserEdit />}
+                    className={"bg-primary text-white px-3 sm:px-5 py-1.5 sm:py-4 rounded-lg font-medium border-2 border-primary hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"}
+                  >
+                    Edit Profil
+                  </Button>
+              )}
             </div>
           </div>
           <div className="gap-4 sm:gap-6 md:gap-8 hidden md:block">
             <div className="flex gap-4 sm:gap-6 md:gap-8 lg:gap-10">
               <div className="flex flex-col items-center text-center gap-1">
-                <div className="text-gray-600 text-xs sm:text-sm md:text-md lg:text-xl">Followers</div>
+                <div className="text-gray-600 text-xs sm:text-sm md:text-md lg:text-xl">Pengikut</div>
                 <div className="text-sm sm:text-base md:text-md lg:text-xl  font-bold text-gray-900 ">
                   {isFetchingFollowData ? (
                     <div className='flex items-center justify-center pt-4'>
@@ -236,7 +263,7 @@ const ProfilePageByUsername = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center text-center gap-1">
-                <div className="text-gray-600 text-xs sm:text-sm md:text-md lg:text-xl">Following</div>
+                <div className="text-gray-600 text-xs sm:text-sm md:text-md lg:text-xl">Mengikuti</div>
                 <div className="text-sm sm:text-base md:text-md font-bold lg:text-xl text-gray-900">
                   {isFetchingFollowData ? (
                       <div className='flex items-center justify-center pt-4'>

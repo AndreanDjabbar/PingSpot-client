@@ -102,7 +102,9 @@ const SettingsPage = () => {
                             following: 'text-gray-900', 
                         }}
                         />
-                        <Button className='border border-gray-300 text-gray-900 w-fit bg-white hover:bg-gray-100 transition-all duration-200' onClick={() => router.push(`/main/profile/${user?.username}`)}>
+                        <Button className='border border-gray-300 text-gray-900 w-fit bg-white hover:bg-gray-100 transition-all duration-200 '
+                        variant='outline'
+                        onClick={() => router.push(`/main/profile/${user?.username}`)}>
                             Lihat Profil
                         </Button>
                     </div>

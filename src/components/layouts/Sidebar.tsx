@@ -165,9 +165,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                                 <ProfileBadge
                                     name={user?.username || 'User'}
                                     email={user?.email || 'User@email.com'}
-                                    followers={123}
                                     imageUrl={user?.profilePicture}
-                                    following={456}
                                     size="md"
                                     onClick={() => router.push('/main/settings/profile')}
                                 />

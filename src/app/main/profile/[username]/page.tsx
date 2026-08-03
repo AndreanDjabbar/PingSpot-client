@@ -9,13 +9,14 @@ import { Skeleton } from './components';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { FaCheck, FaUserEdit } from 'react-icons/fa';
 import { BiSolidMessageRounded } from 'react-icons/bi';
-import { useUserProfileStore } from '@/stores';
+import { useConfirmationModalStore, useUserProfileStore } from '@/stores';
 
 const ProfilePageByUsername = () => {
   const params = useParams();
   const username = Array.isArray(params.username) ? params.username[0] : params.username;
   const router = useRouter();
   const currentUserData = useUserProfileStore((state) => state.userProfile);
+  const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
 
   const {
     isPending: isFetchingUser,
@@ -46,6 +47,30 @@ const ProfilePageByUsername = () => {
   const followersCount = followData?.data?.followersCount || 0;
   const isFollowed = (followData?.data?.myFollowData == null) ? false : true;
   const isMyProfile = userData?.data?.userID === currentUserData?.userID;
+
+  const handleFollowConfirmationModal = () => {
+    openConfirm({
+        type: "info",
+        title: "Konfirmasi Mengikuti",
+        subtitle: "Apakah Anda yakin ingin mengikuti pengguna ini?",
+        isPending: isFollowPending || false,
+        description: "Dengan mengikuti pengguna ini, Anda akan menerima pemberitahuan saat mereka melakukan aktivitas terbaru.",
+        confirmTitle: "Ya, Ikuti",
+        onConfirm: () => handleFollowClick(),
+    });
+  }
+  
+  const handleUnfollowConfirmationModal = () => {
+    openConfirm({
+        type: "warning",
+        title: "Konfirmasi Berhenti Mengikuti",
+        subtitle: "Apakah Anda yakin ingin berhenti mengikuti pengguna ini?",
+        isPending: isFollowPending || false,
+        description: "Dengan berhenti mengikuti pengguna ini, Anda tidak akan lagi menerima pemberitahuan tentang aktivitas terbaru mereka.",
+        confirmTitle: "Ya, Berhenti Mengikuti",
+        onConfirm: () => handleFollowClick(),
+    });
+  }
 
   const userProfile = {
     fullName: userData?.data?.fullName || "User's full name",
@@ -168,7 +193,7 @@ const ProfilePageByUsername = () => {
               {!isMyProfile ? (
                 <>
                   <Button
-                  onClick={handleFollowClick}
+                  onClick={isFollowed ? handleUnfollowConfirmationModal : handleFollowConfirmationModal}
                     disabled={isFollowPending}
                     icon={isFollowed ? <FaCheck /> : <IoPersonAddSharp />}
                     className={
@@ -216,7 +241,7 @@ const ProfilePageByUsername = () => {
               {!isMyProfile ? (
                 <>
                   <Button
-                    onClick={handleFollowClick}
+                    onClick={isFollowed ? handleUnfollowConfirmationModal : handleFollowConfirmationModal}
                     disabled={isFollowPending}
                     icon={isFollowed ? <FaCheck /> : <IoPersonAddSharp />}
                     className={

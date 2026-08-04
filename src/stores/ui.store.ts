@@ -48,6 +48,15 @@ interface OptionsModalState {
     closeOptionsModal: () => void;
 }
 
+interface ReportFilterModalState {
+    isOpen: boolean;
+    anchorRef?: React.RefObject<HTMLElement | null> | null;
+    openReportFilterModal: (options: {
+        anchorRef?: React.RefObject<HTMLElement | null> | null;
+    }) => void;
+    closeReportFilterModal: () => void;
+}
+
 export const useConfirmationModalStore = create<ConfirmationModalState>(
     (set) => ({
         isOpen: false,
@@ -104,4 +113,14 @@ export const useOptionsModalStore = create<OptionsModalState>((set) => ({
 
     closeOptionsModal: () =>
         set({ isOpen: false, optionsList: undefined, anchorRef: null }),
+}));
+
+export const useReportFilterModalStore = create<ReportFilterModalState>((set) => ({
+    isOpen: false,
+    anchorRef: null,
+
+    openReportFilterModal: ({ anchorRef = null }) =>
+        set({ isOpen: true, anchorRef }),
+    closeReportFilterModal: () =>
+        set({ isOpen: false, anchorRef: null }),
 }));

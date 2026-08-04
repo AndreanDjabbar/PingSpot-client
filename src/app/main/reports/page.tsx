@@ -24,9 +24,8 @@ import {
     ReportModal,
     ReportList,
     ReportSidebar,
-    ReportFilterModal
 } from './components';
-import { useReportsStore, useLocationStore } from '@/stores';
+import { useReportsStore, useLocationStore, useReportFilterModalStore } from '@/stores';
 import { useInView } from 'react-intersection-observer';
 import { FaLocationDot } from 'react-icons/fa6';
 
@@ -36,7 +35,6 @@ const ReportsPage = () => {
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
     const [searchUsersTerm, setSearchUsersTerm] = useState("");
     const [isSearchUsersOpen, setIsSearchUsersOpen] = useState(false);
-    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const filterButtonRef = useRef<HTMLButtonElement>(null);
 
     const { ref, inView } = useInView({
@@ -53,6 +51,7 @@ const ReportsPage = () => {
     const userLocation = useLocationStore((s) => s.location);
     const reportFilters = useReportsStore((s) => s.reportFilters);
     const updateReportFilters = useReportsStore((s) => s.updateReportFilters);
+    const openReportFilterModalStore = useReportFilterModalStore((s) => s.openReportFilterModal);
     const hasCoords = userLocation && userLocation?.lat !== null && userLocation?.lat !== '' && userLocation?.lng !== null && userLocation?.lng !== '';
 
     const { requestLocation, loading: loadingRequestLocation, permissionDenied, isPermissionDenied, } = useCurrentLocation();
@@ -640,7 +639,11 @@ const ReportsPage = () => {
                         <ReportSearchAndFilter
                             searchTerm={searchTerm}
                             onSearchChange={setSearchTerm}
-                            onFilterClick={() => setIsFilterModalOpen(true)}
+                            onFilterClick={() => {
+                                openReportFilterModalStore({
+                                    anchorRef: filterButtonRef,
+                                });
+                            }}
                             filterButtonRef={filterButtonRef}
                             activeFiltersCount={
                                 (reportFilters.reportType !== 'all' ? 1 : 0) +
@@ -752,11 +755,6 @@ const ReportsPage = () => {
                             />
                     )}
 
-                    <ReportFilterModal
-                        isOpen={isFilterModalOpen}
-                        onClose={() => setIsFilterModalOpen(false)}
-                        buttonRef={filterButtonRef}
-                    />
                 </div>
             </div>
         </div>

@@ -416,7 +416,7 @@ const ReportFilterModal: React.FC = () => {
                                     </div>
                                 </div>
                             </Scrollbar>
-                            <div className="p-4 sm:p-6 border-t border-gray-200 bg-gray-50 h-[20%]">
+                            <div className="p-2 md:p-4 lg:p-6 border-t border-gray-200 bg-gray-50 h-[20%]">
                                 <div className="flex gap-2 sm:gap-3">
                                     <Button
                                         onClick={handleReset}

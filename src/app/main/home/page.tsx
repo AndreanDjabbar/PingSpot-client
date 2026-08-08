@@ -201,15 +201,17 @@ const Homepage = () => {
                                     </p>
                                 )}
                             </div>
-                            <Button 
-                            size='sm'
-                            isLoading={loadingRequestLocation}
-                            loadingText='Memperbarui...'
-                            onClick={() => {
-                                requestLocation(true)
-                            }}>
-                                Perbarui Lokasi
-                            </Button>
+                            {location !== null && (
+                                <Button 
+                                size='sm'
+                                isLoading={loadingRequestLocation}
+                                loadingText='Memperbarui...'
+                                onClick={() => {
+                                    requestLocation(true)
+                                }}>
+                                    Perbarui Lokasi
+                                </Button>
+                            )}
                         </div>
                         {location !== null ? (
                             <div className="space-y-4 h-full">

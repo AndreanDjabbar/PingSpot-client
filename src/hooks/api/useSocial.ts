@@ -1,4 +1,4 @@
-import { followService, getFollowDataService } from "@/services"
+import { followService, getFollowDataService, getUserConnectionsService } from "@/services"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 
@@ -16,5 +16,12 @@ export const useFollow = (followID: number, followingType: 'user' | 'community')
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['follow-data', followID, followingType] });
         }
+    })
+}
+
+export const useGetUserConnections = (userID: number) => {
+    return useQuery({
+        queryKey: ['user-connections', userID],
+        queryFn: () => getUserConnectionsService(userID),
     })
 }

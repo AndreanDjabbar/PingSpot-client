@@ -33,3 +33,20 @@ export interface IGetFollowDataResponse {
         }
     }
 }
+
+export interface IUserConnection {
+    userID: number;
+    username: string;
+    fullName: string;
+    profilePicture: string;
+    relation: 'follower' | 'following';
+    status: string;
+}
+
+export interface IGetUserConnectionsResponse {
+    data: {
+        followers: IUserConnection[];
+        following: IUserConnection[];
+    },
+    message: string;
+}

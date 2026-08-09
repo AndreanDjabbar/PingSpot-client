@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useMemo, memo } from 'react';
-import { useReportsStore } from '@/stores';
+import React, { useMemo, memo, useState } from 'react';
+import { useReportsStore, useUserProfileStore } from '@/stores';
+import { useErrorToast, useGetUserConnections } from '@/hooks';
+import { getImageURL } from '@/utils';
+import Image from 'next/image';
 
 const reportTypeConfig: Record<string, { label: string; color: string }> = {
     totalInfrastructureReports: { label: 'Infrastruktur', color: 'text-blue-600' },
@@ -22,10 +25,19 @@ const reportTypeConfig: Record<string, { label: string; color: string }> = {
 
 const ReportSidebar = memo(() => {
     const reportCount = useReportsStore((state) => state.reportCount);
+    const currentUser = useUserProfileStore((state) => state.userProfile);
+    const {
+        isPending: isFetchingUserConnections,
+        isError: isErrorFetchingUserConnections,
+        error: errorFetchingUserConnections,
+        refetch: refetchUserConnections,
+        data: userConnections
+    } = useGetUserConnections(Number(currentUser?.userID) || 0);
+    const [viewMode, setViewMode] = useState<'follower' | 'following'>('follower');
 
     const reportStats = useMemo(() => {
         if (!reportCount) return [];
-        
+
         return Object.entries(reportCount)
             .filter(([key, value]) => key !== 'totalReports' && value > 0)
             .map(([key, value]) => ({
@@ -35,6 +47,12 @@ const ReportSidebar = memo(() => {
                 count: value,
             }));
     }, [reportCount]);
+
+    const connections = viewMode === 'follower' ? userConnections?.data?.followers : userConnections?.data?.following;
+    const onlineCount = connections?.filter((c) => c.status === 'online').length || 0;
+    const hasConnections = !!connections && connections.length > 0;
+
+    useErrorToast(isErrorFetchingUserConnections, errorFetchingUserConnections || "Gagal memuat data koneksi pengguna.");
 
     return (
         <div className='hidden lg:block w-1/3 lg:w-75 2xl:w-90 overflow-y-auto space-y-4'>
@@ -88,41 +106,107 @@ const ReportSidebar = memo(() => {
 
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">
                 <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-bold text-lg text-gray-900">Teman</h3>
-                    <span className="text-xs text-gray-500">24 online</span>
+                    <h3 className="font-bold text-lg text-gray-900">Koneksi</h3>
+                    {!isFetchingUserConnections && !isErrorFetchingUserConnections && (
+                        <span className="text-xs text-gray-500">{onlineCount} online</span>
+                    )}
                 </div>
 
-                <div className="space-y-3">
-                    {[
-                        { name: 'Ahmad Rizki', status: 'online', avatar: 'AR' },
-                        { name: 'Siti Nurhaliza', status: 'online', avatar: 'SN' },
-                        { name: 'Budi Santoso', status: 'offline', avatar: 'BS' },
-                        { name: 'Dewi Kartika', status: 'online', avatar: 'DK' },
-                    ].map((friend, idx) => (
-                        <div key={idx} className="flex items-center gap-3">
-                            <div className="relative">
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-sm font-semibold">
-                                    {friend.avatar}
-                                </div>
-                                <div
-                                    className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
-                                        friend.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
-                                    }`}
-                                ></div>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium text-gray-900 truncate">{friend.name}</p>
-                                <p className="text-xs text-gray-500">
-                                    {friend.status === 'online' ? 'Aktif sekarang' : 'Terakhir dilihat 2j'}
-                                </p>
-                            </div>
+                <div className="pb-4">
+                    <div className="flex items-center justify-center">
+                        <div className="inline-flex items-center w-full rounded-lg overflow-hidden shadow-sm">
+                            <button
+                                onClick={() => setViewMode('follower')}
+                                className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium transition-all duration-200 cursor-pointer ${
+                                    viewMode === 'follower'
+                                        ? 'bg-gray-400 text-white'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                }`}
+                            >
+                                <span>Pengikut</span>
+                            </button>
+                            <button
+                                onClick={() => setViewMode('following')}
+                                className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium transition-all duration-200 cursor-pointer ${
+                                    viewMode === 'following'
+                                        ? 'bg-gray-400 text-white'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                }`}
+                            >
+                                <span>Mengikuti</span>
+                            </button>
                         </div>
-                    ))}
+                    </div>
                 </div>
 
-                <button className="w-full mt-4 text-sm text-blue-600 hover:text-blue-700 font-medium">
-                    Lihat Semua Teman
-                </button>
+                {isFetchingUserConnections ? (
+                    <div className="space-y-3 animate-pulse">
+                        {[...Array(3)].map((_, idx) => (
+                            <div key={idx} className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-gray-200" />
+                                <div className="flex-1 space-y-2">
+                                    <div className="h-3 bg-gray-200 rounded w-2/3" />
+                                    <div className="h-2.5 bg-gray-100 rounded w-1/3" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : isErrorFetchingUserConnections ? (
+                    <div className="text-center py-6">
+                        <p className="text-sm text-gray-500 mb-3">Gagal memuat koneksi.</p>
+                        <button
+                            onClick={() => refetchUserConnections()}
+                            className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                        >
+                            Coba lagi
+                        </button>
+                    </div>
+                ) : hasConnections ? (
+                    <div className="space-y-3">
+                        {connections!.map((friend, idx) => (
+                            <div key={`${viewMode}-${idx}`} className="flex items-center gap-3">
+                                <div className="relative w-10 h-10 shrink-0">
+                                    {friend.profilePicture ? (
+                                        <Image
+                                            src={getImageURL(friend.profilePicture, 'user')}
+                                            alt={friend.username}
+                                            width={40}
+                                            height={40}
+                                            className="w-10 h-10 rounded-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-sm font-semibold">
+                                            {friend.username?.charAt(0).toUpperCase()}
+                                        </div>
+                                    )}
+                                    <div
+                                        className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
+                                            friend.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
+                                        }`}
+                                    ></div>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-medium text-gray-900 truncate">{friend.username}</p>
+                                    <p className="text-xs text-gray-500">
+                                        {friend.status === 'online' ? 'Aktif sekarang' : 'Terakhir dilihat 2j'}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center py-6">
+                        <p className="text-sm text-gray-500">
+                            {viewMode === 'follower' ? 'Belum ada pengikut.' : 'Belum mengikuti siapa pun.'}
+                        </p>
+                    </div>
+                )}
+
+                {!isFetchingUserConnections && !isErrorFetchingUserConnections && hasConnections && (
+                    <button className="w-full mt-4 text-sm text-blue-600 hover:text-blue-700 font-medium">
+                        Lihat Semua Teman
+                    </button>
+                )}
             </div>
 
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">

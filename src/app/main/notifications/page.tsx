@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from 'react';
-import { FiBell, FiCheck, FiTrash2, FiUser, FiMail, FiAlertCircle, FiHeart } from 'react-icons/fi';
+import React, { useMemo, useState } from 'react';
+import { FiBell, FiCheck, FiCheckCircle, FiTrash2, FiUser, FiMail, FiAlertCircle, FiHeart, FiX } from 'react-icons/fi';
 import { Button, HeaderSection } from '@/components';
 import { cn } from '@/lib/styles';
 import { usePathname } from 'next/navigation';
+import { useConfirmationModalStore } from '@/stores';
 
 interface Notification {
     id: string;
@@ -12,7 +13,6 @@ interface Notification {
     message: string;
     timestamp: Date;
     isRead: boolean;
-    icon?: React.ReactNode;
     actionText?: string;
     actionUrl?: string;
 }
@@ -22,92 +22,88 @@ const DUMMY_NOTIFICATIONS: Notification[] = [
     {
         id: '1',
         type: 'profile',
-        title: 'Complete Your Profile',
-        message: 'Your profile is 40% complete. Add a bio and birthday to help others know you better.',
-        timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1 hour ago
+        title: 'Lengkapi Profil Anda',
+        message: 'Profil Anda baru 40% lengkap. Tambahkan bio dan tanggal lahir agar orang lain lebih mengenal Anda.',
+        timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
         isRead: false,
-        icon: <FiUser className="w-5 h-5" />,
-        actionText: 'Complete Profile',
+        actionText: 'Lengkapi Profil',
         actionUrl: '/main/profile/edit',
     },
     {
         id: '2',
         type: 'username',
-        title: 'Update Your Username',
-        message: 'Consider using a memorable username to make it easier for others to find you.',
-        timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000), // 3 hours ago
+        title: 'Perbarui Username Anda',
+        message: 'Gunakan username yang mudah diingat agar orang lain lebih mudah menemukan Anda.',
+        timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
         isRead: false,
-        icon: <FiAlertCircle className="w-5 h-5" />,
-        actionText: 'Change Username',
+        actionText: 'Ubah Username',
         actionUrl: '/main/profile/edit',
     },
     {
         id: '3',
         type: 'email',
-        title: 'Verify Your Email Address',
-        message: 'Please verify your email address to secure your account and enable all features.',
-        timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
+        title: 'Verifikasi Alamat Email',
+        message: 'Verifikasi email Anda untuk mengamankan akun dan mengaktifkan semua fitur.',
+        timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000),
         isRead: false,
-        icon: <FiMail className="w-5 h-5" />,
-        actionText: 'Verify Email',
+        actionText: 'Verifikasi Email',
     },
     {
         id: '4',
         type: 'activity',
-        title: 'Someone Liked Your Report',
-        message: 'Sarah liked your report about the potholes on Main Street.',
-        timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+        title: 'Seseorang Menyukai Laporan Anda',
+        message: 'Sarah menyukai laporan Anda tentang jalan berlubang di Main Street.',
+        timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
         isRead: true,
-        icon: <FiHeart className="w-5 h-5 text-danger-dark" />,
     },
     {
         id: '5',
         type: 'reminder',
-        title: 'Add Profile Picture',
-        message: 'Your profile doesn\'t have a picture yet. Upload one to make your profile stand out.',
-        timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+        title: 'Tambahkan Foto Profil',
+        message: 'Profil Anda belum memiliki foto. Unggah satu agar profil Anda lebih menonjol.',
+        timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
         isRead: true,
-        icon: <FiUser className="w-5 h-5" />,
-        actionText: 'Upload Picture',
+        actionText: 'Unggah Foto',
         actionUrl: '/main/profile/edit',
     },
     {
         id: '6',
         type: 'activity',
-        title: 'Your Report Was Marked as Resolved',
-        message: 'The broken streetlight you reported at Oak Park has been marked as resolved.',
-        timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
+        title: 'Laporan Anda Ditandai Selesai',
+        message: 'Lampu jalan rusak yang Anda laporkan di Oak Park telah ditandai selesai.',
+        timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
         isRead: true,
-        icon: <FiCheck className="w-5 h-5 text-green-500" />,
     },
 ];
 
-const NotificationIcon: React.FC<{ type: Notification['type'] }> = ({ type }) => {
-    const iconClasses = 'w-5 h-5';
-    switch (type) {
-        case 'profile':
-        case 'reminder':
-            return <FiUser className={cn(iconClasses, 'text-primary')} />;
-        case 'username':
-            return <FiAlertCircle className={cn(iconClasses, 'text-amber-600')} />;
-        case 'email':
-            return <FiMail className={cn(iconClasses, 'text-primary')} />;
-        case 'activity':
-            return <FiBell className={cn(iconClasses, 'text-blue-600')} />;
-        default:
-            return <FiBell className={cn(iconClasses, 'text-muted')} />;
-    }
+const TYPE_STYLES: Record<Notification['type'], { icon: React.ReactNode; bg: string; ring: string }> = {
+    profile: { icon: <FiUser className="w-[18px] h-[18px]" />, bg: 'bg-primary/10 text-primary', ring: 'ring-primary/15' },
+    username: { icon: <FiAlertCircle className="w-[18px] h-[18px]" />, bg: 'bg-amber-500/10 text-amber-600', ring: 'ring-amber-500/15' },
+    email: { icon: <FiMail className="w-[18px] h-[18px]" />, bg: 'bg-primary/10 text-primary', ring: 'ring-primary/15' },
+    activity: { icon: <FiHeart className="w-[18px] h-[18px]" />, bg: 'bg-rose-500/10 text-rose-500', ring: 'ring-rose-500/15' },
+    reminder: { icon: <FiUser className="w-[18px] h-[18px]" />, bg: 'bg-blue-500/10 text-blue-600', ring: 'ring-blue-500/15' },
 };
 
 const formatTimeAgo = (date: Date): string => {
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (diffInSeconds < 60) return 'Just now';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
-    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`;
-    return date.toLocaleDateString();
+    if (diffInSeconds < 60) return 'Baru saja';
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} menit lalu`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} jam lalu`;
+    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} hari lalu`;
+    return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+};
+
+const getGroupLabel = (date: Date): string => {
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const diffDays = Math.floor((startOfToday.getTime() - new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()) / 86400000);
+
+    if (diffDays <= 0) return 'Hari Ini';
+    if (diffDays === 1) return 'Kemarin';
+    if (diffDays < 7) return 'Minggu Ini';
+    return 'Lebih Lama';
 };
 
 const NotificationCard: React.FC<{
@@ -115,79 +111,78 @@ const NotificationCard: React.FC<{
     onDelete: (id: string) => void;
     onMarkAsRead: (id: string) => void;
 }> = ({ notification, onDelete, onMarkAsRead }) => {
+    const style = TYPE_STYLES[notification.type];
+
+    const handleDelete = () => {
+        onDelete(notification.id);
+    };
+
     return (
         <div
+            role="listitem"
             className={cn(
-                'p-4 rounded-lg border transition-all duration-200 hover:shadow-md',
+                'group relative flex gap-3.5 rounded-xl border p-4 transition-all duration-200 ease-out',
+                'hover:shadow-sm',
                 notification.isRead
                     ? 'border-muted bg-white'
-                    : 'border-primary/20 bg-background/50'
+                    : 'border-primary/15 bg-primary/5'
             )}
         >
-            <div className="flex gap-4">
-                {/* Icon */}
-                <div className="flex-shrink-0 mt-1">
-                    <div className={cn(
-                        'p-2 rounded-lg',
-                        notification.isRead ? 'bg-muted' : 'bg-background'
-                    )}>
-                        <NotificationIcon type={notification.type} />
-                    </div>
+            {!notification.isRead && (
+                <span className="absolute left-0 top-4 bottom-4 w-[3px] rounded-full bg-primary" />
+            )}
+            <div className="flex items-center gap-5 w-full justify-center">
+                <div className={cn('flex items-center justify-center w-10 h-10 rounded-full ring-1', style.bg, style.ring)}>
+                    {style.icon}
                 </div>
-
-                {/* Content */}
                 <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1">
-                            <h3 className={cn(
-                                'text-sm font-semibold',
-                                notification.isRead ? 'text-surface' : 'text-surface'
-                            )}>
-                                {notification.title}
-                            </h3>
-                            <p className="text-sm text-muted mt-1 line-clamp-2">
-                                {notification.message}
-                            </p>
-                            <div className="flex items-center gap-3 mt-3">
-                                <span className="text-xs text-muted">
-                                    {formatTimeAgo(notification.timestamp)}
-                                </span>
-                                {notification.actionText && (
-                                    <a
-                                        href={notification.actionUrl || '#'}
-                                        className="text-xs font-medium text-primary hover:text-primary-hover underline"
-                                    >
-                                        {notification.actionText}
-                                    </a>
-                                )}
-                            </div>
-                        </div>
-
-                        {!notification.isRead && (
-                            <div className="flex-shrink-0 w-2 h-2 rounded-full bg-primary mt-1" />
+                        <h3 className="text-sm font-semibold text-surface leading-snug">
+                            {notification.title}
+                        </h3>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1 line-clamp-2 leading-relaxed">
+                        {notification.message}
+                    </p>
+                    <div className="flex items-center gap-3 mt-2.5">
+                        <span className="text-xs text-gray-500">
+                            {formatTimeAgo(notification.timestamp)}
+                        </span>
+                        {notification.actionText && (
+                            <>
+                                <span className="text-gray-500">•</span>
+                                <a
+                                    href={notification.actionUrl || '#'}
+                                    className="text-xs font-medium text-primary hover:text-primary-hover hover:underline underline-offset-2"
+                                >
+                                    {notification.actionText}
+                                </a>
+                            </>
                         )}
                     </div>
                 </div>
+            </div>
 
-                {/* Actions */}
-                <div className="flex-shrink-0 flex items-center gap-2">
-                    {!notification.isRead && (
-                        <button
-                            onClick={() => onMarkAsRead(notification.id)}
-                            className="p-2 hover:bg-muted rounded-lg transition-colors"
-                            title="Mark as read"
-                        >
-                            <FiCheck className="w-4 h-4 text-muted" />
-                        </button>
-                    )}
+            {/* Actions */}
+            <div className="flex items-start gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity ">
+                {!notification.isRead && (
                     <button
-                        onClick={() => onDelete(notification.id)}
-                        className="p-2 hover:bg-danger/10 rounded-lg transition-colors"
-                        title="Delete notification"
+                        onClick={() => onMarkAsRead(notification.id)}
+                        className="p-2 hover:bg-primary/10 rounded-lg transition-colors cursor-pointer"
+                        title="Tandai sudah dibaca"
+                        aria-label="Tandai sudah dibaca"
                     >
-                        <FiTrash2 className="w-4 h-4 text-muted hover:text-danger-dark" />
+                        <FiCheck className="w-4 h-4 text-primary" />
                     </button>
-                </div>
+                )}
+                <button
+                    onClick={handleDelete}
+                    className="p-2 hover:bg-danger/10 rounded-lg transition-colors cursor-pointer"
+                    title="Hapus notifikasi"
+                    aria-label="Hapus notifikasi"
+                >
+                    <FiTrash2 className="w-4 h-4 text-danger" />
+                </button>
             </div>
         </div>
     );
@@ -196,11 +191,52 @@ const NotificationCard: React.FC<{
 const NotificationsPage: React.FC = () => {
     const [notifications, setNotifications] = useState<Notification[]>(DUMMY_NOTIFICATIONS);
     const [filter, setFilter] = useState<'all' | 'unread'>('all');
+    const [confirmingDeleteAll, setConfirmingDeleteAll] = useState(false);
     const currentPath = usePathname();
+     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
+
     const unreadCount = notifications.filter(n => !n.isRead).length;
     const filteredNotifications = filter === 'unread'
         ? notifications.filter(n => !n.isRead)
         : notifications;
+
+    const grouped = useMemo(() => {
+        const groups = new Map<string, Notification[]>();
+        for (const n of filteredNotifications) {
+            const label = getGroupLabel(n.timestamp);
+            if (!groups.has(label)) groups.set(label, []);
+            groups.get(label)!.push(n);
+        }
+        return groups;
+    }, [filteredNotifications]);
+
+    const handleDeleteAllConfirmation = () => {
+        openConfirm({
+            type: "danger",
+            title: "Konfirmasi Penghapusan",
+            subtitle: "Apakah Anda yakin ingin menghapus semua notifikasi?",
+            isPending: false,
+            description: "Notifikasi yang dihapus tidak dapat dikembalikan.",
+            confirmTitle: "Ya, Hapus",
+            onConfirm: () => {
+                handleDeleteAll();
+            },
+        });
+    }
+
+    const handleDeleteConfirmation = (id: string) => {
+        openConfirm({
+            type: "danger",
+            title: "Konfirmasi Penghapusan",
+            subtitle: "Apakah Anda yakin ingin menghapus notifikasi ini?",
+            isPending: false,
+            description: "Notifikasi yang dihapus tidak dapat dikembalikan.",
+            confirmTitle: "Ya, Hapus",
+            onConfirm: () => {
+                handleDelete(id);
+            },
+        });
+    }
 
     const handleDelete = (id: string) => {
         setNotifications(prev => prev.filter(n => n.id !== id));
@@ -213,122 +249,122 @@ const NotificationsPage: React.FC = () => {
     };
 
     const handleMarkAllAsRead = () => {
-        setNotifications(prev =>
-            prev.map(n => ({ ...n, isRead: true }))
-        );
+        setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
     };
 
     const handleDeleteAll = () => {
-        if (window.confirm('Are you sure you want to delete all notifications?')) {
-            setNotifications([]);
-        }
+        setNotifications([]);
+        setConfirmingDeleteAll(false);
     };
 
     return (
         <div className="w-full">
-            <div className='mb-8'>
+            <div className="mb-8">
                 <HeaderSection
-                isCardHeader={false} 
-                currentPath={currentPath} 
-                showBreadcrumb={false}
-                message={"Kelola dan pantau semua notifikasi Anda, mulai dari pengingat, aktivitas terbaru, hingga informasi penting yang perlu segera ditindaklanjuti."}
-                ></HeaderSection>
+                    isCardHeader={false}
+                    currentPath={currentPath}
+                    showBreadcrumb={false}
+                    message="Kelola dan pantau semua notifikasi Anda, mulai dari pengingat, aktivitas terbaru, hingga informasi penting yang perlu segera ditindaklanjuti."
+                />
             </div>
 
             {/* Filter and Actions */}
             {notifications.length > 0 && (
-                <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div className="flex gap-2">
+                <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-10">
+                    <div className="flex gap-2 p-1 bg-muted/60 rounded-xl">
                         <button
                             onClick={() => setFilter('all')}
                             className={cn(
-                                'px-4 py-2 rounded-lg font-medium text-sm transition-colors',
+                                'px-4 py-1.5 rounded-lg font-medium text-sm transition-colors cursor-pointer',
                                 filter === 'all'
-                                    ? 'bg-primary text-white'
-                                    : 'bg-muted text-surface hover:bg-muted/80'
+                                    ? 'bg-white text-surface shadow-sm'
+                                    : 'text-gray-500 hover:text-surface'
                             )}
                         >
-                            All
+                            Semua
                         </button>
                         <button
                             onClick={() => setFilter('unread')}
                             className={cn(
-                                'px-4 py-2 rounded-lg font-medium text-sm transition-colors relative',
+                                'flex items-center gap-2 px-4 py-1.5 rounded-lg font-medium text-sm transition-colors cursor-pointer',
                                 filter === 'unread'
-                                    ? 'bg-primary text-white'
-                                    : 'bg-muted text-surface hover:bg-muted/80'
+                                    ? 'bg-white text-surface shadow-sm'
+                                    : 'text-gray-500 hover:text-surface'
                             )}
                         >
-                            Unread
+                            Belum Dibaca
                             {unreadCount > 0 && (
-                                <span className="ml-2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full bg-red-500 text-white">
+                                <span className={cn(
+                                    'inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[11px] font-bold rounded-full',
+                                    filter === 'unread' ? 'bg-primary text-white' : 'bg-danger text-white'
+                                )}>
                                     {unreadCount}
                                 </span>
                             )}
                         </button>
                     </div>
 
-                    {unreadCount > 0 && (
+                    <div className="flex items-center gap-3 sm:self-auto">
+                        {unreadCount > 0 && (
+                            <Button
+                                variant="ghost"
+                                onClick={handleMarkAllAsRead}
+                                size="sm"
+                                className="text-primary hover:text-primary-hover px-2 py-1.5 "
+                                icon={<FiCheckCircle className="w-4 h-4" />}
+                            >
+                                Tandai semua dibaca
+                            </Button>
+                        )}
                         <Button
+                            onClick={() => handleDeleteAllConfirmation()}
                             variant="ghost"
                             size="sm"
-                            onClick={handleMarkAllAsRead}
-                            className="text-primary hover:text-primary-hover"
+                            icon={<FiTrash2 className="w-4 h-4" />}
+                            className="text-danger transition-colors px-2 py-1.5 focus:ring-danger"
                         >
-                            Mark all as read
+                            Hapus semua
                         </Button>
-                    )}
-
-                    <button
-                        onClick={handleDeleteAll}
-                        className="text-sm text-muted hover:text-danger-dark transition-colors"
-                    >
-                        Delete all
-                    </button>
+                    </div>
                 </div>
             )}
 
-            {/* Notifications List */}
+            {/* Notifications List, grouped by recency */}
             {filteredNotifications.length > 0 ? (
-                <div className="space-y-3">
-                    {filteredNotifications.map(notification => (
-                        <NotificationCard
-                            key={notification.id}
-                            notification={notification}
-                            onDelete={handleDelete}
-                            onMarkAsRead={handleMarkAsRead}
-                        />
+                <div className="space-y-6">
+                    {Array.from(grouped.entries()).map(([label, items]) => (
+                        <div key={label}>
+                            <h4 className="text-xs font-bold uppercase tracking-wide text-gray-500 mb-2.5 px-0.5">
+                                {label}
+                            </h4>
+                            <div role="list" className="space-y-2.5">
+                                {items.map(notification => (
+                                    <NotificationCard
+                                        key={notification.id}
+                                        notification={notification}
+                                        onDelete={handleDeleteConfirmation}
+                                        onMarkAsRead={handleMarkAsRead}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     ))}
                 </div>
             ) : (
-                <div className="py-12 text-center">
+                <div className="py-16 text-center">
                     <div className="flex justify-center mb-4">
                         <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center">
-                            <FiBell className="w-8 h-8 text-muted" />
+                            <FiBell className="w-7 h-7 text-gray-500" />
                         </div>
                     </div>
-                    <h3 className="text-lg font-semibold text-surface mb-1">
-                        {filter === 'unread' ? 'No unread notifications' : 'No notifications'}
+                    <h3 className="text-base font-semibold text-surface mb-1">
+                        {filter === 'unread' ? 'Semua sudah dibaca' : 'Belum ada notifikasi'}
                     </h3>
-                    <p className="text-surface">
+                    <p className="text-sm text-gray-500 max-w-xs mx-auto">
                         {filter === 'unread'
-                            ? 'You\'re all caught up! Check back later for updates.'
-                            : 'You\'re all set. New notifications will appear here.'}
+                            ? 'Anda sudah membaca semua notifikasi. Kembali lagi nanti untuk pembaruan.'
+                            : 'Notifikasi baru akan muncul di sini.'}
                     </p>
-                </div>
-            )}
-
-            {/* Empty state tips */}
-            {notifications.length === 0 && (
-                <div className="mt-12 max-w-md mx-auto">
-                    <div className="bg-background border border-muted rounded-lg p-6">
-                        <h4 className="font-semibold text-surface mb-2">Tips:</h4>
-                        <ul className="text-sm text-muted space-y-2">
-                            <li>• Complete your profile to unlock more features</li>
-                            <li>• Verify your email to secure your account</li>
-                            <li>• Enable notifications to stay updated</li>
-                        </ul>
-                    </div>
                 </div>
             )}
         </div>

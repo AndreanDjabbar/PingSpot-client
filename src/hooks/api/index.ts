@@ -5,3 +5,4 @@ export * from './useUser';
 export * from './useSearch';
 export * from './useGlobal';
 export * from './useSocial';
+export * from './useNotification';

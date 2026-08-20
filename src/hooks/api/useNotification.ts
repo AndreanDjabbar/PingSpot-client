@@ -1,4 +1,4 @@
-import { getNotificationsService, markNotificationAsReadService } from "@/services"
+import { getNotificationsService, markAllNotificationsAsReadService, markNotificationAsReadService } from "@/services"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 
@@ -13,6 +13,16 @@ export const useMarkNotificationAsRead = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (notificationId: number) => markNotificationAsReadService(notificationId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['notifications'] });
+        }
+    })
+}
+
+export const useMarkAllNotificationsAsRead = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: () => markAllNotificationsAsReadService(),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['notifications'] });
         }

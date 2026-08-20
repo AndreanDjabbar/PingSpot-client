@@ -9,3 +9,7 @@ export const getNotificationsService = async (): Promise<IGetNotificationsRespon
 export const markNotificationAsReadService = async (notificationId: number): Promise<void> => {
     await axiosInstance.patch(`/notification/${notificationId}/read`);
 }
+
+export const markAllNotificationsAsReadService = async (): Promise<void> => {
+    await axiosInstance.patch(`/notification/read`);
+}

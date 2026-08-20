@@ -5,3 +5,7 @@ export const getNotificationsService = async (): Promise<IGetNotificationsRespon
     const response = await axiosInstance.get<IGetNotificationsResponse>(`/notification`);
     return response.data;
 }
+
+export const markNotificationAsReadService = async (notificationId: number): Promise<void> => {
+    await axiosInstance.patch(`/notification/${notificationId}/read`);
+}

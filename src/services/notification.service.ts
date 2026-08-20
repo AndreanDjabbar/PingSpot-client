@@ -13,3 +13,11 @@ export const markNotificationAsReadService = async (notificationId: number): Pro
 export const markAllNotificationsAsReadService = async (): Promise<void> => {
     await axiosInstance.patch(`/notification/read`);
 }
+
+export const deleteNotificationService = async (notificationId: number): Promise<void> => {
+    await axiosInstance.delete(`/notification/${notificationId}`);
+}
+
+export const deleteAllNotificationsService = async (): Promise<void> => {
+    await axiosInstance.delete(`/notification`);
+}

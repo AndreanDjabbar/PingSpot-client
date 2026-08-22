@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import React, { useEffect } from 'react';
@@ -75,6 +76,10 @@ const suggestionDropdownVariants: Variants = {
     },
 };
 
+const MIN_DROPDOWN_HEIGHT = 120;
+const MAX_DROPDOWN_HEIGHT = 224;
+const VIEWPORT_PADDING = 16;
+
 const CommentInput: React.FC<CommentInputProps> = ({
     onCreateReportComment,
     isSubmitting = false,
@@ -100,8 +105,9 @@ const CommentInput: React.FC<CommentInputProps> = ({
     const [showSuggestions, setShowSuggestions] = React.useState(false);
     const [suggestionPosition, setSuggestionPosition] = React.useState({ top: 0, right: 0 });
     const [suggestionsWidth, setSuggestionsWidth] = React.useState<number | undefined>(undefined);
+    const [suggestionsMaxHeight, setSuggestionsMaxHeight] = React.useState<number>(MAX_DROPDOWN_HEIGHT);
     const [selectedMentions, setSelectedMentions] = React.useState<SelectedMentions[]>([]);
-    
+
     const currentUser = useUserProfileStore((s) => s.userProfile);
     const textAreaRef = React.useRef<HTMLDivElement>(null);
     const suggestionsRef = React.useRef<HTMLDivElement>(null);
@@ -110,18 +116,32 @@ const CommentInput: React.FC<CommentInputProps> = ({
     const isSuggestionsStale = isFetchingSearchUsers || isSearchUsersLoading;
 
     const recalculatePosition = React.useCallback(() => {
-        if (textAreaRef.current) {
-            const rect = textAreaRef.current.getBoundingClientRect();
-            const availableBelow = window.innerHeight - rect.bottom;
-            const availableAbove = rect.top;
-            const preferTop = availableBelow < 220 && availableAbove > availableBelow;
-            const suggestionsHeight = suggestionsRef.current?.offsetHeight ?? 230;
-            setSuggestionPosition({
-                top: preferTop ? availableAbove - suggestionsHeight - 8 : rect.bottom + 8,
-                right: window.innerWidth - rect.right - 6,
-            });
-            setSuggestionsWidth(textAreaRef.current.offsetWidth);
-        }
+        if (!textAreaRef.current) return;
+
+        const rect = textAreaRef.current.getBoundingClientRect();
+        const availableBelow = window.innerHeight - rect.bottom - VIEWPORT_PADDING;
+        const availableAbove = rect.top - VIEWPORT_PADDING;
+        const preferTop = availableBelow < 220 && availableAbove > availableBelow;
+
+        const maxHeight = Math.max(
+            MIN_DROPDOWN_HEIGHT,
+            Math.min(MAX_DROPDOWN_HEIGHT, preferTop ? availableAbove : availableBelow)
+        );
+        const suggestionsHeight = Math.min(
+            suggestionsRef.current?.offsetHeight ?? maxHeight,
+            maxHeight
+        );
+
+        const top = preferTop
+            ? Math.max(VIEWPORT_PADDING, rect.top - suggestionsHeight - 8)
+            : rect.bottom + 8;
+
+        setSuggestionsMaxHeight(maxHeight);
+        setSuggestionPosition({
+            top,
+            right: window.innerWidth - rect.right - 6,
+        });
+        setSuggestionsWidth(textAreaRef.current.offsetWidth);
     }, []);
 
     const handleSuggestionsScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -151,6 +171,17 @@ const CommentInput: React.FC<CommentInputProps> = ({
             window.removeEventListener('resize', recalculatePosition);
         };
     }, [showSuggestions, recalculatePosition, suggestions.length, isSuggestionsStale, isSearchUsersError]);
+
+    useEffect(() => {
+        if (!showSuggestions || !suggestionsRef.current) return;
+
+        const observer = new ResizeObserver(() => {
+            recalculatePosition();
+        });
+        observer.observe(suggestionsRef.current);
+
+        return () => observer.disconnect();
+    }, [showSuggestions, recalculatePosition]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -319,12 +350,13 @@ const CommentInput: React.FC<CommentInputProps> = ({
                                 exit="exit"
                                 onScroll={handleSuggestionsScroll}
                                 variants={suggestionDropdownVariants}
-                                className="max-h-56 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-50 will-change-transform"
+                                className="overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-50 will-change-transform"
                                 style={{
                                     position: 'fixed',
                                     top: suggestionPosition.top,
                                     right: suggestionPosition.right,
                                     width: suggestionsWidth,
+                                    maxHeight: suggestionsMaxHeight,
                                     transformOrigin: 'top right',
                                 }}
                             >

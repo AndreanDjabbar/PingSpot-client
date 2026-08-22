@@ -12,6 +12,7 @@ import { getErrorResponseMessage, getImageURL } from '@/utils';
 import { CreateReportCommentSchema } from '@/app/main/schema';
 import { ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
 import { useUserProfileStore } from '@/stores';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 interface SelectedMentions {
     userID: string;
@@ -27,6 +28,10 @@ interface CommentInputProps {
     isSearchUsersLoading?: boolean;
     isFetchingSearchUsers?: boolean;
     isSearchUsersError?: boolean;
+    hasNextPageSearchUsers?: boolean;
+    isFetchingNextPageSearchUsers?: boolean;
+    refetchSearchUsers?: () => void;
+    fetchNextPageSearchUsers?: () => void;
     errorSearchUsers?: Error;
     className?: string;
     onImageSelect?: (file: File) => void;
@@ -78,6 +83,9 @@ const CommentInput: React.FC<CommentInputProps> = ({
     setIsSearchUsersOpen,
     isSearchUsersLoading,
     isFetchingSearchUsers,
+    hasNextPageSearchUsers,
+    fetchNextPageSearchUsers,
+    isFetchingNextPageSearchUsers,
     isSearchUsersError,
     errorSearchUsers,
     className = '',
@@ -115,6 +123,15 @@ const CommentInput: React.FC<CommentInputProps> = ({
             setSuggestionsWidth(textAreaRef.current.offsetWidth);
         }
     }, []);
+
+    const handleSuggestionsScroll = (event: React.UIEvent<HTMLDivElement>) => {
+        const element = event.currentTarget;
+        const isNearBottom = element.scrollHeight - element.scrollTop - element.clientHeight < 24;
+
+        if (isNearBottom && hasNextPageSearchUsers && !isFetchingNextPageSearchUsers) {
+            fetchNextPageSearchUsers?.();
+        }
+    };
 
     useEffect(() => {
         if (!showSuggestions) return;
@@ -156,7 +173,6 @@ const CommentInput: React.FC<CommentInputProps> = ({
             document.removeEventListener('keydown', handleKey);
         };
     }, [showSuggestions]);
-
 
     const handleRemoveImage = () => {
         if (onImageRemove) {
@@ -301,6 +317,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
                                 initial="hidden"
                                 animate="visible"
                                 exit="exit"
+                                onScroll={handleSuggestionsScroll}
                                 variants={suggestionDropdownVariants}
                                 className="max-h-56 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-50 will-change-transform"
                                 style={{
@@ -358,6 +375,16 @@ const CommentInput: React.FC<CommentInputProps> = ({
                                                 </div>
                                             </motion.div>
                                         ))}
+                                        {hasNextPageSearchUsers && (
+                                            <div className="py-4 flex justify-center border-t border-gray-200">
+                                                {isFetchingNextPageSearchUsers && (
+                                                    <div className="flex items-center space-x-2 text-primary/70">
+                                                        <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
+                                                        <span className="text-sm">Memuat lebih banyak...</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                     </AnimatePresence>
                                 )}
                             </motion.div>

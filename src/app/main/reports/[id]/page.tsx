@@ -99,7 +99,7 @@ const ReportDetailPage = () => {
         data: searchData, 
         fetchNextPage: fetchNextSearchPage, 
         hasNextPage: hasNextSearchPage, 
-        isFetching: isFetchingSearch, 
+        isFetchingNextPage: isFetchingNextPageSearch,
         isLoading: isLoadingSearch,
         isError: isErrorSearch,
         error: errorSearch,
@@ -457,6 +457,7 @@ const ReportDetailPage = () => {
 
     useErrorToast(isFreshReportError, freshReportError);
     useErrorToast(isVoteReportError, voteReportError);
+    useErrorToast(isErrorSearch, getErrorResponseMessage(errorSearch) || 'Terjadi kesalahan saat mencari pengguna');
     useErrorToast(isReactReportError, getErrorResponseMessage(reactReportError) || 'Terjadi kesalahan saat bereaksi pada laporan');
     useErrorToast(
         isDeleteReportError, 
@@ -608,11 +609,12 @@ const ReportDetailPage = () => {
                                     onCreateReportComment={handleCreateReportComment}
                                     searchUsersData={searchData}
                                     isSearchUsersLoading={isLoadingSearch}
-                                    isFetchingSearchUsers={isFetchingSearch}
                                     hasNextPageSearchUsers={hasNextSearchPage}
                                     fetchNextPageSearchUsers={fetchNextSearchPage}
                                     setSearchTermChange={setSearchTerm}
                                     setIsSearchUsersOpen={setIsSearchUsersOpen}
+                                    refetchSearchUsers={refetchSearch}
+                                    isFetchingNextPageSearchUsers={isFetchingNextPageSearch}
                                     comments={reportComments}
                                     errorFetchingComments={getReportCommentsError || undefined}
                                     isFetchingCommentsError={isGetReportCommentsError}

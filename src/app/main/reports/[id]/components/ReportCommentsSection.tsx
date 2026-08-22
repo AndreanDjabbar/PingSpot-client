@@ -25,9 +25,9 @@ interface ReportCommentsSectionProps {
     setIsSearchUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isSearchUsersLoading?: boolean;
     hasNextPageSearchUsers?: boolean;
+    isFetchingNextPageSearchUsers?: boolean;
     searchUsersData: InfiniteData<ISearchUsersResponse> | undefined;
     isSearchUsersError?: boolean;
-    isFetchingSearchUsers?: boolean;
     errorSearchUsers?: Error;
     refetchSearchUsers?: () => void;
     fetchNextPageSearchUsers?: () => void;
@@ -46,10 +46,13 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     setSearchTermChange,
     isSearchUsersLoading,
     setIsSearchUsersOpen,
+    hasNextPageSearchUsers,
+    isFetchingNextPageSearchUsers,
     searchUsersData,
     isSearchUsersError,
-    isFetchingSearchUsers,
     errorSearchUsers,
+    refetchSearchUsers,
+    fetchNextPageSearchUsers,
 }) => {
     const reportCommentCounts = useReportsStore((state) => state.reportCommentsCount);
     const [commentMediaImage, setCommentMediaImage] = React.useState<File | null>(null);
@@ -119,7 +122,10 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
                         setSearchTermChange={setSearchTermChange}
                         setIsSearchUsersOpen={setIsSearchUsersOpen}
                         isSearchUsersLoading={isSearchUsersLoading}
-                        isFetchingSearchUsers={isFetchingSearchUsers}
+                        isFetchingNextPageSearchUsers={isFetchingNextPageSearchUsers}
+                        hasNextPageSearchUsers={hasNextPageSearchUsers}
+                        refetchSearchUsers={refetchSearchUsers}
+                        fetchNextPageSearchUsers={fetchNextPageSearchUsers}
                         isSearchUsersError={isSearchUsersError}
                         errorSearchUsers={errorSearchUsers}
                         onImageSelect={handleImageSelect}
@@ -141,7 +147,6 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
                 setSearchTermChange={setSearchTermChange}
                 setIsSearchUsersOpen={setIsSearchUsersOpen}
                 isSearchUsersLoading={isSearchUsersLoading}
-                isFetchingSearchUsers={isFetchingSearchUsers}
                 isSearchUsersError={isSearchUsersError}
                 errorSearchUsers={errorSearchUsers}
                 onImageRemove={handleRemoveImage}

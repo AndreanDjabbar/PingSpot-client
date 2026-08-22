@@ -28,7 +28,6 @@ interface CommentItemProps {
     setSearchTermChange: React.Dispatch<React.SetStateAction<string>>;
     setIsSearchUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isSearchUsersLoading?: boolean;
-    isFetchingSearchUsers?: boolean;
     isSearchUsersError?: boolean;
     errorSearchUsers?: Error;
     className?: string;
@@ -47,7 +46,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
     setSearchTermChange,
     setIsSearchUsersOpen,
     isSearchUsersLoading,
-    isFetchingSearchUsers,
     isSearchUsersError,
     errorSearchUsers,
     className,
@@ -249,7 +247,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                             setSearchTermChange={setSearchTermChange} 
                                             setIsSearchUsersOpen={setIsSearchUsersOpen} 
                                             isSearchUsersLoading={isSearchUsersLoading} 
-                                            isFetchingSearchUsers={isFetchingSearchUsers} 
                                             isSearchUsersError={isSearchUsersError} 
                                             errorSearchUsers={errorSearchUsers} 
                                             className={className} 
@@ -297,7 +294,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                         setSearchTermChange={setSearchTermChange}
                                         setIsSearchUsersOpen={setIsSearchUsersOpen}
                                         isSearchUsersLoading={isSearchUsersLoading}
-                                        isFetchingSearchUsers={isFetchingSearchUsers}
                                         isSearchUsersError={isSearchUsersError}
                                         errorSearchUsers={errorSearchUsers}
                                         className={className}

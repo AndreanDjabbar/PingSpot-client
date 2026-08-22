@@ -23,7 +23,6 @@ interface CommentListProps {
     setSearchTermChange: React.Dispatch<React.SetStateAction<string>>;
     setIsSearchUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isSearchUsersLoading?: boolean;
-    isFetchingSearchUsers?: boolean;
     isSearchUsersError?: boolean;
     errorSearchUsers?: Error;
     onImageSelect?: (file: File) => void;
@@ -46,7 +45,6 @@ const CommentList: React.FC<CommentListProps> = ({
     setSearchTermChange,
     setIsSearchUsersOpen,
     isSearchUsersLoading,
-    isFetchingSearchUsers,
     isSearchUsersError,
     errorSearchUsers,
     onImageRemove,
@@ -88,7 +86,6 @@ const CommentList: React.FC<CommentListProps> = ({
                                     setSearchTermChange={setSearchTermChange}
                                     setIsSearchUsersOpen={setIsSearchUsersOpen}
                                     isSearchUsersLoading={isSearchUsersLoading}
-                                    isFetchingSearchUsers={isFetchingSearchUsers}
                                     isSearchUsersError={isSearchUsersError}
                                     errorSearchUsers={errorSearchUsers}
                                     className={className}

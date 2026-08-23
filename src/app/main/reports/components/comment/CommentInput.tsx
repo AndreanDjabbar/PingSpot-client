@@ -8,7 +8,7 @@ import { FaSpinner, FaUser } from 'react-icons/fa';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import Image from 'next/image';
 import { InfiniteData } from '@tanstack/react-query';
-import { InlineImageUpload, TextAreaField, Button } from '@/components';
+import { InlineImageUpload, TextAreaField, Button, Scrollbar } from '@/components';
 import { getErrorResponseMessage, getImageURL } from '@/utils';
 import { CreateReportCommentSchema } from '@/app/main/schema';
 import { ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
@@ -144,14 +144,13 @@ const CommentInput: React.FC<CommentInputProps> = ({
         setSuggestionsWidth(textAreaRef.current.offsetWidth);
     }, []);
 
-    const handleSuggestionsScroll = (event: React.UIEvent<HTMLDivElement>) => {
-        const element = event.currentTarget;
+    const handleSuggestionsScroll = React.useCallback((element: HTMLElement) => {
         const isNearBottom = element.scrollHeight - element.scrollTop - element.clientHeight < 24;
 
         if (isNearBottom && hasNextPageSearchUsers && !isFetchingNextPageSearchUsers) {
             fetchNextPageSearchUsers?.();
         }
-    };
+    }, [hasNextPageSearchUsers, isFetchingNextPageSearchUsers, fetchNextPageSearchUsers]);
 
     useEffect(() => {
         if (!showSuggestions) return;
@@ -182,6 +181,22 @@ const CommentInput: React.FC<CommentInputProps> = ({
 
         return () => observer.disconnect();
     }, [showSuggestions, recalculatePosition]);
+
+    useEffect(() => {
+        if (!showSuggestions || !suggestionsRef.current) return;
+
+        const scrollNode = suggestionsRef.current.querySelector('.simplebar-content-wrapper');
+        if (!scrollNode) return;
+
+        const handleScroll = () => {
+            handleSuggestionsScroll(scrollNode as HTMLElement);
+        };
+
+        scrollNode.addEventListener('scroll', handleScroll);
+        return () => {
+            scrollNode.removeEventListener('scroll', handleScroll);
+        };
+    }, [showSuggestions, handleSuggestionsScroll]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -348,9 +363,8 @@ const CommentInput: React.FC<CommentInputProps> = ({
                                 initial="hidden"
                                 animate="visible"
                                 exit="exit"
-                                onScroll={handleSuggestionsScroll}
                                 variants={suggestionDropdownVariants}
-                                className="overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-50 will-change-transform"
+                                className="bg-white border border-gray-200 rounded-lg shadow-lg z-50 will-change-transform"
                                 style={{
                                     position: 'fixed',
                                     top: suggestionPosition.top,
@@ -360,65 +374,67 @@ const CommentInput: React.FC<CommentInputProps> = ({
                                     transformOrigin: 'top right',
                                 }}
                             >
-                                {isSuggestionsStale ? (
-                                    <div className="p-3 text-sm text-gray-400 flex items-center gap-2">
-                                        <FaSpinner className="animate-spin" />
-                                        Mencari pengguna...
-                                    </div>
-                                ) : isSearchUsersError ? (
-                                    <div className="p-3 text-sm text-red-500">
-                                        {getErrorResponseMessage(errorSearchUsers || "Gagal mencari pengguna.")}
-                                    </div>
-                                ) : suggestions.length === 0 ? (
-                                    <div className="p-3 text-sm text-gray-400">
-                                        Tidak ada pengguna ditemukan
-                                    </div>
-                                ) : (
-                                    <AnimatePresence>
-                                        {suggestions.map((user) => (
-                                            <motion.div
-                                                key={user.userID}
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                exit={{ opacity: 0 }}
-                                                className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
-                                                onClick={() => handleSelectMention(user)}
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    {user.profilePicture ? (
-                                                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                                                            <Image
-                                                                src={getImageURL(user.profilePicture, 'user')}
-                                                                alt={user.fullName}
-                                                                width={40}
-                                                                height={40}
-                                                                className="object-cover w-full h-full rounded-full"
-                                                            />
+                                <Scrollbar height={suggestionsMaxHeight}>
+                                    {isSuggestionsStale ? (
+                                        <div className="p-3 text-sm text-primary flex items-center gap-2">
+                                            <FaSpinner className="animate-spin" />
+                                            Mencari pengguna...
+                                        </div>
+                                    ) : isSearchUsersError ? (
+                                        <div className="p-3 text-sm text-red-500">
+                                            {getErrorResponseMessage(errorSearchUsers || "Gagal mencari pengguna.")}
+                                        </div>
+                                    ) : suggestions.length === 0 ? (
+                                        <div className="p-3 text-sm text-gray-400">
+                                            Tidak ada pengguna ditemukan
+                                        </div>
+                                    ) : (
+                                        <AnimatePresence>
+                                            {suggestions.map((user) => (
+                                                <motion.div
+                                                    key={user.userID}
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    exit={{ opacity: 0 }}
+                                                    className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+                                                    onClick={() => handleSelectMention(user)}
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        {user.profilePicture ? (
+                                                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                                                                <Image
+                                                                    src={getImageURL(user.profilePicture, 'user')}
+                                                                    alt={user.fullName}
+                                                                    width={40}
+                                                                    height={40}
+                                                                    className="object-cover w-full h-full rounded-full"
+                                                                />
+                                                            </div>
+                                                        ) : (
+                                                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                                                <FaUser className="w-5 h-5 text-primary" />
+                                                            </div>
+                                                        )}
+                                                        <div>
+                                                            <p className="font-semibold text-gray-800">{user.fullName}</p>
+                                                            <p className="text-sm text-gray-600">@{user.username}</p>
                                                         </div>
-                                                    ) : (
-                                                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                                            <FaUser className="w-5 h-5 text-primary" />
+                                                    </div>
+                                                </motion.div>
+                                            ))}
+                                            {hasNextPageSearchUsers && (
+                                                <div className="py-4 flex justify-center border-t border-gray-200">
+                                                    {isFetchingNextPageSearchUsers && (
+                                                        <div className="flex items-center space-x-2 text-primary/70">
+                                                            <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
+                                                            <span className="text-sm">Memuat lebih banyak...</span>
                                                         </div>
                                                     )}
-                                                    <div>
-                                                        <p className="font-semibold text-gray-800">{user.fullName}</p>
-                                                        <p className="text-sm text-gray-600">@{user.username}</p>
-                                                    </div>
                                                 </div>
-                                            </motion.div>
-                                        ))}
-                                        {hasNextPageSearchUsers && (
-                                            <div className="py-4 flex justify-center border-t border-gray-200">
-                                                {isFetchingNextPageSearchUsers && (
-                                                    <div className="flex items-center space-x-2 text-primary/70">
-                                                        <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
-                                                        <span className="text-sm">Memuat lebih banyak...</span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-                                    </AnimatePresence>
-                                )}
+                                            )}
+                                        </AnimatePresence>
+                                    )}
+                                </Scrollbar>
                             </motion.div>
                         )}
                     </AnimatePresence>

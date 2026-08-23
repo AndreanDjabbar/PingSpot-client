@@ -66,6 +66,8 @@ const ReportModal: React.FC<ReportModalProps> = ({
     isSearchUsersError,
     isFetchingSearchUsers,
     errorSearchUsers,
+    fetchNextPageSearchUsers,
+    hasNextPageSearchUsers,
 }) => {
     const [commentMediaImage, setCommentMediaImage] = React.useState<File | null>(null);
     const [imagePreview, setImagePreview] = React.useState<string | null>(null);
@@ -285,6 +287,9 @@ const ReportModal: React.FC<ReportModalProps> = ({
                                 isSearchUsersLoading={isSearchUsersLoading}
                                 isFetchingSearchUsers={isFetchingSearchUsers}
                                 isSearchUsersError={isSearchUsersError}
+                                fetchNextPageSearchUsers={fetchNextPageSearchUsers}
+                                hasNextPageSearchUsers={hasNextPageSearchUsers}
+                                isFetchingNextPageSearchUsers={isFetchingSearchUsers}
                                 errorSearchUsers={errorSearchUsers}
                                 onImageSelect={handleImageSelect}
                                 onImageRemove={handleRemoveImage}

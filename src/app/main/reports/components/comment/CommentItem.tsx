@@ -193,7 +193,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                         <span className="text-xs text-gray-400">
                             {formattedDate(comment.createdAt, { formatStr: 'dd MMM yyyy, HH:mm' })}
                         </span>
-                        <p className="text-xs text-gray-400 font-medium">72 Suka</p>
+                        {/* <p className="text-xs text-gray-400 font-medium">72 Suka</p> */}
                         <button
                             onClick={() => {
                                 setIsReplying(true)
@@ -317,14 +317,14 @@ const CommentItem: React.FC<CommentItemProps> = ({
                         </div>
                     )}
                 </div>
-                <div className='flex flex-col items-center'>
+                {/* <div className='flex flex-col items-center'>
                     <div>
                         {liked ? <FaHeart className="w-4 h-4 text-red-500" /> : <FaRegHeart className="w-4 h-4 text-gray-400 hover:text-red-500 cursor-pointer" />}
                     </div>
                     <div className="text-xs text-gray-500">
                         72
                     </div>
-                </div>
+                </div> */}
             </div>
         </motion.div>
     );

@@ -119,6 +119,7 @@ export interface IReport {
     location: IReportLocation;
     images: IReportImage;
     commentCount: number;
+    reportSaved?: IReportSaved;
     reportReactions: IReportReactions[];
     reportProgress: IReportProgress[];
     statusVoteStats: IStatusVoteStats;
@@ -146,6 +147,12 @@ export interface IReportCommentMedia {
     type: string;
     width?: number;
     height?: number;
+}
+
+export interface IReportSaved {
+    reportID: number;
+    userID: number;
+    save: boolean;
 }
 
 export interface IReportCommentMentions {

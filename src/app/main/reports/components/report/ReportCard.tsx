@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import { LuNotepadText } from 'react-icons/lu';
 import { cn } from '@/lib';
 import ReportInteractionBar from './ReportInteractionBar';
+import { GoBookmarkSlashFill } from 'react-icons/go';
 
 const StaticMap = dynamic(() => import('@/components/UI/StaticMap'), {
     ssr: false,
@@ -221,9 +222,14 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                         optionsToShow.push({ label: 'Detail Laporan', description: "Lihat detail laporan yang telah anda buat", icon: <LuNotepadText size={14} />, onClick: () => router.push(`/main/reports/${report.id}`) });
                                         optionsToShow.push({ label: 'Hapus', icon: <FaTrash size={14} />, onClick: () => openDeleteConfirm(), description: "Hapus laporan ini secara permanen" });
                                     } else {
-                                        optionsToShow.push({ label: 'Simpan',  description: "Simpan laporan ini", icon: <FaBookmark size={14} />, onClick: () => onSave!(report?.id || 0) },)
                                         optionsToShow.push({ label: 'Laporkan', icon: <FaFlag size={14} />, onClick: () => router.push(`/main/reports/${report.id}/report`) });
                                     }
+                                    optionsToShow.push({ 
+                                        label: report.reportSaved?.save ? 'Hapus dari Simpanan' : 'Simpan',  
+                                        description: report.reportSaved?.save ? "Hapus laporan dari simpanan" : "Simpan laporan ini", 
+                                        icon: report.reportSaved?.save ? <GoBookmarkSlashFill size={14} /> : <FaBookmark size={14} />, 
+                                        onClick: () => onSave!(report?.id || 0) 
+                                    },)
 
                                     openOptionsModal({ optionsList: optionsToShow, anchorRef: optionsButtonRef });
                                 }}

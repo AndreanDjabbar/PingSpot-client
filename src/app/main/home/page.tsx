@@ -2,15 +2,18 @@
 "use client";
 import React from 'react'
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { BiPlus } from 'react-icons/bi'
 import { FaUser } from 'react-icons/fa'
 import { GoAlert } from 'react-icons/go'
+import { FiBell } from 'react-icons/fi';
 import { useLocationStore } from '@/stores';
+import { cn } from '@/lib/styles';
 import { Button, EmptyState, Loading, ErrorSection, HeaderSection } from '@/components';
 import { RxCrossCircled } from 'react-icons/rx';
 import { FaLocationDot } from 'react-icons/fa6';
-import { useCurrentLocation, useGetReportStatistics, useErrorToast, useGetUserStatistics } from '@/hooks';
+import { useCurrentLocation, useGetNotifications, useGetReportStatistics, useErrorToast, useGetUserStatistics } from '@/hooks';
 import { getErrorResponseMessage, getFormattedDate, getRelativeTime, isInternalServerError } from '@/utils';
 import { IoMdPulse } from 'react-icons/io';
 import { MdCalendarMonth } from 'react-icons/md';
@@ -48,7 +51,15 @@ const Homepage = () => {
         error: errorUserStatistics
     } = useGetUserStatistics();
 
+    const {
+        data: notificationsDataResponse,
+        isLoading: loadingNotifications,
+        isError: isErrorNotifications,
+        error: errorNotifications,
+    } = useGetNotifications();
+
     useErrorToast(isPermissionDenied, permissionDenied);
+    useErrorToast(isErrorNotifications, errorNotifications || 'Gagal memuat aktivitas terbaru.');
 
     const isReportStatisticServerError = isInternalServerError(errorReportStatistics);
     const isUserStatisticServerError = isInternalServerError(errorUserStatistics);
@@ -61,6 +72,10 @@ const Homepage = () => {
     });
     const totalReportsThisMonth = reportStatisticsData?.data?.monthlyReportCounts[thisMonth] || 0;
     const totalUsers = userStatisticsData?.data?.totalUsers || 0;
+    const notifications = notificationsDataResponse?.data?.notifications || [];
+    const recentNotifications = [...notifications]
+        .sort((first, second) => second.createdAt - first.createdAt)
+        .slice(0, 5);
     
     const cardBase = "card-pingspot";
     const labelClass = "text-sm font-medium text-surface/70 mb-1";
@@ -242,32 +257,56 @@ const Homepage = () => {
                             </div>
                         )}
                     </Card>
-                    <Card className="p-6">
-                        <h2 className="text-xl font-semibold text-surface mb-6 flex items-center">
-                            Aktivitas Terbaru
-                        </h2>
-                        <h4 className='text-surface/70'>
-                            Fitur ini akan segera hadir. Nantikan pembaruan selanjutnya!
-                        </h4>
-                        {/* <div className="space-y-4">
-                            {[
-                            { action: 'Laporan baru', desc: 'Jalan rusak di Jl. Sudirman', time: '5 menit lalu', status: 'new' },
-                            ].map((activity, index) => (
-                            <div key={index} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-background/50 transition-colors">
-                                <div className={`w-2 h-2 rounded-full mt-2 ${
-                                activity.status === 'new' ? 'bg-orange-400' :
-                                activity.status === 'resolved' ? 'bg-green-400' : 'bg-blue-400'
-                                }`} />
-                                <div className="flex-1">
-                                <p className="font-medium text-surface">{activity.action}</p>
-                                <p className="text-muted text-sm">{activity.desc}</p>
-                                <p className="text-muted/60 text-xs mt-1">{activity.time}</p>
-                                </div>
+                    <Card className="flex h-full flex-col">
+                        <div className="mb-4 flex shrink-0 items-center justify-between">
+                            <h2 className="text-xl font-semibold text-surface flex items-center gap-2">
+                                Aktivitas Terbaru
+                            </h2>
+                            <Link
+                                href="/main/notifications"
+                                className="text-sm font-medium text-primary hover:text-primary-hover hover:underline underline-offset-2"
+                            >
+                                Lihat semua
+                            </Link>
+                        </div>
+                        {loadingNotifications ? (
+                            <Loading type="dots" text="Memuat aktivitas..." />
+                        ) : recentNotifications.length > 0 ? (
+                            <div
+                                className={cn(
+                                    'divide-y divide-muted/60 mt-6',
+                                    recentNotifications.length === 5 && 'grid flex-1 grid-rows-5'
+                                )}
+                                role="list"
+                            >
+                                {recentNotifications.map((notification) => (
+                                    <Link
+                                        key={notification.id}
+                                        href="/main/notifications"
+                                        role="listitem"
+                                        className="group flex min-h-0 items-start gap-3 px-1 py-3 transition-colors first:pt-0 last:pb-0 hover:bg-primary/3"
+                                    >
+                                        <span className={`mt-2 h-2 w-2 shrink-0 rounded-full ${
+                                            notification.isRead ? 'bg-muted' : 'bg-primary'
+                                        }`} />
+                                        <div className="min-w-0">
+                                            <p className="truncate text-sm font-semibold text-surface transition-colors group-hover:text-primary">
+                                                {notification.title}
+                                            </p>
+                                            <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-surface/70">
+                                                {notification.description}
+                                            </p>
+                                        </div>
+                                    </Link>
+                                ))}
                             </div>
-                            ))}
-                        </div> */}
+                        ) : (
+                            <div className="py-6 text-center">
+                                <FiBell className="mx-auto mb-2 h-7 w-7 text-surface/40" />
+                                <p className="text-sm text-surface/70">Belum ada aktivitas terbaru.</p>
+                            </div>
+                        )}
                     </Card>
-                    {/* <Map/> */}
                 </div>
             </div>
         </div>

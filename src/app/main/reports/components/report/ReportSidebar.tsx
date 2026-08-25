@@ -74,7 +74,7 @@ const ReportSidebar = memo(() => {
                     </div>
                     <div className='flex items-center text-sm text-gray-700'>
                         <div className='w-2 h-2 bg-purple-500 rounded-full mr-3'></div>
-                        <span>Berpartisipasi dalam komunitas</span>
+                        <span>Berpartisipasi dalam proses penanganan laporan</span>
                     </div>
                 </div>
             </div>
@@ -209,7 +209,7 @@ const ReportSidebar = memo(() => {
                 )}
             </div>
 
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">
+            {/* <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">
                 <h3 className="font-bold text-lg text-gray-900 mb-4">Komunitas Aktif</h3>
                 <div className="space-y-3">
                     {[
@@ -237,9 +237,9 @@ const ReportSidebar = memo(() => {
                 <button className="w-full mt-4 text-sm text-blue-600 hover:text-blue-700 font-medium">
                     Jelajahi Komunitas
                 </button>
-            </div>
+            </div> */}
 
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">
+            {/* <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">
                 <h3 className="font-bold text-lg text-gray-900 mb-4">Saran Komunitas</h3>
                 <div className="space-y-3">
                     {[
@@ -266,7 +266,7 @@ const ReportSidebar = memo(() => {
                         </div>
                     ))}
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 });

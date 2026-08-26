@@ -7,6 +7,8 @@ import {
   ReportFilterModalProvider,
 } from "@/provider";
 import { OptionsModalProvider } from "@/provider";
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 import { ToastContainer } from "react-toastify";
 import ClientLayout from "./client-layout";
 
@@ -21,13 +23,16 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   fallback: ["system-ui", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
 });
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+  const locale = await getLocale();
+  const messages = await getMessages();
 
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className={`${plusJakartaSans.variable} antialiased`} style={{ fontFamily: "var(--font-sf)" }}>
-        <ReactQueryClientProvider>
-          <ToastContainer />
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <ReactQueryClientProvider>
+            <ToastContainer />
             <ClientLayout>
               {children}
               <ConfirmationModalProvider />
@@ -35,7 +40,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
               <OptionsModalProvider />
               <ReportFilterModalProvider />
             </ClientLayout>
-        </ReactQueryClientProvider>
+          </ReactQueryClientProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

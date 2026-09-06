@@ -77,7 +77,6 @@ const Homepage = () => {
         .sort((first, second) => second.createdAt - first.createdAt)
         .slice(0, 5);
     
-    const cardBase = "card-pingspot";
     const labelClass = "text-sm font-medium text-surface/70 mb-1";
     const valueClass = "text-xl font-bold text-surface";
     const iconWrapClass = "p-3 rounded-lg bg-primary";
@@ -266,7 +265,7 @@ const Homepage = () => {
                                 href="/main/notifications"
                                 className="text-sm font-medium text-primary hover:text-primary-hover hover:underline underline-offset-2"
                             >
-                                Lihat semua
+                                {recentNotifications.length > 0 && 'Lihat Semua'}
                             </Link>
                         </div>
                         {loadingNotifications ? (
@@ -301,9 +300,15 @@ const Homepage = () => {
                                 ))}
                             </div>
                         ) : (
-                            <div className="py-6 text-center">
-                                <FiBell className="mx-auto mb-2 h-7 w-7 text-surface/40" />
-                                <p className="text-sm text-surface/70">Belum ada aktivitas terbaru.</p>
+                            <div className="flex justify-center mt-15 text-center">
+                                <EmptyState
+                                    emptyTitle="Belum ada aktivitas terbaru"
+                                    emptyMessage='Aktivitas terbaru akan muncul di sini ketika ada pembaruan terkait laporan atau akun Anda.'
+                                    emptyIcon={<FiBell />}
+                                    className=''
+                                    showCommandButton={true}
+                                    commandLoadingMessage='Memuat...'
+                                />
                             </div>
                         )}
                     </Card>

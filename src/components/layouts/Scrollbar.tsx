@@ -16,7 +16,7 @@ const Scrollbar = ({ children, height = '100%', width = '100%', autoHide = true,
     return (
         <SimpleBar
         className={className}
-        style={{ maxHeight: height, width }}
+        style={{ height, width }}
         autoHide={autoHide}
         >
             {children}

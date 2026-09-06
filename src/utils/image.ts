@@ -33,16 +33,19 @@ export const compressImages = async (files: File, options?: ImageCompressionOpti
 
 
 export const getImageURL = (path: string, type: string) => {
+    console.log("getImageURL", path, type);
     let pathFile = path;
+    let baseURL = type === "user"
+        ? process.env.NEXT_PUBLIC_USER_STATIC_URL
+        : process.env.NEXT_PUBLIC_MAIN_STATIC_URL;
+
     if (!path || path === "") {
         type === "user" 
             ? pathFile = "default-profile.png"
             : pathFile = "default-image.png";
+        baseURL = '/images';
     }
 
-    const baseURL = type === "user"
-        ? process.env.NEXT_PUBLIC_USER_STATIC_URL
-        : process.env.NEXT_PUBLIC_MAIN_STATIC_URL;
 
     const fullURL = `${baseURL}/${pathFile}`;
 

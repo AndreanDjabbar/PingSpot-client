@@ -1,0 +1,43 @@
+{
+    "settings": {
+        "description": "Customize PingSpot to your preferences for a better experience.",
+        "account_profile_card": "Account & Profile",
+        "general_preferences_card": "General Preferences",
+        "language": "Language",
+        "edit": "Edit",
+        "look_profile": "View Profile",
+        "change_language": "Change Language",
+        "email_label": "Email",
+        "edit_profile": {
+            "title": "Edit User Profile",
+            "description": "Edit your profile info, photo, and preferences"
+        },
+        "edit_security": {
+            "title": "Account Security",
+            "description": "Change your password and security settings"
+        },
+        "notifications_section_title": "Notifications",
+        "notifications": {
+            "title": "Notifications",
+            "description": "Enable or disable all notifications"
+        },
+        "email_notifications": {
+            "title": "Email Notifications",
+            "description": "Receive notifications via email"
+        },
+        "logout_modal": {
+            "title": "Confirm Log Out",
+            "subtitle": "Are you sure you want to log out?",
+            "description": "You will be logged out of your current Pingspot session.",
+            "confirm": "Log Out"
+        },
+        "change_language_modal": {
+            "title": "Confirm Language Change",
+            "subtitle": "Are you sure you want to change the language?",
+            "description": "The language will be changed to {language}.",
+            "confirm": "Change Language"
+        },
+        "logout": "Log Out",
+        "logging_out": "Logging Out..."
+    }
+}

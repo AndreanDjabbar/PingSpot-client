@@ -1,0 +1,43 @@
+{
+    "settings": {
+        "description": "Sesuaikan PingSpot dengan preferensi Anda untuk pengalaman yang lebih baik.",
+        "account_profile_card": "Akun & Profil",
+        "general_preferences_card": "Preferensi Umum",
+        "language": "Bahasa",
+        "edit": "Edit",
+        "look_profile": "Lihat Profil",
+        "change_language": "Ubah Bahasa",
+        "email_label": "Email",
+        "edit_profile": {
+            "title": "Edit Profil Pengguna",
+            "description": "Edit informasi profil, foto, dan preferensi Anda"
+        },
+        "edit_security": {
+            "title": "Keamanan Akun",
+            "description": "Ubah password dan pengaturan keamanan"
+        },
+        "notifications_section_title": "Notifikasi",
+            "notifications": {
+            "title": "Notifikasi",
+            "description": "Aktifkan atau nonaktifkan semua notifikasi"
+        },
+        "email_notifications": {
+            "title": "Notifikasi Email",
+            "description": "Terima notifikasi melalui email"
+        },
+        "logout_modal": {
+            "title": "Konfirmasi Keluar",
+            "subtitle": "Apakah Anda yakin ingin keluar?",
+            "description": "Anda akan keluar dari sesi Pingspot saat ini.",
+            "confirm": "Keluar"
+        },
+        "change_language_modal": {
+            "title": "Konfirmasi Perubahan Bahasa",
+            "subtitle": "Apakah Anda yakin ingin mengubah bahasa?",
+            "description": "Bahasa akan diubah menjadi {language}.",
+            "confirm": "Ubah Bahasa"
+        },
+        "logout": "Keluar",
+        "logging_out": "Keluar..."
+    }
+}

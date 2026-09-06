@@ -12,14 +12,17 @@ import { IoIosNotifications } from "react-icons/io";
 import { useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { SettingCard, SettingItem } from './components';
 import { Button, ToggleSwitch, HeaderSection, ProfileBadge } from '@/components';
+import { useLocale, useTranslations } from 'next-intl';
 
 const SettingsPage = () => {
+    const t = useTranslations('settings');
+    const locale = useLocale();
     const router = useRouter();
     const currentPath = usePathname();
 
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
     const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(true);
-    const [selectedLanguage, setSelectedLanguage] = useState('id');
+    const [selectedLanguage, setSelectedLanguage] = useState(locale);
 
     const user = useUserProfileStore(state => state.userProfile);
     const openConfirm = useConfirmationModalStore((state) => state.openConfirm);
@@ -42,17 +45,32 @@ const SettingsPage = () => {
 
     const handleLanguageChange = (langCode: string) => {
         setSelectedLanguage(langCode);
+        document.cookie = `NEXT_LOCALE=${langCode}; path=/; max-age=31536000; SameSite=Lax`;
+        router.refresh();
     };
 
     const confirmationModal = () => {
         openConfirm({
-            type: "warning",
-            title: "Konfirmasi Keluar",
-            subtitle: "Apakah Anda yakin ingin keluar?",
+            type: "danger",
+            title: t('logout_modal.title'),
+            subtitle: t('logout_modal.subtitle'),
             isPending: isPending,
-            description: "Anda akan keluar dari sesi Pingspot saat ini.",
-            confirmTitle: "Keluar",
+            description: t('logout_modal.description'),
+            confirmTitle: t('logout_modal.confirm'),
             onConfirm: () => confirmLogout(),
+        });
+    }
+
+    const changeLanguageConfirmationModal = (langCode: string) => {
+        openConfirm({
+            type: "warning",
+            title: t('change_language_modal.title'),
+            subtitle: t('change_language_modal.subtitle'),
+            description: t('change_language_modal.description', {
+                language: languages.find(lang => lang.code === langCode)?.name || '',
+            }),
+            confirmTitle: t('change_language_modal.confirm'),
+            onConfirm: () => handleLanguageChange(langCode),
         });
     }
     
@@ -82,10 +100,10 @@ const SettingsPage = () => {
             currentPath={currentPath || '/main/settings'}
             isCardHeader={false}
             showBreadcrumb={false}
-            message='Sesuaikan PingSpot dengan preferensi Anda untuk pengalaman yang lebih baik.'/>
+            message={t('description')}/>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <SettingCard title="Akun & Profil" icon={BiUser}>
+                <SettingCard title={t('account_profile_card')} icon={BiUser}>
                 <div className="flex flex-col gap-6">
                     <div className='p-4 rounded-lg flex flex-col gap-4 border border-muted '>
                         <ProfileBadge 
@@ -105,13 +123,13 @@ const SettingsPage = () => {
                         <Button className='border border-gray-300 text-gray-900 w-fit bg-white hover:bg-gray-100 transition-all duration-200 '
                         variant='outline'
                         onClick={() => router.push(`/main/profile/${user?.username}`)}>
-                            Lihat Profil
+                            {t('look_profile')}
                         </Button>
                     </div>
                     <div className=''>
                         <SettingItem
-                        title="Edit Profil Pengguna"
-                        description="Edit informasi profil, foto, dan preferensi Anda"
+                        title={t('edit_profile.title')}
+                        description={t('edit_profile.description')}
                         icon={BiUser}
                         action={
                             <Button
@@ -119,13 +137,13 @@ const SettingsPage = () => {
                             className="px-3 py-1 text-sm w-full md:w-auto"
                             variant='outline'
                             >
-                                Edit
+                                {t('edit')}
                             </Button>
                         }
                         />
                         <SettingItem
-                        title="Keamanan Akun"
-                        description="Ubah password dan pengaturan keamanan"
+                        title={t('edit_security.title')}
+                        description={t('edit_security.description')}
                         icon={BiLock}
                         action={
                             <Button
@@ -133,12 +151,12 @@ const SettingsPage = () => {
                             className="px-3 py-1 text-sm w-full"
                             variant='outline'
                             >
-                                Edit
+                                {t('edit')}
                             </Button>
                         }
                         />
                         <SettingItem
-                        title="Email"
+                        title={t('email_label')}
                         description={user?.email || ''}
                         icon={BiEnvelope}
                         />
@@ -146,15 +164,15 @@ const SettingsPage = () => {
                 </div>
                 </SettingCard>
 
-                <SettingCard title="Preferensi Umum" icon={BiCog}>
+                <SettingCard title={t('general_preferences_card')} icon={BiCog}>
                 <div className="space-y-6">
                     <div>
-                        <h3 className="font-medium text-surface mb-3">Bahasa</h3>
+                        <h3 className="font-medium text-surface mb-3">{t('language')}</h3>
                         <div className="flex flex-col space-y-2">
                             {languages.map((lang) => (
                             <button
                                 key={lang.code}
-                                onClick={() => handleLanguageChange(lang.code)}
+                                onClick={() => changeLanguageConfirmationModal(lang.code)}
                                 className={`flex items-center p-3 rounded-lg border transition-all cursor-pointer ${
                                 selectedLanguage === lang.code
                                     ? 'border-primary bg-background text-primary'
@@ -169,12 +187,12 @@ const SettingsPage = () => {
                     </div>
 
                     <div>
-                        <h3 className="font-medium text-surface mb-3">Notifikasi</h3>
+                        <h3 className="font-medium text-surface mb-3">{t('notifications_section_title')}</h3>
                         <div className="flex flex-col space-y-2">
                             <SettingItem
                             icon={IoIosNotifications}
-                            title="Notifikasi"
-                            description="Aktifkan atau nonaktifkan semua notifikasi"
+                            title={t('notifications.title')}
+                            description={t('notifications.description')}
                             action={
                                 <ToggleSwitch
                                 enabled={notificationsEnabled}
@@ -185,9 +203,9 @@ const SettingsPage = () => {
                             }
                             />
                             <SettingItem
-                            title="Notifikasi Email"
+                            title={t('email_notifications.title')}
                             icon={MdOutlineMarkEmailUnread}
-                            description="Terima notifikasi melalui email"
+                            description={t('email_notifications.description')}
                             action={
                                 <ToggleSwitch
                                 enabled={emailNotificationsEnabled}
@@ -207,7 +225,7 @@ const SettingsPage = () => {
                     disabled={isPending}
                     icon={<ImExit className={`w-5 h-5 ${isPending ? 'animate-pulse' : ''}`}/>}
                 >
-                    <span>{isPending ? 'Keluar...' : 'Keluar'}</span>
+                    <span>{isPending ? t('logging_out') : t('logout')}</span>
                 </Button>
 
                 </div>

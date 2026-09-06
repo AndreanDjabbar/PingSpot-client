@@ -1,12 +1,19 @@
-import { getRequestConfig, getLocale } from 'next-intl/server';
+import { getRequestConfig } from 'next-intl/server';
+import { cookies } from 'next/headers';
 
-
-export default getRequestConfig(async () => {
-    const locale = await getLocale();
+const getLocal = async () => {
     const defaultLocale = 'id';
+    const supportedLocales = ['id', 'en'];
+
+    const cookieLocale = (await cookies()).get('NEXT_LOCALE')?.value;
+    const resolvedLocale = supportedLocales.includes(cookieLocale ?? '')
+        ? cookieLocale!
+        : defaultLocale;
 
     return {
-        locale : locale || defaultLocale,
-        messages: (await import(`../dictionaries/${locale}.json`)).default,
+        locale: resolvedLocale,
+        messages: (await import(`../dictionaries/${resolvedLocale}.json`)).default,
     };
-});
+};
+
+export default getRequestConfig(getLocal);

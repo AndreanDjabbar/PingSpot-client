@@ -38,6 +38,1130 @@
             "confirm": "Change Language"
         },
         "logout": "Log Out",
-        "logging_out": "Logging Out..."
+        "logging_out": "Logging Out...",
+        
+        "security": {
+            "description": "Update your password and strengthen your account security.",
+            "current_password": {
+                "label": "Current Password",
+                "placeholder": "Enter your current password"
+            },
+            "current_password_confirmation": {
+                "label": "Confirm Current Password",
+                "placeholder": "Re-enter your current password"
+            },
+            "new_password": {
+                "label": "New Password",
+                "placeholder": "Enter your new password"
+            },
+            "new_password_confirmation": {
+                "label": "Confirm New Password",
+                "placeholder": "Re-enter your new password"
+            },
+            "submit": {
+                "default": "Update Password",
+                "loading": "Updating..."
+            },
+            "confirm_modal": {
+                "title": "Confirm Security Change",
+                "subtitle": "Are you sure you want to update?",
+                "description": "Your security information (password) will be updated.",
+                "confirm": "Update"
+            }
+        },
+
+        "profile": {
+            "description": "Customize PingSpot to your preferences for a better experience.",
+            "profile_picture": {
+                "label": "Profile Picture",
+                "button": "Choose Photo",
+                "file_selected": "File selected: {fileName}"
+            },
+            "full_name": {
+                "label": "Full Name",
+                "placeholder": "Enter your full name"
+            },
+            "username": {
+                "label": "Username",
+                "placeholder": "Enter your username"
+            },
+            "birthday": {
+                "label": "Date of Birth"
+            },
+            "gender": {
+                "label": "Gender",
+                "options": {
+                    "male": "Male",
+                    "female": "Female"
+                }
+            },
+            "bio": {
+                "label": "Your Bio",
+                "placeholder": "Enter your bio"
+            },
+            "submit": {
+                "default": "Update Profile",
+                "loading": "Updating..."
+            },
+            "confirm_modal": {
+                "title": "Confirm Profile Change",
+                "subtitle": "Are you sure you want to update?",
+                "description": "Your profile information will be updated.",
+                "confirm": "Update"
+            }
+        }
+    },
+    "home": {
+        "description": "Manage reports and monitor the condition of your surroundings in real time.",
+        "create_report": "Create Report",
+        "loading": "Loading...",
+        "stats": {
+            "total_reports": {
+                "label": "Total Reports",
+                "unit": "Reports"
+            },
+            "total_active_reports": {
+                "label": "Total Active Reports",
+                "unit": "Reports"
+            },
+            "total_reports_this_month": {
+                "label": "Total Reports This Month",
+                "unit": "Reports"
+            },
+            "total_active_users": {
+                "label": "Total Active Users",
+                "unit": "Users"
+            }
+        },
+        "location_card": {
+            "title": "Your Location",
+            "updated_at": "Updated {time}",
+            "update_button": "Update Location",
+            "updating": "Updating...",
+            "empty": {
+                "title": "Location unavailable",
+                "message": "To show reports near you, allow the app to access your location.",
+                "command_label": "Detect Location",
+                "command_loading": "Detecting..."
+            }
+        },
+        "activity_card": {
+            "title": "Recent Activity",
+            "view_all": "View All",
+            "loading": "Loading activity...",
+            "load_error": "Failed to load recent activity.",
+            "empty": {
+                "title": "No recent activity yet",
+                "message": "Recent activity will appear here when there are updates related to your reports or account.",
+                "command_loading": "Loading..."
+            }
+        }
+    },
+    "explore": {
+        "description": "Explore users, reports, and communities on PingSpot to connect and collaborate on improving our shared environment.",
+        "search_placeholder": "Search users, reports, or communities",
+        "close_search": "Close search",
+        "tabs": {
+            "users": "Users",
+            "reports": "Reports",
+            "communities": "Communities"
+        },
+        "result_type_noun": {
+            "users": "users",
+            "reports": "reports",
+            "communities": "communities"
+        },
+        "results_header": {
+            "title": "Search Results",
+            "showing_for": "Showing results for \"{term}\""
+        },
+        "loading_state": {
+            "title": "Searching...",
+            "message": "Searching {type}"
+        },
+        "error_state": {
+            "title": "Something Went Wrong",
+            "default_message": "Failed to load search results. Please try again.",
+            "retry": "Try Again"
+        },
+        "prompt_state": {
+            "title": "Start Your Search",
+            "min_chars_message": "Type at least 3 characters to search {type}",
+            "initial_message": "Type a keyword to search users, reports, locations, or communities"
+        },
+        "empty_results": {
+            "title": "No Results",
+            "message": "No {type} found for your search."
+        },
+        "loading_more": "Loading more...",
+        "members_count": "{count} members",
+        "report_types": {
+            "INFRASTRUCTURE": "Infrastructure",
+            "ENVIRONMENT": "Environment",
+            "SAFETY": "Safety",
+            "TRAFFIC": "Traffic",
+            "PUBLIC_FACILITY": "Public Facility",
+            "WASTE": "Waste",
+            "WATER": "Water",
+            "ELECTRICITY": "Electricity",
+            "HEALTH": "Health",
+            "SOCIAL": "Social",
+            "EDUCATION": "Education",
+            "ADMINISTRATIVE": "Administrative",
+            "DISASTER": "Disaster",
+            "OTHER": "Other"
+        },
+        "report_status": {
+            "RESOLVED": "Resolved",
+            "EXPIRED": "Expired",
+            "WAITING_CONFIRMATION": "Waiting Confirmation",
+            "ON_PROGRESS": "In Progress",
+            "WAITING": "Waiting"
+        }
+    },
+    "notifications": {
+        "description": "Manage and keep track of all your notifications, from reminders and recent activity to important information that needs your attention.",
+        "filters": {
+            "all": "All",
+            "unread": "Unread"
+        },
+        "actions": {
+            "mark_all_read": "Mark all as read",
+            "delete_all": "Delete all",
+            "mark_as_read": "Mark as read",
+            "delete": "Delete notification"
+        },
+        "action_text": {
+            "POST": "View Post",
+            "COMMENT": "View Comment",
+            "USER": "View Profile",
+            "REPORT": "View Report",
+            "COMMUNITY": "View Community",
+            "default": "View Details"
+        },
+        "time_ago": {
+            "just_now": "Just now",
+            "minutes": "{count}m ago",
+            "hours": "{count}h ago",
+            "days": "{count}d ago"
+        },
+        "group_labels": {
+            "today": "Today",
+            "yesterday": "Yesterday",
+            "this_week": "This Week",
+            "older": "Older"
+        },
+        "delete_all_modal": {
+            "title": "Confirm Deletion",
+            "subtitle": "Are you sure you want to delete all notifications?",
+            "description": "Deleted notifications cannot be recovered.",
+            "confirm": "Yes, Delete"
+        },
+        "delete_one_modal": {
+            "title": "Confirm Deletion",
+            "subtitle": "Are you sure you want to delete this notification?",
+            "description": "Deleted notifications cannot be recovered.",
+            "confirm": "Yes, Delete"
+        },
+        "errors": {
+            "fetch_failed": "Failed to load notifications.",
+            "mark_read_failed": "Failed to mark notification as read.",
+            "mark_all_read_failed": "Failed to mark all notifications as read.",
+            "delete_failed": "Failed to delete notification.",
+            "delete_all_failed": "Failed to delete all notifications."
+        },
+        "empty": {
+            "all_read": {
+                "title": "All caught up",
+                "message": "You've read all your notifications. Check back later for updates."
+            },
+            "no_notifications": {
+                "title": "No notifications yet",
+                "message": "New notifications will appear here."
+            },
+            "command_loading": "Loading notifications..."
+        }
+    },
+    "profile_username": {
+        "stats": {
+            "followers": "Followers",
+            "following": "Following"
+        },
+        "pro_badge": "PRO ✦",
+        "actions": {
+            "follow": "Follow",
+            "following": "Following",
+            "message": "Message",
+            "edit_profile": "Edit Profile"
+        },
+        "follow_modal": {
+            "title": "Confirm Follow",
+            "subtitle": "Are you sure you want to follow this user?",
+            "description": "By following this user, you'll receive notifications about their recent activity.",
+            "confirm": "Yes, Follow"
+        },
+        "unfollow_modal": {
+            "title": "Confirm Unfollow",
+            "subtitle": "Are you sure you want to unfollow this user?",
+            "description": "By unfollowing this user, you'll no longer receive notifications about their recent activity.",
+            "confirm": "Yes, Unfollow"
+        },
+        "errors": {
+            "follow_data_failed": "Failed to load follow data.",
+            "follow_action_failed": "Failed to follow/unfollow."
+        },
+        "defaults": {
+            "full_name": "User's full name",
+            "username": "username"
+        }
+    },
+    "component": {
+        "sidebar": {
+            "nav": {
+                "home": "Home",
+                "explore": "Explore",
+                "notifications": "Notifications",
+                "reports": "Reports",
+                "settings": "Settings",
+                "logout": "Log Out"
+            },
+            "user_defaults": {
+                "name": "User",
+                "email": "User@email.com"
+            },
+            "logout_modal": {
+                "title": "Confirm Log Out",
+                "subtitle": "Are you sure you want to log out?",
+                "description": "You will be logged out of your current Pingspot session.",
+                "confirm": "Log Out"
+            }
+        },
+        "breadcrumb": {
+            "home": "🏠 Home",
+            "map": "Interactive Map",
+            "explore": "🔍 Explore",
+            "community": "Community",
+            "messages": "Messages",
+            "activity": "Activity",
+            "settings": "⚙️ Settings",
+            "help": "Help",
+            "profile": "Profile",
+            "notifications": "🔔 Notifications",
+            "security": "Security",
+            "reports": "📝 Reports",
+            "create-report": "Create Report"
+        },
+        "header_section": {
+            "home": "🏠 Home",
+            "map": "Interactive Map",
+            "explore": "🔍 Explore",
+            "community": "Community",
+            "messages": "Messages",
+            "activity": "Activity",
+            "settings": "⚙️ Settings",
+            "help": "Help",
+            "profile": "Profile",
+            "notifications": "🔔 Notifications",
+            "security": "Security",
+            "reports": "📝 Reports",
+            "create-report": "Create Report",
+            "default_message": "Manage your account settings and preferences here."
+        },
+        "modal": {
+            "confirmation": {
+                "default_title": {
+                    "info": "Information",
+                    "warning": "Warning"
+                },
+                "default_cancel": {
+                    "info": "Close",
+                    "warning": "Cancel"
+                },
+                "close_aria_label": "Close modal"
+            },
+            "options": {
+                "no_options": "No options"
+            },
+            "report_filter": {
+                "sections": {
+                    "sort": "Sort By",
+                    "category": "Report Category",
+                    "status": "Report Status",
+                    "progress": "Progress Type",
+                    "distance": "Location Distance"
+                },
+                "sort_options": {
+                    "latest": "Latest",
+                    "oldest": "Oldest",
+                    "most_liked": "Most Liked"
+                },
+                "report_type_options": {
+                    "all": "All Categories",
+                    "INFRASTRUCTURE": "Infrastructure",
+                    "ENVIRONMENT": "Environment",
+                    "SAFETY": "Safety",
+                    "TRAFFIC": "Traffic",
+                    "PUBLIC_FACILITY": "Public Facility",
+                    "WASTE": "Waste",
+                    "WATER": "Water",
+                    "ELECTRICITY": "Electricity",
+                    "HEALTH": "Health",
+                    "SOCIAL": "Social",
+                    "EDUCATION": "Education",
+                    "ADMINISTRATIVE": "Administrative",
+                    "DISASTER": "Disaster",
+                    "OTHER": "Other"
+                },
+                "status_options": {
+                    "all": "All Statuses",
+                    "RESOLVED": "Resolved",
+                    "POTENTIALLY_RESOLVED": "Under Review",
+                    "EXPIRED": "Expired",
+                    "ON_PROGRESS": "In Progress",
+                    "NOT_RESOLVED": "Not Yet Processed",
+                    "WAITING": "Waiting"
+                },
+                "progress_options": {
+                    "all": "All Reports",
+                    "true": "With Progress",
+                    "false": "Without Progress"
+                },
+                "distance_options": {
+                    "all": "All Locations",
+                    "1000": "Within 1 km",
+                    "5000": "Within 5 km",
+                    "10000": "Within 10 km"
+                },
+                "actions": {
+                    "reset": "Reset",
+                    "apply": "Apply Filters"
+                }
+            }
+        }
+    },
+    "report": {
+        "description": "Find and view issue reports near you to raise awareness and community participation.",
+        "create_report": "Create Report",
+        "deleting": "Deleting Report...",
+        "errors": {
+            "fetch_failed": "An error occurred while fetching report data",
+            "delete_failed": "An error occurred while fetching report data",
+            "react_failed": "An error occurred while reacting to the report",
+            "vote_failed": "An error occurred while submitting your vote"
+        },
+        "success": {
+            "deleted": "Report deleted successfully"
+        },
+        "share": {
+            "text": "Check out this report on PingSpot",
+            "copied": "Link copied to clipboard!"
+        },
+        "empty": {
+            "no_location": {
+                "title": "Location unavailable",
+                "message": "To show reports near you, allow the app to access your location.",
+                "command_label": "Detect Location",
+                "command_loading": "Detecting..."
+            },
+            "no_reports": {
+                "title": "No reports yet",
+                "message": "Be the first to create a report for your community",
+                "command_label": "Create Report"
+            },
+            "no_results": {
+                "title": "No matching results",
+                "message_with_search": "No reports match \"{term}\". Try a different keyword or clear the filters.",
+                "message_no_search": "No reports match the selected filters. Try adjusting your filters.",
+                "command_clear_search": "Clear Search",
+                "command_reset_filter": "Reset Filters"
+            }
+        },
+        "report_types": {
+            "INFRASTRUCTURE": "Infrastructure",
+            "ENVIRONMENT": "Environment",
+            "SAFETY": "Safety",
+            "TRAFFIC": "Traffic",
+            "PUBLIC_FACILITY": "Public Facility",
+            "WASTE": "Waste",
+            "WATER": "Water",
+            "ELECTRICITY": "Electricity",
+            "HEALTH": "Health",
+            "SOCIAL": "Social",
+            "EDUCATION": "Education",
+            "ADMINISTRATIVE": "Administrative",
+            "DISASTER": "Disaster",
+            "OTHER": "Other"
+        },
+        "report_search_filter": {
+            "placeholder": "Search reports by title, description, or location",
+            "filter_button": "Filter"
+        },
+        "report_card": {
+            "view_toggle": {
+                "map": "Map",
+                "attachment": "Attachment"
+            },
+            "image_alt": "Photo {index} for report {title}",
+            "image_nav": {
+                "previous": "Previous image",
+                "next": "Next image",
+                "go_to": "Go to image {index}"
+            },
+            "options": {
+                "share": {
+                    "label": "Share",
+                    "description": "View comments and leave your own comment on this report"
+                },
+                "edit": {
+                    "label": "Edit Report",
+                    "description": "You can edit this report."
+                },
+                "update_progress": {
+                    "label": "Update Report Progress",
+                    "description": "Update the progress of this report"
+                },
+                "detail": {
+                    "label": "Report Details",
+                    "description": "View details of the report you created"
+                },
+                "delete": {
+                    "label": "Delete",
+                    "description": "Permanently delete this report"
+                },
+                "report_abuse": {
+                    "label": "Report"
+                },
+                "save": {
+                    "label": "Save",
+                    "description": "Save this report"
+                },
+                "unsave": {
+                    "label": "Remove from Saved",
+                    "description": "Remove this report from your saved list"
+                }
+            },
+            "delete_modal": {
+                "title": "Delete report",
+                "subtitle": "Are you sure you want to delete this report?",
+                "description": "Deleted reports cannot be recovered.",
+                "confirm": "Delete"
+            },
+            "report_interaction_bar": {
+                "comment_count": "{count} comments",
+                "like": "Like",
+                "comment": "Comment",
+                "share": "Share"
+            },
+            "report_information": {
+                "section_title": "Report Information",
+                "status_labels": {
+                    "RESOLVED": "Resolved",
+                    "EXPIRED": "Expired",
+                    "WAITING_CONFIRMATION": "Waiting Confirmation",
+                    "ON_PROGRESS": "In Progress",
+                    "default": "Not Yet Processed"
+                },
+                "confirmation_reminder": {
+                    "aria_label": "Report status information",
+                    "title": "Confirm Report Resolution",
+                    "description": "Based on community voting, your report status may be resolved. Please confirm by uploading the latest progress within 1 week to validate that the issue is resolved.",
+                    "additional_info": "If there's no confirmation within 1 week, the status will automatically change to \"Resolved\"."
+                },
+                "timeline_section": "All Progress Updates ({count})",
+                "update_status_section": "Update Report Progress",
+                "votes_section": "Community Opinion on This Report",
+                "success_default": "Report submitted successfully!",
+                "close_report_modal": {
+                    "title": "Confirm Report Closure",
+                    "subtitle": "Are you sure you want to close this report?",
+                    "description": "A closed report progress cannot be reopened.",
+                    "confirm": "Close Report"
+                },
+                "update_progress_modal": {
+                    "title": "Confirm Progress Update",
+                    "subtitle": "Are you sure you want to update the progress of this report?",
+                    "description": "This report's progress will be updated.",
+                    "confirm": "Update Status"
+                },
+                "resolved_report": {
+                    "title": "Report Resolved",
+                    "message": "Progress updates are disabled"
+                },
+                "progress_section": {
+                    "note": "No content provided for this component yet"
+                },
+                "public_votes": {
+                    "title": "Community Opinion",
+                    "vote_count": "{count} votes",
+                    "subtitle": "Community opinion on this report's progress:",
+                    "on_progress": "In Progress",
+                    "resolved": "Resolved"
+                },
+                "voting_section": {
+                    "title": "Community Opinion",
+                    "vote_count": "{count} votes",
+                    "subtitle": "Community opinion on this report's progress:",
+                    "on_progress": "In Progress",
+                    "resolved": "Resolved",
+                    "resolved_state": {
+                        "title": "Report Resolved",
+                        "subtitle": "Voting closed"
+                    },
+                    "expired_state": {
+                        "title": "Report Expired",
+                        "subtitle": "Voting is closed until the report is updated by its creator"
+                    },
+                    "prompt": {
+                        "title": "What's your opinion on this report?",
+                        "subtitle": "Choose one to share your opinion"
+                    },
+                    "vote_buttons": {
+                        "resolved": {
+                            "label": "Resolved",
+                            "sublabel": "Issue fixed"
+                        },
+                        "on_progress": {
+                            "label": "In Progress",
+                            "sublabel": "Being handled"
+                        }
+                    },
+                    "cannot_vote_modal": {
+                        "title": "Can't Submit Opinion",
+                        "subtitle": "You can't submit an opinion on this report.",
+                        "description": "Users can only submit an opinion once per report (unless the report owner confirms a status change).",
+                        "confirm": "Close"
+                    },
+                    "vote_confirm_modal": {
+                        "title": "Confirm Report Status Selection",
+                        "subtitle": "Are you sure you want to select \"{status}\" as your opinion on this report?",
+                        "description": "You can only submit an opinion once per report (unless the report owner confirms a status change). The report status will be updated based on your choice.",
+                        "confirm": "Yes, Select Status"
+                    },
+                    "your_vote": {
+                        "prefix": "Your opinion:",
+                        "thanks": "You've submitted your opinion on this report. Thank you for participating!"
+                    }
+                }
+            }
+        },
+        "report_sidebar": {
+            "about": {
+                "title": "About PingSpot",
+                "description": "PingSpot is a community issue-reporting platform that lets residents report and track problems in their surroundings.",
+                "points": {
+                    "report_infrastructure": "Report infrastructure issues",
+                    "monitor_status": "Track resolution status",
+                    "participate": "Participate in the resolution process"
+                }
+            },
+            "stats": {
+                "title": "Report Statistics",
+                "total_reports": "Total Reports",
+                "types": {
+                    "totalInfrastructureReports": "Infrastructure",
+                    "totalEnvironmentReports": "Environment",
+                    "totalSafetyReports": "Safety",
+                    "totalTrafficReports": "Traffic",
+                    "totalPublicFacilityReports": "Public Facility",
+                    "totalWasteReports": "Waste",
+                    "totalWaterReports": "Water",
+                    "totalElectricityReports": "Electricity",
+                    "totalHealthReports": "Health",
+                    "totalSocialReports": "Social",
+                    "totalEducationReports": "Education",
+                    "totalAdministrativeReports": "Administrative",
+                    "totalDisasterReports": "Disaster",
+                    "totalOtherReports": "Other"
+                }
+            },
+            "connections": {
+                "title": "Connections",
+                "online_count": "{count} online",
+                "tabs": {
+                    "followers": "Followers",
+                    "following": "Following"
+                },
+                "status": {
+                    "online": "Active now",
+                    "offline": "Last seen 2h ago"
+                },
+                "error": {
+                    "message": "Failed to load connections.",
+                    "retry": "Try again"
+                },
+                "empty": {
+                    "followers": "No followers yet.",
+                    "following": "Not following anyone yet."
+                },
+                "view_all": "View All Friends"
+            }
+        },
+        "report_modal": {
+            "comments_title": "Comments ({count})",
+            "comment_error_default": "An error occurred while sending the comment",
+            "close_modal_aria": "Close modal",
+            "comment_list": {
+                "empty_state": "No comments yet",
+                "empty_state_sub": "Be the first to comment!",
+                "loading_more": "Loading more...",
+                "comment_item": {
+                    "reply": "Reply",
+                    "hide_replies": "Hide",
+                    "show_replies_count": "{count} {count, plural, one {reply} other {replies}}",
+                    "cancel": "Cancel",
+                    "loading_replies": "Loading replies...",
+                    "load_more_replies": "Load more",
+                    "loading_replies_button": "Loading...",
+                    "comment_input": {
+                    "placeholder_default": "Write a comment...",
+                    "placeholder_reply": "Reply to @{username}",
+                    "searching_users": "Searching users...",
+                    "search_users_error_default": "Failed to search users.",
+                    "no_users_found": "No users found",
+                    "loading_more_users": "Loading more..."
+                    }
+                }
+            }
+        },
+        "create_report_page": {
+            "header_message": "Report a problem or damage around you to help improve the environment.",
+            "success_default": "Report submitted successfully!",
+            "steps": {
+                "location": { "label": "Location", "description": "Select the location of the issue" },
+                "detail": { "label": "Detail", "description": "Fill in the report information" },
+                "attachment": { "label": "Attachment", "description": "Add photos related to the report" },
+                "confirmation": { "label": "Confirmation", "description": "Review & submit" }
+            },
+            "confirm_modal": {
+            "title": "Confirm Report Creation",
+            "subtitle": "Are you sure you want to create this report?",
+            "description": "You are about to create a new report. Make sure all information is correct before continuing.",
+            "confirm_button": "Create"
+            },
+            "buttons": {
+            "back": "Back",
+            "next": "Next",
+            "submit": "Submit Report",
+            "submitting": "Submitting Report..."
+            },
+            "map_step": {
+                "title": "Select Location",
+                "description": "Click on the map to set the issue location, or enable automatic location"
+            },
+            "detail_step": {
+            "title_field": {
+                "label": "Report Title",
+                "placeholder": "Enter report title"
+            },
+            "location_field": {
+                "label": "Address/Location Detail",
+                "placeholder": "Detailed address of the issue location"
+            },
+            "description_field": {
+                "label": "Issue Description",
+                "placeholder": "Describe the issue in detail"
+            },
+            "type_field": {
+                "label": "Report Type",
+                "placeholder": "Select report type"
+            },
+            "issue_types": {
+                "infrastructure": "Infrastructure",
+                "environment": "Environment",
+                "safety": "Safety",
+                "traffic": "Traffic",
+                "public_facility": "Public Facility",
+                "waste": "Waste",
+                "water": "Water",
+                "electricity": "Electricity",
+                "health": "Health",
+                "social": "Social",
+                "education": "Education",
+                "administrative": "Administrative",
+                "disaster": "Natural Disaster",
+                "other": "Other"
+            },
+            "has_progress": {
+                "label": "Report Progress Feature",
+                "option_label": "Enable report progress",
+                "info_subtitle": "What is the Report Progress Feature?",
+                "info_title": "Report Progress Feature",
+                "info_description": "By enabling the progress feature, you can track and document the handling of your report over time. Every stage of repair or follow-up can be recorded by adding progress updates along with supporting photos.",
+                "info_additional": "This feature is especially useful for reports that require gradual or long-term handling, allowing you and relevant parties to transparently and systematically monitor repair progress.",
+                "info_confirm": "Got it"
+            }
+            },
+            "attachment_step": {
+            "label": "Issue Photos (Max. 5 Photos)",
+            "button_title": "Choose Photo",
+            "helper_text": "Upload photos to help identify the issue (optional)"
+            },
+            "summary_step": {
+            "info_banner": {
+                "line1": "Make sure all information is correct before submitting the report.",
+                "line2": "You can go back to a previous step to review or change the data."
+            },
+            "accordion_title": "Report Summary",
+            "rows": {
+                "title": "Report title",
+                "type": "Report type",
+                "progress": "Progress feature",
+                "location": "Location",
+                "description": "Description",
+                "photos": "Photo attachments"
+            },
+            "progress_enabled": "Enabled",
+            "progress_disabled": "Not enabled",
+            "photos_count": "{count} photos attached",
+            "photo_alt": "Attachment {index}",
+            "no_photos": "No photos"
+            }
+        },
+        "update_progress_page": {
+            "header_message": "Update the progress status of your report to keep the community informed.",
+            "access_denied": "You don't have access to this page",
+            "back_to_list": "Back to Report List",
+            "title": "Update Report Progress",
+            "resolved_banner": {
+                "title": "Report Resolved",
+                "subtitle": "Progress updates are disabled"
+            },
+            "confirm_modal": {
+                "title_resolved": "Confirm Report Closure",
+                "title_update": "Confirm Report Status Update",
+                "subtitle_resolved": "Are you sure you want to close this report?",
+                "subtitle_update": "Are you sure you want to update the status of this report?",
+                "description_resolved": "A closed report progress cannot be reopened.",
+                "description_update": "This report's progress will be updated.",
+                "confirm_button_resolved": "Close Report",
+                "confirm_button_update": "Update Status"
+            },
+            "submit_button": {
+                "resolved": "Close Report",
+                "update": "Update Status"
+            },
+            "response_section": {
+                "success_default": "Progress updated successfully!"
+            },
+            "progress_section": {
+                "label": "Select Progress Status *",
+                "on_progress": {
+                    "label": "In Progress",
+                    "description": "Currently being handled"
+                },
+                "resolved": {
+                    "label": "Resolved",
+                    "description": "Issue resolved"
+                }
+            },
+            "detail_section": {
+                "notes_field": {
+                    "label": "Progress Notes",
+                    "placeholder": "Describe the progress details of this report. For example: repairs have started, materials are ready, etc."
+                },
+                "attachment_label": "Photo Attachment (Optional, Max. 2)",
+                "attachment_button": "Choose Progress Photo",
+                "tip": "💡 Tip: Add photos to clarify the report's progress and build community trust"
+            },
+            "guide_section": {
+                "title": "Update Guide",
+                "subtitle": "Follow these steps to update your report progress",
+                "steps": {
+                    "1": {
+                        "title": "Select Progress Status",
+                        "description": "Determine whether the report is resolved, in progress, or has no updates yet"
+                    },
+                    "2": {
+                        "title": "Write Detailed Notes",
+                        "description": "Describe the report's progress in detail (minimum 5 characters)"
+                    },
+                    "3": {
+                        "title": "Add Photos",
+                        "description": "Upload supporting photos (optional, maximum 2 photos)"
+                    },
+                    "4": {
+                        "title": "Confirm Update",
+                        "description": "Click the button to save the report's progress changes"
+                    }
+                },
+                "alerts": {
+                    "warning": {
+                        "title": "Important!",
+                        "message": "Once a report is closed (status: Resolved), you can no longer reopen or update its progress."
+                    },
+                    "tip": {
+                        "title": "Tip",
+                        "message": "Provide clear and transparent information so the community can properly monitor the report's progress."
+                    }
+                }
+            }
+        },
+        "component": {
+            "report_comment_section": {
+                "title": "Comments ({count})",
+                "load_error_default": "Failed to load comments."
+            },
+            "report_detail_skeleton": {
+                "subtitle": "Find and view issue reports around you to raise awareness and community participation."
+            },
+            "report_header": {
+                "type_labels": {
+                "INFRASTRUCTURE": "Infrastructure",
+                "ENVIRONMENT": "Environment",
+                "SAFETY": "Safety",
+                "OTHER": "Other",
+                "TRAFFIC": "Traffic",
+                "PUBLIC_FACILITY": "Public Facility",
+                "WASTE": "Waste",
+                "WATER": "Water",
+                "ELECTRICITY": "Electricity",
+                "HEALTH": "Health",
+                "SOCIAL": "Social",
+                "EDUCATION": "Education",
+                "ADMINISTRATIVE": "Administrative",
+                "DISASTER": "Natural Disaster"
+                },
+                "share": {
+                "text": "Check out this report on PingSpot",
+                "copied_alert": "Link copied to clipboard!"
+                },
+                "menu": {
+                "share": { "label": "Share", "description": "View comments and share your thoughts on this report" },
+                "edit_report": { "label": "Edit Report", "description": "You can edit this report." },
+                "update_progress": { "label": "Update Report Progress", "description": "Update the progress of this report" },
+                "delete": { "label": "Delete" },
+                "flag": { "label": "Report" }
+                },
+                "delete_confirm": {
+                "title": "Delete report",
+                "subtitle": "Are you sure you want to delete this report?",
+                "description": "A deleted report cannot be recovered.",
+                "confirm_button": "Delete"
+                }
+            },
+            "report_info_sidebar": {
+                "title": "Report Information",
+                "last_updated_by": {
+                    "OWNER": "Report Owner",
+                    "SYSTEM": "System"
+                },
+                "status_labels": {
+                    "RESOLVED": "Resolved",
+                    "EXPIRED": "Expired",
+                    "WAITING": "Awaiting Confirmation",
+                    "ON_PROGRESS": "In Progress",
+                    "default": "Not Yet Processed"
+                },
+                "delete_confirm": {
+                    "title": "Delete report",
+                    "subtitle": "Are you sure you want to delete this report?",
+                    "description": "A deleted report cannot be recovered.",
+                    "confirm_button": "Delete"
+                },
+                "resolution_confirm": {
+                    "title": "Confirm Report Resolution",
+                    "description": "Your report's status may be resolved based on community voting. Please confirm by uploading a recent update within 1 week to validate that the issue has been resolved.",
+                    "additional_info": "If there's no confirmation within 1 week, the status will automatically change to \"Resolved\"."
+                },
+                "no_status_type": "This report type doesn't use a status",
+                "reported_label": "Reported",
+                "on_prefix": "On: ",
+                "category_label": "Category",
+                "progress_updated_label": "Progress updated",
+                "by_prefix": "By: ",
+                "owner_update_info": {
+                    "title": "Report Updated by Owner",
+                    "description": "This report's status was updated by the report owner. The accuracy of the information fully depends on the owner's validation.",
+                    "additional_info": "Make sure to double-check the information in this report."
+                },
+                    "no_progress_update_type": "This report type doesn't use status updates",
+                    "report_updated_by_creator_label": "Report updated by creator",
+                    "status_info_aria": "Report status information",
+                    "buttons": {
+                    "update": "Update",
+                    "delete": "Delete"
+                }
+            },
+            "report_media_viewer": {
+                "tabs": {
+                    "map": "Map",
+                    "attachment": "Attachment"
+                },
+                "image_alt": "Photo {index} for report {title}",
+                "prev_image_aria": "Previous image",
+                "next_image_aria": "Next image",
+                "go_to_image_aria": "Go to image {index}"
+            },
+            "report_progress_timeline": {
+                "title": "Report Progress",
+                "latest_progress_label": "Latest Progress",
+                "status_labels": {
+                    "RESOLVED": "Resolved",
+                    "ON_PROGRESS": "In Progress",
+                    "default": "No Progress"
+                },
+                "history_accordion_title": "Progress History ({count})",
+                "empty_state": {
+                "has_progress": {
+                    "title": "No Progress Yet",
+                    "subtitle": "The report's progress will be shown here"
+                },
+                "no_progress_type": {
+                    "title": "No Progress",
+                    "subtitle": "This report type won't display progress"
+                }
+                },
+                "update_button": "Update"
+            },
+            "report_voting_section": {
+                "vote_status": {
+                "RESOLVED": { "label": "Resolved", "description": "Issue resolved" },
+                "ON_PROGRESS": { "label": "In Progress", "description": "Being handled" }
+                },
+                "status_labels": {
+                "RESOLVED": "Resolved",
+                "EXPIRED": "Expired",
+                "WAITING_CONFIRMATION": "Awaiting Confirmation",
+                "ON_PROGRESS": "In Progress",
+                "default": "Waiting"
+                },
+                "vote_confirm": {
+                "title": "Confirm Report Status Selection",
+                "subtitle": "Are you sure you want to vote \"{status}\" for this report?",
+                "description": "The report status will be updated based on your choice.",
+                "confirm_button": "Yes, Choose Status"
+                },
+                "empty_state": {
+                "title": "No Voting",
+                "no_voting_type": "This report type doesn't offer a user voting feature",
+                "waiting_for_first_progress": "Voting will be available once the report owner uploads the first progress update",
+                "no_votes_yet": "No users have voted on this report yet"
+                },
+                "title": "User Voting Results",
+                "total_votes": {
+                "label": "Total Votes",
+                "subtitle": "Users have cast their votes"
+                },
+                "distribution_label": "Vote Distribution",
+                "majority": {
+                "label": "Majority Vote",
+                "none": "No Votes Yet",
+                "percentage_suffix": "% of users"
+                },
+                "resolved_banner": {
+                "title": "Report Resolved",
+                "subtitle": "Voting closed"
+                },
+                "expired_banner": {
+                "title": "Report Expired",
+                "subtitle": "Voting is closed until the report is updated by its creator"
+                },
+                "vote_prompt": {
+                "title": "What do you think about this report?",
+                "subtitle": "Choose one to share your opinion"
+                }
+            }
+        },
+        "edit_report_page": {
+            "header_message": "Report a problem or damage around you to help improve the environment.",
+            "success_default": "Report submitted successfully!",
+            "info_modal": {
+            "title": "Edit Report Information",
+            "description": "The report's current status doesn't support changing the location. You can still update other details such as title, description, and photo attachments."
+            },
+            "steps": {
+            "location": { "label": "Location", "description": "Select the location of the issue" },
+            "detail": { "label": "Detail", "description": "Fill in the report information" },
+            "attachment": { "label": "Attachment", "description": "Add photos related to the report" },
+            "confirmation": { "label": "Confirmation", "description": "Review & submit" }
+            },
+            "confirm_modal": {
+            "title": "Confirm Report Update",
+            "subtitle": "Are you sure you want to update this report?",
+            "description": "Changes will be saved to the existing report. Make sure all information is correct before continuing.",
+            "confirm_button": "Update"
+            },
+            "buttons": {
+            "back": "Back",
+            "next": "Next",
+            "submit": "Submit Report",
+            "submitting": "Updating Report..."
+            },
+            "map_step": {
+            "title_editable": "Select Location",
+            "title_disabled": "Report Location",
+            "info_button_aria": "Edit report information",
+            "info_button_title": "Edit report information",
+            "info_sr_label": "Report status information",
+            "description_editable": "Click on the map to set the issue location, or enable automatic location",
+            "description_disabled": "The map below shows the issue location (the report's status no longer supports changing the location)"
+            },
+            "detail_step": {
+            "title_field": {
+                "label": "Report Title",
+                "placeholder": "Enter report title"
+            },
+            "location_field": {
+                "label": "Address/Location Detail",
+                "placeholder": "Detailed address of the issue location"
+            },
+            "description_field": {
+                "label": "Issue Description",
+                "placeholder": "Describe the issue in detail"
+            },
+            "type_field": {
+                "label": "Report Type",
+                "placeholder": "Select report type"
+            },
+            "issue_types": {
+                "infrastructure": "Infrastructure",
+                "environment": "Environment",
+                "safety": "Safety",
+                "traffic": "Traffic",
+                "public_facility": "Public Facility",
+                "waste": "Waste",
+                "water": "Water",
+                "electricity": "Electricity",
+                "health": "Health",
+                "social": "Social",
+                "education": "Education",
+                "administrative": "Administrative",
+                "disaster": "Natural Disaster",
+                "other": "Other"
+            },
+            "has_progress": {
+                "label": "Report Progress Feature",
+                "option_label": "Enable report progress",
+                "info_title": "Report Progress Feature",
+                "info_description": "By enabling the progress feature, you can track and document the handling of your report over time. Every stage of repair or follow-up can be recorded by adding progress updates along with supporting photos.",
+                "info_additional": "This feature is especially useful for reports that require gradual or long-term handling, allowing you and relevant parties to transparently and systematically monitor repair progress."
+            }
+            },
+            "attachment_step": {
+            "label": "Issue Photos (Max. 5 Photos)",
+            "button_title": "Choose Photo",
+            "helper_text": "Upload photos to help identify the issue (optional)"
+            },
+            "summary_step": {
+            "info_banner": {
+                "line1": "Make sure all information is correct before submitting the report.",
+                "line2": "You can go back to a previous step to review or change the data."
+            },
+            "accordion_title": "Report Summary",
+            "rows": {
+                "title": "Report title",
+                "type": "Report type",
+                "progress": "Progress feature",
+                "location": "Location",
+                "description": "Description",
+                "photos": "Photo attachments"
+            },
+            "progress_enabled": "Enabled",
+            "progress_disabled": "Not enabled",
+            "photos_count": "{count} photos attached",
+            "photo_alt": "Attachment {index}",
+            "no_photos": "No photos"
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ import {
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { IReport } from '@/types';
+import { useTranslations } from 'next-intl';
 
 interface ReactionStatsType {
     totalLikes: number;
@@ -35,6 +36,7 @@ const ReportInteractionBar: React.FC<ReportInteractionBarProps> = ({
     onShare,
     isLoading = false,
 }) => {
+    const t = useTranslations('report.report_card.report_interaction_bar');
     const [animateLike, setAnimateLike] = useState(false);
     const isLikedByCurrentUser = report?.isLikedByCurrentUser || false;
         
@@ -75,7 +77,7 @@ const ReportInteractionBar: React.FC<ReportInteractionBarProps> = ({
                     </div>
                     {report.commentCount > 0 && (
                         <button onClick={onComment} className="hover:underline">
-                            {report.commentCount} komentar
+                            {t('comment_count', { count: report.commentCount })}
                         </button>
                     )}
                 </div>
@@ -99,7 +101,7 @@ const ReportInteractionBar: React.FC<ReportInteractionBarProps> = ({
                         ) : (
                             <FaRegHeart className="w-[18px] h-[18px]" />
                         )}
-                        <span className="text-sm font-medium">Suka</span>
+                        <span className="text-sm font-medium">{t('like')}</span>
                     </motion.button>
                     
                     {onComment && (
@@ -108,7 +110,7 @@ const ReportInteractionBar: React.FC<ReportInteractionBarProps> = ({
                             onClick={onComment}
                         >
                             <FaComment className="w-[18px] h-[18px]" />
-                            <span className="text-sm font-medium">Komentar</span>
+                            <span className="text-sm font-medium">{t('comment')}</span>
                         </button>
                     )}
 
@@ -117,7 +119,7 @@ const ReportInteractionBar: React.FC<ReportInteractionBarProps> = ({
                         onClick={onShare}
                     >
                         <FaShare className="w-[18px] h-[18px]" />
-                        <span className="text-sm font-medium">Bagikan</span>
+                        <span className="text-sm font-medium">{t('share')}</span>
                     </button>
                 </div>
             </div>

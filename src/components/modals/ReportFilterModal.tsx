@@ -10,6 +10,7 @@ import { BiCategory, BiLike, BiMap } from 'react-icons/bi';
 import { RiProgress3Fill } from 'react-icons/ri';
 import { Button } from '@/components/UI';
 import { Scrollbar } from '@/components';
+import { useTranslations } from 'next-intl';
 
 type SortOption = 'latest' | 'oldest' | 'most_liked' | 'least_liked';
 type StatusFilter = 'all' | 'WAITING' | 'ON_PROGRESS' | 'RESOLVED' | 'WAITING_CONFIRMATION' | 'EXPIRED';
@@ -17,6 +18,7 @@ type DistanceFilter = 'all' | '1000' | '5000' | '10000';
 type ProgressFilter = 'all' | 'true' | 'false';
 
 const ReportFilterModal: React.FC = () => {
+    const t = useTranslations('component.modal.report_filter');
     const { isOpen: isReportFilterModalOpen, anchorRef, closeReportFilterModal } = useReportFilterModalStore();
     const [position, setPosition] = useState({ top: 0, right: 0 });
     const modalRef = useRef<HTMLDivElement>(null);
@@ -159,50 +161,50 @@ const ReportFilterModal: React.FC = () => {
     };
 
     const sortOptions = [
-        { value: 'latest', label: 'Terbaru', icon: <MdAccessTime /> },
-        { value: 'oldest', label: 'Terlama', icon: <MdAccessTime /> },
-        { value: 'most_liked', label: 'Paling Disukai', icon: <BiLike /> },
+        { value: 'latest', label: t('sort_options.latest'), icon: <MdAccessTime /> },
+        { value: 'oldest', label: t('sort_options.oldest'), icon: <MdAccessTime /> },
+        { value: 'most_liked', label: t('sort_options.most_liked'), icon: <BiLike /> },
     ];
 
     const reportTypeOptions = [
-        { value: 'all', label: 'Semua Kategori' },
-        { value: 'INFRASTRUCTURE', label: 'Infrastruktur' },
-        { value: 'ENVIRONMENT', label: 'Lingkungan' },
-        { value: 'SAFETY', label: 'Keamanan' },
-        { value: 'TRAFFIC', label: 'Lalu Lintas' },
-        { value: 'PUBLIC_FACILITY', label: 'Fasilitas Umum' },
-        { value: 'WASTE', label: 'Sampah' },
-        { value: 'WATER', label: 'Air' },
-        { value: 'ELECTRICITY', label: 'Listrik' },
-        { value: 'HEALTH', label: 'Kesehatan' },
-        { value: 'SOCIAL', label: 'Sosial' },
-        { value: 'EDUCATION', label: 'Pendidikan' },
-        { value: 'ADMINISTRATIVE', label: 'Administrasi' },
-        { value: 'DISASTER', label: 'Bencana Alam' },
-        { value: 'OTHER', label: 'Lainnya' },
+        { value: 'all', label: t('report_type_options.all') },
+        { value: 'INFRASTRUCTURE', label: t('report_type_options.INFRASTRUCTURE') },
+        { value: 'ENVIRONMENT', label: t('report_type_options.ENVIRONMENT') },
+        { value: 'SAFETY', label: t('report_type_options.SAFETY') },
+        { value: 'TRAFFIC', label: t('report_type_options.TRAFFIC') },
+        { value: 'PUBLIC_FACILITY', label: t('report_type_options.PUBLIC_FACILITY') },
+        { value: 'WASTE', label: t('report_type_options.WASTE') },
+        { value: 'WATER', label: t('report_type_options.WATER') },
+        { value: 'ELECTRICITY', label: t('report_type_options.ELECTRICITY') },
+        { value: 'HEALTH', label: t('report_type_options.HEALTH') },
+        { value: 'SOCIAL', label: t('report_type_options.SOCIAL') },
+        { value: 'EDUCATION', label: t('report_type_options.EDUCATION') },
+        { value: 'ADMINISTRATIVE', label: t('report_type_options.ADMINISTRATIVE') },
+        { value: 'DISASTER', label: t('report_type_options.DISASTER') },
+        { value: 'OTHER', label: t('report_type_options.OTHER') },
     ];
 
     const statusOptions = [
-        { value: 'all', label: 'Semua Status', icon: <BiCategory />, color: 'gray' },
-        { value: 'RESOLVED', label: 'Terselesaikan', icon: <MdCheckCircle />, color: 'green' },
-        { value: 'POTENTIALLY_RESOLVED', label: 'Dalam Peninjauan', icon: <RiProgress3Fill />, color: 'blue' },
-        { value: 'EXPIRED', label: 'Kadaluarsa', icon: <MdAccessTime />, color: 'indigo' },
-        { value: 'ON_PROGRESS', label: 'Dalam Proses', icon: <RiProgress3Fill />, color: 'yellow' },
-        { value: 'NOT_RESOLVED', label: 'Belum Ada Proses', icon: <MdCancel />, color: 'red' },
-        { value: 'WAITING', label: 'Menunggu', icon: <MdAccessTime />, color: 'gray' },
+        { value: 'all', label: t('status_options.all'), icon: <BiCategory />, color: 'gray' },
+        { value: 'RESOLVED', label: t('status_options.RESOLVED'), icon: <MdCheckCircle />, color: 'green' },
+        { value: 'POTENTIALLY_RESOLVED', label: t('status_options.POTENTIALLY_RESOLVED'), icon: <RiProgress3Fill />, color: 'blue' },
+        { value: 'EXPIRED', label: t('status_options.EXPIRED'), icon: <MdAccessTime />, color: 'indigo' },
+        { value: 'ON_PROGRESS', label: t('status_options.ON_PROGRESS'), icon: <RiProgress3Fill />, color: 'yellow' },
+        { value: 'NOT_RESOLVED', label: t('status_options.NOT_RESOLVED'), icon: <MdCancel />, color: 'red' },
+        { value: 'WAITING', label: t('status_options.WAITING'), icon: <MdAccessTime />, color: 'gray' },
     ];
 
     const progressOptions = [
-        { value: 'all', label: 'Semua Laporan', icon: <BiCategory /> },
-        { value: 'true', label: 'Dengan Progress', icon: <RiProgress3Fill /> },
-        { value: 'false', label: 'Tanpa Progress', icon: <MdCancel /> },
+        { value: 'all', label: t('progress_options.all'), icon: <BiCategory /> },
+        { value: 'true', label: t('progress_options.true'), icon: <RiProgress3Fill /> },
+        { value: 'false', label: t('progress_options.false'), icon: <MdCancel /> },
     ];
 
     const distanceOptions = [
-        { value: 'all', label: 'Semua Lokasi', icon: <BiMap /> },
-        { value: '1000', label: 'Dalam 1 km', icon: <BiMap /> },
-        { value: '5000', label: 'Dalam 5 km', icon: <BiMap /> },
-        { value: '10000', label: 'Dalam 10 km', icon: <BiMap /> },
+        { value: 'all', label: t('distance_options.all'), icon: <BiMap /> },
+        { value: '1000', label: t('distance_options.1000'), icon: <BiMap /> },
+        { value: '5000', label: t('distance_options.5000'), icon: <BiMap /> },
+        { value: '10000', label: t('distance_options.10000'), icon: <BiMap /> },
     ];
 
     return (
@@ -258,7 +260,7 @@ const ReportFilterModal: React.FC = () => {
                                     <div>
                                         <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
                                             <BiLike className="w-4 h-4 sm:w-5 sm:h-5" />
-                                            Urutkan Berdasarkan
+                                            {t('sections.sort')}
                                         </label>
                                         <div className="grid grid-cols-2 gap-2 sm:gap-3">
                                             {sortOptions.map((option) => (
@@ -283,7 +285,7 @@ const ReportFilterModal: React.FC = () => {
                                     <div>
                                         <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
                                             <BiCategory className="w-4 h-4 sm:w-5 sm:h-5" />
-                                            Kategori Laporan
+                                            {t('sections.category')}
                                         </label>
                                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
                                             {reportTypeOptions.map((option) => (
@@ -305,7 +307,7 @@ const ReportFilterModal: React.FC = () => {
                                     <div>
                                         <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
                                             <MdCheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-                                            Status Laporan
+                                            {t('sections.status')}
                                         </label>
                                         <div className="space-y-2">
                                             {statusOptions.map((option) => (
@@ -353,7 +355,7 @@ const ReportFilterModal: React.FC = () => {
                                     <div>
                                         <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
                                             <RiProgress3Fill className="w-4 h-4 sm:w-5 sm:h-5" />
-                                            Tipe Progress Laporan
+                                            {t('sections.progress')}
                                         </label>
                                         <div className="grid grid-cols-3 gap-2 sm:gap-3">
                                             {progressOptions.map((option) => (
@@ -386,7 +388,7 @@ const ReportFilterModal: React.FC = () => {
                                     <div>
                                         <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">
                                             <BiMap className="w-4 h-4 sm:w-5 sm:h-5" />
-                                            Jarak Lokasi
+                                            {t('sections.distance')}
                                         </label>
                                         <div className="grid grid-cols-2 gap-2 sm:gap-3">
                                             {distanceOptions.map((option) => (
@@ -422,13 +424,13 @@ const ReportFilterModal: React.FC = () => {
                                         onClick={handleReset}
                                         className="flex-1 px-4 sm:px-6 bg-gray-200 py-2.5 sm:py-3 rounded-xl text-gray-700 hover:bg-gray-300 transition-colors cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
                                     >
-                                        Reset
+                                        {t('actions.reset')}
                                     </Button>
                                     <Button
                                         onClick={handleApply}
                                         className="flex-1 px-4 sm:px-6 bg-primary py-2.5 sm:py-3 rounded-xl text-white hover:bg-primary/80 transition-colors cursor-pointer"
                                     >
-                                        Terapkan Filter
+                                        {t('actions.apply')}
                                     </Button>
                                 </div>
                             </div>

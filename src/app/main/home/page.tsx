@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import React from 'react'
+import React, { useState } from 'react'
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -18,6 +17,7 @@ import { getErrorResponseMessage, getFormattedDate, getRelativeTime, isInternalS
 import { IoMdPulse } from 'react-icons/io';
 import { MdCalendarMonth } from 'react-icons/md';
 import Card from '@/components/UI/Card';
+import { useTranslations } from 'next-intl';
 
 const Map = dynamic(() => import('@/components/UI/StaticMap'), {
     ssr: false,
@@ -27,6 +27,7 @@ const Map = dynamic(() => import('@/components/UI/StaticMap'), {
 const Homepage = () => {
     const currentPath = usePathname();
     const router = useRouter();
+    const t = useTranslations('home');
     const location = useLocationStore((state) => state.location);
     const { 
         requestLocation, 
@@ -59,14 +60,14 @@ const Homepage = () => {
     } = useGetNotifications();
 
     useErrorToast(isPermissionDenied, permissionDenied);
-    useErrorToast(isErrorNotifications, errorNotifications || 'Gagal memuat aktivitas terbaru.');
+    useErrorToast(isErrorNotifications, errorNotifications || t('activity_card.load_error'));
 
     const isReportStatisticServerError = isInternalServerError(errorReportStatistics);
     const isUserStatisticServerError = isInternalServerError(errorUserStatistics);
 
     const totalReports = reportStatisticsData?.data?.totalReports || 0;
     const totalActiveReports = (reportStatisticsData?.data?.reportsByStatus["ON_PROGRESS"] || 0) + (reportStatisticsData?.data?.reportsByStatus["WAITING"] || 0);
-    const today = Date.now();
+    const [today] = useState(() => Date.now());
     const thisMonth = getFormattedDate(today, {
         formatStr: 'yyyy-MM',
     });
@@ -101,9 +102,9 @@ const Homepage = () => {
         />
     ) 
 
-    const StatCardSkeleton = () => (
+    const renderStatCardSkeleton = () => (
         <div className={loadingWrapClass}>
-            <Loading type="dots" text="Memuat..." />
+            <Loading type="dots" text={t('loading')} />
         </div>
     );
 
@@ -113,13 +114,13 @@ const Homepage = () => {
             currentPath={currentPath}
             isCardHeader={false}
             showBreadcrumb={false}
-            message='Kelola laporan dan pantau kondisi lingkungan sekitar Anda secara real-time.'>
+            message={t('description')}>
                 <Button
                 icon={<BiPlus className="w-5 h-5" />}
                 onClick={() => router.push('/main/reports/create-report')}
                 className='px-6 py-4'
                 >
-                    <span>Buat Laporan</span>
+                    <span>{t('create_report')}</span>
                 </Button>
             </HeaderSection>
             <div className="space-y-8">
@@ -139,12 +140,12 @@ const Homepage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <Card>
                         {loadingReportStatistics ? (
-                            <StatCardSkeleton />
+                            renderStatCardSkeleton()
                         ) : (
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className={labelClass}>Total Laporan</p>
-                                    <p className={valueClass}>{totalReports} Laporan</p>
+                                    <p className={labelClass}>{t('stats.total_reports.label')}</p>
+                                    <p className={valueClass}>{totalReports} {t('stats.total_reports.unit')}</p>
                                 </div>
                                 <div className={iconWrapClass}>
                                     <GoAlert className={iconClass} />
@@ -155,12 +156,12 @@ const Homepage = () => {
                     
                     <Card>
                         {loadingReportStatistics ? (
-                            <StatCardSkeleton />
+                            renderStatCardSkeleton()
                         ) : (
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className={labelClass}>Total Laporan Aktif</p>
-                                    <p className={valueClass}>{totalActiveReports} Laporan</p>
+                                    <p className={labelClass}>{t('stats.total_active_reports.label')}</p>
+                                    <p className={valueClass}>{totalActiveReports} {t('stats.total_active_reports.unit')}</p>
                                 </div>
                                 <div className={iconWrapClass}>
                                     <IoMdPulse className={iconClass} />
@@ -171,12 +172,12 @@ const Homepage = () => {
                     
                     <Card>
                         {loadingReportStatistics ? (
-                            <StatCardSkeleton />
+                            renderStatCardSkeleton()
                         ) : (
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className={labelClass}>Total Laporan Bulan Ini</p>
-                                    <p className={valueClass}>{totalReportsThisMonth} Laporan</p>
+                                    <p className={labelClass}>{t('stats.total_reports_this_month.label')}</p>
+                                    <p className={valueClass}>{totalReportsThisMonth} {t('stats.total_reports_this_month.unit')}</p>
                                 </div>
                                 <div className={iconWrapClass}>
                                     <MdCalendarMonth className={iconClass} />
@@ -187,12 +188,12 @@ const Homepage = () => {
                     
                     <Card>
                         {loadingUserStatistics ? (
-                            <StatCardSkeleton />
+                            renderStatCardSkeleton()
                         ) : (
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className={labelClass}>Total Pengguna Aktif</p>
-                                    <p className={valueClass}>{totalUsers} Pengguna</p>
+                                    <p className={labelClass}>{t('stats.total_active_users.label')}</p>
+                                    <p className={valueClass}>{totalUsers} {t('stats.total_active_users.unit')}</p>
                                 </div>
                                 <div className={iconWrapClass}>
                                     <FaUser className={iconClass} />
@@ -207,11 +208,11 @@ const Homepage = () => {
                         <div className='flex justify-between items-center mb-4'>
                             <div className='flex flex-col'>
                                 <h2 className="text-xl font-semibold text-surface">
-                                    Lokasi Anda
+                                    {t('location_card.title')}
                                 </h2>
                                 {location?.lastUpdated && (
                                     <p className="text-xs text-surface/70 mt-1">
-                                        Diperbarui {getRelativeTime(location.lastUpdated)}
+                                        {t('location_card.updated_at', { time: getRelativeTime(location.lastUpdated) })}
                                     </p>
                                 )}
                             </div>
@@ -219,11 +220,11 @@ const Homepage = () => {
                                 <Button 
                                 size='sm'
                                 isLoading={loadingRequestLocation}
-                                loadingText='Memperbarui...'
+                                loadingText={t('location_card.updating')}
                                 onClick={() => {
                                     requestLocation(true)
                                 }}>
-                                    Perbarui Lokasi
+                                    {t('location_card.update_button')}
                                 </Button>
                             )}
                         </div>
@@ -242,14 +243,14 @@ const Homepage = () => {
                             <div className="space-y-4 h-full">
                                 <div className='h-full'>
                                     <EmptyState
-                                        emptyTitle='Lokasi tidak tersedia'
-                                        emptyMessage='Untuk menampilkan laporan di sekitar Anda, izinkan aplikasi mengakses lokasi Anda.'
+                                        emptyTitle={t('location_card.empty.title')}
+                                        emptyMessage={t('location_card.empty.message')}
                                         emptyIcon={<RxCrossCircled />}
                                         showCommandButton={true}
-                                        commandLabel='Deteksi Lokasi'
+                                        commandLabel={t('location_card.empty.command_label')}
                                         commandLoading={loadingRequestLocation}
                                         commandIcon={<FaLocationDot/>}
-                                        commandLoadingMessage='Mendeteksi...'
+                                        commandLoadingMessage={t('location_card.empty.command_loading')}
                                         onCommandButton={() => {requestLocation()}}
                                     />
                                 </div>
@@ -259,17 +260,17 @@ const Homepage = () => {
                     <Card className="flex h-full flex-col">
                         <div className="mb-4 flex shrink-0 items-center justify-between">
                             <h2 className="text-xl font-semibold text-surface flex items-center gap-2">
-                                Aktivitas Terbaru
+                                    {t('activity_card.title')}
                             </h2>
                             <Link
                                 href="/main/notifications"
                                 className="text-sm font-medium text-primary hover:text-primary-hover hover:underline underline-offset-2"
                             >
-                                {recentNotifications.length > 0 && 'Lihat Semua'}
+                                {recentNotifications.length > 0 && t('activity_card.view_all')}
                             </Link>
                         </div>
                         {loadingNotifications ? (
-                            <Loading type="dots" text="Memuat aktivitas..." />
+                            <Loading type="dots" text={t('activity_card.loading')} />
                         ) : recentNotifications.length > 0 ? (
                             <div
                                 className={cn(
@@ -302,12 +303,12 @@ const Homepage = () => {
                         ) : (
                             <div className="flex justify-center mt-15 text-center">
                                 <EmptyState
-                                    emptyTitle="Belum ada aktivitas terbaru"
-                                    emptyMessage='Aktivitas terbaru akan muncul di sini ketika ada pembaruan terkait laporan atau akun Anda.'
+                                    emptyTitle={t('activity_card.empty.title')}
+                                    emptyMessage={t('activity_card.empty.message')}
                                     emptyIcon={<FiBell />}
                                     className=''
                                     showCommandButton={true}
-                                    commandLoadingMessage='Memuat...'
+                                    commandLoadingMessage={t('activity_card.empty.command_loading')}
                                 />
                             </div>
                         )}

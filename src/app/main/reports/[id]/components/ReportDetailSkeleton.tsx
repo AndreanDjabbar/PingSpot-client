@@ -1,6 +1,8 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 const ReportDetailSkeleton = () => {
+    const t = useTranslations('report.component.report_detail_skeleton');
     return (
         <div className="min-h-screen">
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
@@ -10,7 +12,7 @@ const ReportDetailSkeleton = () => {
                             <div className="h-4 bg-gray-200 rounded w-48 mb-2"></div>
                         </div>
                         <p className="text-gray-600 text-sm">
-                            Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.
+                            {t('subtitle')}
                         </p>
                     </div>
                 </div>
@@ -89,7 +91,7 @@ const ReportDetailSkeleton = () => {
                                 {[1, 2, 3].map((i) => (
                                     <div key={i} className="border-t border-gray-200 pt-4 mt-4">
                                         <div className="flex gap-3">
-                                            <div className="h-10 w-10 bg-gray-300 rounded-full flex-shrink-0"></div>
+                                            <div className="h-10 w-10 bg-gray-300 rounded-full shrink-0"></div>
                                             <div className="flex-1 space-y-2">
                                                 <div className="h-4 bg-gray-300 rounded w-32"></div>
                                                 <div className="h-3 bg-gray-200 rounded w-24"></div>

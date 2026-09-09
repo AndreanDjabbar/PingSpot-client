@@ -1,11 +1,9 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable react-hooks/purity */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { FaChevronLeft, FaChevronRight, FaMapMarkerAlt, FaImage, FaMap, FaCrown, FaShare, FaBookmark, FaFlag, FaEdit, FaTrash } from 'react-icons/fa';
 import { BsThreeDots } from "react-icons/bs";
 import dynamic from 'next/dynamic';
-import { IReportImage, OptionItem, ReportType } from '@/types';
+import { IReportImage, OptionItem } from '@/types';
 import { getImageURL, getFormattedDate as formattedDate } from '@/utils';
 import ReportInformation from './ReportInformation';
 import { useReportsStore, useImagePreviewModalStore, useUserProfileStore, useOptionsModalStore, useConfirmationModalStore } from '@/stores';
@@ -14,6 +12,7 @@ import { LuNotepadText } from 'react-icons/lu';
 import { cn } from '@/lib';
 import ReportInteractionBar from './ReportInteractionBar';
 import { GoBookmarkSlashFill } from 'react-icons/go';
+import { useTranslations } from 'next-intl';
 
 const StaticMap = dynamic(() => import('@/components/UI/StaticMap'), {
     ssr: false,
@@ -33,26 +32,6 @@ interface ReportCardProps {
     enableInformation?: boolean;
     onStatusUpdate?: (reportID: number, newStatus: string) => void;
 }
-
-const getReportTypeLabel = (type: ReportType): string => {
-    const types = {
-        INFRASTRUCTURE: 'Infrastruktur',
-        ENVIRONMENT: 'Lingkungan',
-        SAFETY: 'Keamanan',
-        TRAFFIC: 'Lalu Lintas',
-        PUBLIC_FACILITY: 'Fasilitas Umum',
-	    WASTE: 'Sampah',
-	    WATER: 'Air',
-	    ELECTRICITY: 'Listrik',
-	    HEALTH: 'Kesehatan',
-	    SOCIAL: 'Sosial',
-	    EDUCATION: 'Pendidikan',	
-        ADMINISTRATIVE: 'Administratif',
-	    DISASTER: 'Bencana Alam',
-        OTHER: 'Lainnya'
-    };
-    return types[type] || 'Lainnya';
-};
 
 const getReportImages = (images: IReportImage): string[] => {
     if (!images) return [];
@@ -78,11 +57,10 @@ const ReportCard: React.FC<ReportCardProps> = ({
     onStatusVote,
 }) => {
     const router = useRouter();
+    const t = useTranslations('report');
     const [viewMode, setViewMode] = useState<'attachment' | 'map'>('map');
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const reports = useReportsStore((s) => s.reports);
-    const setReports = useReportsStore((s) => s.setReports);
-    const setFilteredReports = useReportsStore((s) => s.setFilteredReports);
     const userProfile = useUserProfileStore((s) => s.userProfile);
     const openOptionsModal = useOptionsModalStore((s) => s.openOptionsModal);
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
@@ -93,7 +71,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
     
 
     const opts: OptionItem[] = [
-        { label: 'Bagikan',  description: "Lihat komentar dan berikan komentar anda mengenai laporan ini", icon: <FaShare size={14} />, onClick: () => onShare(report?.id || 0, report?.reportTitle || "") }
+        { label: t('report_card.options.share.label'), description: t('report_card.options.share.description'), icon: <FaShare size={14} />, onClick: () => onShare(report?.id || 0, report?.reportTitle || "") }
     ];
 
     const images = getReportImages(
@@ -137,11 +115,11 @@ const ReportCard: React.FC<ReportCardProps> = ({
 
     const openDeleteConfirm = () => {
         openConfirm({ 
-            title: 'Hapus laporan', 
-            subtitle: 'Yakin ingin menghapus laporan ini?',
-            description: 'Laporan yang dihapus tidak dapat dikembalikan.',
+            title: t('report_card.delete_modal.title'), 
+            subtitle: t('report_card.delete_modal.subtitle'),
+            description: t('report_card.delete_modal.description'),
             type: 'danger',
-            confirmTitle: 'Hapus',
+            confirmTitle: t('report_card.delete_modal.confirm'),
             onConfirm: () => { onDeleteClick(report.id); } 
         });
     }
@@ -167,7 +145,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
             <div className="p-4">
                 <div className="flex items-start justify-between gap-2">
                     <div className='flex items-center gap-3 flex-1 min-w-0'>
-                        <div className="h-10 w-10 rounded-full overflow-hidden border border-gray-200 flex-shrink-0">
+                        <div className="h-10 w-10 rounded-full overflow-hidden border border-gray-200 shrink-0">
                             <Image 
                                 src={getImageURL(report?.profilePicture || '', "user")} 
                                 alt={report?.fullName}
@@ -200,9 +178,9 @@ const ReportCard: React.FC<ReportCardProps> = ({
                             </div>
                         </div>
                     </div>
-                    <div className='flex items-center gap-1 sm:gap-2 flex-shrink-0'>
+                    <div className='flex items-center gap-1 sm:gap-2 shrink-0'>
                         <span className={`inline-flex items-center px-2.5 py-1 bg-primary/10 text-xs font-bold text-primary rounded-full`}>
-                            {getReportTypeLabel(report.reportType)}
+                            {t(`report_types.${report.reportType}`)}
                         </span>
                         {enableOptions && (
 
@@ -214,19 +192,19 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                     const optionsToShow: OptionItem[] = [...opts];
                                     if (isReportOwner) {
                                         if (report.reportStatus !== 'RESOLVED' && report.reportStatus !== 'EXPIRED') {
-                                            optionsToShow.push({ label: 'Sunting Laporan', description: "Anda dapat menyunting laporan ini.", icon: <FaEdit size={14} />, onClick: () => router.push(`/main/reports/${report.id}/edit`) });
+                                            optionsToShow.push({ label: t('report_card.options.edit.label'), description: t('report_card.options.edit.description'), icon: <FaEdit size={14} />, onClick: () => router.push(`/main/reports/${report.id}/edit`) });
                                         }
                                         if (report.reportStatus !== 'RESOLVED' && report.hasProgress) {
-                                            optionsToShow.push({ label: 'Perbarui Perkembangan Laporan', description: "Perbarui perkembangan laporan ini", icon: <FaEdit size={14} />, onClick: () => router.push(`/main/reports/${report.id}/update-progress`) });
+                                            optionsToShow.push({ label: t('report_card.options.update_progress.label'), description: t('report_card.options.update_progress.description'), icon: <FaEdit size={14} />, onClick: () => router.push(`/main/reports/${report.id}/update-progress`) });
                                         }
-                                        optionsToShow.push({ label: 'Detail Laporan', description: "Lihat detail laporan yang telah anda buat", icon: <LuNotepadText size={14} />, onClick: () => router.push(`/main/reports/${report.id}`) });
-                                        optionsToShow.push({ label: 'Hapus', icon: <FaTrash size={14} />, onClick: () => openDeleteConfirm(), description: "Hapus laporan ini secara permanen" });
+                                        optionsToShow.push({ label: t('report_card.options.detail.label'), description: t('report_card.options.detail.description'), icon: <LuNotepadText size={14} />, onClick: () => router.push(`/main/reports/${report.id}`) });
+                                        optionsToShow.push({ label: t('report_card.options.delete.label'), icon: <FaTrash size={14} />, onClick: () => openDeleteConfirm(), description: t('report_card.options.delete.description') });
                                     } else {
-                                        optionsToShow.push({ label: 'Laporkan', icon: <FaFlag size={14} />, onClick: () => router.push(`/main/reports/${report.id}/report`) });
+                                        optionsToShow.push({ label: t('report_card.options.report_abuse.label'), icon: <FaFlag size={14} />, onClick: () => router.push(`/main/reports/${report.id}/report`) });
                                     }
                                     optionsToShow.push({ 
-                                        label: report.reportSaved?.save ? 'Hapus dari Simpanan' : 'Simpan',  
-                                        description: report.reportSaved?.save ? "Hapus laporan dari simpanan" : "Simpan laporan ini", 
+                                        label: report.reportSaved?.save ? t('report_card.options.unsave.label') : t('report_card.options.save.label'),  
+                                        description: report.reportSaved?.save ? t('report_card.options.unsave.description') : t('report_card.options.save.description'), 
                                         icon: report.reportSaved?.save ? <GoBookmarkSlashFill size={14} /> : <FaBookmark size={14} />, 
                                         onClick: () => onSave!(report?.id || 0) 
                                     },)
@@ -259,7 +237,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                 }`}
                             >
                                 <FaMap size={15} />
-                                <span>Peta</span>
+                                <span>{t('report_card.view_toggle.map')}</span>
                             </button>
                             <button
                                 onClick={() => setViewMode('attachment')}
@@ -270,7 +248,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                 }`}
                             >
                                 <FaImage size={15} />
-                                <span>Lampiran</span>
+                                <span>{t('report_card.view_toggle.attachment')}</span>
                             </button>
                         </div>
                     </div>
@@ -294,14 +272,14 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                     <button
                                         onClick={prevImage}
                                         className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-gray-200 transition-all shadow-lg hover:cursor-pointer"
-                                        aria-label="Previous image"
+                                        aria-label={t('report_card.image_nav.previous')}
                                     >
                                         <FaChevronLeft className="w-4 h-4" />
                                     </button>
                                     <button
                                         onClick={nextImage}
                                         className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-gray-200 transition-all shadow-lg hover:cursor-pointer"
-                                        aria-label="Next image"
+                                        aria-label={t('report_card.image_nav.next')}
                                     >
                                         <FaChevronRight className="w-4 h-4" />
                                     </button>
@@ -324,7 +302,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                                 ? 'w-6 bg-primary'
                                                 : 'w-2 bg-gray-300 hover:bg-gray-400'
                                         }`}
-                                        aria-label={`Go to image ${index + 1}`}
+                                        aria-label={t('report_card.image_nav.go_to', { index: index + 1 })}
                                     />
                                 ))}
                             </div>
@@ -346,7 +324,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
                         </div>
                         <div className="mt-4 bg-gray-100 rounded-lg p-4">
                             <div className="flex items-center gap-2">
-                                <FaMapMarkerAlt className="text-primary mt-0.5 flex-shrink-0" size={16} />
+                                <FaMapMarkerAlt className="text-primary mt-0.5 shrink-0" size={16} />
                                 <div className="flex-1">
                                     <p className="text-sm font-medium text-gray-900">{report.location.detailLocation}</p>
                                     <p className="text-xs text-gray-600 mt-1">

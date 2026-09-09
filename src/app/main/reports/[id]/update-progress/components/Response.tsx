@@ -2,6 +2,7 @@ import { ErrorSection, SuccessSection } from '@/components'
 import { IUploadProgressReportResponse } from '@/types'
 import { getErrorResponseDetails, getErrorResponseMessage } from '@/utils'
 import React from 'react'
+import { useTranslations } from 'next-intl'
 
 interface ResponseSectionProps {
     isUploadProgressSuccess: boolean
@@ -16,11 +17,12 @@ const ResponseSection: React.FC<ResponseSectionProps> = ({
     isUploadProgressError,
     uploadProgressError,
 }) => {
+    const t = useTranslations('report.update_progress_page.response_section');
   return (
     <div>
         {isUploadProgressSuccess && (
             <div className="mb-4">
-                <SuccessSection message={uploadProgressData.message || "Progress berhasil diperbarui!"} />
+                <SuccessSection message={uploadProgressData.message || t('success_default')} />
             </div>
         )}
 

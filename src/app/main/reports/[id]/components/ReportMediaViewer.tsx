@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { FaMapMarkerAlt, FaChevronLeft, FaChevronRight, FaImage, FaMap } from 'react-icons/fa';
 import { getImageURL } from '@/utils';
 import { IReport } from '@/types';
+import { useTranslations } from 'next-intl';
 
 const StaticMap = dynamic(() => import('../../../../../components/UI/StaticMap'), {
     ssr: false,
@@ -23,6 +24,7 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
     images, 
     onImageClick 
 }) => {
+    const t = useTranslations('report.component.report_media_viewer');
     const [viewMode, setViewMode] = useState<'attachment' | 'map'>('map');
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -53,7 +55,7 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                                 }`}
                             >
                                 <FaMap className="w-4 h-4" />
-                                <span>Peta</span>
+                                <span>{t('tabs.map')}</span>
                             </button>
                             <button
                                 onClick={() => setViewMode('attachment')}
@@ -64,7 +66,7 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                                 }`}
                             >
                                 <FaImage className="w-4 h-4" />
-                                <span>Lampiran</span>
+                                <span>{t('tabs.attachment')}</span>
                             </button>
                         </div>
                     </div>
@@ -77,7 +79,7 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                         <div className="relative h-[480px] rounded-xl overflow-hidden bg-gray-100 shadow-md">
                             <Image
                                 src={getImageURL(`/report/${images[currentImageIndex]}`, "main")}
-                                alt={`Foto ${currentImageIndex + 1} untuk laporan ${report.reportTitle}`}
+                                alt={t('image_alt', { index: currentImageIndex + 1, title: report.reportTitle })}
                                 fill
                                 className="object-cover cursor-pointer transition-transform duration-300"
                                 onClick={() => onImageClick(images[currentImageIndex])}
@@ -88,14 +90,14 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                                     <button
                                         onClick={prevImage}
                                         className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-opacity-100 hover:scale-110 transition-all shadow-lg cursor-pointer"
-                                        aria-label="Previous image"
+                                        aria-label={t('prev_image_aria')}
                                     >
                                         <FaChevronLeft className="w-4 h-4" />
                                     </button>
                                     <button
                                         onClick={nextImage}
                                         className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-2.5 rounded-full hover:bg-opacity-100 hover:scale-110 transition-all shadow-lg cursor-pointer"
-                                        aria-label="Next image"
+                                        aria-label={t('next_image_aria')}
                                     >
                                         <FaChevronRight className="w-4 h-4" />
                                     </button>
@@ -118,7 +120,7 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
                                                 ? 'w-6 bg-primary'
                                                 : 'w-2 bg-gray-300 hover:bg-gray-400'
                                         }`}
-                                        aria-label={`Go to image ${index + 1}`}
+                                        aria-label={t('go_to_image_aria', { index: index + 1 })}
                                     />
                                 ))}
                             </div>

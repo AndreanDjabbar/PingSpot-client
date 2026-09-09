@@ -10,11 +10,13 @@ import { IoPersonAddSharp } from 'react-icons/io5';
 import { FaCheck, FaUserEdit } from 'react-icons/fa';
 import { BiSolidMessageRounded } from 'react-icons/bi';
 import { useConfirmationModalStore, useUserProfileStore } from '@/stores';
+import { useTranslations } from 'next-intl';
 
 const ProfilePageByUsername = () => {
   const params = useParams();
   const username = Array.isArray(params.username) ? params.username[0] : params.username;
   const router = useRouter();
+  const t = useTranslations('profile_username');
   const currentUserData = useUserProfileStore((state) => state.userProfile);
   const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
 
@@ -51,11 +53,11 @@ const ProfilePageByUsername = () => {
   const handleFollowConfirmationModal = () => {
     openConfirm({
         type: "info",
-        title: "Konfirmasi Mengikuti",
-        subtitle: "Apakah Anda yakin ingin mengikuti pengguna ini?",
+        title: t('follow_modal.title'),
+        subtitle: t('follow_modal.subtitle'),
         isPending: isFollowPending || false,
-        description: "Dengan mengikuti pengguna ini, Anda akan menerima pemberitahuan saat mereka melakukan aktivitas terbaru.",
-        confirmTitle: "Ya, Ikuti",
+        description: t('follow_modal.description'),
+        confirmTitle: t('follow_modal.confirm'),
         onConfirm: () => handleFollowClick(),
     });
   }
@@ -63,18 +65,18 @@ const ProfilePageByUsername = () => {
   const handleUnfollowConfirmationModal = () => {
     openConfirm({
         type: "warning",
-        title: "Konfirmasi Berhenti Mengikuti",
-        subtitle: "Apakah Anda yakin ingin berhenti mengikuti pengguna ini?",
+        title: t('unfollow_modal.title'),
+        subtitle: t('unfollow_modal.subtitle'),
         isPending: isFollowPending || false,
-        description: "Dengan berhenti mengikuti pengguna ini, Anda tidak akan lagi menerima pemberitahuan tentang aktivitas terbaru mereka.",
-        confirmTitle: "Ya, Berhenti Mengikuti",
+        description: t('unfollow_modal.description'),
+        confirmTitle: t('unfollow_modal.confirm'),
         onConfirm: () => handleFollowClick(),
     });
   }
 
   const userProfile = {
-    fullName: userData?.data?.fullName || "User's full name",
-    username: userData?.data?.username || username || "username",
+    fullName: userData?.data?.fullName || t('defaults.full_name'),
+    username: userData?.data?.username || username || t('defaults.username'),
     title: "Interface and Brand Designer",
     location: "San Antonio",
     profilePicture: getImageURL(userData?.data?.profilePicture || '', "user") || "/default-profile.png",
@@ -84,8 +86,8 @@ const ProfilePageByUsername = () => {
     likes: 548,
   };
 
-  useErrorToast(isErrorFetchingFollowData, errorFetchingFollowData || "Gagal memuat data follow.");
-  useErrorToast(isFollowError, followError || "Gagal melakukan follow/unfollow.");
+  useErrorToast(isErrorFetchingFollowData, errorFetchingFollowData || t('errors.follow_data_failed'));
+  useErrorToast(isFollowError, followError || t('errors.follow_action_failed'));
 
   const handleFollowClick = () => {
     followMutate();
@@ -125,9 +127,9 @@ const ProfilePageByUsername = () => {
         <div className='flex items-center gap-25 sm:gap-35'>
           <div>
             <div className="rounded-2xl sm:rounded-3xl overflow-hidden ring-4 sm:ring-6 md:ring-8 ring-white shadow-2xl w-24 h-24 sm:w-30 sm:h-30 md:w-40 md:h-40 lg:w-58 lg:h-58 bg-gray-200">
-              <Image
+                <Image
                 src={userProfile.profilePicture}
-                alt={userProfile.fullName || "Profile picture"}
+                alt={userProfile.fullName}
                 className="object-cover w-full h-full"
                 width={232}
                 height={232}
@@ -137,16 +139,16 @@ const ProfilePageByUsername = () => {
             <div className='md:hidden block'>
               <div className='flex flex-col items-start mt-2 '>
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 max-w-50 break-words">
+                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 max-w-50 wrap-break-word">
                     {userProfile.username}
                   </h1>
                   {userProfile.isPro && (
                     <span className="bg-blue-500 text-white text-xs sm:text-sm font-semibold px-2 sm:px-3 py-1 rounded-full">
-                      PRO ✦
+                      {t('pro_badge')}
                     </span>
                   )}
                 </div>
-                <p className="text-gray-600 text-sm sm:text-base md:text-md mb-1 max-w-50 break-words">
+                <p className="text-gray-600 text-sm sm:text-base md:text-md mb-1 max-w-50 wrap-break-word">
                   {userProfile.fullName}
                 </p>
               </div>
@@ -156,7 +158,7 @@ const ProfilePageByUsername = () => {
             <div className="gap-4 sm:gap-6 md:gap-8 md:hidden">
               <div className="flex gap-4 sm:gap-6 md:gap-8 lg:gap-10">
                 <div className="flex flex-col items-center text-center gap-1">
-                  <div className="text-gray-600 text-xs sm:text-sm md:text-md">Pengikut</div>
+                  <div className="text-gray-600 text-xs sm:text-sm md:text-md">{t('stats.followers')}</div>
                   <div className="text-sm sm:text-base md:text-md font-bold text-gray-900">
                     {isFetchingFollowData ? (
                       <div className='flex items-center justify-center pt-2'>
@@ -172,7 +174,7 @@ const ProfilePageByUsername = () => {
                   </div>
                 </div>
                 <div className="flex flex-col items-center text-center gap-1">
-                  <div className="text-gray-600 text-xs sm:text-sm md:text-md">Mengikuti</div>
+                  <div className="text-gray-600 text-xs sm:text-sm md:text-md">{t('stats.following')}</div>
                   <div className="text-sm sm:text-base md:text-md font-bold text-gray-900">
                     {isFetchingFollowData ? (
                       <div className='flex items-center justify-center pt-2'>
@@ -201,7 +203,7 @@ const ProfilePageByUsername = () => {
                         ? "bg-white text-gray-900 px-3 sm:px-4 py-2 sm:py-2 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-gray-900"
                         : "bg-primary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                     }>
-                      {isFollowed ? 'Diikuti' : 'Ikuti'}
+                      {isFollowed ? t('actions.following') : t('actions.follow')}
                   </Button>
                   <Button className="bg-white text-gray-900 py-2 sm:py-2 px-3 sm:px-4 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900">
                     <BiSolidMessageRounded size={20} />
@@ -213,7 +215,7 @@ const ProfilePageByUsername = () => {
                     icon={<FaUserEdit />}
                     className={"bg-primary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                     }>
-                      Edit Profil
+                      {t('actions.edit_profile')}
                   </Button>
               )}
             </div>
@@ -224,7 +226,7 @@ const ProfilePageByUsername = () => {
           <div className='hidden md:block '>
             <div className='flex flex-col items-start mt-2 '>
               <div className="flex items-center gap-2 sm:gap-3">
-                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 max-w-80 block-truncate break-words">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 max-w-80 block-truncate wrap-break-word">
                   {userProfile.username}
                 </h1>
                 {userProfile.isPro && (
@@ -233,7 +235,7 @@ const ProfilePageByUsername = () => {
                   </span>
                 )}
               </div>
-              <p className="text-gray-600 text-sm sm:text-base md:text-md mb-1 max-w-50 break-words">
+              <p className="text-gray-600 text-sm sm:text-base md:text-md mb-1 max-w-50 wrap-break-word">
                 {userProfile.fullName}
               </p>
             </div>
@@ -250,12 +252,12 @@ const ProfilePageByUsername = () => {
                         : "bg-primary text-white px-3 sm:px-5 py-1.5 sm:py-4 rounded-lg font-medium border-2 border-primary hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                     }
                   >
-                    {isFollowed ? 'Diikuti' : 'Ikuti'}
+                    {isFollowed ? t('actions.following') : t('actions.follow')}
                   </Button>
                   <Button 
                   className="bg-white text-gray-900 py-1.5 sm:py-4 px-3 sm:px-5 rounded-lg font-medium border-2 border-gray-900 hover:bg-gray-100 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900"
                   >
-                    Pesan
+                    {t('actions.message')}
                   </Button>
                 </>
               ) : (
@@ -264,7 +266,7 @@ const ProfilePageByUsername = () => {
                     icon={<FaUserEdit />}
                     className={"bg-primary text-white px-3 sm:px-5 py-1.5 sm:py-4 rounded-lg font-medium border-2 border-primary hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"}
                   >
-                    Edit Profil
+                    {t('actions.edit_profile')}
                   </Button>
               )}
             </div>
@@ -272,7 +274,7 @@ const ProfilePageByUsername = () => {
           <div className="gap-4 sm:gap-6 md:gap-8 hidden md:block">
             <div className="flex gap-4 sm:gap-6 md:gap-8 lg:gap-10">
               <div className="flex flex-col items-center text-center gap-1">
-                <div className="text-gray-600 text-xs sm:text-sm md:text-md lg:text-xl">Pengikut</div>
+                <div className="text-gray-600 text-xs sm:text-sm md:text-md lg:text-xl">{t('stats.followers')}</div>
                 <div className="text-sm sm:text-base md:text-md lg:text-xl  font-bold text-gray-900 ">
                   {isFetchingFollowData ? (
                     <div className='flex items-center justify-center pt-4'>
@@ -288,7 +290,7 @@ const ProfilePageByUsername = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center text-center gap-1">
-                <div className="text-gray-600 text-xs sm:text-sm md:text-md lg:text-xl">Mengikuti</div>
+                <div className="text-gray-600 text-xs sm:text-sm md:text-md lg:text-xl">{t('stats.following')}</div>
                 <div className="text-sm sm:text-base md:text-md font-bold lg:text-xl text-gray-900">
                   {isFetchingFollowData ? (
                       <div className='flex items-center justify-center pt-4'>

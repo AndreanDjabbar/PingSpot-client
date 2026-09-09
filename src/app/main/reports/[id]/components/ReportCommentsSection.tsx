@@ -2,13 +2,12 @@
 
 import React from 'react';
 import { IReportComment, ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
-import { z } from 'zod';
-import { CreateReportCommentSchema } from '@/app/main/schema';
 import { ErrorSection, ImagePreview } from '@/components';
 import { getErrorResponseDetails, getErrorResponseMessage, isInternalServerError } from '@/utils';
 import { useReportsStore } from '@/stores';
 import { CommentInput, CommentList } from '../../components';
 import { InfiniteData } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 
 
 interface ReportCommentsSectionProps {
@@ -54,6 +53,7 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     refetchSearchUsers,
     fetchNextPageSearchUsers,
 }) => {
+    const t = useTranslations('report.component.report_comment_section');
     const reportCommentCounts = useReportsStore((state) => state.reportCommentsCount);
     const [commentMediaImage, setCommentMediaImage] = React.useState<File | null>(null);
     const [imagePreview, setImagePreview] = React.useState<string | null>(null);
@@ -86,10 +86,10 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
             <div className="min-h-screen">
                 <div className='mt-4'>
                     <ErrorSection
-                        message={getErrorResponseMessage(errorFetchingComments || "Gagal memuat komentar.")}
+                        message={getErrorResponseMessage(errorFetchingComments || t('load_error_default'))}
                         onRetry={onRetryFetchComments}
                         showRetryButton={isServerError}
-                        errors={getErrorResponseDetails(errorFetchingComments) || "Gagal memuat komentar."}
+                        errors={getErrorResponseDetails(errorFetchingComments) || t('load_error_default')}
                     />
                 </div>
             </div>
@@ -101,7 +101,7 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
             <div className="px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                     <h2 className="text-lg font-bold text-gray-900">
-                        Komentar ({reportCommentCounts || 0})
+                        {t('title', { count: reportCommentCounts || 0 })}
                     </h2>
                 </div>
             </div>

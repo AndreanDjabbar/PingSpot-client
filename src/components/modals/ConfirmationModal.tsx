@@ -5,6 +5,7 @@ import { BiX } from 'react-icons/bi';
 import { BsFillInfoCircleFill } from 'react-icons/bs';
 import { MdWarning } from 'react-icons/md';
 import { Button } from '../UI';
+import { useTranslations } from 'next-intl';
 
 interface ConfirmationModalProps {
     isOpen: boolean;
@@ -23,7 +24,7 @@ interface ConfirmationModalProps {
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     type,
-    title=(type === 'info' ? 'Informasi' : 'Peringatan'),
+    title,
     subtitle,
     description, 
     useCancelButton=true,
@@ -33,8 +34,12 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     isPending,
     additionalInfo,
     confirmTitle,
-    cancelTitle=(type === 'info' ? 'Tutup' : 'Batal')
+    cancelTitle
 }) => {
+    const t = useTranslations('component.modal.confirmation');
+    const resolvedTitle = title || t(`default_title.${type === 'info' ? 'info' : 'warning'}`);
+    const resolvedCancelTitle = cancelTitle || t(`default_cancel.${type === 'info' ? 'info' : 'warning'}`);
+
     if (!isOpen) return null;
 
     const typeConfig = {
@@ -83,13 +88,13 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                             </span>
                         </div>
                         <h3 className="text-xl font-semibold text-surface">
-                            {title}
+                            {resolvedTitle}
                         </h3>
                     </div>
                     <button 
                         onClick={onClose} 
                         className="p-1 rounded-full hover:bg-muted transition-colors cursor-pointer"
-                        aria-label="Close modal"
+                        aria-label={t('close_aria_label')}
                     >
                         <BiX className="w-6 h-6 text-surface" />
                     </button>
@@ -117,7 +122,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 <div className="flex justify-end p-5 pt-0 gap-4">
                     {useCancelButton && (
                         <Button variant="outline" onClick={onClose} disabled={isPending}>
-                            {cancelTitle}
+                            {resolvedCancelTitle}
                         </Button>
                     )}
                     <Button

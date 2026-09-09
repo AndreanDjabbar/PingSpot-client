@@ -14,6 +14,7 @@ import { CreateReportCommentSchema } from '@/app/main/schema';
 import { ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
 import { useUserProfileStore } from '@/stores';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useTranslations } from 'next-intl';
 
 interface SelectedMentions {
     userID: string;
@@ -100,6 +101,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
     commentMediaImage,
     replyTo = null
 }) => {
+    const t = useTranslations('report.report_modal.comment_list.comment_item.comment_input');
     const [commentContent, setCommentContent] = React.useState('');
     const [validationErrors, setValidationErrors] = React.useState<Record<string, string>>({});
     const [showSuggestions, setShowSuggestions] = React.useState(false);
@@ -349,7 +351,9 @@ const CommentInput: React.FC<CommentInputProps> = ({
                         value={commentContent}
                         onChange={handleCommentContentChange}
                         onKeyDown={handleKeyDown}
-                        placeholder={`${(replyTo && replyTo.username !== currentUser?.username) ? `Balas ke @${replyTo.username}` : 'Tulis komentar...'}`}
+                        placeholder={(replyTo && replyTo.username !== currentUser?.username)
+                            ? t('placeholder_reply', { username: replyTo.username })
+                            : t('placeholder_default')}
                         className='h-11'
                         resize='none'
                         withLabel={false}

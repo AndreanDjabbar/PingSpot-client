@@ -3,42 +3,24 @@
 import React from 'react';
 import Image from 'next/image';
 import { BsThreeDots } from 'react-icons/bs';
-import { FaCrown, FaEdit, FaFlag, FaMapMarkerAlt, FaShare, FaTrash } from 'react-icons/fa';
+import { FaCrown, FaEdit, FaFlag, FaShare, FaTrash } from 'react-icons/fa';
 import { getImageURL, getFormattedDate as formattedDate } from '@/utils';
-import { IReport, OptionItem, ReportType } from '@/types';
+import { IReport, OptionItem } from '@/types';
 import { useConfirmationModalStore, useUserProfileStore, useOptionsModalStore } from '@/stores';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 interface ReportHeaderProps {
     report: IReport;
     onRemoveReport: (reportId: number) => void;
 }
 
-const getReportTypeLabel = (type: ReportType): string => {
-    const types: Record<ReportType, string> = {
-        INFRASTRUCTURE: 'Infrastruktur',
-        ENVIRONMENT: 'Lingkungan',
-        SAFETY: 'Keamanan',
-        OTHER: 'Lainnya',
-        TRAFFIC: 'Lalu Lintas',
-        PUBLIC_FACILITY: 'Fasilitas Umum',
-        WASTE: 'Sampah',
-        WATER: 'Air',
-        ELECTRICITY: 'Listrik',
-        HEALTH: 'Kesehatan',
-        SOCIAL: 'Sosial',
-        EDUCATION: 'Pendidikan',
-        ADMINISTRATIVE: 'Administratif',
-        DISASTER: 'Bencana Alam'
-    };
-    return types[type] || 'Lainnya';
-};
-
 export const ReportHeader: React.FC<ReportHeaderProps> = ({
     report,
     onRemoveReport 
 }) => {
     const router = useRouter();
+    const t = useTranslations('report.component.report_header');
     const optionsButtonRef = React.useRef<HTMLButtonElement | null>(null);
     const userProfile = useUserProfileStore((s) => s.userProfile);
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
@@ -51,12 +33,12 @@ export const ReportHeader: React.FC<ReportHeaderProps> = ({
             if (navigator.share) {
                 await navigator.share({
                     title: reportTitle,
-                    text: 'Lihat laporan ini di PingSpot',
+                    text: t('share.text'),
                     url: shareUrl
                 });
             } else {
                 await navigator.clipboard.writeText(shareUrl);
-                alert('Link telah disalin ke clipboard!');
+                alert(t('share.copied_alert'));
             }
         } catch (error) {
             console.error('Error sharing:', error);
@@ -64,7 +46,7 @@ export const ReportHeader: React.FC<ReportHeaderProps> = ({
     };
 
     const opts: OptionItem[] = [
-        { label: 'Bagikan',  description: "Lihat komentar dan berikan komentar anda mengenai laporan ini", icon: <FaShare size={14} />, onClick: () => handleShare(report?.id || 0, report?.reportTitle || "") }
+        { label: t('menu.share.label'), description: t('menu.share.description'), icon: <FaShare size={14} />, onClick: () => handleShare(report?.id || 0, report?.reportTitle || "") }
     ];
 
     const onDeleteClick = (reportID: number) => {
@@ -73,11 +55,11 @@ export const ReportHeader: React.FC<ReportHeaderProps> = ({
 
     const openDeleteConfirm = () => {
         openConfirm({ 
-            title: 'Hapus laporan', 
-            subtitle: 'Yakin ingin menghapus laporan ini?',
-            description: 'Laporan yang dihapus tidak dapat dikembalikan.',
+            title: t('delete_confirm.title'), 
+            subtitle: t('delete_confirm.subtitle'),
+            description: t('delete_confirm.description'),
             type: 'danger',
-            confirmTitle: 'Hapus',
+            confirmTitle: t('delete_confirm.confirm_button'),
             onConfirm: () => { onDeleteClick(report.id); } 
         });
     }
@@ -113,7 +95,7 @@ export const ReportHeader: React.FC<ReportHeaderProps> = ({
                 </div>
                 <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                     <span className={`inline-flex items-center px-2.5 py-1 bg-primary/10 text-xs font-bold text-primary rounded-full`}>
-                        {getReportTypeLabel(report.reportType)}
+                        {t(`type_labels.${report.reportType}`)}
                     </span>
                     <button
                         ref={optionsButtonRef}
@@ -123,15 +105,15 @@ export const ReportHeader: React.FC<ReportHeaderProps> = ({
                             const optionsToShow: OptionItem[] = [...opts];
                             if (isReportOwner) {
                                 if (report.reportStatus !== 'RESOLVED' && report.reportStatus !== 'EXPIRED') {
-                                    optionsToShow.push({ label: 'Sunting Laporan', description: "Anda dapat menyunting laporan ini.", icon: <FaEdit size={14} />, onClick: () => router.push(`/main/reports/${report.id}/edit`) });
+                                    optionsToShow.push({ label: t('menu.edit_report.label'), description: t('menu.edit_report.description'), icon: <FaEdit size={14} />, onClick: () => router.push(`/main/reports/${report.id}/edit`) });
                                 }
                                 if (report.reportStatus !== 'RESOLVED' && report.hasProgress) {
-                                    optionsToShow.push({ label: 'Perbarui Perkembangan Laporan', description: "Perbarui perkembangan laporan ini", icon: <FaEdit size={14} />, onClick: () => router.push(`/main/reports/${report.id}/update-progress`) });
+                                    optionsToShow.push({ label: t('menu.update_progress.label'), description: t('menu.update_progress.description'), icon: <FaEdit size={14} />, onClick: () => router.push(`/main/reports/${report.id}/update-progress`) });
                                 }
-                                optionsToShow.push({ label: 'Hapus', icon: <FaTrash size={14} />, onClick: () => openDeleteConfirm() });
+                                optionsToShow.push({ label: t('menu.delete.label'), icon: <FaTrash size={14} />, onClick: () => openDeleteConfirm() });
                             } else {
                                 // optionsToShow.push({ label: 'Simpan',  description: "Simpan laporan ini", icon: <FaBookmark size={14} />, onClick: () => onSave(report?.id || 0) },)
-                                optionsToShow.push({ label: 'Laporkan', icon: <FaFlag size={14} />, onClick: () => router.push(`/main/reports/${report.id}/report`) });
+                                optionsToShow.push({ label: t('menu.flag.label'), icon: <FaFlag size={14} />, onClick: () => router.push(`/main/reports/${report.id}/report`) });
                             }
 
                             openOptionsModal({ optionsList: optionsToShow, anchorRef: optionsButtonRef });

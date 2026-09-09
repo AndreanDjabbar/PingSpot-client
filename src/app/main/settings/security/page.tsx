@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -12,12 +10,13 @@ import { useErrorToast, useSuccessToast, useSaveSecurity, useLogout } from '@/ho
 import { SuccessSection, ErrorSection, HeaderSection } from '@/components';
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { LuLockKeyhole } from 'react-icons/lu';
-import { IoKey } from 'react-icons/io5';
 import { useConfirmationModalStore } from '@/stores';
+import { useTranslations } from 'next-intl';
 
 const SecurityPage = () => {
     const currentPath = usePathname();
     const router = useRouter();
+    const t = useTranslations('settings.security');
 
     const [securityData, setSecurityData] = useState<ISaveSecurityRequest | null>(null);
 
@@ -37,11 +36,11 @@ const SecurityPage = () => {
     const confirmationModal = () => {
         openConfirm({
             type: "warning",
-            title: "Konfirmasi Perubahan keamanan",
-            subtitle: "Apakah Anda yakin ingin ubah?",
+            title: t('confirm_modal.title'),
+            subtitle: t('confirm_modal.subtitle'),
             isPending: isPending,
-            description: "Informasi keamanan (kata sandi) anda akan diubah.",
-            confirmTitle: "Ubah",
+            description: t('confirm_modal.description'),
+            confirmTitle: t('confirm_modal.confirm'),
             onConfirm: () => confirmSubmit(),
         });
     }
@@ -80,7 +79,7 @@ const SecurityPage = () => {
             <HeaderSection 
             currentPath={currentPath}
             isCardHeader={false}
-            message='Perbarui kata sandi dan tingkatkan keamanan akun Anda.'/>
+            message={t('description')}/>
 
             {isSuccess && (
                 <SuccessSection message={getDataResponseMessage(data)}/>
@@ -106,9 +105,9 @@ const SecurityPage = () => {
                                             className="w-full"
                                             withLabel={true}
                                             showPasswordToggle={true}
-                                            labelTitle="Kata Sandi Lama"
+                                            labelTitle={t('current_password.label')}
                                             icon={<LuLockKeyhole size={20}/>} 
-                                            placeHolder="Masukkan Kata Sandi Lama Anda"
+                                            placeHolder={t('current_password.placeholder')}
                                         />
                                         <div className="text-danger-dark text-sm font-semibold">{errors.currentPassword?.message as string}</div>
                                     </div>
@@ -120,9 +119,9 @@ const SecurityPage = () => {
                                             showPasswordToggle={true}
                                             className="w-full"
                                             withLabel={true}
-                                            labelTitle="Konfirmasi Kata Sandi Lama"
+                                            labelTitle={t('current_password_confirmation.label')}
                                             icon={<LuLockKeyhole size={20}/>} 
-                                            placeHolder="Masukkan Ulang Kata Sandi Anda"
+                                            placeHolder={t('current_password_confirmation.placeholder')}
                                         />
                                         <div className="text-danger-dark text-sm font-semibold">{errors.currentPasswordConfirmation?.message as string}</div>
                                     </div>
@@ -136,9 +135,9 @@ const SecurityPage = () => {
                                             className="w-full"
                                             showPasswordToggle={true}
                                             withLabel={true}
-                                            labelTitle="Kata Sandi Baru"
+                                            labelTitle={t('new_password.label')}
                                             icon={<LuLockKeyhole size={20}/>} 
-                                            placeHolder="Masukkan Kata Sandi Baru Anda"
+                                            placeHolder={t('new_password.placeholder')}
                                         />
                                         <div className="text-danger-dark text-sm font-semibold">{errors.newPassword?.message as string}</div>
                                     </div>
@@ -150,9 +149,9 @@ const SecurityPage = () => {
                                             className="w-full"
                                             withLabel={true}
                                             showPasswordToggle={true}
-                                            labelTitle="Konfirmasi Kata Sandi Baru"
+                                            labelTitle={t('new_password_confirmation.label')}
                                             icon={<LuLockKeyhole size={20}/>} 
-                                            placeHolder="Masukkan Ulang Kata Sandi Baru Anda"
+                                            placeHolder={t('new_password_confirmation.placeholder')}
                                         />
                                         <div className="text-danger-dark text-sm font-semibold">{errors.newPasswordConfirmation?.message as string}</div>
                                     </div>
@@ -161,10 +160,10 @@ const SecurityPage = () => {
                                     <Button
                                         className="group relative w-full flex items-center justify-center py-3 px-4 text-sm font-medium rounded-lg  duration-300"
                                         type='submit'
-                                        loadingText="Memperbarui..."
+                                        loadingText={t('submit.loading')}
                                         isLoading={isPending}
                                     >
-                                        Perbarui Sandi
+                                        {t('submit.default')}
                                     </Button>
                                 </div>
                             </div>

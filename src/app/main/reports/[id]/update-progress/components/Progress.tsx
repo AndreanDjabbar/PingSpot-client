@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { RiProgress3Fill } from 'react-icons/ri';
 import { FieldErrors } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 type ProgressStatus = 'RESOLVED' | 'ON_PROGRESS';
 
@@ -19,11 +20,12 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
     isDisabled = false,
     errors,
 }) => {
+    const t = useTranslations('report.update_progress_page.progress_section');
     const statusOptions = [
         {
             value: 'ON_PROGRESS' as const,
-            label: 'Dalam Proses',
-            description: 'Sedang ditangani',
+            label: t('on_progress.label'),
+            description: t('on_progress.description'),
             icon: RiProgress3Fill,
             colorActive: 'bg-yellow-600 text-white border-yellow-700',
             colorInactive: 'bg-white text-yellow-700 border-gray-200 hover:border-yellow-300 hover:bg-yellow-50',
@@ -33,8 +35,8 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
         },
         {
             value: 'RESOLVED' as const,
-            label: 'Terselesaikan',
-            description: 'Masalah selesai',
+            label: t('resolved.label'),
+            description: t('resolved.description'),
             icon: FaCheck,
             colorActive: 'bg-green-600 text-white border-green-700',
             colorInactive: 'bg-white text-green-700 border-gray-200 hover:border-green-300 hover:bg-green-50',
@@ -47,7 +49,7 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
     return (
         <div>
             <label className="block text-sm font-bold text-gray-900 mb-3">
-                Pilih Status Progress *
+                {t('label')}
             </label>
             <div className="grid grid-cols-2 gap-3">
                 {statusOptions.map((option) => {

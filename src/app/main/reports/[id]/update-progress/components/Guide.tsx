@@ -1,48 +1,50 @@
 import { Guide } from '@/components'
 import React from 'react'
 import { LuNotebookText } from 'react-icons/lu'
+import { useTranslations } from 'next-intl';
 
 const GuideSection = () => {
+    const t = useTranslations('report.update_progress_page.guide_section');
     return (
         <div>
             <Guide
-                title="Panduan Memperbarui"
-                subtitle="Ikuti langkah berikut untuk memperbarui progress laporan"
+                title={t('title')}
+                subtitle={t('subtitle')}
                 icon={<LuNotebookText size={20}/>}
                 steps={[
                     {
                         number: 1,
-                        title: "Pilih Status Progress",
-                        description: "Tentukan apakah laporan sudah terselesaikan, dalam proses, atau belum ada perkembangan"
+                        title: t('steps.1.title'),
+                        description: t('steps.1.description')
                     },
                     {
                         number: 2,
-                        title: "Tulis Catatan Detail",
-                        description: "Jelaskan perkembangan laporan secara detail (minimal 5 karakter)"
+                        title: t('steps.2.title'),
+                        description: t('steps.2.description')
                     },
                     {
                         number: 3,
-                        title: "Tambahkan Foto",
-                        description: "Upload foto pendukung (opsional, maksimal 2 foto)"
+                        title: t('steps.3.title'),
+                        description: t('steps.3.description')
                     },
                     {
                         number: 4,
-                        title: "Konfirmasi Update",
-                        description: "Klik tombol untuk menyimpan perubahan progress laporan"
+                        title: t('steps.4.title'),
+                        description: t('steps.4.description')
                     }
                 ]}
                 alerts={[
                     {
                         type: 'warning',
                         emoji: '⚠️',
-                        title: 'Penting!',
-                        message: 'Jika laporan ditutup (status: Terselesaikan), Anda tidak bisa membuka atau memperbarui progress lagi.'
+                        title: t('alerts.warning.title'),
+                        message: t('alerts.warning.message')
                     },
                     {
                         type: 'success',
                         emoji: '💡',
-                        title: 'Tips',
-                        message: 'Berikan informasi yang jelas dan transparan agar komunitas dapat memantau perkembangan laporan dengan baik.'
+                        title: t('alerts.tip.title'),
+                        message: t('alerts.tip.message')
                     }
                 ]}
             />

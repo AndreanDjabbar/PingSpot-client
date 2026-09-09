@@ -5,6 +5,7 @@ import { useReportsStore, useUserProfileStore } from '@/stores';
 import { useErrorToast, useGetUserConnections } from '@/hooks';
 import { getImageURL } from '@/utils';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 const reportTypeConfig: Record<string, { label: string; color: string }> = {
     totalInfrastructureReports: { label: 'Infrastruktur', color: 'text-blue-600' },
@@ -24,6 +25,7 @@ const reportTypeConfig: Record<string, { label: string; color: string }> = {
 };
 
 const ReportSidebar = memo(() => {
+    const t = useTranslations('report.report_sidebar');
     const reportCount = useReportsStore((state) => state.reportCount);
     const currentUser = useUserProfileStore((state) => state.userProfile);
     const {
@@ -42,50 +44,50 @@ const ReportSidebar = memo(() => {
             .filter(([key, value]) => key !== 'totalReports' && value > 0)
             .map(([key, value]) => ({
                 key,
-                label: reportTypeConfig[key]?.label || key,
+                label: t(`stats.types.${key}`),
                 color: reportTypeConfig[key]?.color || 'text-gray-600',
                 count: value,
             }));
-    }, [reportCount]);
+    }, [reportCount, t]);
 
     const connections = viewMode === 'follower' ? userConnections?.data?.followers : userConnections?.data?.following;
     const onlineCount = connections?.filter((c) => c.status === 'online').length || 0;
     const hasConnections = !!connections && connections.length > 0;
 
-    useErrorToast(isErrorFetchingUserConnections, errorFetchingUserConnections || "Gagal memuat data koneksi pengguna.");
+    useErrorToast(isErrorFetchingUserConnections, errorFetchingUserConnections || t('connections.error.message'));
 
     return (
         <div className='hidden lg:block w-1/3 lg:w-75 2xl:w-90 overflow-y-auto space-y-4'>
             <div className='bg-white rounded-lg border border-gray-200 shadow-sm p-5'>
                 <h3 className='font-bold text-lg text-gray-900 mb-3'>
-                    Tentang PingSpot
+                    {t('about.title')}
                 </h3>
                 <p className='text-gray-600 text-sm leading-relaxed mb-4'>
-                    PingSpot adalah platform pelaporan masalah komunitas yang memungkinkan warga melaporkan dan memantau permasalahan di lingkungan sekitar.
+                    {t('about.description')}
                 </p>
                 <div className='space-y-2'>
                     <div className='flex items-center text-sm text-gray-700'>
                         <div className='w-2 h-2 bg-blue-500 rounded-full mr-3'></div>
-                        <span>Laporkan masalah infrastruktur</span>
+                        <span>{t('about.points.report_infrastructure')}</span>
                     </div>
                     <div className='flex items-center text-sm text-gray-700'>
                         <div className='w-2 h-2 bg-green-500 rounded-full mr-3'></div>
-                        <span>Pantau status penanganan</span>
+                        <span>{t('about.points.monitor_status')}</span>
                     </div>
                     <div className='flex items-center text-sm text-gray-700'>
                         <div className='w-2 h-2 bg-purple-500 rounded-full mr-3'></div>
-                        <span>Berpartisipasi dalam proses penanganan laporan</span>
+                        <span>{t('about.points.participate')}</span>
                     </div>
                 </div>
             </div>
 
             <div className='bg-white rounded-lg border border-gray-200 shadow-sm p-5'>
                 <h3 className='font-bold text-lg text-gray-900 mb-4'>
-                    Statistik Laporan
+                    {t('stats.title')}
                 </h3>
                 <div className='space-y-3'>
                     <div className='flex justify-between items-center'>
-                        <span className='text-gray-600 text-sm'>Total Laporan</span>
+                        <span className='text-gray-600 text-sm'>{t('stats.total_reports')}</span>
                         <span className='font-semibold text-gray-900'>{reportCount?.totalReports || 0}</span>
                     </div>
                     {reportStats.length > 0 && (
@@ -106,9 +108,9 @@ const ReportSidebar = memo(() => {
 
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">
                 <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-bold text-lg text-gray-900">Koneksi</h3>
+                    <h3 className="font-bold text-lg text-gray-900">{t('connections.title')}</h3>
                     {!isFetchingUserConnections && !isErrorFetchingUserConnections && (
-                        <span className="text-xs text-gray-500">{onlineCount} online</span>
+                        <span className="text-xs text-gray-500">{t('connections.online_count', { count: onlineCount })}</span>
                     )}
                 </div>
 
@@ -123,7 +125,7 @@ const ReportSidebar = memo(() => {
                                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                                 }`}
                             >
-                                <span>Pengikut</span>
+                                <span>{t('connections.tabs.followers')}</span>
                             </button>
                             <button
                                 onClick={() => setViewMode('following')}
@@ -133,7 +135,7 @@ const ReportSidebar = memo(() => {
                                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                                 }`}
                             >
-                                <span>Mengikuti</span>
+                                <span>{t('connections.tabs.following')}</span>
                             </button>
                         </div>
                     </div>
@@ -153,12 +155,12 @@ const ReportSidebar = memo(() => {
                     </div>
                 ) : isErrorFetchingUserConnections ? (
                     <div className="text-center py-6">
-                        <p className="text-sm text-gray-500 mb-3">Gagal memuat koneksi.</p>
+                        <p className="text-sm text-gray-500 mb-3">{t('connections.error.message')}</p>
                         <button
                             onClick={() => refetchUserConnections()}
                             className="text-sm text-blue-600 hover:text-blue-700 font-medium"
                         >
-                            Coba lagi
+                            {t('connections.error.retry')}
                         </button>
                     </div>
                 ) : hasConnections ? (
@@ -188,7 +190,7 @@ const ReportSidebar = memo(() => {
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm font-medium text-gray-900 truncate">{friend.username}</p>
                                     <p className="text-xs text-gray-500">
-                                        {friend.status === 'online' ? 'Aktif sekarang' : 'Terakhir dilihat 2j'}
+                                        {friend.status === 'online' ? t('connections.status.online') : t('connections.status.offline')}
                                     </p>
                                 </div>
                             </div>
@@ -197,14 +199,14 @@ const ReportSidebar = memo(() => {
                 ) : (
                     <div className="text-center py-6">
                         <p className="text-sm text-gray-500">
-                            {viewMode === 'follower' ? 'Belum ada pengikut.' : 'Belum mengikuti siapa pun.'}
+                            {viewMode === 'follower' ? t('connections.empty.followers') : t('connections.empty.following')}
                         </p>
                     </div>
                 )}
 
                 {!isFetchingUserConnections && !isErrorFetchingUserConnections && hasConnections && (
                     <button className="w-full mt-4 text-sm text-blue-600 hover:text-blue-700 font-medium">
-                        Lihat Semua Teman
+                        {t('connections.view_all')}
                     </button>
                 )}
             </div>

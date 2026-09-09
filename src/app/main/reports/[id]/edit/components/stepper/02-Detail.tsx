@@ -5,6 +5,7 @@ import { LuNotebookText } from "react-icons/lu";
 import { IoLocationOutline } from 'react-icons/io5';
 import { BiCategory } from 'react-icons/bi';
 import { IEditReportRequest } from '@/types';
+import { useTranslations } from 'next-intl';
 
 interface DetailStepProps {
     register: UseFormRegister<IEditReportRequest>;
@@ -25,21 +26,22 @@ const DetailStep: React.FC<DetailStepProps> = ({
     isResolvedStatus,
     isDisabledStatus = false
 }) => {
+    const t = useTranslations('report.edit_report_page.detail_step');
     const issueTypes = [
-        { value: 'infrastructure', label: 'Infrastruktur' },
-        { value: 'environment', label: 'Lingkungan' },
-        { value: 'safety', label: 'Keamanan' },
-        { value: 'traffic', label: 'Lalu Lintas' },
-        { value: 'public_facility', label: 'Fasilitas Umum' },
-        { value: 'waste', label: 'Sampah' },
-        { value: 'water', label: 'Air' },
-        { value: 'electricity', label: 'Listrik' },
-        { value: 'health', label: 'Kesehatan' },
-        { value: 'social', label: 'Sosial' },
-        { value: 'education', label: 'Pendidikan' },
-        { value: 'administrative', label: 'Administrasi' },
-        { value: 'disaster', label: 'Bencana Alam' },
-        { value: 'other', label: 'Lainnya' },
+        { value: 'infrastructure', label: t('issue_types.infrastructure') },
+        { value: 'environment', label: t('issue_types.environment') },
+        { value: 'safety', label: t('issue_types.safety') },
+        { value: 'traffic', label: t('issue_types.traffic') },
+        { value: 'public_facility', label: t('issue_types.public_facility') },
+        { value: 'waste', label: t('issue_types.waste') },
+        { value: 'water', label: t('issue_types.water') },
+        { value: 'electricity', label: t('issue_types.electricity') },
+        { value: 'health', label: t('issue_types.health') },
+        { value: 'social', label: t('issue_types.social') },
+        { value: 'education', label: t('issue_types.education') },
+        { value: 'administrative', label: t('issue_types.administrative') },
+        { value: 'disaster', label: t('issue_types.disaster') },
+        { value: 'other', label: t('issue_types.other') },
     ];
 
     return (
@@ -54,9 +56,9 @@ const DetailStep: React.FC<DetailStepProps> = ({
                         withLabel={true}
                         required
                         disabled={isDisabledStatus || isResolvedStatus}
-                        labelTitle="Judul Laporan"
+                        labelTitle={t('title_field.label')}
                         icon={<LuNotebookText size={20} />}
-                        placeHolder="Masukkan judul laporan"
+                        placeHolder={t('title_field.placeholder')}
                     />
                     <div className="text-red-500 text-sm font-semibold">
                         {errors.reportTitle?.message as string}
@@ -72,9 +74,9 @@ const DetailStep: React.FC<DetailStepProps> = ({
                         required
                         disabled={isDisabledStatus || isResolvedStatus}
                         withLabel={true}
-                        labelTitle="Alamat/Detail Lokasi"
+                        labelTitle={t('location_field.label')}
                         icon={<IoLocationOutline size={20} />}
-                        placeHolder="Detail alamat lokasi permasalahan"
+                        placeHolder={t('location_field.placeholder')}
                     />
                     <div className="text-red-500 text-sm font-semibold">
                         {errors.location?.message as string}
@@ -91,8 +93,8 @@ const DetailStep: React.FC<DetailStepProps> = ({
                     className="w-full"
                     disabled={isResolvedStatus}
                     withLabel={true}
-                    labelTitle="Deskripsi Permasalahan"
-                    placeholder="Jelaskan permasalahan dengan detail"
+                    labelTitle={t('description_field.label')}
+                    placeholder={t('description_field.placeholder')}
                 />
                 <div className="text-red-500 text-sm font-semibold">
                     {errors.reportDescription?.message as string}
@@ -109,9 +111,9 @@ const DetailStep: React.FC<DetailStepProps> = ({
                         register={register("reportType")}
                         onChange={(value) => setValue('reportType', value as 'infrastructure' | 'environment' | 'safety' | 'other')}
                         withLabel={true}
-                        labelTitle="Jenis Laporan"
+                        labelTitle={t('type_field.label')}
                         options={issueTypes}
-                        placeholder="Pilih jenis laporan"
+                        placeholder={t('type_field.placeholder')}
                         required={true}
                         icon={<BiCategory size={20} />}
                         error={errors.reportType?.message as string}
@@ -126,13 +128,13 @@ const DetailStep: React.FC<DetailStepProps> = ({
                         values={hasProgressValue ? ['enable'] : []}
                         onChange={(values) => setValue('hasProgress', values.includes('enable'))}
                         withLabel={true}
-                        labelTitle="Fitur Progress Laporan" 
+                        labelTitle={t('has_progress.label')} 
                         options={[
-                            { value: 'enable', label: 'Aktifkan progress laporan' }
+                            { value: 'enable', label: t('has_progress.option_label') }
                         ]}
-                        informationTitle="Fitur Progress Laporan"
-                        informationDescription="Dengan mengaktifkan fitur progress, Anda dapat melacak dan mendokumentasikan perkembangan penanganan laporan secara berkala. Setiap tahapan perbaikan atau tindak lanjut dapat Anda catat dengan menambahkan update progress beserta foto pendukung."
-                        informationAdditionalInfo="Fitur ini sangat berguna untuk laporan yang memerlukan penanganan bertahap atau jangka panjang, sehingga Anda dan pihak terkait dapat memantau kemajuan perbaikan secara transparan dan terstruktur."
+                        informationTitle={t('has_progress.info_title')}
+                        informationDescription={t('has_progress.info_description')}
+                        informationAdditionalInfo={t('has_progress.info_additional')}
                         layout="vertical"
                     />
                 </div>

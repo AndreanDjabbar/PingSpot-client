@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { IReportComment, ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
 import { FaComment } from 'react-icons/fa';;
 import { useInView } from 'react-intersection-observer';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import CommentItem from './CommentItem';
 import { Scrollbar } from '@/components';
+import { useTranslations } from 'next-intl';
 import { InfiniteData } from '@tanstack/react-query';
 
 interface CommentListProps {
@@ -37,7 +38,7 @@ const CommentList: React.FC<CommentListProps> = ({
     hasMoreComments = false,
     onFetchingMoreComments,
     isFetchingMoreComments = false,
-    emptyStateMessage = 'Belum ada komentar',
+    emptyStateMessage,
     className = '',
     onCreateReportComment,
     isSubmitting = false,
@@ -54,18 +55,19 @@ const CommentList: React.FC<CommentListProps> = ({
     const { ref, inView } = useInView({
         threshold: 0,
     })
+    const t = useTranslations('report.report_modal.comment_list');
 
-    const handleFetchMoreComments = () => {
+    const handleFetchMoreComments = useCallback(() => {
         if (onFetchingMoreComments) {
             onFetchingMoreComments();
         }
-    }
+    }, [onFetchingMoreComments]);
 
     useEffect(() => {
         if (inView && hasMoreComments && !isFetchingMoreComments) {
             handleFetchMoreComments();
         }
-    }, [inView, hasMoreComments, isFetchingMoreComments]);
+    }, [inView, hasMoreComments, isFetchingMoreComments, handleFetchMoreComments]);
 
     return (
             <Scrollbar className={`bg-white ${className} min-h-[200px]`} height={'400px'}>
@@ -110,8 +112,8 @@ const CommentList: React.FC<CommentListProps> = ({
                             <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
                                 <FaComment className="w-8 h-8 text-gray-400" />
                             </div>
-                            <p className="text-sm font-medium text-gray-500">{emptyStateMessage}</p>
-                            <p className="text-xs text-gray-400 mt-1">Jadilah yang pertama berkomentar!</p>
+                            <p className="text-sm font-medium text-gray-500">{emptyStateMessage || t('empty_state')}</p>
+                            <p className="text-xs text-gray-400 mt-1">{t('empty_state_sub')}</p>
                         </div>
                     )}
                 </div>

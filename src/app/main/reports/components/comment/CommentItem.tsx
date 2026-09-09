@@ -3,7 +3,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { FaReply, FaHeart, FaRegHeart, FaChevronUp } from 'react-icons/fa';
+import { FaReply, FaChevronUp } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { getImageURL, getFormattedDate as formattedDate } from '@/utils';
 import { useImagePreviewModalStore } from '@/stores';
@@ -14,6 +14,7 @@ import { IReportComment, ICreateReportCommentRequest, IMentionedUser, ISearchUse
 import { ImagePreview } from '@/components/';
 import CommentInput from './CommentInput';
 import { InfiniteData } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 
 interface CommentItemProps {
     comment: IReportComment;
@@ -53,10 +54,10 @@ const CommentItem: React.FC<CommentItemProps> = ({
     imagePreview,
     commentMediaImage
 }) => {
+    const t = useTranslations('report.report_modal.comment_list.comment_item');
     const [isReplying, setIsReplying] = useState(false);
     const [replyMediaImage, setReplyMediaImage] = useState<File | null>(null);
     const [replyImagePreview, setReplyImagePreview] = useState<string | null>(null);
-    const [liked, setLiked] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
     const [replies, setReplies] = useState<IReportComment[]>([]);
     const loadMoreButtonRef = useRef<HTMLDivElement>(null);
@@ -136,7 +137,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
             style={{ marginLeft: `${marginLeft}px` }}
         >
             <div className="flex space-x-2">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                     <div className={`w-6 h-6 rounded-full overflow-hidden border border-gray-200`}>
                         <Image 
                             src={getImageURL(comment.userInformation?.profilePicture || '', "user")}
@@ -153,7 +154,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                         <span className="font-semibold text-sm text-gray-900 shrink-0">
                             {comment.userInformation?.username || 'User'}
                         </span>
-                        <span className="text-sm text-gray-800 break-words">
+                        <span className="text-sm text-gray-800 wrap-break-word">
                             {!isMediaComment && (
                                 <MentionText 
                                 commentUserID={Number(comment.userInformation?.userID || 0)}
@@ -167,7 +168,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                     {isMediaComment && (
                         <div className="mt-1">
                             <div className="flex flex-col gap-1">
-                                <div className="relative rounded-lg overflow-hidden max-w-[200px] sm:max-w-[240px]">
+                                <div className="relative rounded-lg overflow-hidden max-w-[200px] sm:max-w-60">
                                     <Image
                                         src={comment.commentType === 'TEMP' ? (comment.media?.url || '') : getImageURL(`/report/comments/${(comment.media?.url || '')}`, "main")}
                                         alt="Comment media"
@@ -177,7 +178,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                         className="object-cover w-full h-auto cursor-pointer"
                                     />
                                 </div>
-                                <span className="text-sm text-gray-800 break-words">
+                                <span className="text-sm text-gray-800 wrap-break-word">
                                     <MentionText 
                                     commentUserID={Number(comment.userInformation?.userID || 0)}
                                     text={comment.content || ""}
@@ -201,7 +202,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                             }}
                             className="text-xs text-gray-400 hover:text-gray-600 font-medium cursor-pointer"
                         >
-                            Balas
+                            {t('reply')}
                         </button>
                         {comment.totalReplies !== undefined && comment.totalReplies > 0 && (
                             <button
@@ -213,8 +214,8 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                 ) : (
                                     <FaReply className="w-3 h-3" />
                                 )}
-                                <span>
-                                    {showReplies ? 'Sembunyikan' : `${comment.totalReplies} ${comment.totalReplies === 1 ? 'balasan' : 'balasan'}`}
+                                    <span>
+                                    {showReplies ? t('hide_replies') : t('show_replies_count', { count: comment.totalReplies || 0 })}
                                 </span>
                             </button>
                         )}
@@ -267,7 +268,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                         }}
                                         variant='outline'
                                     >
-                                        Batal
+                                        {t('cancel')}
                                     </Button>
                                 </div>
                             </div>
@@ -278,7 +279,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                         <div className="mt-4">
                             {repliesLoading && (
                                 <div className="text-sm text-gray-500 ml-4">
-                                    Memuat balasan...
+                                    {t('loading_replies')}
                                 </div>
                             )}
                             <div className="flex flex-col gap-3">
@@ -310,7 +311,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                                         disabled={isFetchingMoreReplies}
                                         className="ml-4 mt-2 text-xs text-primary hover:text-primary/80 font-medium disabled:opacity-50"
                                     >
-                                        {isFetchingMoreReplies ? 'Memuat...' : 'Muat lebih banyak'}
+                                        {isFetchingMoreReplies ? t('loading_replies_button') : t('load_more_replies')}
                                     </button>
                                 )}
                             </div>

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
@@ -14,10 +13,11 @@ import { UploadProgressReportSchema } from '../../../schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { FiEdit } from 'react-icons/fi';
 import { Accordion, ErrorSection, SuccessSection } from '@/components';
-import { MdInfo, MdWarning } from 'react-icons/md';
+import { MdInfo } from 'react-icons/md';
 import { CurrentProgress, ProgressHistory, ProgressSection } from '../progress';
 import ResolvedReport from './ResolvedReport';
 import { PublicVotes, VotingSection } from '../voting';
+import { useTranslations } from 'next-intl';
 
 
 interface ReportInformationProps {
@@ -33,6 +33,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
     onImageClick,
     isLoading = false,
 }) => {
+    const t = useTranslations('report.report_card.report_information');
     const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
     const [progressImages, setProgressImages] = useState<ImageItem[]>([]);
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
@@ -88,16 +89,16 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
         openConfirm({
             type: "info",
             title: formData.progressStatus === 'RESOLVED'
-                ?   "Konfirmasi Penutupan Laporan"
-                :   "Konfirmasi Pembaruan Perkembangan Laporan",
+                ?   t('close_report_modal.title')
+                :   t('update_progress_modal.title'),
             subtitle: formData.progressStatus === 'RESOLVED'
-                ?   "Apakah Anda yakin ingin menutup laporan ini?."
-                :   "Apakah Anda yakin ingin memperbarui perkembangan laporan ini?",
+                ?   t('close_report_modal.subtitle')
+                :   t('update_progress_modal.subtitle'),
             isPending: isUploadProgressReportPending,
             description: formData.progressStatus === 'RESOLVED'
-                ?   "Perkembangan Laporan yang sudah ditutup tidak bisa dibuka kembali."
-                :   "Perkembangan Laporan ini akan diperbarui.",
-            confirmTitle: formData.progressStatus === 'RESOLVED' ? "Tutup Laporan" : "Perbarui Status",
+                ?   t('close_report_modal.description')
+                :   t('update_progress_modal.description'),
+            confirmTitle: formData.progressStatus === 'RESOLVED' ? t('close_report_modal.confirm') : t('update_progress_modal.confirm'),
             onConfirm: () => onSubmit(formData),
         });
     }
@@ -115,15 +116,15 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
     const getStatusLabel = (status: string) => {
         switch (status) {
             case 'RESOLVED':
-                return 'Terselesaikan';
+                return t('status_labels.RESOLVED');
             case 'EXPIRED':
-                return 'Kadaluarsa';
+                return t('status_labels.EXPIRED');
             case 'WAITING_CONFIRMATION':
-                return 'Menunggu Konfirmasi';
+                return t('status_labels.WAITING_CONFIRMATION');
             case 'ON_PROGRESS':
-                return 'Sedang Diproses';
+                return t('status_labels.ON_PROGRESS');
             default:
-                return 'Belum Diproses';
+                return t('status_labels.default');
         }
     };
     
@@ -196,10 +197,10 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
     useSuccessToast(isUploadProgressSuccess, uploadProgressData);
     
     return (
-        <div className="rounded-xl p-4 bg-gradient-to-br from-gray-50 to-white">
+            <div className="rounded-xl p-4 bg-linear-to-br from-gray-50 to-white">
             <div className='mb-4'>
                 {isUploadProgressSuccess && (
-                    <SuccessSection message={uploadProgressData.message || "Laporan berhasil dikirim!"} />
+                    <SuccessSection message={uploadProgressData.message || t('success_default')} />
                 )}
 
                 {isUploadProgressError && (
@@ -213,7 +214,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
             <Accordion type="single" className="">
                 <Accordion.Item
                     id="informasi-laporan"
-                    title="Informasi Laporan"
+                    title={t('section_title')}
                     icon={<FaUsers className="w-5 h-5" />}
                     rightContent={(
                         <div className='flex items-center gap-2'>
@@ -225,15 +226,15 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         openConfirm({
-                                            title: 'Konfirmasi Penyelesaian Laporan',
+                                            title: t('confirmation_reminder.title'),
                                             type: 'warning',
                                             useCancelButton: false,
-                                            description: 'Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.',
-                                            additionalInfo: 'Jika tidak ada konfirmasi dalam 1 minggu, status akan otomatis berubah menjadi "Terselesaikan".'
+                                            description: t('confirmation_reminder.description'),
+                                            additionalInfo: t('confirmation_reminder.additional_info')
                                         })}
                                     }
                                     className='inline-flex items-center p-1.5 sm:p-2 hover:bg-primary/10 rounded-full transition-colors group cursor-pointer'
-                                    aria-label="Informasi status laporan"
+                                    aria-label={t('confirmation_reminder.aria_label')}
                                 >
                                     <MdInfo size={25} className="text-primary transition-colors sm:w-6 sm:h-6"/>
                                 </button>
@@ -254,7 +255,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
 
                                 {report && report?.reportProgress?.length > 1 && (
                                     <Accordion type="single" defaultValue={[]}>
-                                        <Accordion.Item id="timeline" title={`Semua Perkembangan (${report.reportProgress.length})`}>
+                                        <Accordion.Item id="timeline" title={t('timeline_section', { count: report.reportProgress.length })}>
                                             <ProgressHistory handleImageClick={handleImageClick} reportProgress={report.reportProgress}/>
                                         </Accordion.Item>
                                     </Accordion>
@@ -266,7 +267,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                             <Accordion type="single">
                                 <Accordion.Item
                                     id="update-status"
-                                    title="Perbarui Perkembangan Laporan"
+                                    title={t('update_status_section')}
                                     icon={<FiEdit className="w-4 h-4 text-gray-700" />}
                                     headerClassName="text-gray-900 font-semibold"
                                 >
@@ -294,7 +295,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                                 </Accordion.Item>
                                 <Accordion.Item
                                     id="report-votes"
-                                    title="Pendapat Tentang Laporan Ini"
+                                    title={t('votes_section')}
                                     icon={<FaUsers className="w-4 h-4 text-gray-700" />}
                                     headerClassName="text-gray-900 font-semibold"
                                 >

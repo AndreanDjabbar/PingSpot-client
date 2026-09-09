@@ -1,35 +1,19 @@
 import React from 'react';
 import { UseFormWatch } from 'react-hook-form';
 import { BsFillInfoCircleFill } from 'react-icons/bs';
-import { MdDescription, MdLocationOn, MdPhoto, MdTitle, MdTrackChanges } from 'react-icons/md';
+import { MdDescription, MdLocationOn, MdPhoto, MdTrackChanges } from 'react-icons/md';
 import { Accordion } from '@/components';
 import { ICreateReportRequest, ImageItem } from '@/types';
-import { FaFile, FaFileAlt, FaTags, FaUser } from 'react-icons/fa';
+import { FaFileAlt, FaTags } from 'react-icons/fa';
 import Image from 'next/image';
 import { useImagePreviewModalStore } from '@/stores';
+import { useTranslations } from 'next-intl';
 
 interface SummaryStepProps {
     watch: UseFormWatch<ICreateReportRequest>;
     reportImages: ImageItem[]; 
     reportImagesCount: number;
 }
-
-const issueTypes = [
-    { value: 'infrastructure', label: 'Infrastruktur' },
-    { value: 'environment', label: 'Lingkungan' },
-    { value: 'safety', label: 'Keamanan' },
-    { value: 'traffic', label: 'Lalu Lintas' },
-    { value: 'public_facility', label: 'Fasilitas Umum' },
-    { value: 'waste', label: 'Sampah' },
-    { value: 'water', label: 'Air' },
-    { value: 'electricity', label: 'Listrik' },
-    { value: 'health', label: 'Kesehatan' },
-    { value: 'social', label: 'Sosial' },
-    { value: 'education', label: 'Pendidikan' },
-    { value: 'administrative', label: 'Administrasi' },
-    { value: 'disaster', label: 'Bencana Alam' },
-    { value: 'other', label: 'Lainnya' },
-];
 
 const SummaryRow: React.FC<{ icon: React.ReactNode; label: string; children: React.ReactNode }> = ({
     icon, label, children,
@@ -39,16 +23,17 @@ const SummaryRow: React.FC<{ icon: React.ReactNode; label: string; children: Rea
             <span className="text-surface">{icon}</span>
             {label}
         </div>
-        <div className="text-sm md:text-md text-surface min-w-0 break-words">{children}</div>
+        <div className="text-sm md:text-md text-surface min-w-0 wrap-break-word">{children}</div>
     </div>
 );
 
 const SummaryStep: React.FC<SummaryStepProps> = ({ watch, reportImagesCount, reportImages }) => {
+    const t = useTranslations('report.create_report_page');
     const hasProgressValue = watch('hasProgress');
-    const reportType = issueTypes.find(t => t.value === watch('reportType'))?.label;
-     const openImagePreview = useImagePreviewModalStore((s) => s.openImagePreview);
+    const reportType = watch('reportType') ? t(`detail_step.issue_types.${watch('reportType')}`) : undefined;
+    const openImagePreview = useImagePreviewModalStore((s) => s.openImagePreview);
 
-     const onImageClick = (imageURL: string) => {
+    const onImageClick = (imageURL: string) => {
         openImagePreview(imageURL);
     }
 
@@ -61,10 +46,10 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ watch, reportImagesCount, rep
                     </div>
                     <div>
                         <p className="text-sm font-medium text-primary">
-                            Pastikan semua informasi sudah benar sebelum mengirim laporan.
+                            {t('summary_step.info_banner.line1')}
                         </p>
                         <p className="text-sm text-primary mt-1">
-                            Anda dapat kembali ke langkah sebelumnya untuk memeriksa atau mengubah data.
+                            {t('summary_step.info_banner.line2')}
                         </p>
                     </div>
                 </div>
@@ -73,46 +58,46 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ watch, reportImagesCount, rep
             <Accordion type="single" defaultValue={['summary']}>
                 <Accordion.Item
                     id="summary"
-                    title="Ringkasan Laporan"
+                    title={t('summary_step.accordion_title')}
                     headerClassName="bg-gray-50"
                     className="border border-gray-200 rounded-xl overflow-hidden"
                 >
                     <div className="divide-y divide-gray-100">
-                        <SummaryRow icon={<FaFileAlt />} label="Judul laporan">
+                        <SummaryRow icon={<FaFileAlt />} label={t('summary_step.rows.title')}>
                             <span className="font-medium">{watch('reportTitle') || '-'}</span>
                         </SummaryRow>
 
-                        <SummaryRow icon={<FaTags />} label="Jenis laporan">
+                        <SummaryRow icon={<FaTags />} label={t('summary_step.rows.type')}>
                             {reportType
                                 ? <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary text-white">{reportType}</span>
                                 : <span className="text-gray-400">-</span>
                             }
                         </SummaryRow>
 
-                        <SummaryRow icon={<MdTrackChanges />} label="Fitur progress">
+                        <SummaryRow icon={<MdTrackChanges />} label={t('summary_step.rows.progress')}>
                             <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
                                 hasProgressValue ? 'bg-primary text-white' : 'bg-gray-100 text-gray-500'
                             }`}>
                                 {hasProgressValue && <MdTrackChanges size={13} />}
-                                {hasProgressValue ? 'Diaktifkan' : 'Tidak diaktifkan'}
+                                {hasProgressValue ? t('summary_step.progress_enabled') : t('summary_step.progress_disabled')}
                             </span>
                         </SummaryRow>
 
-                        <SummaryRow icon={<MdLocationOn />} label="Lokasi">
+                        <SummaryRow icon={<MdLocationOn />} label={t('summary_step.rows.location')}>
                             <span className="text-gray-700">{watch('location') || '-'}</span>
                         </SummaryRow>
 
-                        <SummaryRow icon={<MdDescription />} label="Deskripsi">
+                        <SummaryRow icon={<MdDescription />} label={t('summary_step.rows.description')}>
                             <span className="text-gray-600 leading-relaxed">
                                 {watch('reportDescription') || '-'}
                             </span>
                         </SummaryRow>
 
-                        <SummaryRow icon={<MdPhoto />} label="Lampiran foto">
+                        <SummaryRow icon={<MdPhoto />} label={t('summary_step.rows.photos')}>
                             {reportImagesCount > 0 ? (
                                 <div className="space-y-2">
                                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-primary text-white">
-                                        {reportImagesCount} foto dilampirkan
+                                        {t('summary_step.photos_count', { count: reportImagesCount })}
                                     </span>
                                     <div className="flex flex-wrap gap-2">
                                         {reportImages.map((img, index) => (
@@ -123,7 +108,7 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ watch, reportImagesCount, rep
                                             >
                                                 <Image
                                                     src={img.preview}
-                                                    alt={`Lampiran ${index + 1}`}
+                                                    alt={t('summary_step.photo_alt', { index: index + 1 })}
                                                     width={72}
                                                     height={72}
                                                     className="w-18 h-18 object-cover"
@@ -133,7 +118,7 @@ const SummaryStep: React.FC<SummaryStepProps> = ({ watch, reportImagesCount, rep
                                     </div>
                                 </div>
                             ) : (
-                                <span className="text-gray-400 italic text-sm">Tidak ada foto</span>
+                                <span className="text-gray-400 italic text-sm">{t('summary_step.no_photos')}</span>
                             )}
                         </SummaryRow>
                     </div>

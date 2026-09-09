@@ -15,10 +15,12 @@ import { UploadProgressReportSchema } from '../../../schema';
 import { DetailSection, GuideSection, ProgressSection, ResponseSection } from './components';
 import { compressImages } from '@/utils';
 import { Button, HeaderSection } from '@/components';
+import { useTranslations } from 'next-intl';
 
 const UpdateProgressPage = () => {
     const params = useParams();
     const router = useRouter();
+    const t = useTranslations('report.update_progress_page');
     const reportId = Number(params.id);
     const queryClient = useQueryClient();
     
@@ -63,16 +65,18 @@ const UpdateProgressPage = () => {
         openConfirm({
             type: "info",
             title: formData.progressStatus === 'RESOLVED'
-                ?   "Konfirmasi Penutupan Laporan"
-                :   "Konfirmasi Pembaruan Status Laporan",
+                ?   t('confirm_modal.title_resolved')
+                :   t('confirm_modal.title_update'),
             subtitle: formData.progressStatus === 'RESOLVED'
-                ?   "Apakah Anda yakin ingin menutup laporan ini?"
-                :   "Apakah Anda yakin ingin memperbarui status laporan ini?",
+                ?   t('confirm_modal.subtitle_resolved')
+                :   t('confirm_modal.subtitle_update'),
             isPending: isUploadProgressReportPending,
             description: formData.progressStatus === 'RESOLVED'
-                ?   "Perkembangan Laporan yang sudah ditutup tidak bisa dibuka kembali."
-                :   "Perkembangan Laporan ini akan diperbarui.",
-            confirmTitle: formData.progressStatus === 'RESOLVED' ? "Tutup Laporan" : "Perbarui Status",
+                ?   t('confirm_modal.description_resolved')
+                :   t('confirm_modal.description_update'),
+            confirmTitle: formData.progressStatus === 'RESOLVED'
+                ? t('confirm_modal.confirm_button_resolved')
+                : t('confirm_modal.confirm_button_update'),
             onConfirm: () => onSubmit(formData),
         });
     };
@@ -150,11 +154,11 @@ const UpdateProgressPage = () => {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <p className="text-gray-600 mb-4">Anda tidak memiliki akses ke halaman ini</p>
+                    <p className="text-gray-600 mb-4">{t('access_denied')}</p>
                     <Button
                         onClick={() => router.push('/main/reports')}    
                     >
-                        Kembali ke Daftar Laporan
+                        {t('back_to_list')}
                     </Button>
                 </div>
             </div>
@@ -163,13 +167,13 @@ const UpdateProgressPage = () => {
 
     return (
         <div className="min-h-screen">
-            <HeaderSection currentPath={customCurrentPath} isCardHeader={false} showBreadcrumb={false} message='Perbarui status perkembangan laporan Anda untuk memberi informasi terkini kepada komunitas.'/>
+            <HeaderSection currentPath={customCurrentPath} isCardHeader={false} showBreadcrumb={false} message={t('header_message')}/>
             <div className="max-w-7xl mx-auto py-8">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div className="lg:col-span-2">
                         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                             <div className="p-6 border-b border-gray-300">
-                                <h1 className="text-2xl font-bold text-gray-900 mb-2">Perbarui Perkembangan Laporan</h1>
+                                <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('title')}</h1>
                                 <p className="text-gray-700 text-sm">{currentReport.reportTitle}</p>
                             </div>
 
@@ -190,10 +194,10 @@ const UpdateProgressPage = () => {
                                         </div>
                                         <div>
                                             <p className="text-sm text-green-800 font-semibold">
-                                                Laporan Terselesaikan
+                                                {t('resolved_banner.title')}
                                             </p>
                                             <p className="text-xs text-green-700 mt-0.5">
-                                                Pembaruan progress dinonaktifkan
+                                                {t('resolved_banner.subtitle')}
                                             </p>
                                         </div>
                                     </div>
@@ -227,7 +231,7 @@ const UpdateProgressPage = () => {
                                                         className='w-full'
                                                         isLoading={isUploadProgressReportPending}
                                                     >
-                                                        {selectedStatus === 'RESOLVED' ? 'Tutup Laporan' : 'Perbarui Status'}
+                                                        {selectedStatus === 'RESOLVED' ? t('submit_button.resolved') : t('submit_button.update')}
                                                     </Button>
                                                 </div>
                                             </motion.div>

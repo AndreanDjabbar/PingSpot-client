@@ -13,10 +13,12 @@ import { IReportImage, ImageItem, IEditReportRequest } from '@/types';
 import { EditReportSchema } from '../../../schema';
 import { compressImages, getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage, getImageURL } from '@/utils';
 import { MapStep, DetailStep, AttachmentStep, SummaryStep } from './components';
+import { useTranslations } from 'next-intl';
 
 const EditReportPage = () => {
     const params = useParams();
     const router = useRouter();
+    const t = useTranslations('report.edit_report_page');
     const reportId = Number(params.id);
     const customCurrentPath = `/main/reports/${reportId}/Sunting Laporan`;
     const [markerPosition, setMarkerPosition] = useState<{ lat: number, lng: number } | null>(null);
@@ -26,9 +28,9 @@ const EditReportPage = () => {
 
     const handleOpenInfo = useCallback(() => {
         openFormInfo({
-            title: 'Informasi Sunting Laporan',
+            title: t('info_modal.title'),
             type: 'info',
-            description: 'Status laporan saat ini tidak mendukung perubahan lokasi. Anda masih dapat memperbarui detail lainnya seperti judul, deskripsi dan lampiran foto.',
+            description: t('info_modal.description'),
         });
     }, [openFormInfo]);
     
@@ -120,10 +122,10 @@ const EditReportPage = () => {
     const hasProgressValue = watch('hasProgress');
 
     const steps = [
-        { label: 'Lokasi', description: 'Pilih lokasi masalah' },
-        { label: 'Detail', description: 'Isi informasi laporan' },
-        { label: 'Lampiran', description: 'Isi lampiran terkait laporan' },
-        { label: 'Konfirmasi', description: 'Tinjau & kirim' }
+        { label: t('steps.location.label'), description: t('steps.location.description') },
+        { label: t('steps.detail.label'), description: t('steps.detail.description') },
+        { label: t('steps.attachment.label'), description: t('steps.attachment.description') },
+        { label: t('steps.confirmation.label'), description: t('steps.confirmation.description') }
     ];
 
     const handleImageClick = (imageUrl: string) => {
@@ -188,11 +190,11 @@ const EditReportPage = () => {
     const handleConfirmationModal = (formData: IEditReportRequest) => {
         openConfirm({
             type: "info",
-            title: "Konfirmasi Perbarui Laporan",
-            subtitle: "Apakah Anda yakin ingin memperbarui laporan ini?",
+            title: t('confirm_modal.title'),
+            subtitle: t('confirm_modal.subtitle'),
             isPending: isEditing || reverseLoading,
-            description: "Perubahan akan disimpan ke laporan yang sudah ada. Pastikan semua informasi sudah benar sebelum melanjutkan.",
-            confirmTitle: "Perbarui",
+            description: t('confirm_modal.description'),
+            confirmTitle: t('confirm_modal.confirm_button'),
             onConfirm: async() => {
                 const preparedData = await prepareFormData(formData);
                 confirmSubmit(preparedData);
@@ -301,11 +303,11 @@ const EditReportPage = () => {
             currentPath={customCurrentPath}
             isCardHeader={false}
             showBreadcrumb={false}
-            message='Laporkan masalah atau kerusakan di sekitar Anda untuk membantu perbaikan lingkungan.'
+            message={t('header_message')}
             />
 
             {editIsSuccess && (
-                <SuccessSection message={getDataResponseMessage(editData) || "Laporan berhasil dikirim!"} />
+                <SuccessSection message={getDataResponseMessage(editData) || t('success_default')} />
             )}
 
             {editIsError && (
@@ -374,7 +376,7 @@ const EditReportPage = () => {
                                 onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}
                                 disabled={currentStep === 0}
                             >
-                                Kembali
+                                {t('buttons.back')}
                             </Button>
 
                             {currentStep < steps.length - 1 ? (
@@ -389,16 +391,16 @@ const EditReportPage = () => {
                                     }}
                                     disabled={!validateStep(currentStep)}
                                 >
-                                    Lanjut
+                                    {t('buttons.next')}
                                 </Button>
                             ) : (
                                 <Button
                                     disabled={isEditing || reverseLoading || reportStatus === 'RESOLVED'}
                                     type='submit'
-                                    loadingText={"Menyunting Laporan..."}
+                                    loadingText={t('buttons.submitting')}
                                     isLoading={isEditing || reverseLoading}
                                 >
-                                    Kirim Laporan
+                                    {t('buttons.submit')}
                                 </Button>
                             )}
                         </div>

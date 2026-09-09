@@ -12,10 +12,12 @@ import { ICreateReportRequest } from '@/types/api/report';
 import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
 import { AttachmentStep, DetailStep, MapStep, SummaryStep } from './components';
 import { ImageItem } from '@/types';
+import { useTranslations } from 'next-intl';
 
 const CreateReportPage = () => {
     const currentPath = usePathname();
     const router = useRouter();
+    const t = useTranslations('report.create_report_page');
 
     const [reportImages, setReportImages] = useState<ImageItem[]>([]);
     const [markerPosition, setMarkerPosition] = useState<{ lat: number, lng: number } | null>(null);
@@ -52,10 +54,10 @@ const CreateReportPage = () => {
     const hasProgressValue = watch('hasProgress');
 
     const steps = [
-        { label: 'Lokasi', description: 'Pilih lokasi masalah' },
-        { label: 'Detail', description: 'Isi informasi laporan' },
-        { label: 'Lampiran', description: 'Isi lampiran terkait laporan' },
-        { label: 'Konfirmasi', description: 'Tinjau & kirim' }
+        { label: t('steps.location.label'), description: t('steps.location.description') },
+        { label: t('steps.detail.label'), description: t('steps.detail.description') },
+        { label: t('steps.attachment.label'), description: t('steps.attachment.description') },
+        { label: t('steps.confirmation.label'), description: t('steps.confirmation.description') }
     ];
 
     const handleImageClick = (imageUrl: string) => {
@@ -103,11 +105,11 @@ const CreateReportPage = () => {
     const handleConfirmationModal = (preparedData: FormData) => {
         openConfirm({
             type: "info",
-            title: "Konfirmasi Pembuatan Laporan",
-            subtitle: "Apakah Anda yakin ingin membuat laporan ?",
+            title: t('confirm_modal.title'),
+            subtitle: t('confirm_modal.subtitle'),
             isPending: isPending || reverseLoading,
-            description: "Anda akan membuat laporan baru. Pastikan semua informasi sudah benar sebelum melanjutkan.",
-            confirmTitle: "Buat",
+            description: t('confirm_modal.description'),
+            confirmTitle: t('confirm_modal.confirm_button'),
             onConfirm: () => confirmSubmit(preparedData),
         });
     }
@@ -159,7 +161,7 @@ const CreateReportPage = () => {
             formDataToSubmit.append('suburb', suburb || '');
             mutate(formDataToSubmit);
         }
-    }, [reverseLocationData, reverseSuccess, formDataToSubmit, mutate]);
+    }, [reverseLocationData, reverseSuccess, formDataToSubmit, mutate, zoomLevel]);
 
     useEffect(() => {
         if (isSuccess) {
@@ -180,11 +182,11 @@ const CreateReportPage = () => {
             currentPath={currentPath}
             isCardHeader={false}
             showBreadcrumb={false}
-            message="Laporkan masalah atau kerusakan di sekitar Anda untuk membantu perbaikan lingkungan."
+            message={t('header_message')}
         />
 
         {isSuccess && (
-            <SuccessSection message={getDataResponseMessage(data) || "Laporan berhasil dikirim!"} />
+            <SuccessSection message={getDataResponseMessage(data) || t('success_default')} />
         )}
 
         {isError && (
@@ -254,7 +256,7 @@ const CreateReportPage = () => {
                                 disabled={currentStep === 0}
                                 variant='outline'
                             >
-                                Kembali
+                                {t('buttons.back')}
                             </Button>
 
                             {currentStep < steps.length - 1 ? (
@@ -268,17 +270,17 @@ const CreateReportPage = () => {
                                     }}
                                     disabled={!validateStep(currentStep)}
                                 >
-                                    Lanjut
+                                    {t('buttons.next')}
                                 </Button>
 
                             ) : (
                                 <Button
                                     className="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium "
-                                    loadingText="Mengirim Laporan..."
+                                    loadingText={t('buttons.submitting')}
                                     type='submit'
                                     isLoading={isPending || reverseLoading}
                                 >
-                                    Kirim Laporan
+                                    {t('buttons.submit')}
                                 </Button>
                             )}
                         </div>

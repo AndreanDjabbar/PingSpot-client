@@ -1,6 +1,7 @@
 import React from 'react';
 import { MultipleImageField } from '@/components';
 import { ImageItem } from '@/types';
+import { useTranslations } from 'next-intl';
 
 interface AttachmentStepProps {
     images: ImageItem[];
@@ -15,19 +16,20 @@ const AttachmentStep: React.FC<AttachmentStepProps> = ({
     onImageClick,
     isResolvedStatus
 }) => {
+    const t = useTranslations('report.edit_report_page.attachment_step');
     return (
         <div>
             <div className="w-full">
                 <div className='flex flex-col justify-center items-center gap-6'>
                     <label htmlFor="reportImages" className="text-md font-semibold text-gray-900 items-center">
-                        Foto Permasalahan (Maks. 5 Foto)
+                        {t('label')}
                     </label>
                     <div>
                         <div className=''>
                             <MultipleImageField
                                 id="reportImages"
                                 withLabel={false}
-                                buttonTitle="Pilih Foto"
+                                buttonTitle={t('button_title')}
                                 width={200}
                                 height={200}
                                 shape="square"
@@ -39,7 +41,7 @@ const AttachmentStep: React.FC<AttachmentStepProps> = ({
                             />
                         </div>
                         <p className="text-sm text-center text-gray-500 mt-1">
-                            Unggah foto untuk membantu identifikasi masalah (opsional)
+                            {t('helper_text')}
                         </p>
                     </div>
                 </div>

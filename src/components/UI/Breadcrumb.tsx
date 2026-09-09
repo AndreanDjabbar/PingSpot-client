@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface BreadcrumbProps {
     path: string;
@@ -23,9 +24,11 @@ const paths = [
 ]
 
 const Breadcrumb = ({ path }: BreadcrumbProps) => {
+    const t = useTranslations('component.breadcrumb');
     const parts = path.split("/").filter(Boolean);
     const items = parts.slice(1).map((part, idx) => {
         return {
+        id: part,
         label: part.charAt(0) + part.slice(1),
         href:
             "/" +
@@ -54,12 +57,12 @@ const Breadcrumb = ({ path }: BreadcrumbProps) => {
                     href={`/${parentPath}/${item.href}`}
                     className="hover:text-primary hover:bg-background transition-colors duration-200 text-2xl"
                     >
-                        {paths.find((p) => p.id === item.label)?.label ?? item.label}
+                        {paths.find((p) => p.id === item.id) ? t(item.id) : item.label}
                     </Link>
                 </>
             ) : (
                 <span className="text-surface font-bold text-2xl">
-                    {paths.find((p) => p.id === item.label)?.label ?? item.label}
+                    {paths.find((p) => p.id === item.id) ? t(item.id) : item.label}
                 </span>
             )}
             </div>

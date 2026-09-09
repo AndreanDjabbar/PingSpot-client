@@ -2,6 +2,7 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import 'leaflet/dist/leaflet.css';
+import { useTranslations } from 'next-intl';
 
 const DynamicMap = dynamic(() => import('../../../../../../components/UI/DynamicMap'), {
     ssr: false,
@@ -24,6 +25,7 @@ const MapStep: React.FC<MapStepProps> = ({
     onZoomLevelChange,
     longitudeError 
 }) => {
+    const t = useTranslations('report.create_report_page.map_step');
     const handleZoomChange = (newZoom: number) => {
         onZoomLevelChange(newZoom);
     }
@@ -33,10 +35,10 @@ const MapStep: React.FC<MapStepProps> = ({
             <div className="w-full bg-gray-100 rounded-lg p-4 border-2 border-dashed border-gray-200">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                     <FaMapMarkerAlt className="mr-2 text-gray-700" />
-                    Pilih Lokasi
+                    {t('title')}
                 </h2>
                 <p className="text-gray-600 mb-4 text-sm">
-                    Klik pada peta untuk menentukan lokasi masalah atau aktifkan lokasi otomatis
+                    {t('description')}
                 </p>
                 <div className="h-[400px] w-full mb-4">
                     <DynamicMap 

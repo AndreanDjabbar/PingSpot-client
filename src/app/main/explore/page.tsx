@@ -6,9 +6,11 @@ import { HeaderSection } from '@/components';
 import { ExploreSearch, ExploreSearchNonModal } from './components';
 import { useSearchData } from '@/hooks';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 
 const ExplorePage = () => {
     const currentPath = usePathname();
+    const t = useTranslations('explore');
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchNonModalOpen, setIsSearchNonModalOpen] = useState(false);
 
@@ -63,7 +65,7 @@ const ExplorePage = () => {
                             currentPath={currentPath || '/main/explore'}
                             isCardHeader={false}
                             showBreadcrumb={false}
-                            message='Jelajahi pengguna, laporan, dan komunitas yang ada di PingSpot untuk terhubung dan berkolaborasi dalam meningkatkan lingkungan bersama.'
+                            message={t('description')}
                         />
                     </div>
                 </div>

@@ -28,8 +28,10 @@ import {
 import { useReportsStore, useLocationStore, useReportFilterModalStore } from '@/stores';
 import { useInView } from 'react-intersection-observer';
 import { FaLocationDot } from 'react-icons/fa6';
+import { useTranslations } from 'next-intl';
 
 const ReportsPage = () => {
+    const t = useTranslations('report');
     const currentPath = usePathname();
     const [searchTerm, setSearchTerm] = useState("");
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
@@ -481,7 +483,7 @@ const ReportsPage = () => {
 
     useSuccessToast(
         isDeleteReportSuccess,
-        deleteReportData || 'Laporan berhasil dihapus'
+        deleteReportData || t('success.deleted')
     );
 
     useEffect(() => {
@@ -571,7 +573,7 @@ const ReportsPage = () => {
     }
 
     if (deleteReportPending) {
-        return <Loading text='Menghapus Laporan...' size='lg' className='absolute inset-0 left-0 xl:left-60'/>
+        return <Loading text={t('deleting')} size='lg' className='absolute inset-0 left-0 xl:left-60'/>
     }
 
     if (isGetReportError) {
@@ -583,18 +585,18 @@ const ReportsPage = () => {
                     <HeaderSection currentPath={currentPath || '/main/reports'}
                     isCardHeader={false}
                     showBreadcrumb={false}
-                    message='Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.'>
+                    message={t('description')}>
                         <Button
                             icon={<BiPlus className='w-5 h-5'/>}
                             onClick={() => router.push('/main/reports/create-report')}
                         >
-                            Buat Laporan
+                            {t('create_report')}
                         </Button>
                     </HeaderSection>
                     
                     <div className='mt-4'>
                         <ErrorSection
-                            message={getErrorResponseMessage(getReportError) || 'Terjadi kesalahan saat mengambil data laporan'}
+                            message={getErrorResponseMessage(getReportError) || t('errors.fetch_failed')}
                             errors={getErrorResponseDetails(getReportError)}
                             onRetry={() => refetchGetReport()}
                             showRetryButton={true}
@@ -612,12 +614,12 @@ const ReportsPage = () => {
                     <HeaderSection currentPath={currentPath || '/main/reports'}
                     isCardHeader={false}
                     showBreadcrumb={false}
-                    message='Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.'>
+                    message={t('description')}>
                         <Button 
                         icon={<BiPlus className='w-5 h-5'/>}
                         onClick={() => router.push('/main/reports/create-report')}
                         >
-                            Buat laporan
+                            {t('create_report')}
                         </Button>
                     </HeaderSection>
                     
@@ -680,36 +682,36 @@ const ReportsPage = () => {
                                     </>
                                 ) : !hasCoords ? (
                                     <EmptyState
-                                        emptyTitle='Lokasi tidak tersedia'
-                                        emptyMessage='Untuk menampilkan laporan di sekitar Anda, izinkan aplikasi mengakses lokasi Anda.'
+                                        emptyTitle={t('empty.no_location.title')}
+                                        emptyMessage={t('empty.no_location.message')}
                                         emptyIcon={<RxCrossCircled />}
                                         showCommandButton={true}
-                                        commandLabel='Deteksi Lokasi'
+                                        commandLabel={t('empty.no_location.command_label')}
                                         commandLoading={loadingRequestLocation}
                                         commandIcon={<FaLocationDot/>}
-                                        commandLoadingMessage='Mendeteksi...'
+                                        commandLoadingMessage={t('empty.no_location.command_loading')}
                                         onCommandButton={() => {requestLocation()}}
                                     />
                                 ) : reports.length === 0 && !isGetReportError && !isUsingFilters ? (
                                     <EmptyState 
-                                        emptyTitle='Belum ada laporan'
-                                        emptyMessage='Jadilah yang pertama membuat laporan untuk komunitas Anda'
+                                        emptyTitle={t('empty.no_reports.title')}
+                                        emptyMessage={t('empty.no_reports.message')}
                                         showCommandButton={true}
-                                        commandLabel='Buat Laporan'
+                                        commandLabel={t('empty.no_reports.command_label')}
                                         emptyIcon={<RxCrossCircled />}
                                         onCommandButton={() => router.push('/main/reports/create-report')} 
                                     />
                                 ) : filteredReports.length === 0 && reports.length === 0 && isUsingFilters ? (
                                     <EmptyState 
-                                        emptyTitle='Tidak ada hasil yang cocok'
+                                        emptyTitle={t('empty.no_results.title')}
                                         emptyMessage={
                                             searchTerm 
-                                                ? `Tidak ada laporan yang cocok dengan "${searchTerm}". Coba kata kunci lain atau hapus filter.`
-                                                : 'Tidak ada laporan yang cocok dengan filter yang dipilih. Coba sesuaikan filter Anda.'
+                                                ? t('empty.no_results.message_with_search', { term: searchTerm })
+                                                : t('empty.no_results.message_no_search')
                                         }
                                         emptyIcon={<RxCrossCircled />}
                                         showCommandButton={true}
-                                        commandLabel={searchTerm ? 'Hapus Pencarian' : 'Reset Filter'}
+                                        commandLabel={searchTerm ? t('empty.no_results.command_clear_search') : t('empty.no_results.command_reset_filter')}
                                         onCommandButton={() => {
                                             setSearchTerm('');
                                             updateReportFilters({

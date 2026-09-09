@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/preserve-manual-memoization */
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import React, { useMemo, useState } from 'react';
@@ -8,6 +9,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useConfirmationModalStore } from '@/stores';
 import { useDeleteAllNotifications, useDeleteNotification, useErrorToast, useGetNotifications, useMarkAllNotificationsAsRead, useMarkNotificationAsRead } from '@/hooks';
 import { getErrorResponseMessage, isInternalServerError } from '@/utils';
+import { useLocale, useTranslations } from 'next-intl';
 
 export interface INotification {
     id: number;
@@ -51,37 +53,15 @@ const getActionUrl = (entityType: INotification['entityType'], entityID?: number
     }
 };
 
-const getActionText = (entityType: INotification['entityType']): string => {
-    switch (entityType) {
-        case 'POST': return 'Lihat Postingan';
-        case 'COMMENT': return 'Lihat Komentar';
-        case 'USER': return 'Lihat Profil';
-        case 'REPORT': return 'Lihat Laporan';
-        case 'COMMUNITY': return 'Lihat Komunitas';
-        default: return 'Lihat Detail';
-    }
-};
-
-const formatTimeAgo = (date: Date): string => {
-    const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-    if (diffInSeconds < 60) return 'Baru saja';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} menit lalu`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} jam lalu`;
-    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} hari lalu`;
-    return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
-};
-
-const getGroupLabel = (date: Date): string => {
+const getGroupLabel = (date: Date, translate: (key: string) => string): string => {
     const now = new Date();
     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const diffDays = Math.floor((startOfToday.getTime() - new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()) / 86400000);
 
-    if (diffDays <= 0) return 'Hari Ini';
-    if (diffDays === 1) return 'Kemarin';
-    if (diffDays < 7) return 'Minggu Ini';
-    return 'Lebih Lama';
+    if (diffDays <= 0) return translate('group_labels.today');
+    if (diffDays === 1) return translate('group_labels.yesterday');
+    if (diffDays < 7) return translate('group_labels.this_week');
+    return translate('group_labels.older');
 };
 
 const NotificationCard: React.FC<{
@@ -97,10 +77,24 @@ const NotificationCard: React.FC<{
     isMarkingAsRead,
     isDeletingNotification
 }) => {
+    const t = useTranslations('notifications');
+    const locale = useLocale();
+    const [today] = useState(() => Date.now());
     const style = SEVERITY_STYLE[notification.type];
     const icon = ENTITY_ICON[notification.entityType];
     const actionUrl = getActionUrl(notification.entityType, notification.entityID);
-    const actionText = actionUrl ? getActionText(notification.entityType) : undefined;
+    const actionText = actionUrl ? t(`action_text.${notification.entityType}`) : undefined;
+    const date = toDate(notification.createdAt);
+    const diffInSeconds = Math.floor((today - date.getTime()) / 1000);
+    const timeAgo = diffInSeconds < 60
+        ? t('time_ago.just_now')
+        : diffInSeconds < 3600
+            ? t('time_ago.minutes', { count: Math.floor(diffInSeconds / 60) })
+            : diffInSeconds < 86400
+                ? t('time_ago.hours', { count: Math.floor(diffInSeconds / 3600) })
+                : diffInSeconds < 604800
+                    ? t('time_ago.days', { count: Math.floor(diffInSeconds / 86400) })
+                    : date.toLocaleDateString(locale, { day: 'numeric', month: 'short' });
 
     const handleDelete = () => {
         onDelete(notification.id);
@@ -135,7 +129,7 @@ const NotificationCard: React.FC<{
                     </p>
                     <div className="flex items-center gap-3 mt-2.5">
                         <span className="text-xs text-gray-500">
-                            {formatTimeAgo(toDate(notification.createdAt))}
+                            {timeAgo}
                         </span>
                         {actionText && (
                             <>
@@ -158,8 +152,8 @@ const NotificationCard: React.FC<{
                         onClick={() => onMarkAsRead(notification.id)}
                         disabled={isMarkingAsRead}
                         className="p-2 hover:bg-primary/10 rounded-lg transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                        title="Tandai sudah dibaca"
-                        aria-label="Tandai sudah dibaca"
+                        title={t('actions.mark_as_read')}
+                        aria-label={t('actions.mark_as_read')}
                     >
                         <FiCheck className="w-4 h-4 text-primary" />
                     </button>
@@ -168,8 +162,8 @@ const NotificationCard: React.FC<{
                     onClick={handleDelete}
                     className="p-2 hover:bg-danger/10 rounded-lg transition-colors cursor-pointer"
                     disabled={isDeletingNotification}
-                    title="Hapus notifikasi"
-                    aria-label="Hapus notifikasi"
+                    title={t('actions.delete')}
+                    aria-label={t('actions.delete')}
                 >
                     <FiTrash2 className="w-4 h-4 text-danger" />
                 </button>
@@ -219,6 +213,7 @@ const Skeleton: React.FC = () => (
 );
 
 const NotificationsPage: React.FC = () => {
+    const t = useTranslations('notifications');
     const [filter, setFilter] = useState<'all' | 'unread'>('all');
     const currentPath = usePathname();
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
@@ -270,7 +265,7 @@ const NotificationsPage: React.FC = () => {
     const grouped = useMemo(() => {
         const groups = new Map<string, INotification[]>();
         for (const n of filteredNotifications || []) {
-            const label = getGroupLabel(toDate(n.createdAt));
+            const label = getGroupLabel(toDate(n.createdAt), t);
             if (!groups.has(label)) groups.set(label, []);
             groups.get(label)!.push(n);
         }
@@ -280,11 +275,11 @@ const NotificationsPage: React.FC = () => {
     const handleDeleteAllConfirmation = () => {
         openConfirm({
             type: "danger",
-            title: "Konfirmasi Penghapusan",
-            subtitle: "Apakah Anda yakin ingin menghapus semua notifikasi?",
+            title: t('delete_all_modal.title'),
+            subtitle: t('delete_all_modal.subtitle'),
             isPending: false,
-            description: "Notifikasi yang dihapus tidak dapat dikembalikan.",
-            confirmTitle: "Ya, Hapus",
+            description: t('delete_all_modal.description'),
+            confirmTitle: t('delete_all_modal.confirm'),
             onConfirm: () => {
                 handleDeleteAll();
             },
@@ -294,11 +289,11 @@ const NotificationsPage: React.FC = () => {
     const handleDeleteConfirmation = (id: number) => {
         openConfirm({
             type: "danger",
-            title: "Konfirmasi Penghapusan",
-            subtitle: "Apakah Anda yakin ingin menghapus notifikasi ini?",
+            title: t('delete_one_modal.title'),
+            subtitle: t('delete_one_modal.subtitle'),
             isPending: false,
-            description: "Notifikasi yang dihapus tidak dapat dikembalikan.",
-            confirmTitle: "Ya, Hapus",
+            description: t('delete_one_modal.description'),
+            confirmTitle: t('delete_one_modal.confirm'),
             onConfirm: () => {
                 handleDelete(id);
             },
@@ -321,11 +316,11 @@ const NotificationsPage: React.FC = () => {
         deleteAllNotificationsMutation();
     };
 
-    useErrorToast(isErrorFetchingNotifications, errorFetchingNotifications || "Gagal memuat data notifikasi.");
-    useErrorToast(isErrorMarkingAsRead, errorMarkingAsRead || "Gagal menandai notifikasi sebagai sudah dibaca.");
-    useErrorToast(isErrorMarkingAllAsRead, errorMarkingAllAsRead || "Gagal menandai semua notifikasi sebagai sudah dibaca.");
-    useErrorToast(isErrorDeletingNotification, errorDeletingNotification || "Gagal menghapus notifikasi.");
-    useErrorToast(isErrorDeletingAllNotifications, errorDeletingAllNotifications || "Gagal menghapus semua notifikasi.");
+    useErrorToast(isErrorFetchingNotifications, errorFetchingNotifications || t('errors.fetch_failed'));
+    useErrorToast(isErrorMarkingAsRead, errorMarkingAsRead || t('errors.mark_read_failed'));
+    useErrorToast(isErrorMarkingAllAsRead, errorMarkingAllAsRead || t('errors.mark_all_read_failed'));
+    useErrorToast(isErrorDeletingNotification, errorDeletingNotification || t('errors.delete_failed'));
+    useErrorToast(isErrorDeletingAllNotifications, errorDeletingAllNotifications || t('errors.delete_all_failed'));
 
     if (isFetchingNotifications) {
         return <Skeleton />;
@@ -408,7 +403,7 @@ const NotificationsPage: React.FC = () => {
                     isCardHeader={false}
                     currentPath={currentPath}
                     showBreadcrumb={false}
-                    message="Kelola dan pantau semua notifikasi Anda, mulai dari pengingat, aktivitas terbaru, hingga informasi penting yang perlu segera ditindaklanjuti."
+                    message={t('description')}
                 />
             </div>
 
@@ -425,7 +420,7 @@ const NotificationsPage: React.FC = () => {
                                     : 'text-gray-500 hover:text-surface'
                             )}
                         >
-                            Semua
+                            {t('filters.all')}
                         </button>
                         <button
                             onClick={() => setFilter('unread')}
@@ -436,7 +431,7 @@ const NotificationsPage: React.FC = () => {
                                     : 'text-gray-500 hover:text-surface'
                             )}
                         >
-                            Belum Dibaca
+                            {t('filters.unread')}
                             {unreadCount > 0 && (
                                 <span className={cn(
                                     'inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[11px] font-bold rounded-full bg-danger text-white',
@@ -457,7 +452,7 @@ const NotificationsPage: React.FC = () => {
                                 className="text-primary hover:text-primary-hover px-2 py-1.5 "
                                 icon={<FiCheckCircle className="w-4 h-4" />}
                             >
-                                Tandai semua dibaca
+                                {t('actions.mark_all_read')}
                             </Button>
                         )}
                         <Button
@@ -468,7 +463,7 @@ const NotificationsPage: React.FC = () => {
                             icon={<FiTrash2 className="w-4 h-4" />}
                             className="text-danger transition-colors px-2 py-1.5 focus:ring-danger"
                         >
-                            Hapus semua
+                            {t('actions.delete_all')}
                         </Button>
                     </div>
                 </div>
@@ -499,14 +494,14 @@ const NotificationsPage: React.FC = () => {
             ) : (
                 <div className="flex justify-center mt-30 text-center">
                     <EmptyState
-                        emptyTitle={filter === 'unread' ? 'Semua sudah dibaca' : 'Belum ada notifikasi'}
+                        emptyTitle={filter === 'unread' ? t('empty.all_read.title') : t('empty.no_notifications.title')}
                         emptyMessage={filter === 'unread'
-                            ? 'Anda sudah membaca semua notifikasi. Kembali lagi nanti untuk pembaruan.'
-                            : 'Notifikasi baru akan muncul di sini.'}
+                            ? t('empty.all_read.message')
+                            : t('empty.no_notifications.message')}
                         emptyIcon={<FiBell />}
                         className=''
                         showCommandButton={true}
-                        commandLoadingMessage='Memuat notifikasi...'
+                        commandLoadingMessage={t('empty.command_loading')}
                     />
                 </div>
             )}

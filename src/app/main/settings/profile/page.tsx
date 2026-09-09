@@ -20,10 +20,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSaveProfile, useErrorToast, useSuccessToast } from '@/hooks';
 import { useConfirmationModalStore, useUserProfileStore } from '@/stores';
+import { useTranslations } from 'next-intl';
 import { compressImages, getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage, getImageURL } from '@/utils';
 
 const ProfilePage = () => {
     const currentPath = usePathname();
+    const t = useTranslations('settings.profile');
 
     const [profilePicture, setProfilePicture] = useState<File | null>(null);
     const [birthdayDate, setBirthdayDate] = useState<string>('');
@@ -58,8 +60,8 @@ const ProfilePage = () => {
     const genderValue = watch('gender');
     
     const genderOptions = [
-        { value: 'male', label: 'Laki-laki' },
-        { value: 'female', label: 'Perempuan' },
+        { value: 'male', label: t('gender.options.male') },
+        { value: 'female', label: t('gender.options.female') },
     ];
     const prepareFormData = async(formData: ISaveProfileRequest): Promise<FormData> => {
         const data = new FormData();
@@ -108,11 +110,11 @@ const ProfilePage = () => {
     const onSubmit = async (formData: ISaveProfileRequest) => {
         openConfirm({
             type: "info",
-            title: "Konfirmasi Perubahan Profil",
-            subtitle: "Apakah Anda yakin ingin ubah?",
+            title: t('confirm_modal.title'),
+            subtitle: t('confirm_modal.subtitle'),
             isPending: isPending,
-            description: "Informasi profil anda akan diubah.",
-            confirmTitle: "Ubah",
+            description: t('confirm_modal.description'),
+            confirmTitle: t('confirm_modal.confirm'),
             onConfirm: async() => await submitData(formData),  
         });
     };
@@ -144,7 +146,7 @@ const ProfilePage = () => {
             <HeaderSection 
             currentPath={currentPath}
             isCardHeader={false}
-            message='Sesuaikan PingSpot dengan preferensi Anda untuk pengalaman yang lebih baik.'/>
+            message={t('description')}/>
 
             {isSuccess && (
                 <SuccessSection message={getDataResponseMessage(data)}/>
@@ -165,9 +167,9 @@ const ProfilePage = () => {
                                     <ImageField
                                         id="profilePicture"
                                         withLabel={true}
-                                        labelTitle="Foto Profil"
+                                        labelTitle={t('profile_picture.label')}
                                         usingCrop
-                                        buttonTitle="Pilih Foto"
+                                        buttonTitle={t('profile_picture.button')}
                                         currentImage={getImageURL(user?.profilePicture || '', "user")}
                                         onChange={(file) => {
                                             setProfilePicture(file);                             
@@ -182,7 +184,7 @@ const ProfilePage = () => {
                                     />
                                     {profilePicture && (
                                         <div className="mt-2 text-sm text-green-600">
-                                            File dipilih: {profilePicture.name}
+                                            {t('profile_picture.file_selected', { fileName: profilePicture.name })}
                                         </div>
                                     )}
                                     <div className="text-danger-dark text-sm font-semibold">{errors.profilePicture?.message as string}</div>
@@ -196,9 +198,9 @@ const ProfilePage = () => {
                                             type="text"
                                             className="w-full"
                                             withLabel={true}
-                                            labelTitle="Nama Lengkap"
+                                            labelTitle={t('full_name.label')}
                                             icon={<IoPersonSharp size={20}/>} 
-                                            placeHolder="Masukkan nama lengkap Anda"
+                                            placeHolder={t('full_name.placeholder')}
                                         />
                                         <div className="text-danger-dark text-sm font-semibold">{errors.fullName?.message as string}</div>
                                     </div>
@@ -209,9 +211,9 @@ const ProfilePage = () => {
                                             type="text"
                                             className="w-full"
                                             withLabel={true}
-                                            labelTitle="Username"
+                                            labelTitle={t('username.label')}
                                             icon={<IoPersonSharp size={20}/>} 
-                                            placeHolder="Masukkan username Anda"
+                                            placeHolder={t('username.placeholder')}
                                         />
                                         <div className="text-danger-dark text-sm font-semibold">{errors.username?.message as string}</div>
                                     </div>
@@ -228,7 +230,7 @@ const ProfilePage = () => {
                                                 setValue("birthday", e.target.value);
                                             }}
                                             value={user?.birthday || ''}
-                                            labelTitle="Tanggal Lahir"
+                                            labelTitle={t('birthday.label')}
                                             icon={<FaCalendarAlt />}
                                             withLabel={true}
                                             max={"2023-12-31"}
@@ -243,7 +245,7 @@ const ProfilePage = () => {
                                             name="gender"
                                             withLabel={true}
                                             register={register("gender")}
-                                            labelTitle="Jenis Kelamin"
+                                            labelTitle={t('gender.label')}
                                             options={genderOptions}
                                             value={genderValue || ''}
                                             onChange={(val) => {
@@ -261,8 +263,8 @@ const ProfilePage = () => {
                                         className="w-full"
                                         withLabel={true}
                                         register={register("bio")}
-                                        labelTitle="Bio Anda"
-                                        placeholder="Masukkan bio Anda"
+                                        labelTitle={t('bio.label')}
+                                        placeholder={t('bio.placeholder')}
                                     />
                                     <div className="text-danger-dark text-sm font-semibold">{errors.bio?.message as string}</div>
                                 </div>
@@ -270,11 +272,11 @@ const ProfilePage = () => {
                                 <div className="w-full flex justify-end mt-6">
                                     <Button
                                         className="group relative w-full flex items-center justify-center py-3 px-4 text-sm font-medium rounded-lg text-white bg-pingspot-hoverable "
-                                        loadingText="Memperbarui..."
+                                        loadingText={t('submit.loading')}
                                         type='submit'
                                         isLoading={isPending || isCompressing}
                                     >
-                                        Perbarui Profil
+                                        {t('submit.default')}
                                     </Button>
                                 </div>
                             </div>

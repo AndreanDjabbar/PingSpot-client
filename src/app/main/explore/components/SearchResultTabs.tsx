@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaUser, FaUsers } from 'react-icons/fa';
 import { GoAlert } from 'react-icons/go';
 import { TabType } from '@/types';
+import { useTranslations } from 'next-intl';
 
 interface SearchResultTabsProps {
     activeTab: TabType;
@@ -19,10 +20,11 @@ const SearchResultTabs: React.FC<SearchResultTabsProps> = ({
     reportCount,
     communityCount
 }) => {
+    const t = useTranslations('explore.tabs');
     const tabs = [
-        { id: 'users' as TabType, label: 'Pengguna', icon: FaUser, count: userCount },
-        { id: 'reports' as TabType, label: 'Laporan', icon: GoAlert, count: reportCount },
-        { id: 'communities' as TabType, label: 'Komunitas', icon: FaUsers, count: communityCount }
+        { id: 'users' as TabType, label: t('users'), icon: FaUser, count: userCount },
+        { id: 'reports' as TabType, label: t('reports'), icon: GoAlert, count: reportCount },
+        { id: 'communities' as TabType, label: t('communities'), icon: FaUsers, count: communityCount }
     ];
 
     return (
@@ -56,11 +58,11 @@ const SearchResultTabs: React.FC<SearchResultTabsProps> = ({
                                         ease: "easeInOut"
                                     }}
                                 >
-                                    <Icon className="w-4 h-4 flex-shrink-0" />
+                                    <Icon className="w-4 h-4 shrink-0" />
                                 </motion.div>
                                 
                                 <motion.span 
-                                    className="flex-shrink-0"
+                                    className="shrink-0"
                                     transition={{
                                         duration: 0.3,
                                         ease: "easeOut"
@@ -72,7 +74,7 @@ const SearchResultTabs: React.FC<SearchResultTabsProps> = ({
                                 <AnimatePresence mode="wait">
                                     <motion.span 
                                         key={`${tab.id}-${tab.count}`}
-                                        className={`px-2 py-0.5 rounded-full text-xs font-semibold flex-shrink-0 ${
+                                        className={`px-2 py-0.5 rounded-full text-xs font-semibold shrink-0 ${
                                             isActive
                                                 ? 'bg-primary/20 text-primary'
                                                 : 'bg-gray-200 text-gray-700'

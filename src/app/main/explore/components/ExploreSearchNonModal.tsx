@@ -12,6 +12,7 @@ import { getImageURL } from '@/utils';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components';
+import { useTranslations } from 'next-intl';
 
 interface SearchResult {
     users: IUserProfile[];
@@ -19,45 +20,20 @@ interface SearchResult {
     communities: any[];
 }
 
-const getReportTypeLabel = (type: ReportType): string => {
-    const types = {
-        INFRASTRUCTURE: 'Infrastruktur',
-        ENVIRONMENT: 'Lingkungan',
-        SAFETY: 'Keamanan',
-        TRAFFIC: 'Lalu Lintas',
-        PUBLIC_FACILITY: 'Fasilitas Umum',
-        WASTE: 'Sampah',
-        WATER: 'Air',
-        ELECTRICITY: 'Listrik',
-        HEALTH: 'Kesehatan',
-        SOCIAL: 'Sosial',
-        EDUCATION: 'Pendidikan',	
-        ADMINISTRATIVE: 'Administratif',
-        DISASTER: 'Bencana Alam',
-        OTHER: 'Lainnya'
-    };
-    return types[type] || 'Lainnya';
-};
-
-const reportStatus: Record<string, { label: string; color: string }> = {
+const reportStatus: Record<string, { color: string }> = {
     RESOLVED: {
-        label: 'Terselesaikan',
         color: 'bg-green-700 border-green-700 text-white'
     },
     EXPIRED: {
-        label: 'Kadaluarsa',
         color: 'bg-indigo-700 text-white'
     },
     WAITING_CONFIRMATION: {
-        label: 'Menunggu Konfirmasi',
         color: 'bg-sky-600 border-sky-600 text-white'
     },
     ON_PROGRESS: {
-        label: 'Sedang Dikerjakan',
         color: 'bg-yellow-500 text-white'
     },
     WAITING: {
-        label: 'Menunggu',
         color: 'bg-gray-500 text-white'
     }
 }
@@ -101,6 +77,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
     refetch
 }) => {
     const router = useRouter();
+    const t = useTranslations('explore');
     const [activeTab, setActiveTab] = useState<TabType>('users');
     const [searchResults, setSearchResults] = useState<SearchResult>({
         users: [],
@@ -176,10 +153,10 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                 <AiOutlineLoading3Quarters className="w-7 h-7 text-primary animate-spin" />
             </div>
             <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                Mencari...
+                {t('loading_state.title')}
             </h4>
             <p className="text-gray-600 text-sm max-w-xs mx-auto">
-                Sedang mencari {activeTab === 'users' ? 'pengguna' : activeTab === 'reports' ? 'laporan' : 'komunitas'}
+                {t('loading_state.message', { type: t(`result_type_noun.${activeTab}`) })}
             </p>
         </div>
     );
@@ -190,10 +167,10 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                 <GoAlert className="w-7 h-7 text-red-600" />
             </div>
             <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                Terjadi Kesalahan
+                {t('error_state.title')}
             </h4>
             <p className="text-gray-600 text-sm max-w-xs mx-auto mb-4">
-                {error?.message || 'Gagal memuat hasil pencarian. Silakan coba lagi.'}
+                {error?.message || t('error_state.default_message')}
             </p>
             <Button
                 onClick={() => {
@@ -202,7 +179,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                 variant='primary'
                 className="px-4 py-2 text-sm w-full md:w-auto"
             >
-                Coba Lagi
+                {t('error_state.retry')}
             </Button>
         </div>
     );
@@ -225,10 +202,10 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                         <FaSearch className="w-7 h-7 text-gray-400" />
                     </div>
                     <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                        Mulai Pencarian Anda
+                        {t('prompt_state.title')}
                     </h4>
                     <p className="text-gray-600 text-sm max-w-xs mx-auto">
-                        Ketik minimal 3 karakter untuk mencari {activeTab === 'users' ? 'pengguna' : activeTab === 'reports' ? 'laporan' : 'komunitas'}
+                        {t('prompt_state.min_chars_message', { type: t(`result_type_noun.${activeTab}`) })}
                     </p>
                 </div>
             )
@@ -241,10 +218,10 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                         <FaSearch className="w-7 h-7 text-gray-400" />
                     </div>
                     <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                        Tidak Ada Hasil
+                        {t('empty_results.title')}
                     </h4>
                     <p className="text-gray-600 text-sm max-w-xs mx-auto">
-                        Tidak ditemukan {activeTab === 'users' ? 'pengguna' : activeTab === 'reports' ? 'laporan' : 'komunitas'} untuk pencarian Anda.
+                        {t('empty_results.message', { type: t(`result_type_noun.${activeTab}`) })}
                     </p>
                 </div>
             );
@@ -299,9 +276,9 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                                     <p className="font-semibold text-gray-800">{report.reportTitle}</p>
                                     <div className="flex items-center gap-2 mt-1">
                                         <span className={`inline-flex items-center px-3 py-1 bg-primary/10 text-xs font-bold text-primary rounded-full`}>
-                                            {getReportTypeLabel(report.reportType)}
+                                            {t(`report_types.${report.reportType}`)}
                                         </span>
-                                        <span className={`text-xs  px-3 py-1 rounded-full font-semibold ${reportStatus[report.reportStatus].color}`}>{reportStatus[report.reportStatus].label}</span>
+                                        <span className={`text-xs  px-3 py-1 rounded-full font-semibold ${reportStatus[report.reportStatus].color}`}>{t(`report_status.${report.reportStatus}`)}</span>
                                     </div>
                                 </div>
                             </div>
@@ -315,7 +292,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                                 </div>
                                 <div>
                                     <p className="font-semibold text-gray-800">{community.name}</p>
-                                    <p className="text-sm text-gray-600">{community.members} members</p>
+                                    <p className="text-sm text-gray-600">{t('members_count', { count: community.members })}</p>
                                 </div>
                             </div>
                         </div>
@@ -327,7 +304,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                         {isFetchingNextPage && (
                             <div className="flex items-center space-x-2 text-primary/70">
                                 <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
-                                <span className="text-sm">Memuat lebih banyak...</span>
+                                <span className="text-sm">{t('loading_more')}</span>
                             </div>
                         )}
                     </div>
@@ -353,10 +330,10 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                                     <div className="flex items-center justify-between border-b border-gray-200 p-3">
                                         <div>
                                             <h3 className="text-sm font-semibold text-surface">
-                                                Hasil Pencarian
+                                                {t('results_header.title')}
                                             </h3>
                                             <p className="text-xs text-surface/80 mt-0.5">
-                                                Menampilkan hasil untuk <span className="font-semibold text-primary">&ldquo;{searchTerm}&rdquo;</span>
+                                                {t('results_header.showing_for', { term: searchTerm })}
                                             </p>
                                         </div>
                                         {isLoading && (
@@ -381,10 +358,10 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                                         <FaSearch className="w-7 h-7 text-gray-400" />
                                     </div>
                                     <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                                        Mulai Pencarian Anda
+                                        {t('prompt_state.title')}
                                     </h4>
                                     <p className="text-gray-600 text-sm max-w-xs mx-auto">
-                                        Ketik kata kunci untuk mencari pengguna, laporan, lokasi, atau komunitas
+                                        {t('prompt_state.initial_message')}
                                     </p>
                                 </div>
                             )}

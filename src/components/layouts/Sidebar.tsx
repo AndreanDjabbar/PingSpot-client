@@ -13,6 +13,7 @@ import { IconType } from "react-icons/lib";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { ImExit } from "react-icons/im";
 import { useErrorToast, useLogout, useSuccessToast } from "@/hooks";
+import { useTranslations } from "next-intl";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -59,7 +60,7 @@ const ButtonSidebar = React.forwardRef<HTMLButtonElement, SidebarButton>(({
             <>
                 <span className="ml-3 font-medium">{item.label}</span>
                 {item.badge && (
-                <span className="ml-auto bg-danger text-background text-xs rounded-full px-2 py-1 min-w-[20px] h-5 flex items-center justify-center">
+                <span className="ml-auto bg-danger text-background text-xs rounded-full px-2 py-1 min-w-5 h-5 flex items-center justify-center">
                     {item.badge}
                 </span>
                 )}
@@ -92,6 +93,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     onBottomNavHeightChange 
 }) => {
     const router = useRouter();
+    const t = useTranslations('component.sidebar');
     const currentPath = usePathname().split('/')[2] || 'home';
     const { setCurrentPage } = useGlobalStore();
     const user = useUserProfileStore(state => state.userProfile);
@@ -101,12 +103,12 @@ const Sidebar: React.FC<SidebarProps> = ({
 
     const logoutConfirmationModal = () => {
         openConfirm({
-            type: "warning",
-            title: "Konfirmasi Keluar",
-            subtitle: "Apakah Anda yakin ingin keluar?",
+            type: "danger",
+            title: t('logout_modal.title'),
+            subtitle: t('logout_modal.subtitle'),
             isPending: isPending,
-            description: "Anda akan keluar dari sesi Pingspot saat ini.",
-            confirmTitle: "Keluar",
+            description: t('logout_modal.description'),
+            confirmTitle: t('logout_modal.confirm'),
             onConfirm: () => confirmLogout(),
         });
     }
@@ -163,8 +165,8 @@ const Sidebar: React.FC<SidebarProps> = ({
                         <div className={`p-4 border-b border-white`}>
                             <div className="">
                                 <ProfileBadge
-                                    name={user?.username || 'User'}
-                                    email={user?.email || 'User@email.com'}
+                                    name={user?.username || t('user_defaults.name')}
+                                    email={user?.email || t('user_defaults.email')}
                                     imageUrl={user?.profilePicture}
                                     size="md"
                                     onClick={() => router.push('/main/profile/' + user?.username)}
@@ -177,7 +179,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                                 {navigationItems.map((item) => (
                                     <ButtonSidebar
                                         key={item.id}
-                                        item={item}
+                                        item={{ ...item, label: t(`nav.${item.id}`) }}
                                         isActive={item.id === currentPath}
                                         onClick={() => {
                                             onToggle();
@@ -189,7 +191,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                                 <ButtonSidebar
                                     item={{
                                         id: 'logout',
-                                        label: 'Keluar',
+                                        label: t('nav.logout'),
                                         icon: ImExit
                                     }}
                                     disabled={isPending}

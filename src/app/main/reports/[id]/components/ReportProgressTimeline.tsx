@@ -11,6 +11,7 @@ import { Accordion, Button } from '@/components';
 import { RiProgress3Fill } from 'react-icons/ri';
 import { MdDone } from 'react-icons/md';
 import { LuLock } from 'react-icons/lu';
+import { useTranslations } from 'next-intl';
 
 interface ReportProgressTimelineProps {
     report: IReport;
@@ -24,16 +25,17 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
     onImageClick 
 }) => {
     const router = useRouter();
+    const t = useTranslations('report.component.report_progress_timeline');
 
     return (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
             <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-base text-gray-900">Perkembangan Laporan</h3>
+                <h3 className="font-bold text-base text-gray-900">{t('title')}</h3>
             </div>
             
             {report.reportProgress && report.reportProgress.length > 0 ? (
                 <div className="space-y-4">
-                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
+                    <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
                         {(() => {
                             const latestProgress = report.reportProgress[0];
                             const latestImages = [
@@ -44,7 +46,7 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                             return (
                                 <>
                                     <div className="flex items-center justify-between mb-3">
-                                        <p className="text-xs font-bold text-primary uppercase tracking-wide">Perkembangan Terakhir</p>
+                                        <p className="text-xs font-bold text-primary uppercase tracking-wide">{t('latest_progress_label')}</p>
                                         <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${
                                             latestProgress.status === 'RESOLVED' 
                                                 ? 'bg-green-100 text-green-800' 
@@ -53,10 +55,10 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                                                 : 'bg-red-100 text-red-800'
                                         }`}>
                                             {latestProgress.status === 'RESOLVED' 
-                                                ? 'Terselesaikan' 
+                                                ? t('status_labels.RESOLVED')
                                                 : latestProgress.status === 'ON_PROGRESS'
-                                                ? 'Dalam Proses'
-                                                : 'Tidak Ada Proses'}
+                                                ? t('status_labels.ON_PROGRESS')
+                                                : t('status_labels.default')}
                                         </span>
                                     </div>
                                     
@@ -97,7 +99,7 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
 
                     {report.reportProgress.length > 1 && (
                         <Accordion type="single" defaultValue={[]}>
-                            <Accordion.Item id="progress-history" title={`Riwayat Perkembangan (${report.reportProgress.length})`}>
+                            <Accordion.Item id="progress-history" title={t('history_accordion_title', { count: report.reportProgress.length })}>
                                 <div className="max-h-[500px] overflow-y-auto  mt-2">
                                     <div className="space-y-4">
                                         <div className="relative">
@@ -111,16 +113,16 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                                                 return (
                                                     <div key={`${progress.id}-${index}`} className="relative pb-6">
                                                         {!isLast && (
-                                                            <div className="absolute left-4 top-8 bottom-0 w-0.5 bg-gradient-to-b from-blue-200 to-gray-200"></div>
+                                                            <div className="absolute left-4 top-8 bottom-0 w-0.5 bg-linear-to-b from-blue-200 to-gray-200"></div>
                                                         )}
                                                         
                                                         <div className="flex items-start gap-3">
-                                                            <div className={`relative z-10 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md ${
+                                                            <div className={`relative z-10 shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md ${
                                                                 progress.status === 'RESOLVED' 
-                                                                    ? 'bg-gradient-to-br from-green-400 to-green-600' 
+                                                                    ? 'bg-linear-to-br from-green-400 to-green-600' 
                                                                     : progress.status === 'ON_PROGRESS'
-                                                                    ? 'bg-gradient-to-br from-yellow-400 to-yellow-600'
-                                                                    : 'bg-gradient-to-br from-red-400 to-red-600'
+                                                                    ? 'bg-linear-to-br from-yellow-400 to-yellow-600'
+                                                                    : 'bg-linear-to-br from-red-400 to-red-600'
                                                             }`}>
                                                                 {progress.status === 'RESOLVED' ? (
                                                                     <MdDone className='text-white' size={20}/>
@@ -148,10 +150,10 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                                                                                 : 'text-red-700'
                                                                         }`}>
                                                                             {progress.status === 'RESOLVED' 
-                                                                                ? 'Terselesaikan' 
+                                                                                ? t('status_labels.RESOLVED')
                                                                                 : progress.status === 'ON_PROGRESS'
-                                                                                ? 'Dalam Proses'
-                                                                                : 'Tidak Ada Proses'}
+                                                                                ? t('status_labels.ON_PROGRESS')
+                                                                                : t('status_labels.default')}
                                                                         </span>
                                                                         <span className="text-xs text-gray-500">
                                                                             {formattedDate(progress.createdAt, {
@@ -204,7 +206,7 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                                 disabled={report.reportStatus && report.reportStatus === 'RESOLVED'}
                                 size='sm'
                             >
-                                Perbarui
+                                {t('update_button')}
                             </Button>
                         </div>
                     )}
@@ -216,9 +218,9 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                             <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-gray-100 flex items-center justify-center">
                                 <IoDocumentText size={32}/>
                             </div>
-                            <p className="text-sm font-medium text-gray-900 mb-1">Belum Ada Perkembangan</p>
+                            <p className="text-sm font-medium text-gray-900 mb-1">{t('empty_state.has_progress.title')}</p>
                             <p className="text-xs text-gray-500">
-                                Perkembangan laporan akan ditampilkan di sini
+                                {t('empty_state.has_progress.subtitle')}
                             </p>
                             {isReportOwner && (
                                 <div className="mt-4">
@@ -227,7 +229,7 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                                         icon={<BiEdit />}
                                         size='sm'
                                     >
-                                        Perbarui
+                                        {t('update_button')}
                                     </Button>
                                 </div>
                             )}
@@ -237,9 +239,9 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                             <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-gray-100 flex items-center justify-center">
                                 <LuLock size={32}/>
                             </div>
-                            <p className="text-sm font-medium text-gray-900 mb-1">Tidak ada Progress</p>
+                            <p className="text-sm font-medium text-gray-900 mb-1">{t('empty_state.no_progress_type.title')}</p>
                             <p className="text-xs text-gray-500">
-                                Tipe laporan ini tidak akan menampilkan perkembangan laporan
+                                {t('empty_state.no_progress_type.subtitle')}
                             </p>
                         </div>
                     )}

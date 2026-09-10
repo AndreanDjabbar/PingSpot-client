@@ -435,6 +435,76 @@
                     "apply": "Terapkan Filter"
                 }
             }
+        },
+        "image_field": {
+            "inline_image_upload": {
+                "error_invalid_type": "Pilih file gambar (JPG, PNG, GIF)",
+                "error_too_large": "Ukuran gambar maksimal {maxSizeMB}MB",
+                "preview_alt": "Pratinjau gambar",
+                "remove_aria": "Hapus gambar",
+                "upload_aria": "Unggah gambar"
+            },
+            "multiple_image_field": {
+                "default_label": "Foto Permasalahan",
+                "default_button": "Pilih Foto",
+                "image_alt": "Image {index}",
+                "add_photo": "Tambah Foto",
+                "count_suffix": "({current}/{max})",
+                "format_hint": "Format: JPG, PNG, GIF (Maks. 5 MB) - Maksimal {maxImages} foto"
+            },
+            "image_field": {
+                "default_label": "Foto Profil",
+                "default_button": "Pilih Foto",
+                "remove_button": "Hapus",
+                "alt": "Profile picture",
+                "format_hint": "Format: JPG, PNG, GIF (Maks. 5 MB)",
+                "crop_modal": {
+                    "title": "Crop Gambar",
+                    "zoom_label": "Zoom",
+                    "cancel_button": "Batal",
+                    "save_button": "Simpan"
+                }
+            }
+        },
+        "map": {
+            "dynamic_map": {
+                "location_permission_error": "Gagal mendeteksi lokasi Anda. Silahkan izinkan akses lokasi di pengaturan browser Anda.",
+                "popup_default": {
+                    "line1": "Lokasi laporan",
+                    "line2": "Lat: {lat}, Lng: {lng}"
+                },
+                "buttons": {
+                    "searching_location": "Mencari lokasi...",
+                    "use_my_location": "Gunakan Lokasi Saya",
+                    "detect_my_location": "Deteksi Lokasi Saya",
+                    "back_to_marker": "Kembali ke Marker"
+                }
+            },
+            "map": {
+                "title": "Peta",
+                "buttons": {
+                    "requesting_location": "Meminta Lokasi...",
+                    "grant_location_access": "Izin akses lokasi",
+                    "updating": "Memperbarui...",
+                    "update_location": "Perbarui Lokasi"
+                },
+                "last_updated": "Diperbarui: {timestamp}",
+                "your_location_popup": {
+                    "line1": "Lokasi Anda",
+                    "fallback": "Lokasi saat ini"
+                },
+                "empty_state": {
+                    "message": "Lokasi belum tersedia",
+                    "hint": "Klik \"Izin akses lokasi\" untuk menampilkan peta"
+                },
+                "address": {
+                    "searching": "Mencari alamat...",
+                    "your_location_label": "Lokasi Anda:",
+                    "not_found": "Alamat tidak ditemukan",
+                    "lat_label": "Lat: {lat}",
+                    "lng_label": "Lng: {lng}"
+                }
+            }
         }
     },
     "report": {
@@ -694,6 +764,88 @@
                 "view_all": "Lihat Semua Teman"
             }
         },
+        "report_voting": {
+            "vote_status": {
+                "RESOLVED": { "label": "Terselesaikan", "description": "Masalah selesai" },
+                "ON_PROGRESS": { "label": "Dalam Proses", "description": "Sedang ditangani" }
+            },
+            "public_votes": {
+                "title": "Pendapat Komunitas",
+                "vote_count": "{count} vote",
+                "subtitle": "Pendapat komunitas mengenai proses perkembangan laporan:"
+            },
+            "voting_section": {
+                "cannot_vote": {
+                    "title": "Tidak Bisa Memberi Pendapat",
+                    "subtitle": "Anda tidak dapat memberikan pendapat pada laporan ini.",
+                    "description": "Pengguna hanya dapat memberikan pendapat satu kali pada setiap laporan (kecuali ada konfirmasi perubahan status dari pemilik laporan).",
+                    "confirm_button": "Tutup"
+                },
+                "vote_confirm": {
+                    "title": "Konfirmasi Pemilihan Status Laporan",
+                    "subtitle": "Apakah Anda yakin memilih status \"{status}\" sebagai pendapat untuk laporan ini?",
+                    "description": "Anda hanya dapat memberikan pendapat satu kali pada setiap laporan (kecuali ada konfirmasi perubahan status dari pemilik laporan). Status laporan akan diperbarui sesuai pilihan Anda.",
+                    "confirm_button": "Ya, Pilih Status"
+                },
+                "resolved_banner": {
+                    "title": "Laporan Terselesaikan",
+                    "subtitle": "Voting ditutup"
+                },
+                "expired_banner": {
+                    "title": "Laporan Kadaluarsa",
+                    "subtitle": "Voting ditutup hingga laporan diperbarui oleh pembuat laporan"
+                },
+                "vote_prompt": {
+                    "title": "Bagaimana pendapat Anda tentang laporan ini?",
+                    "subtitle": "Pilih salah satu untuk memberikan pendapat"
+                },
+                "your_vote": {
+                    "label": "Pendapat Anda:",
+                    "thanks": "Anda telah memberikan pendapat pada laporan ini. Terima kasih atas partisipasi Anda!"
+                }
+            }
+        },
+        "report_progress": {
+            "status_labels": {
+                "RESOLVED": "Terselesaikan",
+                "EXPIRED": "Kadaluarsa",
+                "WAITING_CONFIRMATION": "Menunggu Konfirmasi",
+                "ON_PROGRESS": "Sedang Diproses",
+                "default": "Belum Diproses"
+            },
+            "progress_history": {
+                "image_alt": "Progress {index} - Image {imgIndex}"
+            },
+            "current_progress": {
+                "latest_label": "Perkembangan Terakhir",
+                "image_alt": "Latest progress - Image {index}"
+            },
+            "progress_section": {
+                "status_select_label": "Pilih Status Perkembangan",
+                "on_progress": {
+                    "label": "Dalam Proses",
+                    "description": "Sedang ditangani"
+                },
+                "resolved": {
+                    "label": "Terselesaikan",
+                    "description": "Masalah selesai"
+                },
+                "notes_field": {
+                    "label": "Catatan Progress",
+                    "placeholder": "Jelaskan detail progress dari laporan ini. Misalnya: perbaikan sudah dimulai, material sudah disiapkan, dll."
+                },
+                "attachment_label": "Lampiran Foto (Opsional, Maksimal 2)",
+                "attachment_button": "Pilih Foto Progress",
+                "tip": "💡 Tips: Tambahkan foto untuk memperjelas perkembangan laporan dan meningkatkan kepercayaan komunitas",
+                "submit_button": {
+                    "resolved": "Tutup Laporan",
+                    "update": "Perbarui Status",
+                    "loading": "Memproses..."
+                },
+                "cancel_button": "Batal",
+                "resolved_banner": "Laporan ini telah ditandai sebagai terselesaikan"
+            }
+        },
         "report_modal": {
             "comments_title": "Komentar ({count})",
             "comment_error_default": "Terjadi kesalahan saat mengirim komentar",
@@ -894,169 +1046,172 @@
                 }
             }
         },
-        "component": {
-            "report_comment_section": {
-                "title": "Komentar ({count})",
-                "load_error_default": "Gagal memuat komentar."
-            },
-            "report_detail_skeleton": {
-                "subtitle": "Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat."
-            },
-            "report_header": {
-                "type_labels": {
-                "INFRASTRUCTURE": "Infrastruktur",
-                "ENVIRONMENT": "Lingkungan",
-                "SAFETY": "Keamanan",
-                "OTHER": "Lainnya",
-                "TRAFFIC": "Lalu Lintas",
-                "PUBLIC_FACILITY": "Fasilitas Umum",
-                "WASTE": "Sampah",
-                "WATER": "Air",
-                "ELECTRICITY": "Listrik",
-                "HEALTH": "Kesehatan",
-                "SOCIAL": "Sosial",
-                "EDUCATION": "Pendidikan",
-                "ADMINISTRATIVE": "Administratif",
-                "DISASTER": "Bencana Alam"
+        "report_id": {
+            "component": {
+                "report_comment_section": {
+                    "title": "Komentar ({count})",
+                    "load_error_default": "Gagal memuat komentar."
                 },
-                "share": {
-                "text": "Lihat laporan ini di PingSpot",
-                "copied_alert": "Link telah disalin ke clipboard!"
+                "report_detail_skeleton": {
+                    "subtitle": "Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat."
                 },
-                "menu": {
-                "share": { "label": "Bagikan", "description": "Lihat komentar dan berikan komentar anda mengenai laporan ini" },
-                "edit_report": { "label": "Sunting Laporan", "description": "Anda dapat menyunting laporan ini." },
-                "update_progress": { "label": "Perbarui Perkembangan Laporan", "description": "Perbarui perkembangan laporan ini" },
-                "delete": { "label": "Hapus" },
-                "flag": { "label": "Laporkan" }
+                "report_header": {
+                    "type_labels": {
+                    "INFRASTRUCTURE": "Infrastruktur",
+                    "ENVIRONMENT": "Lingkungan",
+                    "SAFETY": "Keamanan",
+                    "OTHER": "Lainnya",
+                    "TRAFFIC": "Lalu Lintas",
+                    "PUBLIC_FACILITY": "Fasilitas Umum",
+                    "WASTE": "Sampah",
+                    "WATER": "Air",
+                    "ELECTRICITY": "Listrik",
+                    "HEALTH": "Kesehatan",
+                    "SOCIAL": "Sosial",
+                    "EDUCATION": "Pendidikan",
+                    "ADMINISTRATIVE": "Administratif",
+                    "DISASTER": "Bencana Alam"
+                    },
+                    "share": {
+                    "text": "Lihat laporan ini di PingSpot",
+                    "copied_alert": "Link telah disalin ke clipboard!"
+                    },
+                    "menu": {
+                    "share": { "label": "Bagikan", "description": "Lihat komentar dan berikan komentar anda mengenai laporan ini" },
+                    "edit_report": { "label": "Sunting Laporan", "description": "Anda dapat menyunting laporan ini." },
+                    "update_progress": { "label": "Perbarui Perkembangan Laporan", "description": "Perbarui perkembangan laporan ini" },
+                    "delete": { "label": "Hapus" },
+                    "flag": { "label": "Laporkan" }
+                    },
+                    "delete_confirm": {
+                    "title": "Hapus laporan",
+                    "subtitle": "Yakin ingin menghapus laporan ini?",
+                    "description": "Laporan yang dihapus tidak dapat dikembalikan.",
+                    "confirm_button": "Hapus"
+                    }
                 },
-                "delete_confirm": {
-                "title": "Hapus laporan",
-                "subtitle": "Yakin ingin menghapus laporan ini?",
-                "description": "Laporan yang dihapus tidak dapat dikembalikan.",
-                "confirm_button": "Hapus"
-                }
-            },
-            "report_info_sidebar": {
-                "title": "Informasi Laporan",
-                "last_updated_by": {
-                "OWNER": "Pemilik Laporan",
-                "SYSTEM": "Sistem"
+                "report_info_sidebar": {
+                    "title": "Informasi Laporan",
+                    "last_updated_by": {
+                        "OWNER": "Pemilik Laporan",
+                        "SYSTEM": "Sistem"
+                    },
+                    "status_labels": {
+                        "RESOLVED": "Terselesaikan",
+                        "EXPIRED": "Kadaluarsa",
+                        "WAITING": "Menunggu Konfirmasi",
+                        "ON_PROGRESS": "Sedang Diproses",
+                        "default": "Belum Diproses"
+                    },
+                    "delete_confirm": {
+                        "title": "Hapus laporan",
+                        "subtitle": "Yakin ingin menghapus laporan ini?",
+                        "description": "Laporan yang dihapus tidak dapat dikembalikan.",
+                        "confirm_button": "Hapus"
+                    },
+                    "resolution_confirm": {
+                        "title": "Konfirmasi Penyelesaian Laporan",
+                        "description": "Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.",
+                        "additional_info": "Jika tidak ada konfirmasi dalam 1 minggu, status akan otomatis berubah menjadi \"Terselesaikan\"."
+                    },
+                    "no_status_type": "Tipe Laporan Tidak Menggunakan Status",
+                    "status_label": "Status",
+                    "reported_label": "Dilaporkan",
+                    "on_prefix": "Pada: ",
+                    "category_label": "Kategori",
+                    "progress_updated_label": "Perkembangan diperbarui",
+                    "by_prefix": "Oleh: ",
+                    "owner_update_info": {
+                        "title": "Laporan Diperbarui Oleh Pemilik Laporan",
+                        "description": "Status laporan ini diperbarui oleh pemilik laporan. Kebenaran informasi sepenuhnya bergantung pada validasi dari pemilik laporan.",
+                        "additional_info": "Pastikan anda memastikan ulang informasi dari laporan ini."
+                    },
+                    "no_progress_update_type": "Tipe Laporan Tidak Menggunakan pembaruan status",
+                    "report_updated_by_creator_label": "Laporan diperbarui oleh Pembuat",
+                    "status_info_aria": "Informasi status laporan",
+                    "buttons": {
+                        "update": "Perbarui",
+                        "delete": "Hapus"
+                    }
                 },
-                "status_labels": {
-                "RESOLVED": "Terselesaikan",
-                "EXPIRED": "Kadaluarsa",
-                "WAITING_CONFIRMATION": "Menunggu Konfirmasi",
-                "ON_PROGRESS": "Sedang Diproses",
-                "default": "Belum Diproses"
+                "report_media_viewer": {
+                    "tabs": {
+                    "map": "Peta",
+                    "attachment": "Lampiran"
+                    },
+                    "image_alt": "Foto {index} untuk laporan {title}",
+                    "prev_image_aria": "Previous image",
+                    "next_image_aria": "Next image",
+                    "go_to_image_aria": "Go to image {index}"
                 },
-                "delete_confirm": {
-                "title": "Hapus laporan",
-                "subtitle": "Yakin ingin menghapus laporan ini?",
-                "description": "Laporan yang dihapus tidak dapat dikembalikan.",
-                "confirm_button": "Hapus"
+                "report_progress_timeline": {
+                    "title": "Perkembangan Laporan",
+                    "latest_progress_label": "Perkembangan Terakhir",
+                    "status_labels": {
+                    "RESOLVED": "Terselesaikan",
+                    "ON_PROGRESS": "Dalam Proses",
+                    "default": "Tidak Ada Proses"
+                    },
+                    "history_accordion_title": "Riwayat Perkembangan ({count})",
+                    "empty_state": {
+                    "has_progress": {
+                        "title": "Belum Ada Perkembangan",
+                        "subtitle": "Perkembangan laporan akan ditampilkan di sini"
+                    },
+                    "no_progress_type": {
+                        "title": "Tidak ada Progress",
+                        "subtitle": "Tipe laporan ini tidak akan menampilkan perkembangan laporan"
+                    }
+                    },
+                    "update_button": "Perbarui"
                 },
-                "resolution_confirm": {
-                "title": "Konfirmasi Penyelesaian Laporan",
-                "description": "Status laporan Anda berpotensi terselesaikan berdasarkan voting komunitas. Mohon konfirmasi dengan mengunggah progres terbaru dalam waktu 1 minggu untuk memvalidasi penyelesaian masalah ini.",
-                "additional_info": "Jika tidak ada konfirmasi dalam 1 minggu, status akan otomatis berubah menjadi \"Terselesaikan\"."
-                },
-                "no_status_type": "Tipe Laporan Tidak Menggunakan Status",
-                "reported_label": "Dilaporkan",
-                "on_prefix": "Pada: ",
-                "category_label": "Kategori",
-                "progress_updated_label": "Perkembangan diperbarui",
-                "by_prefix": "Oleh: ",
-                "owner_update_info": {
-                "title": "Laporan Diperbarui Oleh Pemilik Laporan",
-                "description": "Status laporan ini diperbarui oleh pemilik laporan. Kebenaran informasi sepenuhnya bergantung pada validasi dari pemilik laporan.",
-                "additional_info": "Pastikan anda memastikan ulang informasi dari laporan ini."
-                },
-                "no_progress_update_type": "Tipe Laporan Tidak Menggunakan pembaruan status",
-                "report_updated_by_creator_label": "Laporan diperbarui oleh Pembuat",
-                "status_info_aria": "Informasi status laporan",
-                "buttons": {
-                "update": "Perbarui",
-                "delete": "Hapus"
-                }
-            },
-            "report_media_viewer": {
-                "tabs": {
-                "map": "Peta",
-                "attachment": "Lampiran"
-                },
-                "image_alt": "Foto {index} untuk laporan {title}",
-                "prev_image_aria": "Previous image",
-                "next_image_aria": "Next image",
-                "go_to_image_aria": "Go to image {index}"
-            },
-            "report_progress_timeline": {
-                "title": "Perkembangan Laporan",
-                "latest_progress_label": "Perkembangan Terakhir",
-                "status_labels": {
-                "RESOLVED": "Terselesaikan",
-                "ON_PROGRESS": "Dalam Proses",
-                "default": "Tidak Ada Proses"
-                },
-                "history_accordion_title": "Riwayat Perkembangan ({count})",
-                "empty_state": {
-                "has_progress": {
-                    "title": "Belum Ada Perkembangan",
-                    "subtitle": "Perkembangan laporan akan ditampilkan di sini"
-                },
-                "no_progress_type": {
-                    "title": "Tidak ada Progress",
-                    "subtitle": "Tipe laporan ini tidak akan menampilkan perkembangan laporan"
-                }
-                },
-                "update_button": "Perbarui"
-            },
-            "report_voting_section": {
-                "vote_status": {
-                "RESOLVED": { "label": "Terselesaikan", "description": "Masalah selesai" },
-                "ON_PROGRESS": { "label": "Dalam Proses", "description": "Sedang ditangani" }
-                },
-                "status_labels": {
-                "RESOLVED": "Terselesaikan",
-                "EXPIRED": "Kadaluarsa",
-                "WAITING_CONFIRMATION": "Menunggu Konfirmasi",
-                "ON_PROGRESS": "Sedang Diproses",
-                "default": "Menunggu"
-                },
-                "vote_confirm": {
-                "title": "Konfirmasi Pemilihan Status Laporan",
-                "subtitle": "Apakah Anda yakin memilih status \"{status}\" untuk laporan ini?",
-                "description": "Status laporan akan diperbarui sesuai pilihan Anda.",
-                "confirm_button": "Ya, Pilih Status"
-                },
-                "empty_state": {
-                "title": "Tidak ada Voting",
-                "no_voting_type": "Tipe laporan ini tidak akan menyediakan fitur voting pengguna",
-                "waiting_for_first_progress": "Voting akan tersedia setelah pembuat laporan mengunggah progress pertama",
-                "no_votes_yet": "Belum ada pengguna yang memberikan voting pada laporan ini"
-                },
-                "title": "Hasil Voting Pengguna",
-                "total_votes": {
-                "label": "Total Voting",
-                "subtitle": "Pengguna telah memberikan voting"
-                },
-                "distribution_label": "Distribusi Vote",
-                "majority": {
-                "label": "Vote Mayoritas",
-                "none": "Belum Ada Vote",
-                "percentage_suffix": "% pengguna"
-                },
-                "resolved_banner": {
-                "title": "Laporan Terselesaikan",
-                "subtitle": "Voting ditutup"
-                },
-                "expired_banner": {
-                "title": "Laporan Kadaluarsa",
-                "subtitle": "Voting ditutup hingga laporan diperbarui oleh pembuat laporan"
-                },
-                "vote_prompt": {
-                "title": "Bagaimana pendapat Anda tentang laporan ini?",
-                "subtitle": "Pilih salah satu untuk memberikan pendapat"
+                "report_voting_section": {
+                    "vote_status": {
+                    "RESOLVED": { "label": "Terselesaikan", "description": "Masalah selesai" },
+                    "ON_PROGRESS": { "label": "Dalam Proses", "description": "Sedang ditangani" }
+                    },
+                    "status_labels": {
+                    "RESOLVED": "Terselesaikan",
+                    "EXPIRED": "Kadaluarsa",
+                    "WAITING_CONFIRMATION": "Menunggu Konfirmasi",
+                    "ON_PROGRESS": "Sedang Diproses",
+                    "default": "Menunggu"
+                    },
+                    "vote_confirm": {
+                    "title": "Konfirmasi Pemilihan Status Laporan",
+                    "subtitle": "Apakah Anda yakin memilih status \"{status}\" untuk laporan ini?",
+                    "description": "Status laporan akan diperbarui sesuai pilihan Anda.",
+                    "confirm_button": "Ya, Pilih Status"
+                    },
+                    "empty_state": {
+                    "title": "Tidak ada Voting",
+                    "no_voting_type": "Tipe laporan ini tidak akan menyediakan fitur voting pengguna",
+                    "waiting_for_first_progress": "Voting akan tersedia setelah pembuat laporan mengunggah progress pertama",
+                    "no_votes_yet": "Belum ada pengguna yang memberikan voting pada laporan ini"
+                    },
+                    "title": "Hasil Voting Pengguna",
+                    "total_votes": {
+                    "label": "Total Voting",
+                    "subtitle": "Pengguna telah memberikan voting"
+                    },
+                    "distribution_label": "Distribusi Vote",
+                    "majority": {
+                    "label": "Vote Mayoritas",
+                    "none": "Belum Ada Vote",
+                    "percentage_suffix": "% pengguna"
+                    },
+                    "resolved_banner": {
+                    "title": "Laporan Terselesaikan",
+                    "subtitle": "Voting ditutup"
+                    },
+                    "expired_banner": {
+                    "title": "Laporan Kadaluarsa",
+                    "subtitle": "Voting ditutup hingga laporan diperbarui oleh pembuat laporan"
+                    },
+                    "vote_prompt": {
+                    "title": "Bagaimana pendapat Anda tentang laporan ini?",
+                    "subtitle": "Pilih salah satu untuk memberikan pendapat"
+                    }
                 }
             }
         },
@@ -1159,6 +1314,19 @@
             "photos_count": "{count} foto dilampirkan",
             "photo_alt": "Lampiran {index}",
             "no_photos": "Tidak ada foto"
+            }
+        }
+    },
+    "utils": {
+        "format": {
+            "relative_time": {
+                "just_now": "Baru saja",
+                "minutes_ago": "{count} menit yang lalu",
+                "hours_ago": "{count} jam yang lalu",
+                "days_ago": "{count} hari yang lalu",
+                "weeks_ago": "{count} minggu yang lalu",
+                "months_ago": "{count} bulan yang lalu",
+                "unknown": "Tidak diketahui"
             }
         }
     }

@@ -437,6 +437,76 @@
                     "apply": "Apply Filters"
                 }
             }
+        },
+        "image_field": {
+            "inline_image_upload": {
+                "error_invalid_type": "Select an image file (JPG, PNG, GIF)",
+                "error_too_large": "Maximum image size is {maxSizeMB}MB",
+                "preview_alt": "Image preview",
+                "remove_aria": "Remove image",
+                "upload_aria": "Upload image"
+            },
+            "multiple_image_field": {
+                "default_label": "Issue Photos",
+                "default_button": "Choose Photo",
+                "image_alt": "Image {index}",
+                "add_photo": "Add Photo",
+                "count_suffix": "({current}/{max})",
+                "format_hint": "Format: JPG, PNG, GIF (Max. 5 MB) - Maximum {maxImages} photos"
+            },
+            "image_field": {
+                "default_label": "Profile Photo",
+                "default_button": "Choose Photo",
+                "remove_button": "Remove",
+                "alt": "Profile picture",
+                "format_hint": "Format: JPG, PNG, GIF (Max. 5 MB)",
+                "crop_modal": {
+                    "title": "Crop Image",
+                    "zoom_label": "Zoom",
+                    "cancel_button": "Cancel",
+                    "save_button": "Save"
+                }
+            }
+        },
+        "map": {
+            "dynamic_map": {
+                "location_permission_error": "Failed to detect your location. Please allow location access in your browser settings.",
+                "popup_default": {
+                    "line1": "Report location",
+                    "line2": "Lat: {lat}, Lng: {lng}"
+                },
+                "buttons": {
+                    "searching_location": "Searching for location...",
+                    "use_my_location": "Use My Location",
+                    "detect_my_location": "Detect My Location",
+                    "back_to_marker": "Back to Marker"
+                }
+            },
+            "map": {
+                "title": "Map",
+                "buttons": {
+                    "requesting_location": "Requesting location...",
+                    "grant_location_access": "Allow location access",
+                    "updating": "Updating...",
+                    "update_location": "Update Location"
+                },
+                "last_updated": "Updated: {timestamp}",
+                "your_location_popup": {
+                    "line1": "Your location",
+                    "fallback": "Current location"
+                },
+                "empty_state": {
+                    "message": "Location not available yet",
+                    "hint": "Click \"Allow location access\" to show the map"
+                },
+                "address": {
+                    "searching": "Looking up address...",
+                    "your_location_label": "Your location:",
+                    "not_found": "Address not found",
+                    "lat_label": "Lat: {lat}",
+                    "lng_label": "Lng: {lng}"
+                }
+            }
         }
     },
     "report": {
@@ -696,6 +766,88 @@
                 "view_all": "View All Friends"
             }
         },
+        "report_voting": {
+            "vote_status": {
+                "RESOLVED": { "label": "Resolved", "description": "Issue resolved" },
+                "ON_PROGRESS": { "label": "In Progress", "description": "Being handled" }
+                },
+                "public_votes": {
+                "title": "Community Opinion",
+                "vote_count": "{count} vote{count, plural, one {} other {s}}",
+                "subtitle": "Community opinion on the report's progress:"
+            },
+            "voting_section": {
+                "cannot_vote": {
+                    "title": "Can't Submit Your Opinion",
+                    "subtitle": "You cannot submit an opinion on this report.",
+                    "description": "Users can only submit an opinion once per report (unless there's a confirmed status change from the report owner).",
+                    "confirm_button": "Close"
+                },
+                "vote_confirm": {
+                    "title": "Confirm Report Status Selection",
+                    "subtitle": "Are you sure you want to select \"{status}\" as your opinion on this report?",
+                    "description": "You can only submit an opinion once per report (unless there's a confirmed status change from the report owner). The report status will be updated based on your choice.",
+                    "confirm_button": "Yes, Choose Status"
+                },
+                "resolved_banner": {
+                    "title": "Report Resolved",
+                    "subtitle": "Voting closed"
+                },
+                "expired_banner": {
+                    "title": "Report Expired",
+                    "subtitle": "Voting is closed until the report is updated by its creator"
+                },
+                "vote_prompt": {
+                    "title": "What do you think about this report?",
+                    "subtitle": "Choose one to share your opinion"
+                },
+                "your_vote": {
+                    "label": "Your opinion:",
+                    "thanks": "You've submitted your opinion on this report. Thank you for participating!"
+                }
+            }
+        },
+        "report_progress": {
+            "status_labels": {
+                "RESOLVED": "Resolved",
+                "EXPIRED": "Expired",
+                "WAITING_CONFIRMATION": "Awaiting Confirmation",
+                "ON_PROGRESS": "In Progress",
+                "default": "Not Yet Processed"
+            },
+            "progress_history": {
+                "image_alt": "Progress {index} - Image {imgIndex}"
+            },
+            "current_progress": {
+                "latest_label": "Latest Progress",
+                "image_alt": "Latest progress - Image {index}"
+            },
+            "progress_section": {
+                "status_select_label": "Select Progress Status",
+                "on_progress": {
+                    "label": "In Progress",
+                    "description": "Being handled"
+                },
+                "resolved": {
+                    "label": "Resolved",
+                    "description": "Issue resolved"
+                },
+                "notes_field": {
+                    "label": "Progress Notes",
+                    "placeholder": "Describe the progress details of this report. For example: repairs have started, materials are ready, etc."
+                },
+                "attachment_label": "Photo Attachment (Optional, Max. 2)",
+                "attachment_button": "Choose Progress Photo",
+                "tip": "💡 Tip: Add photos to clarify the report's progress and build community trust",
+                "submit_button": {
+                    "resolved": "Close Report",
+                    "update": "Update Status",
+                    "loading": "Processing..."
+                },
+                "cancel_button": "Cancel",
+                "resolved_banner": "This report has been marked as resolved"
+            }
+        },
         "report_modal": {
             "comments_title": "Comments ({count})",
             "comment_error_default": "An error occurred while sending the comment",
@@ -896,169 +1048,172 @@
                 }
             }
         },
-        "component": {
-            "report_comment_section": {
-                "title": "Comments ({count})",
-                "load_error_default": "Failed to load comments."
-            },
-            "report_detail_skeleton": {
-                "subtitle": "Find and view issue reports around you to raise awareness and community participation."
-            },
-            "report_header": {
-                "type_labels": {
-                "INFRASTRUCTURE": "Infrastructure",
-                "ENVIRONMENT": "Environment",
-                "SAFETY": "Safety",
-                "OTHER": "Other",
-                "TRAFFIC": "Traffic",
-                "PUBLIC_FACILITY": "Public Facility",
-                "WASTE": "Waste",
-                "WATER": "Water",
-                "ELECTRICITY": "Electricity",
-                "HEALTH": "Health",
-                "SOCIAL": "Social",
-                "EDUCATION": "Education",
-                "ADMINISTRATIVE": "Administrative",
-                "DISASTER": "Natural Disaster"
+        "report_id": {
+            "component": {
+                "report_comment_section": {
+                    "title": "Comments ({count})",
+                    "load_error_default": "Failed to load comments."
                 },
-                "share": {
-                "text": "Check out this report on PingSpot",
-                "copied_alert": "Link copied to clipboard!"
+                "report_detail_skeleton": {
+                    "subtitle": "Find and view issue reports around you to raise awareness and community participation."
                 },
-                "menu": {
-                "share": { "label": "Share", "description": "View comments and share your thoughts on this report" },
-                "edit_report": { "label": "Edit Report", "description": "You can edit this report." },
-                "update_progress": { "label": "Update Report Progress", "description": "Update the progress of this report" },
-                "delete": { "label": "Delete" },
-                "flag": { "label": "Report" }
-                },
-                "delete_confirm": {
-                "title": "Delete report",
-                "subtitle": "Are you sure you want to delete this report?",
-                "description": "A deleted report cannot be recovered.",
-                "confirm_button": "Delete"
-                }
-            },
-            "report_info_sidebar": {
-                "title": "Report Information",
-                "last_updated_by": {
-                    "OWNER": "Report Owner",
-                    "SYSTEM": "System"
-                },
-                "status_labels": {
-                    "RESOLVED": "Resolved",
-                    "EXPIRED": "Expired",
-                    "WAITING": "Awaiting Confirmation",
-                    "ON_PROGRESS": "In Progress",
-                    "default": "Not Yet Processed"
-                },
-                "delete_confirm": {
+                "report_header": {
+                    "type_labels": {
+                    "INFRASTRUCTURE": "Infrastructure",
+                    "ENVIRONMENT": "Environment",
+                    "SAFETY": "Safety",
+                    "OTHER": "Other",
+                    "TRAFFIC": "Traffic",
+                    "PUBLIC_FACILITY": "Public Facility",
+                    "WASTE": "Waste",
+                    "WATER": "Water",
+                    "ELECTRICITY": "Electricity",
+                    "HEALTH": "Health",
+                    "SOCIAL": "Social",
+                    "EDUCATION": "Education",
+                    "ADMINISTRATIVE": "Administrative",
+                    "DISASTER": "Natural Disaster"
+                    },
+                    "share": {
+                    "text": "Check out this report on PingSpot",
+                    "copied_alert": "Link copied to clipboard!"
+                    },
+                    "menu": {
+                    "share": { "label": "Share", "description": "View comments and share your thoughts on this report" },
+                    "edit_report": { "label": "Edit Report", "description": "You can edit this report." },
+                    "update_progress": { "label": "Update Report Progress", "description": "Update the progress of this report" },
+                    "delete": { "label": "Delete" },
+                    "flag": { "label": "Report" }
+                    },
+                    "delete_confirm": {
                     "title": "Delete report",
                     "subtitle": "Are you sure you want to delete this report?",
                     "description": "A deleted report cannot be recovered.",
                     "confirm_button": "Delete"
+                    }
                 },
-                "resolution_confirm": {
-                    "title": "Confirm Report Resolution",
-                    "description": "Your report's status may be resolved based on community voting. Please confirm by uploading a recent update within 1 week to validate that the issue has been resolved.",
-                    "additional_info": "If there's no confirmation within 1 week, the status will automatically change to \"Resolved\"."
-                },
-                "no_status_type": "This report type doesn't use a status",
-                "reported_label": "Reported",
-                "on_prefix": "On: ",
-                "category_label": "Category",
-                "progress_updated_label": "Progress updated",
-                "by_prefix": "By: ",
-                "owner_update_info": {
-                    "title": "Report Updated by Owner",
-                    "description": "This report's status was updated by the report owner. The accuracy of the information fully depends on the owner's validation.",
-                    "additional_info": "Make sure to double-check the information in this report."
-                },
+                "report_info_sidebar": {
+                    "title": "Report Information",
+                    "last_updated_by": {
+                        "OWNER": "Report Owner",
+                        "SYSTEM": "System"
+                    },
+                    "status_labels": {
+                        "RESOLVED": "Resolved",
+                        "EXPIRED": "Expired",
+                        "WAITING": "Awaiting Confirmation",
+                        "ON_PROGRESS": "In Progress",
+                        "default": "Not Yet Processed"
+                    },
+                    "delete_confirm": {
+                        "title": "Delete report",
+                        "subtitle": "Are you sure you want to delete this report?",
+                        "description": "A deleted report cannot be recovered.",
+                        "confirm_button": "Delete"
+                    },
+                    "resolution_confirm": {
+                        "title": "Confirm Report Resolution",
+                        "description": "Your report's status may be resolved based on community voting. Please confirm by uploading a recent update within 1 week to validate that the issue has been resolved.",
+                        "additional_info": "If there's no confirmation within 1 week, the status will automatically change to \"Resolved\"."
+                    },
+                    "no_status_type": "This report type doesn't use a status",
+                    "status_label": "Status",
+                    "reported_label": "Reported",
+                    "on_prefix": "On: ",
+                    "category_label": "Category",
+                    "progress_updated_label": "Progress updated",
+                    "by_prefix": "By: ",
+                    "owner_update_info": {
+                        "title": "Report Updated by Owner",
+                        "description": "This report's status was updated by the report owner. The accuracy of the information fully depends on the owner's validation.",
+                        "additional_info": "Make sure to double-check the information in this report."
+                    },
                     "no_progress_update_type": "This report type doesn't use status updates",
                     "report_updated_by_creator_label": "Report updated by creator",
                     "status_info_aria": "Report status information",
                     "buttons": {
-                    "update": "Update",
-                    "delete": "Delete"
-                }
-            },
-            "report_media_viewer": {
-                "tabs": {
-                    "map": "Map",
-                    "attachment": "Attachment"
+                        "update": "Update",
+                        "delete": "Delete"
+                    }
                 },
-                "image_alt": "Photo {index} for report {title}",
-                "prev_image_aria": "Previous image",
-                "next_image_aria": "Next image",
-                "go_to_image_aria": "Go to image {index}"
-            },
-            "report_progress_timeline": {
-                "title": "Report Progress",
-                "latest_progress_label": "Latest Progress",
-                "status_labels": {
+                "report_media_viewer": {
+                    "tabs": {
+                        "map": "Map",
+                        "attachment": "Attachment"
+                    },
+                    "image_alt": "Photo {index} for report {title}",
+                    "prev_image_aria": "Previous image",
+                    "next_image_aria": "Next image",
+                    "go_to_image_aria": "Go to image {index}"
+                },
+                "report_progress_timeline": {
+                    "title": "Report Progress",
+                    "latest_progress_label": "Latest Progress",
+                    "status_labels": {
+                        "RESOLVED": "Resolved",
+                        "ON_PROGRESS": "In Progress",
+                        "default": "No Progress"
+                    },
+                    "history_accordion_title": "Progress History ({count})",
+                    "empty_state": {
+                    "has_progress": {
+                        "title": "No Progress Yet",
+                        "subtitle": "The report's progress will be shown here"
+                    },
+                    "no_progress_type": {
+                        "title": "No Progress",
+                        "subtitle": "This report type won't display progress"
+                    }
+                    },
+                    "update_button": "Update"
+                },
+                "report_voting_section": {
+                    "vote_status": {
+                    "RESOLVED": { "label": "Resolved", "description": "Issue resolved" },
+                    "ON_PROGRESS": { "label": "In Progress", "description": "Being handled" }
+                    },
+                    "status_labels": {
                     "RESOLVED": "Resolved",
+                    "EXPIRED": "Expired",
+                    "WAITING_CONFIRMATION": "Awaiting Confirmation",
                     "ON_PROGRESS": "In Progress",
-                    "default": "No Progress"
-                },
-                "history_accordion_title": "Progress History ({count})",
-                "empty_state": {
-                "has_progress": {
-                    "title": "No Progress Yet",
-                    "subtitle": "The report's progress will be shown here"
-                },
-                "no_progress_type": {
-                    "title": "No Progress",
-                    "subtitle": "This report type won't display progress"
-                }
-                },
-                "update_button": "Update"
-            },
-            "report_voting_section": {
-                "vote_status": {
-                "RESOLVED": { "label": "Resolved", "description": "Issue resolved" },
-                "ON_PROGRESS": { "label": "In Progress", "description": "Being handled" }
-                },
-                "status_labels": {
-                "RESOLVED": "Resolved",
-                "EXPIRED": "Expired",
-                "WAITING_CONFIRMATION": "Awaiting Confirmation",
-                "ON_PROGRESS": "In Progress",
-                "default": "Waiting"
-                },
-                "vote_confirm": {
-                "title": "Confirm Report Status Selection",
-                "subtitle": "Are you sure you want to vote \"{status}\" for this report?",
-                "description": "The report status will be updated based on your choice.",
-                "confirm_button": "Yes, Choose Status"
-                },
-                "empty_state": {
-                "title": "No Voting",
-                "no_voting_type": "This report type doesn't offer a user voting feature",
-                "waiting_for_first_progress": "Voting will be available once the report owner uploads the first progress update",
-                "no_votes_yet": "No users have voted on this report yet"
-                },
-                "title": "User Voting Results",
-                "total_votes": {
-                "label": "Total Votes",
-                "subtitle": "Users have cast their votes"
-                },
-                "distribution_label": "Vote Distribution",
-                "majority": {
-                "label": "Majority Vote",
-                "none": "No Votes Yet",
-                "percentage_suffix": "% of users"
-                },
-                "resolved_banner": {
-                "title": "Report Resolved",
-                "subtitle": "Voting closed"
-                },
-                "expired_banner": {
-                "title": "Report Expired",
-                "subtitle": "Voting is closed until the report is updated by its creator"
-                },
-                "vote_prompt": {
-                "title": "What do you think about this report?",
-                "subtitle": "Choose one to share your opinion"
+                    "default": "Waiting"
+                    },
+                    "vote_confirm": {
+                    "title": "Confirm Report Status Selection",
+                    "subtitle": "Are you sure you want to vote \"{status}\" for this report?",
+                    "description": "The report status will be updated based on your choice.",
+                    "confirm_button": "Yes, Choose Status"
+                    },
+                    "empty_state": {
+                    "title": "No Voting",
+                    "no_voting_type": "This report type doesn't offer a user voting feature",
+                    "waiting_for_first_progress": "Voting will be available once the report owner uploads the first progress update",
+                    "no_votes_yet": "No users have voted on this report yet"
+                    },
+                    "title": "User Voting Results",
+                    "total_votes": {
+                    "label": "Total Votes",
+                    "subtitle": "Users have cast their votes"
+                    },
+                    "distribution_label": "Vote Distribution",
+                    "majority": {
+                    "label": "Majority Vote",
+                    "none": "No Votes Yet",
+                    "percentage_suffix": "% of users"
+                    },
+                    "resolved_banner": {
+                    "title": "Report Resolved",
+                    "subtitle": "Voting closed"
+                    },
+                    "expired_banner": {
+                    "title": "Report Expired",
+                    "subtitle": "Voting is closed until the report is updated by its creator"
+                    },
+                    "vote_prompt": {
+                    "title": "What do you think about this report?",
+                    "subtitle": "Choose one to share your opinion"
+                    }
                 }
             }
         },
@@ -1161,6 +1316,19 @@
             "photos_count": "{count} photos attached",
             "photo_alt": "Attachment {index}",
             "no_photos": "No photos"
+            }
+        }
+    },
+    "utils": {
+        "format": {
+            "relative_time": {
+                "just_now": "Just now",
+                "minutes_ago": "{count} minute{count, plural, one {} other {s}} ago",
+                "hours_ago": "{count} hour{count, plural, one {} other {s}} ago",
+                "days_ago": "{count} day{count, plural, one {} other {s}} ago",
+                "weeks_ago": "{count} week{count, plural, one {} other {s}} ago",
+                "months_ago": "{count} month{count, plural, one {} other {s}} ago",
+                "unknown": "Unknown"
             }
         }
     }

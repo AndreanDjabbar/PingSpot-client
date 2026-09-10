@@ -20,7 +20,7 @@ export const ReportHeader: React.FC<ReportHeaderProps> = ({
     onRemoveReport 
 }) => {
     const router = useRouter();
-    const t = useTranslations('report.component.report_header');
+    const t = useTranslations('report.report_id.component.report_header');
     const optionsButtonRef = React.useRef<HTMLButtonElement | null>(null);
     const userProfile = useUserProfileStore((s) => s.userProfile);
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);

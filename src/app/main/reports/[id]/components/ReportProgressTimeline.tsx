@@ -25,7 +25,7 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
     onImageClick 
 }) => {
     const router = useRouter();
-    const t = useTranslations('report.component.report_progress_timeline');
+    const t = useTranslations('report.report_id.component.report_progress_timeline');
 
     return (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">

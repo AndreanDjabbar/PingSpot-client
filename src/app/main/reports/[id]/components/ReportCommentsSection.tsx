@@ -53,7 +53,7 @@ export const ReportCommentsSection: React.FC<ReportCommentsSectionProps> = ({
     refetchSearchUsers,
     fetchNextPageSearchUsers,
 }) => {
-    const t = useTranslations('report.component.report_comment_section');
+    const t = useTranslations('report.report_id.component.report_comment_section');
     const reportCommentCounts = useReportsStore((state) => state.reportCommentsCount);
     const [commentMediaImage, setCommentMediaImage] = React.useState<File | null>(null);
     const [imagePreview, setImagePreview] = React.useState<string | null>(null);

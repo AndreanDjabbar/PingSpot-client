@@ -7,6 +7,11 @@ type FormatDateOptions = {
     withTime?: boolean;
 };
 
+type RelativeTimeTranslator = (
+    key: string,
+    values?: Record<string, string | number>
+) => string;
+
 export const getFormattedDate = (
     value: string | number,
     options: FormatDateOptions = {}
@@ -35,39 +40,63 @@ export const getFormattedDate = (
     return format(date, fmt, { locale });
 };
 
-export const getRelativeTime = (dateString: string): string => {
+export const getRelativeTime = (
+    dateString: string,
+    translate?: RelativeTimeTranslator
+): string => {
+    const fallback = (key: string, count?: number): string => {
+        if (key === 'just_now') return 'Baru saja';
+        if (key === 'unknown') return 'Tidak diketahui';
+
+        const units: Record<string, string> = {
+            minutes_ago: 'menit yang lalu',
+            hours_ago: 'jam yang lalu',
+            days_ago: 'hari yang lalu',
+            weeks_ago: 'minggu yang lalu',
+            months_ago: 'bulan yang lalu',
+        };
+
+        return `${count} ${units[key]}`;
+    };
+
+    const formatRelativeTime = (key: string, count?: number): string => (
+        translate ? translate(key, count === undefined ? undefined : { count }) : fallback(key, count)
+    );
+
     try {
         const date = new Date(dateString);
+        if (isNaN(date.getTime())) return formatRelativeTime('unknown');
+
         const now = new Date();
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
         if (diffInSeconds < 60) {
-            return 'Baru saja';
+            return formatRelativeTime('just_now');
         }
 
         const diffInMinutes = Math.floor(diffInSeconds / 60);
         if (diffInMinutes < 60) {
-            return `${diffInMinutes} menit yang lalu`;
+            return formatRelativeTime('minutes_ago', diffInMinutes);
         }
 
         const diffInHours = Math.floor(diffInMinutes / 60);
         if (diffInHours < 24) {
-            return `${diffInHours} jam yang lalu`;
+            return formatRelativeTime('hours_ago', diffInHours);
         }
 
         const diffInDays = Math.floor(diffInHours / 24);
         if (diffInDays < 7) {
-            return `${diffInDays} hari yang lalu`;
+            return formatRelativeTime('days_ago', diffInDays);
         }
 
         const diffInWeeks = Math.floor(diffInDays / 7);
         if (diffInWeeks < 4) {
-            return `${diffInWeeks} minggu yang lalu`;
+            return formatRelativeTime('weeks_ago', diffInWeeks);
         }
 
         const diffInMonths = Math.floor(diffInDays / 30);
-        return `${diffInMonths} bulan yang lalu`;
+        return formatRelativeTime('months_ago', diffInMonths);
     } catch {
-        return 'Tidak diketahui';
+        return formatRelativeTime('unknown');
     }
 };

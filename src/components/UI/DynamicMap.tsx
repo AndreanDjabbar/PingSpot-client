@@ -8,6 +8,7 @@ import { FaMapPin, FaSpinner, FaLocationArrow } from 'react-icons/fa';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import Button from './Button';
+import { useTranslations } from 'next-intl';
 
 interface DynamicMapProps {
     onMarkerPositionChange?: (position: { lat: number, lng: number }) => void;
@@ -123,6 +124,7 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
     ,
     disabled = false
 }) => {
+    const t = useTranslations('component.map.dynamic_map');
     const mapRef = useRef<L.Map | null>(null);
     const { location, requestLocation, loading, isPermissionDenied } = useCurrentLocation();
     const [markerPosition, setMarkerPosition] = useState<{ lat: number, lng: number } | null>(initialMarker);
@@ -207,7 +209,7 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
             setShouldUpdateView(true);
             setIsAwayFromMarker(false);
         }
-    }, [markerPosition, disabled]);
+    }, [markerPosition]);
 
     useEffect(() => {
         if (!shouldUpdateView && targetCenter) {
@@ -263,8 +265,8 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
         if (!popupContent) {
             return (
                 <>
-                    Lokasi laporan <br />
-                    Lat: {pos.lat.toFixed(6)}, Lng: {pos.lng.toFixed(6)}
+                    {t('popup_default.line1')} <br />
+                    {t('popup_default.line2', { lat: pos.lat.toFixed(6), lng: pos.lng.toFixed(6) })}
                 </>
             );
         }
@@ -274,7 +276,7 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
         }
         
         return popupContent;
-    }, [popupContent]);
+    }, [popupContent, t]);
 
     const containerStyle = useMemo(() => ({
         height: typeof height === 'number' ? `${height}px` : height,
@@ -282,7 +284,7 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
         minHeight: '400px'
     }), [height, width]);
     
-    useErrorToast(isPermissionDenied, 'Gagal mendeteksi lokasi Anda. Silahkan izinkan akses lokasi di pengaturan browser Anda.');
+    useErrorToast(isPermissionDenied, t('location_permission_error'));
 
     return (
         <div className={`relative ${className}`} style={containerStyle}>
@@ -336,7 +338,7 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
                                 className='px-4 py-2 text-sm flex items-center gap-2'
                                 icon={loading ? <FaSpinner className="animate-spin" /> : <FaMapPin />}
                             >
-                                {loading ? 'Mencari lokasi...' : 'Gunakan Lokasi Saya'}
+                                {loading ? t('buttons.searching_location') : t('buttons.use_my_location')}
                             </Button>
                         )}
                         {!location && (
@@ -347,7 +349,7 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
                                 className='px-4 py-2 text-sm flex items-center gap-2'
                                 icon={loading ? <FaSpinner className="animate-spin" /> : <FaMapPin />}
                                 >
-                                {loading ? 'Mencari lokasi...' : 'Deteksi Lokasi Saya'}
+                                {loading ? t('buttons.searching_location') : t('buttons.detect_my_location')}
                             </Button>
                         )}
                     </>
@@ -360,7 +362,7 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
                     className='px-4 py-2 text-sm'
                     icon={<FaLocationArrow />}
                     >
-                        Kembali ke Marker
+                        {t('buttons.back_to_marker')}
                     </Button>
                 )}
             </div>

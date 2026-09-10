@@ -3,6 +3,7 @@ import { FaCheck, FaHourglassEnd, FaTimes, FaUsers } from "react-icons/fa"
 import { RiProgress3Fill } from "react-icons/ri"
 import { motion } from "framer-motion"
 import { useConfirmationModalStore } from "@/stores";
+import { useTranslations } from 'next-intl';
 
 interface VotingSectionProps {
     totalVotes: number;
@@ -29,6 +30,7 @@ const VotingSection: React.FC<VotingSectionProps> = ({
     getStatusLabel,
     onVote
 }) => {
+    const t = useTranslations('report.report_voting');
     const [animateButton, setAnimateButton] = useState<string | null>(null);
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
     const resolvedPercentage = totalVotes > 0 ? ((totalResolvedVotes || 0) / totalVotes) * 100 : 0;
@@ -44,21 +46,21 @@ const VotingSection: React.FC<VotingSectionProps> = ({
         if (!isUserCanVote) {
             openConfirm({
                 type: "warning",
-                title: "Tidak Bisa Memberi Pendapat",
-                subtitle: "Anda tidak dapat memberikan pendapat pada laporan ini.",
-                description: "Pengguna hanya dapat memberikan pendapat satu kali pada setiap laporan (kecuali ada konfirmasi perubahan status dari pemilik laporan).",
-                confirmTitle: "Tutup",
+                title: t('voting_section.cannot_vote.title'),
+                subtitle: t('voting_section.cannot_vote.subtitle'),
+                description: t('voting_section.cannot_vote.description'),
+                confirmTitle: t('voting_section.cannot_vote.confirm_button'),
             })
             return;
         }
 
         openConfirm({
             type: "info",
-            title: "Konfirmasi Pemilihan Status Laporan",
-            subtitle: `Apakah Anda yakin memilih status "${getStatusLabel(voteType)}" sebagai pendapat untuk laporan ini?`,
+            title: t('voting_section.vote_confirm.title'),
+            subtitle: t('voting_section.vote_confirm.subtitle', { status: t(`vote_status.${voteType}.label`) }),
             isPending: isLoading,
-            description: "Anda hanya dapat memberikan pendapat satu kali pada setiap laporan (kecuali ada konfirmasi perubahan status dari pemilik laporan). Status laporan akan diperbarui sesuai pilihan Anda.",
-            confirmTitle: "Ya, Pilih Status",
+            description: t('voting_section.vote_confirm.description'),
+            confirmTitle: t('voting_section.vote_confirm.confirm_button'),
             onConfirm: () => handleVote(voteType),
         })
     }
@@ -69,25 +71,25 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                     <div className="mb-6 bg-white rounded-xl p-5 border border-gray-200 shadow-md">
                         <div className='mb-4'>
                             <div className="flex items-center justify-between text-sm font-semibold text-gray-900">
-                                <span>Pendapat Komunitas</span>
+                                <span>{t('public_votes.title')}</span>
                                 <span className="text-xs bg-primary/10 text-primary font-bold px-2.5 py-1 rounded-full">
-                                    {totalVotes} vote
+                                    {t('public_votes.vote_count', { count: totalVotes })}
                                 </span>
                             </div>
-                            <span className='text-sm text-gray-600'>Pendapat komunitas mengenai proses perkembangan laporan:</span>
+                            <span className='text-sm text-gray-600'>{t('public_votes.subtitle')}</span>
                         </div>
                         <div className="space-y-3">
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between text-sm">
                                     <div className='flex gap-2 font-medium text-yellow-700 items-center'>
                                         <RiProgress3Fill/>
-                                        <span className="">Dalam Proses</span>
+                                        <span className="">{t('vote_status.ON_PROGRESS.label')}</span>
                                     </div>
                                     <span className="text-gray-600 font-semibold">{totalOnProgressVotes} ({onProgressPercentage.toFixed(0)}%)</span>
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
                                     <div 
-                                        className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-2.5 rounded-full shadow-sm transition-all duration-500 ease-out" 
+                                        className="bg-linear-to-r from-yellow-500 to-yellow-600 h-2.5 rounded-full shadow-sm transition-all duration-500 ease-out" 
                                         style={{ width: `${onProgressPercentage}%` }}
                                     ></div>
                                 </div>
@@ -96,13 +98,13 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                                 <div className="flex items-center justify-between text-sm">
                                     <div className='flex gap-2 font-medium text-green-700 items-center'>
                                         <FaCheck/>
-                                        <span className="">Terselesaikan</span>
+                                        <span className="">{t('vote_status.RESOLVED.label')}</span>
                                     </div>
                                     <span className="text-gray-600 font-semibold">{totalResolvedVotes} ({resolvedPercentage.toFixed(0)}%)</span>
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
                                     <div 
-                                        className="bg-gradient-to-r from-green-500 to-green-600 h-2.5 rounded-full shadow-sm transition-all duration-500 ease-out" 
+                                        className="bg-linear-to-r from-green-500 to-green-600 h-2.5 rounded-full shadow-sm transition-all duration-500 ease-out" 
                                         style={{ width: `${resolvedPercentage}%` }}
                                     ></div>
                                 </div>
@@ -113,16 +115,16 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                 )}
 
                 {isReportResolved ? (
-                    <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-300 shadow-sm">
+                    <div className="flex items-center space-x-3 p-4 bg-linear-to-r from-green-50 to-emerald-50 rounded-xl border border-green-300 shadow-sm">
                         <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center shadow-md">
                             <FaCheck className="w-5 h-5 text-white" />
                         </div>
                         <div>
                             <p className="text-sm text-green-800 font-semibold">
-                                Laporan Terselesaikan
+                                {t('voting_section.resolved_banner.title')}
                             </p>
                             <p className="text-xs text-green-700 mt-0.5">
-                                Voting ditutup
+                                {t('voting_section.resolved_banner.subtitle')}
                             </p>
                         </div>
                     </div>
@@ -130,16 +132,16 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                     <>
                         {isReportExpired ? (
                             <>
-                                <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-300 shadow-sm">
+                                <div className="flex items-center space-x-3 p-4 bg-linear-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-300 shadow-sm">
                                     <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center shadow-md">
                                         <FaHourglassEnd className="w-5 h-5 text-white" />
                                     </div>
                                     <div>
                                         <p className="text-sm text-indigo-800 font-semibold">
-                                            Laporan Kadaluarsa
+                                            {t('voting_section.expired_banner.title')}
                                         </p>
                                         <p className="text-xs text-indigo-700 mt-0.5">
-                                            Voting ditutup hingga laporan diperbarui oleh pembuat laporan
+                                            {t('voting_section.expired_banner.subtitle')}
                                         </p>
                                     </div>
                                 </div>
@@ -148,10 +150,10 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                             <>
                                 <div className="bg-primary/10 border border-primary rounded-xl p-4 mb-4">
                                     <p className="text-sm text-primary font-bold text-center">
-                                        Bagaimana pendapat Anda tentang laporan ini?
+                                        {t('voting_section.vote_prompt.title')}
                                     </p>
                                     <p className="text-xs text-primary text-center mt-1">
-                                        Pilih salah satu untuk memberikan pendapat
+                                        {t('voting_section.vote_prompt.subtitle')}
                                     </p>
                                 </div>
                                 
@@ -178,12 +180,12 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                                             }`} />
                                         </div>
                                         <span className="text-xs sm:text-sm font-bold text-center leading-tight">
-                                            Terselesaikan
+                                            {t('vote_status.RESOLVED.label')}
                                         </span>
                                         <span className={`text-xs mt-1 text-center ${
                                             userCurrentVote === 'RESOLVED' ? 'text-green-100' : 'text-gray-500'
                                         }`}>
-                                            Masalah selesai
+                                            {t('vote_status.RESOLVED.description')}
                                         </span>
                                     </motion.button>
 
@@ -209,12 +211,12 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                                             }`} />
                                         </div>
                                         <span className="text-xs sm:text-sm font-bold text-center leading-tight">
-                                            Dalam Proses
+                                            {t('vote_status.ON_PROGRESS.label')}
                                         </span>
                                         <span className={`text-xs mt-1 text-center ${
                                             userCurrentVote === 'ON_PROGRESS' ? 'text-yellow-100' : 'text-gray-500'
                                         }`}>
-                                            Sedang ditangani
+                                            {t('vote_status.ON_PROGRESS.description')}
                                         </span>
                                     </motion.button>
                                 </div>
@@ -224,23 +226,23 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                 )}
 
                 {userCurrentVote && !isReportResolved && !isReportExpired && (
-                    <div className="mt-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200 shadow-sm">
+                    <div className="mt-4 bg-linear-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200 shadow-sm">
                         <div className="flex items-center justify-center space-x-2">
                             <div className="flex-1">
                                 <p className="text-sm text-gray-700">
-                                    Pendapat Anda: <span className={`font-bold ${
+                                    {t('voting_section.your_vote.label')} <span className={`font-bold ${
                                         userCurrentVote === 'RESOLVED' 
                                             ? 'text-green-700' 
                                             : userCurrentVote === 'ON_PROGRESS'
                                             ? 'text-yellow-700'
                                             : 'text-red-700'
                                     }`}>
-                                        {userCurrentVote === 'RESOLVED' && 'Terselesaikan'}
-                                        {userCurrentVote === 'ON_PROGRESS' && 'Dalam Proses'}
+                                        {userCurrentVote === 'RESOLVED' && t('vote_status.RESOLVED.label')}
+                                        {userCurrentVote === 'ON_PROGRESS' && t('vote_status.ON_PROGRESS.label')}
                                     </span>
                                 </p>
                                 <p className="text-xs text-gray-500 mt-0.5">
-                                    Anda telah memberikan pendapat pada laporan ini. Terima kasih atas partisipasi Anda!
+                                    {t('voting_section.your_vote.thanks')}
                                 </p>
                             </div>
                         </div>

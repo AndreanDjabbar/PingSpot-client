@@ -7,6 +7,7 @@ import { FiMaximize2 } from 'react-icons/fi';
 import { cn } from '@/lib';
 import { ImageItem } from '@/types';
 import Button from './Button';
+import { useTranslations } from 'next-intl';
 
 interface MultipleImageFieldProps {
     id: string;
@@ -32,8 +33,8 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
     name,
     className = '',
     withLabel = true,
-    labelTitle = 'Foto Permasalahan',
-    buttonTitle = 'Pilih Foto',
+    labelTitle,
+    buttonTitle,
     required = false,
     maxImages = 5,
     images = [],
@@ -44,6 +45,7 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
     shape,
     disabled = false,
 }) => {
+    const t = useTranslations('component.image_field.multiple_image_field');
     const availableSlots = Math.max(0, maxImages);
     const fileInputRef = useRef<HTMLInputElement>(null);
     
@@ -96,7 +98,7 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
         <div className={`space-y-3 ${className}`}>
             {withLabel && (
                 <label htmlFor={id} className="block text-md font-semibold text-gray-900">
-                    {labelTitle} {required && <span className="text-red-500">*</span>}
+                    {labelTitle || t('default_label')} {required && <span className="text-red-500">*</span>}
                 </label>
             )}
             
@@ -112,7 +114,7 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
                             >
                                 <Image
                                     src={image.preview}
-                                    alt={`Image ${index + 1}`}
+                                    alt={t('image_alt', { index: index + 1 })}
                                     fill
                                     sizes="(max-width: 768px) 100vw, 33vw"
                                     className="object-cover"
@@ -147,7 +149,8 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
                         >
                             <IoMdAddCircle size={40} className={disabled ? "text-gray-300 mb-2" : "text-gray-400 mb-2"} />
                             <p className={cn("text-xs text-center px-2", disabled ? "text-gray-400" : "text-gray-500")}>
-                                Tambah Foto <br /> ({images.length}/{maxImages})
+                                {t('add_photo')} <br />
+                                {t('count_suffix', { current: images.length, max: maxImages })}
                             </p>
                         </div>
                     )}
@@ -159,7 +162,7 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
                             onClick={handleAddClick}
                             disabled={disabled}
                         >
-                            {buttonTitle}
+                            {buttonTitle || t('default_button')}
                         </Button>
                     </div>
                 )}
@@ -176,7 +179,7 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
                     onChange={handleFileChange}
                 />
                 <p className="text-xs text-center text-gray-500">
-                    Format: JPG, PNG, GIF (Maks. 5 MB) - Maksimal {maxImages} foto
+                    {t('format_hint', { maxImages })}
                 </p>
             </div>
         </div>

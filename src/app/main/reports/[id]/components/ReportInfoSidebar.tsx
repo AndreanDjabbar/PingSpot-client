@@ -38,7 +38,7 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
     getReportTypeLabel,
     onRemoveReport
 }) => {
-    const t = useTranslations('report.component.report_info_sidebar');
+    const t = useTranslations('report.report_id.component.report_info_sidebar');
     const router = useRouter();
     const userProfile = useUserProfileStore((s) => s.userProfile);
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
@@ -72,7 +72,7 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                     <>
                         <div className='flex'>
                             <div>
-                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{t('status_labels.default').split(' ')[0]}</p>
+                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{t('status_label')}</p>
                                 <div className='flex items-center'>
                                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(report.reportStatus)}`}>
                                         {t(`status_labels.${report.reportStatus}`, { defaultValue: t('status_labels.default') })}

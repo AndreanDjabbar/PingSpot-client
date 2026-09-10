@@ -75,7 +75,7 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
     majorityPercentage,
     handleVote,
 }) => {
-    const t = useTranslations('report.component.report_voting_section');
+    const t = useTranslations('report.report_id.component.report_voting_section');
     const isReportExpired = report.reportStatus === 'EXPIRED';
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
     const canVote = !isReportOwner && report.hasProgress && !isReportExpired;

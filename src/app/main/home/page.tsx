@@ -28,6 +28,7 @@ const Homepage = () => {
     const currentPath = usePathname();
     const router = useRouter();
     const t = useTranslations('home');
+    const t2 = useTranslations('utils.format');
     const location = useLocationStore((state) => state.location);
     const { 
         requestLocation, 
@@ -212,7 +213,11 @@ const Homepage = () => {
                                 </h2>
                                 {location?.lastUpdated && (
                                     <p className="text-xs text-surface/70 mt-1">
-                                        {t('location_card.updated_at', { time: getRelativeTime(location.lastUpdated) })}
+                                        {t('location_card.updated_at', {
+                                            time: getRelativeTime(location.lastUpdated, (key, values) =>
+                                                t2(`relative_time.${key}`, values)
+                                            )
+                                        })}
                                     </p>
                                 )}
                             </div>

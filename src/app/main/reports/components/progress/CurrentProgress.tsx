@@ -2,6 +2,7 @@ import { IReportProgress } from "@/types"
 import { getFormattedDate, getImageURL } from "@/utils";
 import Image from "next/image";
 import React from "react"
+import { useTranslations } from 'next-intl';
 
 interface CurrentProgressProps {
     reportProgress: IReportProgress[];
@@ -12,6 +13,7 @@ const CurrentProgress: React.FC<CurrentProgressProps> = ({
     reportProgress,
     handleImageClick,
 }) => {
+    const t = useTranslations('report.report_progress');
     const onImageClick = (imageUrl: string) => {
         handleImageClick(imageUrl);
     }
@@ -19,15 +21,15 @@ const CurrentProgress: React.FC<CurrentProgressProps> = ({
     const getStatusLabel = (status: string) => {
         switch (status) {
             case 'RESOLVED':
-                return 'Terselesaikan';
+                return t('status_labels.RESOLVED');
             case 'EXPIRED':
-                return 'Kadaluarsa';
+                return t('status_labels.EXPIRED');
             case 'WAITING_CONFIRMATION':
-                return 'Menunggu Konfirmasi';
+                return t('status_labels.WAITING_CONFIRMATION');
             case 'ON_PROGRESS':
-                return 'Sedang Diproses';
+                return t('status_labels.ON_PROGRESS');
             default:
-                return 'Belum Diproses';
+                return t('status_labels.default');
         }
     };
 
@@ -56,7 +58,7 @@ const CurrentProgress: React.FC<CurrentProgressProps> = ({
             <div className="bg-primary/10 rounded-lg p-4 border border-primary">
                 <div>
                     <div className="flex items-center justify-between mb-3">
-                        <p className="text-xs font-bold text-primary uppercase tracking-wide">Perkembangan Terakhir</p>
+                        <p className="text-xs font-bold text-primary uppercase tracking-wide">{t('current_progress.latest_label')}</p>
                         <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
                             getStatusColor(latestProgress.status)
                         }`}>
@@ -86,7 +88,7 @@ const CurrentProgress: React.FC<CurrentProgressProps> = ({
                                 >
                                     <Image
                                         src={getImageURL(`/report/progress/${imageUrl}`, "main")}
-                                        alt={`Latest progress - Image ${imgIndex + 1}`}
+                                        alt={t('current_progress.image_alt', { index: imgIndex + 1 })}
                                         fill
                                         className="object-cover"
                                     />

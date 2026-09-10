@@ -6,6 +6,7 @@ import { IoMdImages } from 'react-icons/io';
 import { MdClose } from 'react-icons/md';
 import { Button } from '@/components/UI';
 import { useToast } from '@/hooks';
+import { useTranslations } from 'next-intl';
 
 interface InlineImageUploadProps {
     preview: string | null;
@@ -38,6 +39,7 @@ const InlineImageUpload: React.FC<InlineImageUploadProps> = ({
     previewPosition = 'top',
     showPreview = true
 }) => {
+    const t = useTranslations('component.image_field.inline_image_upload');
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { toastError } = useToast();
 
@@ -46,13 +48,13 @@ const InlineImageUpload: React.FC<InlineImageUploadProps> = ({
         if (!file) return;
 
         if (!file.type.startsWith('image/')) {
-            toastError('Pilih file gambar (JPG, PNG, GIF)');
+            toastError(t('error_invalid_type'));
             return;
         }
 
         const maxSizeBytes = maxSizeMB * 1024 * 1024;
         if (file.size > maxSizeBytes) {
-            toastError(`Ukuran gambar maksimal ${maxSizeMB}MB`);
+            toastError(t('error_too_large', { maxSizeMB }));
             return;
         }
 
@@ -80,7 +82,7 @@ const InlineImageUpload: React.FC<InlineImageUploadProps> = ({
                 <div className="relative rounded-lg overflow-hidden border-2 border-gray-300 shadow-sm">
                     <Image
                         src={preview}
-                        alt="Pratinjau gambar"
+                        alt={t('preview_alt')}
                         width={200}
                         height={150}
                         className="object-cover max-h-40"
@@ -89,7 +91,7 @@ const InlineImageUpload: React.FC<InlineImageUploadProps> = ({
                         onClick={handleRemove}
                         className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 transition-colors shadow-lg"
                         type="button"
-                        aria-label="Hapus gambar"
+                        aria-label={t('remove_aria')}
                     >
                         <MdClose size={18} />
                     </button>
@@ -106,8 +108,8 @@ const InlineImageUpload: React.FC<InlineImageUploadProps> = ({
                 size={buttonSize}
                 type="button"
                 disabled={disabled}
-                className={`flex-shrink-0 ${buttonClassName}`}
-                aria-label="Unggah gambar"
+                className={`shrink-0 ${buttonClassName}`}
+                aria-label={t('upload_aria')}
             >
                 <IoMdImages size={23} />
             </Button>
@@ -154,6 +156,7 @@ const InlineImageUpload: React.FC<InlineImageUploadProps> = ({
 };
 
 export const ImagePreview: React.FC<ImagePreviewProps> = ({ preview, onRemove, className = '' }) => {
+    const t = useTranslations('component.image_field.inline_image_upload');
     if (!preview) return null;
 
     const handleRemove = (e: React.MouseEvent) => {
@@ -166,7 +169,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ preview, onRemove, c
             <div className="relative rounded-lg overflow-hidden border-2 border-gray-300 shadow-sm">
                 <Image
                     src={preview}
-                    alt="Pratinjau gambar"
+                    alt={t('preview_alt')}
                     width={200}
                     height={150}
                     className="object-cover max-h-40"
@@ -175,7 +178,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ preview, onRemove, c
                     onClick={handleRemove}
                     className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 transition-colors shadow-lg cursor-pointer"
                     type="button"
-                    aria-label="Hapus gambar"
+                    aria-label={t('remove_aria')}
                 >
                     <MdClose size={18} />
                 </button>

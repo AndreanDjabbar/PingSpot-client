@@ -5,6 +5,7 @@ import React from "react"
 import { BiX } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 import { RiProgress3Fill } from "react-icons/ri";
+import { useTranslations } from 'next-intl';
 
 interface ProgressHistoryProps {
     reportProgress: IReportProgress[];
@@ -15,6 +16,7 @@ const ProgressHistory: React.FC<ProgressHistoryProps> = ({
     reportProgress,
     handleImageClick,
 }) => {
+    const t = useTranslations('report.report_progress');
     const onImageClick = (imageUrl: string) => {
         handleImageClick(imageUrl);
     }
@@ -22,15 +24,15 @@ const ProgressHistory: React.FC<ProgressHistoryProps> = ({
     const getStatusLabel = (status: string) => {
         switch (status) {
             case 'RESOLVED':
-                return 'Terselesaikan';
+                return t('status_labels.RESOLVED');
             case 'EXPIRED':
-                return 'Kadaluarsa';
+                return t('status_labels.EXPIRED');
             case 'WAITING_CONFIRMATION':
-                return 'Menunggu Konfirmasi';
+                return t('status_labels.WAITING_CONFIRMATION');
             case 'ON_PROGRESS':
-                return 'Sedang Diproses';
+                return t('status_labels.ON_PROGRESS');
             default:
-                return 'Belum Diproses';
+                return t('status_labels.default');
         }
     };
 
@@ -76,11 +78,11 @@ const ProgressHistory: React.FC<ProgressHistoryProps> = ({
                             return (
                                 <div key={`${progress.id}-${index}`} className="relative pb-6">
                                     {!isLast && (
-                                        <div className="absolute left-4 top-8 bottom-0 w-0.5 bg-gradient-to-b from-blue-200 to-gray-200"></div>
+                                        <div className="absolute left-4 top-8 bottom-0 w-0.5 bg-linear-to-b from-blue-200 to-gray-200"></div>
                                     )}
 
                                     <div className="flex items-start gap-3">
-                                        <div className={`relative z-10 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md ${getStatusIconBg(progress.status)}`}>
+                                        <div className={`relative z-10 shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md ${getStatusIconBg(progress.status)}`}>
                                             {getStatusIcon(progress.status)}
                                         </div>
 
@@ -113,7 +115,7 @@ const ProgressHistory: React.FC<ProgressHistoryProps> = ({
                                                             >
                                                                 <Image
                                                                     src={getImageURL(`/report/progress/${imageUrl}`, "main")}
-                                                                    alt={`Progress ${index + 1} - Image ${imgIndex + 1}`}
+                                                                    alt={t('progress_history.image_alt', { index: index + 1, imgIndex: imgIndex + 1 })}
                                                                     fill
                                                                     className="object-cover"
                                                                 />

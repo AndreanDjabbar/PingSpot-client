@@ -6,6 +6,7 @@ import { FaCamera } from 'react-icons/fa';
 import { cn } from '@/lib';
 import Cropper from 'react-easy-crop';
 import type { Area } from 'react-easy-crop';
+import { useTranslations } from 'next-intl';
 
 interface ImageFieldProps {
     id: string;
@@ -31,8 +32,8 @@ const ImageField: React.FC<ImageFieldProps> = ({
     className = '',
     withLabel = true,
     usingCrop = false,
-    labelTitle = 'Foto Profil',
-    buttonTitle = 'Pilih Foto',
+    labelTitle,
+    buttonTitle,
     required = false,
     currentImage,
     onChange,
@@ -42,6 +43,7 @@ const ImageField: React.FC<ImageFieldProps> = ({
     shape,
     cropAspect = 1
 }) => {
+    const t = useTranslations('component.image_field.image_field');
     const defaultURL = `${process.env.NEXT_PUBLIC_user_static_URL}/default.png`;
     const [image, setImage] = useState<string | null>(currentImage || null);
     const [isHovering, setIsHovering] = useState(false);
@@ -176,7 +178,7 @@ const ImageField: React.FC<ImageFieldProps> = ({
         <div className={`space-y-3 ${className}`}>
             {withLabel && (
                 <label htmlFor={id} className="block text-md font-semibold text-center text-gray-900">
-                {labelTitle} {required && <span className="text-red-500">*</span>}
+                {labelTitle || t('default_label')} {required && <span className="text-red-500">*</span>}
                 </label>
             )}
             
@@ -192,7 +194,7 @@ const ImageField: React.FC<ImageFieldProps> = ({
                     <>
                     <Image
                         src={image}
-                        alt="Profile picture"
+                        alt={t('alt')}
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
                         className={`object-cover ${isHovering ? 'opacity-50' : ''}`}
@@ -216,7 +218,7 @@ const ImageField: React.FC<ImageFieldProps> = ({
                     onClick={handleAvatarClick}
                     className="px-4 py-1 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-md cursor-pointer"
                 >
-                    {buttonTitle}
+                    {buttonTitle || t('default_button')}
                 </button>
                 
                 {image && image != defaultURL && (
@@ -225,7 +227,7 @@ const ImageField: React.FC<ImageFieldProps> = ({
                     onClick={handleRemoveImage}
                     className="px-4 py-1 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm cursor-pointer"
                     >
-                    Hapus
+                    {t('remove_button')}
                     </button>
                 )}
                 </div>
@@ -241,14 +243,14 @@ const ImageField: React.FC<ImageFieldProps> = ({
                 onChange={handleFileChange}
                 />
                 <p className="text-xs text-gray-500">
-                Format: JPG, PNG, GIF (Maks. 5 MB)
+                {t('format_hint')}
                 </p>
             </div>
 
             {showCropModal && tempImage && (
                 <div className="bg-black inset-0 absolute w-full left-0 top-0 z-100 flex items-center justify-center bg-opacity-75">
                     <div className="bg-white rounded-lg p-4 w-full max-w-2xl mx-4">
-                        <h3 className="text-lg  font-semibold mb-4">Crop Gambar</h3>
+                        <h3 className="text-lg  font-semibold mb-4">{t('crop_modal.title')}</h3>
                         
                         <div className="relative w-full h-96 bg-gray-100 rounded-lg overflow-hidden">
                             <Cropper
@@ -265,7 +267,7 @@ const ImageField: React.FC<ImageFieldProps> = ({
 
                         <div className="mt-4 space-y-2">
                             <label className="block text-sm font-medium text-gray-700">
-                                Zoom
+                                {t('crop_modal.zoom_label')}
                             </label>
                             <input
                                 type="range"
@@ -284,14 +286,14 @@ const ImageField: React.FC<ImageFieldProps> = ({
                                 onClick={handleCropCancel}
                                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
                             >
-                                Batal
+                                {t('crop_modal.cancel_button')}
                             </button>
                             <button
                                 type="button"
                                 onClick={handleCropSave}
                                 className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
                             >
-                                Simpan
+                                {t('crop_modal.save_button')}
                             </button>
                         </div>
                     </div>

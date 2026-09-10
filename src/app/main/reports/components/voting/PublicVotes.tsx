@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaCheck } from 'react-icons/fa';
 import { RiProgress3Fill } from 'react-icons/ri';
+import { useTranslations } from 'next-intl';
 
 interface PublicVotesProps {
     totalVotes: number;
@@ -13,6 +14,7 @@ const PublicVotes: React.FC<PublicVotesProps> = ({
     totalResolvedVotes,
     totalOnProgressVotes,
 }) => {
+    const t = useTranslations('report.report_voting');
     const resolvedPercentage = totalVotes > 0 ? (totalResolvedVotes / totalVotes) * 100 : 0;
     const onProgressPercentage = totalVotes > 0 ? (totalOnProgressVotes / totalVotes) * 100 : 0;
     return (
@@ -20,25 +22,25 @@ const PublicVotes: React.FC<PublicVotesProps> = ({
             <div className="mt-4 px-3">
                 <div className='mb-4'>
                     <div className="flex items-center justify-between text-sm font-semibold text-gray-900">
-                        <span>Pendapat Komunitas</span>
+                        <span>{t('public_votes.title')}</span>
                         <span className="text-xs bg-primary/10 text-primary font-bold px-2.5 py-1 rounded-full">
-                            {totalVotes} vote
+                            {t('public_votes.vote_count', { count: totalVotes })}
                         </span>
                     </div>
-                    <span className='text-sm text-gray-600'>Pendapat komunitas mengenai proses perkembangan laporan:</span>
+                    <span className='text-sm text-gray-600'>{t('public_votes.subtitle')}</span>
                 </div>
                 <div className="space-y-3">
                     <div className="space-y-2">
                         <div className="flex items-center justify-between text-sm">
                             <div className='flex gap-2 font-medium text-yellow-700 items-center'>
                                 <RiProgress3Fill/>
-                                <span className="">Dalam Proses</span>
+                                <span className="">{t('vote_status.ON_PROGRESS.label')}</span>
                             </div>
                             <span className="text-gray-600 font-semibold">{totalOnProgressVotes} ({onProgressPercentage.toFixed(0)}%)</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
                             <div 
-                                className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-2.5 rounded-full shadow-sm transition-all duration-500 ease-out" 
+                                className="bg-linear-to-r from-yellow-500 to-yellow-600 h-2.5 rounded-full shadow-sm transition-all duration-500 ease-out" 
                                 style={{ width: `${onProgressPercentage}%` }}
                             ></div>
                         </div>
@@ -47,13 +49,13 @@ const PublicVotes: React.FC<PublicVotesProps> = ({
                         <div className="flex items-center justify-between text-sm">
                             <div className='flex gap-2 font-medium text-green-700 items-center'>
                                 <FaCheck/>
-                                <span className="">Terselesaikan</span>
+                                <span className="">{t('vote_status.RESOLVED.label')}</span>
                             </div>
                             <span className="text-gray-600 font-semibold">{totalResolvedVotes} ({resolvedPercentage.toFixed(0)}%)</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
                             <div 
-                                className="bg-gradient-to-r from-green-500 to-green-600 h-2.5 rounded-full shadow-sm transition-all duration-500 ease-out" 
+                                className="bg-linear-to-r from-green-500 to-green-600 h-2.5 rounded-full shadow-sm transition-all duration-500 ease-out" 
                                 style={{ width: `${resolvedPercentage}%` }}
                             ></div>
                         </div>

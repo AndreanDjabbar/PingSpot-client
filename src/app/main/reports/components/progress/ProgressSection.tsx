@@ -2,13 +2,14 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaCheck, FaTimes, FaCamera } from 'react-icons/fa';
+import { FaCheck, FaCamera } from 'react-icons/fa';
 import { RiProgress3Fill } from "react-icons/ri";
 import { BiMessageDetail } from 'react-icons/bi';
 import { Button, MultipleImageField, TextAreaField } from '@/components';
 import { ImageItem } from '@/types';
 import { UseFormRegister, FieldErrors, UseFormSetValue, UseFormHandleSubmit } from 'react-hook-form';
 import { IUploadProgressReportRequest } from '@/types/api/report';
+import { useTranslations } from 'next-intl';
 
 interface ProgressSectionProps {
     reportID: number;
@@ -41,6 +42,7 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
     progressImages,
     setProgressImages,
 }) => {
+    const t = useTranslations('report.report_progress.progress_section');
     const handleStatusChange = (status: 'RESOLVED' | 'ON_PROGRESS') => {
         if (selectedStatus === status) {
             setSelectedStatus(null);
@@ -107,7 +109,7 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
         <form onSubmit={handleSubmitProgress(handleProgressUpload)} className='mt-4'>
             <div className='mb-5'>
                 <label className="block text-sm font-bold text-gray-900 mb-3">
-                    Pilih Status Perkembangan
+                    {t('status_select_label')}
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-2 gap-3">
                                         {/* ON_PROGRESS Button */}
@@ -130,12 +132,12 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
                             }`} />
                         </div>
                         <span className="text-xs sm:text-sm font-bold text-center leading-tight">
-                            Dalam Proses
+                            {t('on_progress.label')}
                         </span>
                         <span className={`text-xs mt-1 text-center ${
                             selectedStatus === 'ON_PROGRESS' ? 'text-yellow-100' : 'text-gray-500'
                         }`}>
-                            Sedang ditangani
+                            {t('on_progress.description')}
                         </span>
                     </motion.button>
 
@@ -159,12 +161,12 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
                             }`} />
                         </div>
                         <span className="text-xs sm:text-sm font-bold text-center leading-tight">
-                            Terselesaikan
+                            {t('resolved.label')}
                         </span>
                         <span className={`text-xs mt-1 text-center ${
                             selectedStatus === 'RESOLVED' ? 'text-green-100' : 'text-gray-500'
                         }`}>
-                            Masalah selesai
+                            {t('resolved.description')}
                         </span>
                     </motion.button>
                 </div>
@@ -182,7 +184,7 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-5 border border-gray-200 shadow-md space-y-4"
+                        className="bg-linear-to-br from-white to-gray-50 rounded-xl p-5 border border-gray-200 shadow-md space-y-4"
                     >
                         <div>
                             <TextAreaField
@@ -192,9 +194,9 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
                                 className="w-full"
                                 required
                                 withLabel={true}
-                                labelTitle="Catatan Progress"
+                                labelTitle={t('notes_field.label')}
                                 labelIcon={<BiMessageDetail size={20} />}
-                                placeholder="Jelaskan detail progress dari laporan ini. Misalnya: perbaikan sudah dimulai, material sudah disiapkan, dll."
+                                placeholder={t('notes_field.placeholder')}
                             />
                             {progressErrors.progressNotes && (
                                 <p className="text-red-500 text-sm font-semibold mt-2">
@@ -207,13 +209,13 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
                             <div className="flex items-center space-x-2">
                                 <FaCamera className="w-5 h-5 text-gray-700" />
                                 <label className="text-sm font-bold text-gray-900">
-                                    Lampiran Foto (Opsional, Maksimal 2)
+                                    {t('attachment_label')}
                                 </label>
                             </div>
                             <MultipleImageField
                                 id="statusImages"
                                 withLabel={false}
-                                buttonTitle="Pilih Foto Progress"
+                                buttonTitle={t('attachment_button')}
                                 width={150}
                                 height={150}
                                 shape="square"
@@ -223,18 +225,18 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
                                 onImageClick={handleImageClick}
                             />
                             <p className="text-xs text-gray-600 bg-blue-50 p-3 rounded-lg border border-blue-100">
-                                💡 Tips: Tambahkan foto untuk memperjelas perkembangan laporan dan meningkatkan kepercayaan komunitas
+                                {t('tip')}
                             </p>
                         </div>
                         
                         <div className="flex flex-col sm:flex-row gap-3 pt-2">
                             <Button
                                 className="group relative flex-1 flex items-center justify-center py-3.5 px-4 text-sm font-bold "
-                                loadingText="Memproses..."
+                                loadingText={t('submit_button.loading')}
                                 type='submit'
                                 isLoading={isUploadProgressReportPending}
                             >
-                                {selectedStatus === 'RESOLVED' ? 'Tutup Laporan' : 'Perbarui Status'}
+                                {selectedStatus === 'RESOLVED' ? t('submit_button.resolved') : t('submit_button.update')}
                             </Button>
                             <Button
                                 variant="outline"
@@ -242,19 +244,19 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({
                                 onClick={handleCancel}
                                 disabled={isUploadProgressReportPending}
                             >
-                                Batal
+                                {t('cancel_button')}
                             </Button>
                         </div>
                     </motion.div>
                 )}
 
                 {currentStatus === 'RESOLVED' && (
-                    <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-300 shadow-sm mt-4">
+                    <div className="flex items-center space-x-3 p-4 bg-linear-to-r from-green-50 to-emerald-50 rounded-xl border border-green-300 shadow-sm mt-4">
                         <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
                             <FaCheck className="w-4 h-4 text-white" />
                         </div>
                         <p className="text-sm text-green-800 font-semibold">
-                            Laporan ini telah ditandai sebagai terselesaikan
+                            {t('resolved_banner')}
                         </p>
                     </div>
                 )}

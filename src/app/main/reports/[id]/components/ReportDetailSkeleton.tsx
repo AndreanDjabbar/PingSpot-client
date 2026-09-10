@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 
 const ReportDetailSkeleton = () => {
-    const t = useTranslations('report.component.report_detail_skeleton');
+    const t = useTranslations('report.report_id.component.report_detail_skeleton');
     return (
         <div className="min-h-screen">
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">

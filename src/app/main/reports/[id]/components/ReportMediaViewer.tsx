@@ -24,7 +24,7 @@ export const ReportMediaViewer: React.FC<ReportMediaViewerProps> = ({
     images, 
     onImageClick 
 }) => {
-    const t = useTranslations('report.component.report_media_viewer');
+    const t = useTranslations('report.report_id.component.report_media_viewer');
     const [viewMode, setViewMode] = useState<'attachment' | 'map'>('map');
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 

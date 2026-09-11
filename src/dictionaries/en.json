@@ -468,6 +468,15 @@
                 }
             }
         },
+        "layout": {
+            "main_layout": {
+                "edit_profile_confirm": {
+                    "title": "Update Profile Information",
+                    "description": "Your profile is still incomplete. You need to update your profile information.",
+                    "confirm_button": "Update Profile"
+                }
+            }
+        },
         "map": {
             "dynamic_map": {
                 "location_permission_error": "Failed to detect your location. Please allow location access in your browser settings.",
@@ -1329,6 +1338,26 @@
                 "weeks_ago": "{count} week{count, plural, one {} other {s}} ago",
                 "months_ago": "{count} month{count, plural, one {} other {s}} ago",
                 "unknown": "Unknown"
+            }
+        }
+    },
+    "api": {
+        "notification": {
+            "reaction": {
+                "title": "Someone reacted to your report",
+                "body": "User {username} reacted to your report"
+            },
+            "vote": {
+                "title": "Someone voted on your report",
+                "body": "User {username} voted on your report"
+            },
+            "comment": {
+                "title": "Someone commented on your report",
+                "body": "User {username} commented on your report"
+            },
+            "follow": {
+                "title": "Someone started following you",
+                "body": "User {username} started following you"
             }
         }
     }

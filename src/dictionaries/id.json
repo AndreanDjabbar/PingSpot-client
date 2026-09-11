@@ -466,6 +466,15 @@
                 }
             }
         },
+        "layout": {
+            "main_layout": {
+                "edit_profile_confirm": {
+                    "title": "Perbarui Informasi Profil",
+                    "description": "Profil Anda masih belum lengkap. Anda perlu memperbarui informasi profil anda.",
+                    "confirm_button": "Perbarui Profil"
+                }
+            }
+        },
         "map": {
             "dynamic_map": {
                 "location_permission_error": "Gagal mendeteksi lokasi Anda. Silahkan izinkan akses lokasi di pengaturan browser Anda.",
@@ -1327,6 +1336,26 @@
                 "weeks_ago": "{count} minggu yang lalu",
                 "months_ago": "{count} bulan yang lalu",
                 "unknown": "Tidak diketahui"
+            }
+        }
+    },
+    "api": {
+        "notification": {
+            "reaction": {
+                "title": "Seseorang memberikan reaksi pada laporan Anda",
+                "body": "Pengguna {username} memberikan reaksi pada laporan Anda"
+            },
+            "vote": {
+                "title": "Seseorang memberikan suara pada laporan Anda",
+                "body": "Pengguna {username} memberikan suara pada laporan Anda"
+            },
+            "comment": {
+                "title": "Seseorang mengomentari laporan Anda",
+                "body": "Pengguna {username} mengomentari laporan Anda"
+            },
+            "follow": {
+                "title": "Seseorang mulai mengikuti Anda",
+                "body": "Pengguna {username} mulai mengikuti Anda"
             }
         }
     }

@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Sidebar from './Sidebar';
 import TopNavigation from './TopNavigation';
-import Footer from './Footer';
 import { useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { useRouter } from 'next/navigation';
 import Scrollbar from './Scrollbar';
+import { useTranslations } from 'next-intl';
 
 interface MainLayoutProps {
     children: React.ReactNode;
@@ -16,7 +16,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     children,
 }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [bottomNavHeightPosition, setBottomNavHeightPosition] = useState(0);
+    const t = useTranslations('component.layout.main_layout');
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
     const userProfile = useUserProfileStore((s) => s.userProfile);
     const loadUser = useUserProfileStore((state) => state.loadUser);
@@ -25,16 +25,16 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     const toggleSidebar = () => setSidebarOpen((prev) => !prev);
     const closeSidebar = () => setSidebarOpen(false);
 
-    const openEditProfileConfirm = () => {
+    const openEditProfileConfirm = useCallback(() => {
         openConfirm({
-            title: "Perbarui Informasi Profil",
-            description: "Profil Anda masih belum lengkap. Anda perlu memperbarui informasi profil anda.",
+            title: t('edit_profile_confirm.title'),
+            description: t('edit_profile_confirm.description'),
             onConfirm: () => {
                 router.push("/main/settings/profile");
             },
-            confirmTitle: "Perbarui Profil",
+            confirmTitle: t('edit_profile_confirm.confirm_button'),
         });
-    };
+    }, [openConfirm, router, t]);
 
     useEffect(() => {
         loadUser();
@@ -44,11 +44,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         if (userProfile && !userProfile.isCompleteProfile) {
             openEditProfileConfirm();
         }
-    }, [userProfile]);
-
-    const handleBottomNavHeightChange = (position: number) => {
-        setBottomNavHeightPosition(position);
-    };
+    }, [userProfile, openEditProfileConfirm]);
 
     return (
         <div className="flex flex-col">
@@ -57,7 +53,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                 <Sidebar 
                     isOpen={sidebarOpen} 
                     onToggle={closeSidebar} 
-                    onBottomNavHeightChange={handleBottomNavHeightChange}
                 />
                 <div className="flex-1 min-w-0 xl:ml-70 mt-18 xl:mt-0">
                     <Scrollbar >

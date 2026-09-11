@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/preserve-manual-memoization */
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import React, { useMemo, useState } from 'react';
 import { FiBell, FiCheck, FiCheckCircle, FiTrash2, FiUser, FiMail, FiAlertCircle, FiHeart } from 'react-icons/fi';
@@ -64,6 +62,20 @@ const getGroupLabel = (date: Date, translate: (key: string) => string): string =
     return translate('group_labels.older');
 };
 
+const getApiNotificationKind = (notification: INotification): 'reaction' | 'vote' | 'comment' | 'follow' | null => {
+    if (notification.entityType === 'COMMENT') return 'comment';
+    if (notification.entityType === 'REPORT') return 'vote';
+    if (notification.entityType === 'USER') {
+        return notification.category === 'USER' ? 'follow' : 'reaction';
+    }
+    return null;
+};
+
+const getNotificationUsername = (description: string): string => {
+    const match = description.match(/^(?:Pengguna|User)\s+(.+?)\s+(?:memberikan|mengomentari|mulai|reacted|commented|started)/i);
+    return match?.[1] || '';
+};
+
 const NotificationCard: React.FC<{
     notification: INotification;
     onDelete: (id: number) => void;
@@ -78,12 +90,21 @@ const NotificationCard: React.FC<{
     isDeletingNotification
 }) => {
     const t = useTranslations('notifications');
+    const apiT = useTranslations('api.notification');
     const locale = useLocale();
     const [today] = useState(() => Date.now());
     const style = SEVERITY_STYLE[notification.type];
     const icon = ENTITY_ICON[notification.entityType];
     const actionUrl = getActionUrl(notification.entityType, notification.entityID);
     const actionText = actionUrl ? t(`action_text.${notification.entityType}`) : undefined;
+    const notificationKind = getApiNotificationKind(notification);
+    const actorName = getNotificationUsername(notification.description);
+    const notificationTitle = notificationKind
+        ? apiT(`${notificationKind}.title`)
+        : notification.title;
+    const notificationDescription = notificationKind
+        ? apiT(`${notificationKind}.body`, { username: actorName })
+        : notification.description;
     const date = toDate(notification.createdAt);
     const diffInSeconds = Math.floor((today - date.getTime()) / 1000);
     const timeAgo = diffInSeconds < 60
@@ -121,11 +142,11 @@ const NotificationCard: React.FC<{
                 <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                         <h3 className="text-sm font-semibold text-surface leading-snug">
-                            {notification.title}
+                            {notificationTitle}
                         </h3>
                     </div>
                     <p className="text-sm text-gray-500 mt-1 line-clamp-2 leading-relaxed">
-                        {notification.description}
+                        {notificationDescription}
                     </p>
                     <div className="flex items-center gap-3 mt-2.5">
                         <span className="text-xs text-gray-500">
@@ -270,7 +291,7 @@ const NotificationsPage: React.FC = () => {
             groups.get(label)!.push(n);
         }
         return groups;
-    }, [filteredNotifications]);
+    }, [filteredNotifications, t]);
 
     const handleDeleteAllConfirmation = () => {
         openConfirm({

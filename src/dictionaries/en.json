@@ -1358,6 +1358,10 @@
             "follow": {
                 "title": "Someone started following you",
                 "body": "User {username} started following you"
+            },
+            "reply": {
+                "title": "Someone replied to your comment",
+                "body": "User {username} replied to your comment"
             }
         }
     }

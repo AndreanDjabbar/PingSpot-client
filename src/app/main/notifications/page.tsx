@@ -62,8 +62,12 @@ const getGroupLabel = (date: Date, translate: (key: string) => string): string =
     return translate('group_labels.older');
 };
 
-const getApiNotificationKind = (notification: INotification): 'reaction' | 'vote' | 'comment' | 'follow' | null => {
-    if (notification.entityType === 'COMMENT') return 'comment';
+const getApiNotificationKind = (notification: INotification): 'reaction' | 'vote' | 'comment' | 'follow' | 'reply' | null => {
+    if (notification.entityType === 'COMMENT') {
+        return /membalas|replied|reply/i.test(`${notification.title} ${notification.description}`)
+            ? 'reply'
+            : 'comment';
+    }
     if (notification.entityType === 'REPORT') return 'vote';
     if (notification.entityType === 'USER') {
         return notification.category === 'USER' ? 'follow' : 'reaction';
@@ -72,7 +76,7 @@ const getApiNotificationKind = (notification: INotification): 'reaction' | 'vote
 };
 
 const getNotificationUsername = (description: string): string => {
-    const match = description.match(/^(?:Pengguna|User)\s+(.+?)\s+(?:memberikan|mengomentari|mulai|reacted|commented|started)/i);
+    const match = description.match(/^(?:Pengguna|User)\s+(.+?)\s+(?:memberikan|mengomentari|membalas|mulai|reacted|commented|replied|started)/i);
     return match?.[1] || '';
 };
 

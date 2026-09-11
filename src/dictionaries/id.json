@@ -1356,6 +1356,10 @@
             "follow": {
                 "title": "Seseorang mulai mengikuti Anda",
                 "body": "Pengguna {username} mulai mengikuti Anda"
+            },
+            "reply": {
+                "title": "Seseorang membalas komentar Anda",
+                "body": "Pengguna {username} membalas komentar Anda"
             }
         }
     }

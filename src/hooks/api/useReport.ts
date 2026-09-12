@@ -11,6 +11,7 @@ import {
     getReportService,
     getReportStatisticsService,
     reactReportService,
+    SaveReportService,
     uploadProgressReportService,
     voteReportService
 } from "@/services"
@@ -28,6 +29,7 @@ import {
     IGetReportStatisticsResponse,
     IReactReportRequest,
     IReactReportResponse,
+    ISaveReportResponse,
     IUploadProgressReportResponse,
     IVoteReportRequest,
     IVoteReportResponse
@@ -185,3 +187,19 @@ export const useVoteReport = () => {
         },
     });
 };
+
+export const useSaveReport = (reportState: {
+    reportType?: string,
+    status?: string,
+    sortBy?: string,
+    hasProgress?: string,
+    distance? : { distance: string; lat: string | null; lng: string | null },
+}) => {
+    const queryClient = useQueryClient();
+    return useMutation<ISaveReportResponse, Error, { reportID: number; saved: boolean }>({
+        mutationFn: ({ reportID, saved }) => SaveReportService(reportID, saved),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['report', reportState.reportType, reportState.status, reportState.sortBy, reportState.distance, reportState.hasProgress] });
+        },
+    });
+}

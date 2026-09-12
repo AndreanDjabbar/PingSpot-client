@@ -99,6 +99,15 @@ export interface IReactReportResponse {
     data?: IReportReactions;
 }
 
+export interface ISaveReportResponse {
+    message: string;
+    data?: {
+        reportID: number;
+        save: boolean;
+        userID: number;
+    }
+}
+
 export interface IVoteReportResponse {
     message: string;
     data?: IReportVote;

@@ -13,6 +13,7 @@ import {
     IGetReportStatisticsResponse,
     IReactReportRequest,
     IReactReportResponse,
+    ISaveReportResponse,
     IUpdateReportStatusResponse,
     IUploadProgressReportResponse,
     IVoteReportRequest,
@@ -163,5 +164,10 @@ export const EditReportService = async (reportID: number, payload: FormData): Pr
 
 export const DeleteReportService = async (payload: IDeleteReportRequest): Promise<IDeleteReportResponse> => {
     const response = await axiosInstance.delete<IDeleteReportResponse>(`/report/${payload.reportID}`);
+    return response.data;
+}
+
+export const SaveReportService = async (reportID: number, saved: boolean): Promise<ISaveReportResponse> => {
+    const response = await axiosInstance.post<ISaveReportResponse>(`/report/${reportID}/save`, { save: saved });
     return response.data;
 }

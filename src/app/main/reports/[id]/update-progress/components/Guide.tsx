@@ -36,13 +36,13 @@ const GuideSection = () => {
                 alerts={[
                     {
                         type: 'warning',
-                        emoji: '⚠️',
+                        emoji: '',
                         title: t('alerts.warning.title'),
                         message: t('alerts.warning.message')
                     },
                     {
                         type: 'success',
-                        emoji: '💡',
+                        emoji: '',
                         title: t('alerts.tip.title'),
                         message: t('alerts.tip.message')
                     }

@@ -8,18 +8,18 @@ interface BreadcrumbProps {
 }
 
 const paths = [
-    { id: 'home', label: '🏠 Beranda',},
+    { id: 'home', label: 'Beranda',},
     { id: 'map', label: 'Peta Interaktif', },
-    { id: 'explore', label: '🔍 Jelajahi', },
+    { id: 'explore', label: 'Jelajahi', },
     { id: 'community', label: 'Komunitas', },
     { id: 'messages', label: 'Pesan', },
     { id: 'activity', label: 'Aktivitas', },
-    { id: 'settings', label: '⚙️ Pengaturan', },
+    { id: 'settings', label: 'Pengaturan', },
     { id: 'help', label: 'Bantuan' },
     { id: 'profile', label: 'Profil' },
-    { id: 'notifications', label: '🔔 Notifikasi' },
+    { id: 'notifications', label: 'Notifikasi' },
     { id: 'security', label: 'Keamanan' },
-    { id: 'reports', label: '📝 Laporan' },
+    { id: 'reports', label: 'Laporan' },
     { id: 'create-report', label: 'Buat Laporan' },
 ]
 

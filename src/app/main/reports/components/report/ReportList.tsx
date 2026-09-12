@@ -6,7 +6,7 @@ interface ReportListProps {
     onLike: (reportId: number) => void;
     onDislike: (reportId: number) => void;
     onRemove: (reportId: number) => void;
-    onSave: (reportId: number) => void;
+    onSave: (reportId: number, save: boolean) => void;
     onComment: (reportId: number) => void;
     onShare: (reportId: number, reportTitle: string) => void;
     onStatusVote: (reportId: number, voteType: 'RESOLVED' | 'NOT_RESOLVED' | 'NEUTRAL') => void;

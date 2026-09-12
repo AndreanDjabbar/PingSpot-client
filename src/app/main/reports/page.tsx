@@ -13,7 +13,8 @@ import {
     useSuccessToast,
     useVoteReport,
     useCurrentLocation,
-    useSearchUsers
+    useSearchUsers,
+    useSaveReport
 } from '@/hooks';
 import { RxCrossCircled } from "react-icons/rx";
 import { getErrorResponseDetails, getErrorResponseMessage, isInternalServerError } from '@/utils';
@@ -131,6 +132,21 @@ const ReportsPage = () => {
         selectedReport?.id || 0,
         isReportModalOpen && !!selectedReport
     );
+
+    const {
+        mutate: saveReport,
+        isError: isSaveReportError,
+        data: saveReportData,
+        isSuccess: isSaveReportSuccess,
+    } = useSaveReport({
+        reportType: reportFilters.reportType !== 'all' ? reportFilters.reportType : undefined,
+        status: reportFilters.status !== 'all' ? reportFilters.status : undefined,
+        sortBy: reportFilters.sortBy,
+        hasProgress: reportFilters.hasProgress !== 'all' ? reportFilters.hasProgress : undefined,
+        distance: reportFilters.distance
+    });
+
+    const saveReportResult = saveReportData?.data?.save;
 
     const handleCloseReportModal = () => {
         setIsReportModalOpen(false);
@@ -428,8 +444,8 @@ const ReportsPage = () => {
         deleteReport({ reportID: reportId });
     }
 
-    const handleSave = async (reportId: number) => {
-        console.log('Saving report:', reportId);
+    const handleSave = async (reportId: number, save: boolean) => {
+        saveReport({ reportID: reportId, saved: save });
     };
 
     const handleComment = (reportId: number) => {
@@ -476,6 +492,8 @@ const ReportsPage = () => {
 
     useErrorToast(isPermissionDenied, permissionDenied);
 
+    useErrorToast(isSaveReportError, 'Terjadi kesalahan saat menyimpan laporan');
+
     useErrorToast(
         isVoteReportError,
         getErrorResponseMessage(voteReportError) || 'Terjadi kesalahan saat melakukan vote status'
@@ -484,6 +502,11 @@ const ReportsPage = () => {
     useSuccessToast(
         isDeleteReportSuccess,
         deleteReportData || t('success.deleted')
+    );
+
+    useSuccessToast(
+        isSaveReportSuccess,
+        saveReportResult ? 'Laporan berhasil disimpan' : 'Laporan berhasil dihapus dari daftar simpanan'
     );
 
     useEffect(() => {
@@ -741,7 +764,7 @@ const ReportsPage = () => {
                             onClose={handleCloseReportModal}
                             onLike={() => handleLike(selectedReport.id)}
                             onDislike={() => handleDislike(selectedReport.id)}
-                            onSave={() => handleSave(selectedReport.id)}
+                            onSave={() => handleSave(selectedReport.id, !selectedReport.reportSaved?.save)}
                             onShare={() => handleShare(selectedReport.id, selectedReport.reportTitle)}
                             onStatusVote={(voteType) => handleStatusVote(selectedReport.id, voteType)}
                             commentsLoading={commentsLoading}

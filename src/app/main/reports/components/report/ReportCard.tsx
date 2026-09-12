@@ -24,7 +24,7 @@ interface ReportCardProps {
     onLike: (reportId: number) => void;
     onDislike?: (reportId: number) => void;
     onRemove?: (reportId: number) => void;
-    onSave?: (reportId: number) => void;
+    onSave?: (reportId: number, saved: boolean) => void;
     onComment?: (reportId: number) => void;
     onShare: (reportId: number, reportTitle: string) => void;
     onStatusVote?: (reportId: number, voteType: 'RESOLVED' | 'NOT_RESOLVED' | 'NEUTRAL') => void;
@@ -206,7 +206,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
                                         label: report.reportSaved?.save ? t('report_card.options.unsave.label') : t('report_card.options.save.label'),  
                                         description: report.reportSaved?.save ? t('report_card.options.unsave.description') : t('report_card.options.save.description'), 
                                         icon: report.reportSaved?.save ? <GoBookmarkSlashFill size={14} /> : <FaBookmark size={14} />, 
-                                        onClick: () => onSave!(report?.id || 0) 
+                                        onClick: () => onSave!(report?.id || 0, !report.reportSaved?.save) 
                                     },)
 
                                     openOptionsModal({ optionsList: optionsToShow, anchorRef: optionsButtonRef });
@@ -344,7 +344,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
                         onLike(report.id)
                     }}
                     onDislike={() => onDislike!(report.id)}
-                    onSave={() => onSave!(report.id)}
+                    onSave={() => onSave!(report.id, !report.reportSaved?.save)}
                     onComment={onComment ? () => onComment(report.id) : undefined}
                     onShare={() => onShare(report.id, report.reportTitle)}
                 />

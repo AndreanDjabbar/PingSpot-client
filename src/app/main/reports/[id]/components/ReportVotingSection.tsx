@@ -79,6 +79,7 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
     const isReportExpired = report.reportStatus === 'EXPIRED';
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
     const canVote = !isReportOwner && report.hasProgress && !isReportExpired;
+    const currentUserAlreadyVoted = userCurrentVote !== null;
 
     const voteDistributions = [
         { type: 'RESOLVED' as VoteType, count: report.totalResolvedVotes, percentage: resolvedPercentage },
@@ -107,9 +108,9 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
                 key={type}
                 className={`relative flex flex-col items-center justify-center p-4 rounded-xl font-semibold transition-all duration-300 border-2 ${
                     isActive ? `${config.colorActive} shadow-lg scale-105` : `${config.colorInactive} shadow-sm`
-                } ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                } ${isLoading || isReportResolved || isReportExpired || isReportOwner || userCurrentVote !== null ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                 onClick={() => handleVoteConfirmationModal(type)}
-                disabled={isLoading}
+                disabled={isLoading || currentUserAlreadyVoted}
                 animate={animateButton === type ? { scale: [1, 1.05, 1] } : {}}
                 transition={{ duration: 0.3 }}
                 whileTap={{ scale: isLoading ? 1 : 0.98 }}
@@ -249,6 +250,20 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
                             </p>
                         </div>
                     </div>
+                ) : currentUserAlreadyVoted ? (
+                    <>
+                        <div className="bg-primary/10 rounded-xl border border-primary p-4 mb-4">
+                            <p className="text-sm text-primary font-bold text-center">
+                                {t('already_voted_banner.title')}
+                            </p>
+                            <p className="text-xs text-primary text-center mt-1">
+                                {t('already_voted_banner.subtitle')}
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {(['RESOLVED', 'ON_PROGRESS'] as VoteType[]).map(renderVoteButton)}
+                        </div>
+                    </>
                 ) : canVote ? (
                     <>
                         <div className="bg-primary/10 rounded-xl border border-primary p-4 mb-4">

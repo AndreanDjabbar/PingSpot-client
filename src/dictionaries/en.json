@@ -1249,6 +1249,10 @@
                     "title": "Report Resolved",
                     "subtitle": "Voting closed"
                     },
+                    "already_voted_banner": {
+                        "title": "Opinion Submitted",
+                        "subtitle": "You have already submitted your opinion on this report."
+                    },
                     "expired_banner": {
                     "title": "Report Expired",
                     "subtitle": "Voting is closed until the report is updated by its creator"

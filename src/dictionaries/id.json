@@ -1251,6 +1251,10 @@
                     "title": "Laporan Kadaluarsa",
                     "subtitle": "Voting ditutup hingga laporan diperbarui oleh pembuat laporan"
                     },
+                    "already_voted_banner": {
+                        "title": "Pendapat Anda Telah Diberikan",
+                        "subtitle": "Anda telah memberikan pendapat pada laporan ini. Terima kasih atas partisipasi Anda!"
+                    },
                     "vote_prompt": {
                     "title": "Bagaimana pendapat Anda tentang laporan ini?",
                     "subtitle": "Pilih salah satu untuk memberikan pendapat"

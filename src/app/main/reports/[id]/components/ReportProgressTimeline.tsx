@@ -35,7 +35,7 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
             
             {report.reportProgress && report.reportProgress.length > 0 ? (
                 <div className="space-y-4">
-                    <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
+                    <div className=" rounded-lg p-4 bg-gray-100 border border-gray-300">
                         {(() => {
                             const latestProgress = report.reportProgress[0];
                             const latestImages = [
@@ -52,12 +52,16 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                                                 ? 'bg-green-100 text-green-800' 
                                                 : latestProgress.status === 'ON_PROGRESS'
                                                 ? 'bg-yellow-100 text-yellow-800'
-                                                : 'bg-red-100 text-red-800'
+                                                : latestProgress.status === 'WAITING_CONFIRMATION'
+                                                ? 'bg-blue-100 text-blue-800'
+                                                : 'bg-gray-100 text-gray-800'
                                         }`}>
                                             {latestProgress.status === 'RESOLVED' 
                                                 ? t('status_labels.RESOLVED')
                                                 : latestProgress.status === 'ON_PROGRESS'
                                                 ? t('status_labels.ON_PROGRESS')
+                                                : latestProgress.status === 'WAITING_CONFIRMATION'
+                                                ? t('status_labels.WAITING_CONFIRMATION')
                                                 : t('status_labels.default')}
                                         </span>
                                     </div>
@@ -122,7 +126,9 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                                                                     ? 'bg-linear-to-br from-green-400 to-green-600' 
                                                                     : progress.status === 'ON_PROGRESS'
                                                                     ? 'bg-linear-to-br from-yellow-400 to-yellow-600'
-                                                                    : 'bg-linear-to-br from-red-400 to-red-600'
+                                                                    : progress.status === 'WAITING_CONFIRMATION'
+                                                                    ? 'bg-linear-to-br from-sky-400 to-sky-600'
+                                                                    : 'bg-gray-400'
                                                             }`}>
                                                                 {progress.status === 'RESOLVED' ? (
                                                                     <MdDone className='text-white' size={20}/>
@@ -139,7 +145,9 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                                                                         ? 'bg-green-50 border-green-200' 
                                                                         : progress.status === 'ON_PROGRESS'
                                                                         ? 'bg-yellow-50 border-yellow-200'
-                                                                        : 'bg-red-50 border-red-200'
+                                                                        : progress.status === 'WAITING_CONFIRMATION'
+                                                                        ? 'bg-blue-50 border-blue-200'
+                                                                        : 'bg-gray-50 border-gray-200'
                                                                 }`}>
                                                                     <div className="flex items-center justify-between mb-2 lg:flex-col lg:items-start 2xl:flex-row">
                                                                         <span className={`text-xs font-bold uppercase tracking-wide ${
@@ -147,12 +155,16 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                                                                                 ? 'text-green-700' 
                                                                                 : progress.status === 'ON_PROGRESS'
                                                                                 ? 'text-yellow-700'
-                                                                                : 'text-red-700'
+                                                                                : progress.status === 'WAITING_CONFIRMATION'
+                                                                                ? 'text-sky-700'
+                                                                                : 'text-gray-700'
                                                                         }`}>
                                                                             {progress.status === 'RESOLVED' 
                                                                                 ? t('status_labels.RESOLVED')
                                                                                 : progress.status === 'ON_PROGRESS'
                                                                                 ? t('status_labels.ON_PROGRESS')
+                                                                                : progress.status === 'WAITING_CONFIRMATION'
+                                                                                ? t('status_labels.WAITING_CONFIRMATION')
                                                                                 : t('status_labels.default')}
                                                                         </span>
                                                                         <span className="text-xs text-gray-500">

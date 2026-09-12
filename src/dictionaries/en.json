@@ -215,7 +215,7 @@
             "RESOLVED": "Resolved",
             "EXPIRED": "Expired",
             "WAITING_CONFIRMATION": "Waiting Confirmation",
-            "ON_PROGRESS": "In Progress",
+            "ON_PROGRESS": "On Progress",
             "WAITING": "Waiting"
         }
     },
@@ -417,7 +417,7 @@
                     "RESOLVED": "Resolved",
                     "POTENTIALLY_RESOLVED": "Under Review",
                     "EXPIRED": "Expired",
-                    "ON_PROGRESS": "In Progress",
+                    "ON_PROGRESS": "On Progress",
                     "NOT_RESOLVED": "Not Yet Processed",
                     "WAITING": "Waiting"
                 },
@@ -637,7 +637,7 @@
                     "RESOLVED": "Resolved",
                     "EXPIRED": "Expired",
                     "WAITING_CONFIRMATION": "Waiting Confirmation",
-                    "ON_PROGRESS": "In Progress",
+                    "ON_PROGRESS": "On Progress",
                     "default": "Not Yet Processed"
                 },
                 "confirmation_reminder": {
@@ -673,14 +673,14 @@
                     "title": "Community Opinion",
                     "vote_count": "{count} votes",
                     "subtitle": "Community opinion on this report's progress:",
-                    "on_progress": "In Progress",
+                    "on_progress": "On Progress",
                     "resolved": "Resolved"
                 },
                 "voting_section": {
                     "title": "Community Opinion",
                     "vote_count": "{count} votes",
                     "subtitle": "Community opinion on this report's progress:",
-                    "on_progress": "In Progress",
+                    "on_progress": "On Progress",
                     "resolved": "Resolved",
                     "resolved_state": {
                         "title": "Report Resolved",
@@ -700,7 +700,7 @@
                             "sublabel": "Issue fixed"
                         },
                         "on_progress": {
-                            "label": "In Progress",
+                            "label": "On Progress",
                             "sublabel": "Being handled"
                         }
                     },
@@ -778,7 +778,7 @@
         "report_voting": {
             "vote_status": {
                 "RESOLVED": { "label": "Resolved", "description": "Issue resolved" },
-                "ON_PROGRESS": { "label": "In Progress", "description": "Being handled" }
+                "ON_PROGRESS": { "label": "On Progress", "description": "Being handled" }
                 },
                 "public_votes": {
                 "title": "Community Opinion",
@@ -821,7 +821,7 @@
                 "RESOLVED": "Resolved",
                 "EXPIRED": "Expired",
                 "WAITING_CONFIRMATION": "Awaiting Confirmation",
-                "ON_PROGRESS": "In Progress",
+                "ON_PROGRESS": "On Progress",
                 "default": "Not Yet Processed"
             },
             "progress_history": {
@@ -834,7 +834,7 @@
             "progress_section": {
                 "status_select_label": "Select Progress Status",
                 "on_progress": {
-                    "label": "In Progress",
+                    "label": "On Progress",
                     "description": "Being handled"
                 },
                 "resolved": {
@@ -1007,7 +1007,7 @@
             "progress_section": {
                 "label": "Select Progress Status *",
                 "on_progress": {
-                    "label": "In Progress",
+                    "label": "On Progress",
                     "description": "Currently being handled"
                 },
                 "resolved": {
@@ -1058,6 +1058,38 @@
             }
         },
         "report_id": {
+            "header_message": "Find and view issue reports around you to raise awareness and community participation.",
+            "type_labels": {
+                "INFRASTRUCTURE": "Infrastructure",
+                "ENVIRONMENT": "Environment",
+                "SAFETY": "Safety",
+                "OTHER": "Other",
+                "TRAFFIC": "Traffic",
+                "PUBLIC_FACILITY": "Public Facility",
+                "WASTE": "Waste",
+                "WATER": "Water",
+                "ELECTRICITY": "Electricity",
+                "HEALTH": "Health",
+                "SOCIAL": "Social",
+                "EDUCATION": "Education",
+                "ADMINISTRATIVE": "Administrative",
+                "DISASTER": "Natural Disaster"
+            },
+            "toasts": {
+                "delete_success_default": "Report deleted successfully",
+                "search_users_error_default": "An error occurred while searching for users",
+                "react_error_default": "An error occurred while reacting to the report",
+                "delete_error_default": "An error occurred while fetching the report data",
+                "create_comment_error_default": "An error occurred while sending the comment"
+            },
+            "loading": {
+                "deleting_report": "Deleting Report...",
+                "loading_comments": "Loading comments..."
+            },
+            "errors": {
+                "load_report_default": "An error occurred while loading the report",
+                "report_not_found": "Report not found"
+            },
             "component": {
                 "report_comment_section": {
                     "title": "Comments ({count})",
@@ -1110,8 +1142,9 @@
                     "status_labels": {
                         "RESOLVED": "Resolved",
                         "EXPIRED": "Expired",
-                        "WAITING": "Awaiting Confirmation",
-                        "ON_PROGRESS": "In Progress",
+                        "WAITING_CONFIRMATION": "Awaiting Confirmation",
+                        "WAITING": "Not Yet Processed",
+                        "ON_PROGRESS": "On Progress",
                         "default": "Not Yet Processed"
                     },
                     "delete_confirm": {
@@ -1160,7 +1193,8 @@
                     "latest_progress_label": "Latest Progress",
                     "status_labels": {
                         "RESOLVED": "Resolved",
-                        "ON_PROGRESS": "In Progress",
+                        "ON_PROGRESS": "On Progress",
+                        "WAITING_CONFIRMATION": "Awaiting Confirmation",
                         "default": "No Progress"
                     },
                     "history_accordion_title": "Progress History ({count})",
@@ -1179,13 +1213,13 @@
                 "report_voting_section": {
                     "vote_status": {
                     "RESOLVED": { "label": "Resolved", "description": "Issue resolved" },
-                    "ON_PROGRESS": { "label": "In Progress", "description": "Being handled" }
+                    "ON_PROGRESS": { "label": "On Progress", "description": "Being handled" }
                     },
                     "status_labels": {
                     "RESOLVED": "Resolved",
                     "EXPIRED": "Expired",
                     "WAITING_CONFIRMATION": "Awaiting Confirmation",
-                    "ON_PROGRESS": "In Progress",
+                    "ON_PROGRESS": "On Progress",
                     "default": "Waiting"
                     },
                     "vote_confirm": {

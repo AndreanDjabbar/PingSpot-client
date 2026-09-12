@@ -52,7 +52,7 @@ const VOTE_STATUS = {
         barColor: 'bg-gradient-to-r from-yellow-500 to-yellow-600',
         badgeBg: 'bg-yellow-50 border-yellow-100',
         badgeText: 'text-yellow-700',
-        majorityBadge: 'bg-yellow-100 text-yellow-700',
+        majorityBadge: 'bg-yellow-300 text-yellow-700',
     },
 };
 
@@ -184,7 +184,7 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
                                 <div className="flex items-center justify-between text-sm">
                                     <div className={`flex gap-2 font-medium items-center ${config.badgeText}`}>
                                         <Icon />
-                                        <span>{config.label}</span>
+                                        <span>{t(`vote_status.${type}.label`)}</span>
                                     </div>
                                     <span className="text-gray-600 font-semibold">
                                         {count} ({percentage.toFixed(0)}%)

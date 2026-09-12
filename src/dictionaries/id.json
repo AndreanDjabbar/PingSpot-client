@@ -1056,6 +1056,38 @@
             }
         },
         "report_id": {
+            "header_message": "Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.",
+            "type_labels": {
+                "INFRASTRUCTURE": "Infrastruktur",
+                "ENVIRONMENT": "Lingkungan",
+                "SAFETY": "Keamanan",
+                "OTHER": "Lainnya",
+                "TRAFFIC": "Lalu Lintas",
+                "PUBLIC_FACILITY": "Fasilitas Umum",
+                "WASTE": "Sampah",
+                "WATER": "Air",
+                "ELECTRICITY": "Listrik",
+                "HEALTH": "Kesehatan",
+                "SOCIAL": "Sosial",
+                "EDUCATION": "Pendidikan",
+                "ADMINISTRATIVE": "Administratif",
+                "DISASTER": "Bencana Alam"
+            },
+            "toasts": {
+                "delete_success_default": "Laporan berhasil dihapus",
+                "search_users_error_default": "Terjadi kesalahan saat mencari pengguna",
+                "react_error_default": "Terjadi kesalahan saat bereaksi pada laporan",
+                "delete_error_default": "Terjadi kesalahan saat mengambil data laporan",
+                "create_comment_error_default": "Terjadi kesalahan saat mengirim komentar"
+            },
+            "loading": {
+                "deleting_report": "Menghapus Laporan...",
+                "loading_comments": "Memuat komentar..."
+            },
+            "errors": {
+                "load_report_default": "Terjadi kesalahan saat memuat laporan",
+                "report_not_found": "Laporan tidak ditemukan"
+            },
             "component": {
                 "report_comment_section": {
                     "title": "Komentar ({count})",
@@ -1108,7 +1140,8 @@
                     "status_labels": {
                         "RESOLVED": "Terselesaikan",
                         "EXPIRED": "Kadaluarsa",
-                        "WAITING": "Menunggu Konfirmasi",
+                        "WAITING_CONFIRMATION": "Menunggu Konfirmasi",
+                        "WAITING": "Belum Diproses",
                         "ON_PROGRESS": "Sedang Diproses",
                         "default": "Belum Diproses"
                     },
@@ -1159,6 +1192,7 @@
                     "status_labels": {
                     "RESOLVED": "Terselesaikan",
                     "ON_PROGRESS": "Dalam Proses",
+                    "WAITING_CONFIRMATION": "Menunggu Konfirmasi",
                     "default": "Tidak Ada Proses"
                     },
                     "history_accordion_title": "Riwayat Perkembangan ({count})",

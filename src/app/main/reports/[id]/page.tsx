@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { 
     getErrorResponseDetails, 
     getErrorResponseMessage, 
@@ -38,26 +39,6 @@ import { ErrorSection, Loading, HeaderSection } from '@/components';
 import { ICreateReportCommentRequest } from '@/types/api/report';
 import { ReportInteractionBar } from '../components';
 
-const getReportTypeLabel = (type: ReportType): string => {
-    const types: Record<ReportType, string> = {
-        INFRASTRUCTURE: 'Infrastruktur',
-        ENVIRONMENT: 'Lingkungan',
-        SAFETY: 'Keamanan',
-        OTHER: 'Lainnya',
-        TRAFFIC: 'Lalu Lintas',
-        PUBLIC_FACILITY: 'Fasilitas Umum',
-        WASTE: 'Sampah',
-        WATER: 'Air',
-        ELECTRICITY: 'Listrik',
-        HEALTH: 'Kesehatan',
-        SOCIAL: 'Sosial',
-        EDUCATION: 'Pendidikan',
-        ADMINISTRATIVE: 'Administratif',
-        DISASTER: 'Bencana Alam',
-    };
-    return types[type] || 'Lainnya';
-};
-
 const getReportImages = (images: IReportImage): string[] => {
     if (!images) return [];
     return [
@@ -70,6 +51,7 @@ const getReportImages = (images: IReportImage): string[] => {
 };
 
 const ReportDetailPage = () => {
+    const t = useTranslations('report.report_id');
     const params = useParams();
     const router = useRouter();
     const reportId = Number(params.id);
@@ -77,6 +59,10 @@ const ReportDetailPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchUsersOpen, setIsSearchUsersOpen] = useState(false);
     const commentsSectionRef = useRef<HTMLDivElement>(null);
+
+    const getReportTypeLabel = (type: ReportType): string => {
+        return t.has(`type_labels.${type}`) ? t(`type_labels.${type}`) : t('type_labels.OTHER');
+    };
 
     const openImagePreview = useImagePreviewModalStore((s) => s.openImagePreview);
     const selectedReport = useReportsStore((s) => s.selectedReport);
@@ -452,16 +438,16 @@ const ReportDetailPage = () => {
 
     useSuccessToast(
         isDeleteReportSuccess,
-        deleteReportData || 'Laporan berhasil dihapus'
+        deleteReportData || t('toasts.delete_success_default')
     );
 
     useErrorToast(isFreshReportError, freshReportError);
     useErrorToast(isVoteReportError, voteReportError);
-    useErrorToast(isErrorSearch, getErrorResponseMessage(errorSearch) || 'Terjadi kesalahan saat mencari pengguna');
-    useErrorToast(isReactReportError, getErrorResponseMessage(reactReportError) || 'Terjadi kesalahan saat bereaksi pada laporan');
+    useErrorToast(isErrorSearch, getErrorResponseMessage(errorSearch) || t('toasts.search_users_error_default'));
+    useErrorToast(isReactReportError, getErrorResponseMessage(reactReportError) || t('toasts.react_error_default'));
     useErrorToast(
         isDeleteReportError, 
-        getErrorResponseMessage(deleteReportError) || 'Terjadi kesalahan saat mengambil data laporan'
+        getErrorResponseMessage(deleteReportError) || t('toasts.delete_error_default')
     );
     useErrorToast(isCreateReportCommentError, createReportCommentError);
 
@@ -488,7 +474,7 @@ const ReportDetailPage = () => {
     }, [deleteReportData, isDeleteReportSuccess])
 
     if (deleteReportPending) {
-        return <Loading text='Menghapus Laporan...' size='lg' className='absolute inset-0 left-0 xl:left-60'/>
+        return <Loading text={t('loading.deleting_report')} size='lg' className='absolute inset-0 left-0 xl:left-60'/>
     }
 
     if (isFreshReportLoading) {
@@ -505,11 +491,11 @@ const ReportDetailPage = () => {
                 currentPath={customCurrentPath}
                 isCardHeader={false}
                 showBreadcrumb={false}
-                message='Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.' 
+                message={t('header_message')} 
                 />
                 <div className='mt-4'>
                     <ErrorSection
-                        message={getErrorResponseMessage(freshReportError) || 'Terjadi kesalahan saat memuat laporan'}
+                        message={getErrorResponseMessage(freshReportError) || t('errors.load_report_default')}
                         errors={getErrorResponseDetails(freshReportError)}
                         onRetry={() => freshReportRefetch()}
                         onGoBack={() => router.back()}
@@ -530,7 +516,7 @@ const ReportDetailPage = () => {
                 currentPath={customCurrentPath}
                 isCardHeader={false}
                 showBreadcrumb={false}
-                message='Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.' 
+                message={t('header_message')} 
                 />
                 <div className='mt-4'>
                     <ErrorSection
@@ -545,7 +531,7 @@ const ReportDetailPage = () => {
     if (!report || !freshReportData?.data?.report.report) {
         return (
             <div className="min-h-screen">
-                <ErrorSection message="Laporan tidak ditemukan" />
+                <ErrorSection message={t('errors.report_not_found')} />
             </div>
         );
     }
@@ -556,7 +542,7 @@ const ReportDetailPage = () => {
             currentPath={customCurrentPath}
             isCardHeader={false}
             showBreadcrumb={false}
-            message='Temukan dan lihat laporan masalah di sekitar Anda untuk meningkatkan kesadaran dan partisipasi masyarakat.' 
+            message={t('header_message')} 
             />
 
             {report && freshReportData?.data?.report.report && (
@@ -595,13 +581,13 @@ const ReportDetailPage = () => {
 
                             {getReportCommentsLoading ? (
                                 <div className="p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
-                                    <p className="text-gray-500">Memuat komentar...</p>
+                                    <p className="text-gray-500">{t('loading.loading_comments')}</p>
                                 </div>
                             ): (
                                 <div ref={commentsSectionRef}>
                                     {isCreateReportCommentError && (
                                         <ErrorSection
-                                        message={getErrorResponseMessage(createReportCommentError) || 'Terjadi kesalahan saat mengirim komentar'} 
+                                        message={getErrorResponseMessage(createReportCommentError) || t('toasts.create_comment_error_default')} 
                                         errors={createReportCommentError}
                                         />
                                     )}

@@ -24,7 +24,7 @@ const getStatusColor = (status: string) => {
             return 'bg-green-700 border-green-700 text-white';
         case 'EXPIRED':
             return 'bg-indigo-700 text-white';
-        case 'WAITING':
+        case 'WAITING_CONFIRMATION':
             return 'bg-sky-600 border-sky-600 text-white';
         case 'ON_PROGRESS':
             return 'bg-yellow-500 text-white';

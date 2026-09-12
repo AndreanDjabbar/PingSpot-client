@@ -463,12 +463,12 @@ const ReportsPage = () => {
             if (navigator.share) {
                 await navigator.share({
                     title: reportTitle,
-                    text: 'Lihat laporan ini di PingSpot',
+                    text: t('share.text'),
                     url: shareUrl
                 });
             } else {
                 await navigator.clipboard.writeText(shareUrl);
-                alert('Link telah disalin ke clipboard!');
+                alert(t('share.copied'));
             }
         } catch (error) {
             console.error('Error sharing:', error);
@@ -477,26 +477,26 @@ const ReportsPage = () => {
 
     useErrorToast(
         isGetReportError, 
-        getErrorResponseMessage(getReportError) || 'Terjadi kesalahan saat mengambil data laporan'
+        getErrorResponseMessage(getReportError) || t('errors.fetch_failed')
     );
 
     useErrorToast(
         isDeleteReportError, 
-        getErrorResponseMessage(deleteReportError) || 'Terjadi kesalahan saat mengambil data laporan'
+        getErrorResponseMessage(deleteReportError) || t('errors.delete_failed')
     );
 
     useErrorToast(
         isReactReportError, 
-        getErrorResponseMessage(reactReportError) || 'Terjadi kesalahan saat bereaksi pada laporan'
+        getErrorResponseMessage(reactReportError) || t('errors.react_failed')
     );
 
     useErrorToast(isPermissionDenied, permissionDenied);
 
-    useErrorToast(isSaveReportError, 'Terjadi kesalahan saat menyimpan laporan');
+    useErrorToast(isSaveReportError, t('errors.save_failed'));
 
     useErrorToast(
         isVoteReportError,
-        getErrorResponseMessage(voteReportError) || 'Terjadi kesalahan saat melakukan vote status'
+        getErrorResponseMessage(voteReportError) || t('errors.vote_failed')
     );
 
     useSuccessToast(
@@ -506,7 +506,7 @@ const ReportsPage = () => {
 
     useSuccessToast(
         isSaveReportSuccess,
-        saveReportResult ? 'Laporan berhasil disimpan' : 'Laporan berhasil dihapus dari daftar simpanan'
+        saveReportResult ? t('success.saved') : t('success.unsaved')
     );
 
     useEffect(() => {

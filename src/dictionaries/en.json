@@ -525,11 +525,14 @@
         "errors": {
             "fetch_failed": "An error occurred while fetching report data",
             "delete_failed": "An error occurred while fetching report data",
+            "save_failed": "An error occurred while saving the report",
             "react_failed": "An error occurred while reacting to the report",
             "vote_failed": "An error occurred while submitting your vote"
         },
         "success": {
-            "deleted": "Report deleted successfully"
+            "deleted": "Report deleted successfully",
+            "saved": "Report saved successfully",
+            "unsaved": "Report removed from saved list"
         },
         "share": {
             "text": "Check out this report on PingSpot",

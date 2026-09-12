@@ -524,10 +524,13 @@
             "fetch_failed": "Terjadi kesalahan saat mengambil data laporan",
             "delete_failed": "Terjadi kesalahan saat mengambil data laporan",
             "react_failed": "Terjadi kesalahan saat bereaksi pada laporan",
-            "vote_failed": "Terjadi kesalahan saat melakukan vote status"
+            "vote_failed": "Terjadi kesalahan saat melakukan vote status",
+            "save_failed": "Terjadi kesalahan saat menyimpan laporan"
         },
         "success": {
-            "deleted": "Laporan berhasil dihapus"
+            "deleted": "Laporan berhasil dihapus",
+            "saved": "Laporan berhasil disimpan",
+            "unsaved": "Laporan berhasil dihapus dari daftar simpanan"
         },
         "share": {
             "text": "Lihat laporan ini di PingSpot",

@@ -16,7 +16,12 @@ type IDataResponse = {
 
 export const getDataResponseMessage = (data: any): string => {
     if (data) {
-        return (data as IDataResponse).message || "No message available.";
+        if ((data as IDataResponse).message) {
+            return (data as IDataResponse).message;
+        } else if (typeof data === "string") {
+            return data as string;
+        }
+        return "Operasi berhasil.";
     }
     return "No data provided.";
 }

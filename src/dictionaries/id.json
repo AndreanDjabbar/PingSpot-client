@@ -17,9 +17,15 @@
             "description": "Ubah password dan pengaturan keamanan"
         },
         "notifications_section_title": "Notifikasi",
-            "notifications": {
+        "general_section_title": "Umum",
+        "notifications": {
             "title": "Notifikasi",
             "description": "Aktifkan atau nonaktifkan semua notifikasi"
+        },
+        "saved_reports": {
+            "title": "Laporan Tersimpan",
+            "View": "Lihat",
+            "description": "Lihat dan kelola laporan tersimpan Anda"
         },
         "email_notifications": {
             "title": "Notifikasi Email",

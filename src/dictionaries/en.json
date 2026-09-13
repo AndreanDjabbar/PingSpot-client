@@ -17,9 +17,15 @@
             "description": "Change your password and security settings"
         },
         "notifications_section_title": "Notifications",
+        "general_section_title": "General",
         "notifications": {
             "title": "Notifications",
             "description": "Enable or disable all notifications"
+        },
+        "saved_reports": {
+            "title": "Saved Reports",
+            "View": "View",
+            "description": "View and manage your saved reports"
         },
         "email_notifications": {
             "title": "Email Notifications",
@@ -1404,6 +1410,29 @@
                 "title": "Someone replied to your comment",
                 "body": "User {username} replied to your comment"
             }
+        },
+        "report": {
+            "create_report": {
+
+            },
+            "update_report": {
+                
+            },
+            "update_progress_report": {
+
+            }
+        },
+        "logout": {
+
+        },
+        "update_profile": {
+
+        },
+        "update_security": {
+
+        },
+        "auth": {
+
         }
     }
 }

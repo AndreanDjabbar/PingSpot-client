@@ -13,6 +13,7 @@ import { useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { SettingCard, SettingItem } from './components';
 import { Button, ToggleSwitch, HeaderSection, ProfileBadge } from '@/components';
 import { useLocale, useTranslations } from 'next-intl';
+import { FaBookmark } from 'react-icons/fa';
 
 const SettingsPage = () => {
     const t = useTranslations('settings');
@@ -187,19 +188,18 @@ const SettingsPage = () => {
                     </div>
 
                     <div>
-                        <h3 className="font-medium text-surface mb-3">{t('notifications_section_title')}</h3>
+                        <h3 className="font-medium text-surface mb-3">{t('general_section_title')}</h3>
                         <div className="flex flex-col space-y-2">
                             <SettingItem
-                            icon={IoIosNotifications}
-                            title={t('notifications.title')}
-                            description={t('notifications.description')}
+                            icon={FaBookmark}
+                            title={t('saved_reports.title')}
+                            description={t('saved_reports.description')}
                             action={
-                                <ToggleSwitch
-                                enabled={notificationsEnabled}
-                                onChange={() => {
-                                    setNotificationsEnabled(!notificationsEnabled);
-                                }}
-                                />
+                                <Button className='border border-gray-300 text-gray-900 w-fit bg-white hover:bg-gray-100 transition-all duration-200 '
+                                variant='outline'
+                                onClick={() => router.push(`/main/settings/saved-reports`)}>
+                                    {t('saved_reports.View')}
+                                </Button>
                             }
                             />
                             <SettingItem

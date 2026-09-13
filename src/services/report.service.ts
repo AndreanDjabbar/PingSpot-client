@@ -10,6 +10,7 @@ import {
     IGetReportCommentRepliesResponse,
     IGetReportCommentsResponse,
     IGetReportResponse,
+    IGetReportSavedResponse,
     IGetReportStatisticsResponse,
     IReactReportRequest,
     IReactReportResponse,
@@ -169,5 +170,15 @@ export const DeleteReportService = async (payload: IDeleteReportRequest): Promis
 
 export const SaveReportService = async (reportID: number, saved: boolean): Promise<ISaveReportResponse> => {
     const response = await axiosInstance.post<ISaveReportResponse>(`/report/${reportID}/save`, { save: saved });
+    return response.data;
+}
+
+export const getSavedReportService = async (cursorID?: number): Promise<IGetReportSavedResponse> => {
+    const params = new URLSearchParams();
+
+    if (cursorID) params.append('cursorID', cursorID.toString());
+    
+    const queryString = params.toString() ? `?${params.toString()}` : '';
+    const response = await axiosInstance.get<IGetReportSavedResponse>(`/report/save/${queryString}`);
     return response.data;
 }

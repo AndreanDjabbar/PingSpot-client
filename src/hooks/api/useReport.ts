@@ -10,6 +10,7 @@ import {
     getReportCommentsService,
     getReportService,
     getReportStatisticsService,
+    getSavedReportService,
     reactReportService,
     SaveReportService,
     uploadProgressReportService,
@@ -26,6 +27,7 @@ import {
     IGetReportCommentRepliesResponse,
     IGetReportCommentsResponse,
     IGetReportResponse,
+    IGetReportSavedResponse,
     IGetReportStatisticsResponse,
     IReactReportRequest,
     IReactReportResponse,
@@ -202,4 +204,24 @@ export const useSaveReport = (reportState: {
             queryClient.invalidateQueries({ queryKey: ['report', reportState.reportType, reportState.status, reportState.sortBy, reportState.distance, reportState.hasProgress] });
         },
     });
+}
+
+export const useGetSavedReports = (userID: number) => {
+    return useInfiniteQuery<IGetReportSavedResponse, Error>({
+        queryKey: ['saved-reports', userID],
+        queryFn: ({ pageParam }) => {
+            const params = pageParam as { cursorID?: number };
+            return getSavedReportService(params?.cursorID);
+        },
+        getNextPageParam: (lastPage) => {
+            const nextCursor = lastPage.data?.nextCursor;
+
+            if (!nextCursor) return undefined;
+
+            return {
+                cursorID: nextCursor,
+            };
+        },
+        initialPageParam: undefined,
+    })
 }

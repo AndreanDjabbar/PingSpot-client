@@ -155,6 +155,22 @@ export interface IReportSaved {
     save: boolean;
 }
 
+export interface IGetReportSaved {
+    reportSavedID: number;
+    reportID: number;
+    userID: number;
+    reportTitle: string;
+    reportType: ReportType;
+    reportDescription: string;
+    reportStatus: ReportStatus;
+    reportLatitude: number;
+    reportLongitude: number;
+    reportMapZoom: number;
+    reportCountry: string;
+    reportCountryCode: string;
+    reportState: string;
+}
+
 export interface IReportCommentMentions {
     userID: number;
     username: string;

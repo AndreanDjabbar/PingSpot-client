@@ -6,7 +6,7 @@ import {
     VoteReportSchema,
     CreateReportCommentSchema
 } from "@/app/main/schema";
-import {  IReport, IReportComment, IReportProgress, IReportReactions, IReportVote, ITotalReportCount } from "../model";
+import {  IGetReportSaved, IReport, IReportComment, IReportProgress, IReportReactions, IReportVote, ITotalReportCount } from "../model";
 import z from "zod";
 
 export interface IGetReportResponse {
@@ -133,5 +133,13 @@ export interface IGetReportStatisticsResponse {
         totalReports: number;
         reportsByStatus: Record<string, number>;
         monthlyReportCounts: Record<string, number>;
+    }
+}
+
+export interface IGetReportSavedResponse {
+    message: string;
+    data?: {
+        savedReports: IGetReportSaved[];
+        nextCursor?: number | null;
     }
 }

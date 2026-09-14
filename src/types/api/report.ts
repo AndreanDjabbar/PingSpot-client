@@ -139,7 +139,9 @@ export interface IGetReportStatisticsResponse {
 export interface IGetReportSavedResponse {
     message: string;
     data?: {
-        savedReports: IGetReportSaved[];
+        savedReports: {
+            savedReports: IGetReportSaved[];
+        }
         nextCursor?: number | null;
     }
 }

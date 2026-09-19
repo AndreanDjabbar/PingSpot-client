@@ -159,6 +159,9 @@ export interface IGetReportSaved {
     reportSavedID: number;
     reportID: number;
     userID: number;
+    userName: string;
+    fullName: string;
+    profilePicture?: string;
     reportTitle: string;
     reportType: ReportType;
     reportDescription: string;

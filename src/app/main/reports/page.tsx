@@ -139,6 +139,7 @@ const ReportsPage = () => {
         data: saveReportData,
         isSuccess: isSaveReportSuccess,
     } = useSaveReport({
+        type: 'report-list',
         reportType: reportFilters.reportType !== 'all' ? reportFilters.reportType : undefined,
         status: reportFilters.status !== 'all' ? reportFilters.status : undefined,
         sortBy: reportFilters.sortBy,

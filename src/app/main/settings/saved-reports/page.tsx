@@ -2,20 +2,22 @@
 
 import { HeaderSection } from '@/components';
 import StaticMap from '@/components/UI/StaticMap';
-import { useGetSavedReports } from '@/hooks';
+import { useErrorToast, useGetSavedReports, useSaveReport, useSuccessToast } from '@/hooks';
 import { useUserProfileStore } from '@/stores';
 import { getImageURL } from '@/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import React from 'react';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaBookmark } from 'react-icons/fa';
 import { IGetReportSaved } from '@/types';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface SavedReportMiniCardProps {
     report: IGetReportSaved;
+    onUnsave: (reportId: number) => void;
 }
 
-const SavedReportMiniCard: React.FC<SavedReportMiniCardProps> = ({ report }) => {
+const SavedReportMiniCard: React.FC<SavedReportMiniCardProps> = ({ report, onUnsave }) => {
     const router = useRouter();
 
     const locationText = [report.reportState, report.reportCountry]
@@ -23,7 +25,12 @@ const SavedReportMiniCard: React.FC<SavedReportMiniCardProps> = ({ report }) => 
         .join(', ') || 'Location unavailable';
 
     return (
-        <div
+        <motion.div
+            layout
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.25, ease: 'easeInOut' } }}
+            transition={{ duration: 0.2 }}
             className="bg-white backdrop-blur-sm rounded-lg border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200 cursor-pointer"
             onClick={() => router.push(`/main/reports/${report.reportID}`)}
         >
@@ -32,7 +39,7 @@ const SavedReportMiniCard: React.FC<SavedReportMiniCardProps> = ({ report }) => 
                     <div className="flex items-center gap-2.5 flex-1 min-w-0">
                         <div className="h-8 w-8 rounded-full overflow-hidden border border-gray-200 shrink-0 bg-gray-100">
                             <Image
-                                src={getImageURL(report.profilePicture? report.profilePicture : '', 'user')}
+                                src={getImageURL(report.profilePicture ? report.profilePicture : '', 'user')}
                                 alt="Report owner"
                                 width={32}
                                 height={32}
@@ -49,13 +56,28 @@ const SavedReportMiniCard: React.FC<SavedReportMiniCardProps> = ({ report }) => 
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-col items-end gap-1 shrink-0">
-                        <span className="inline-flex items-center px-2 py-0.5 bg-primary/10 text-[10px] font-bold text-primary rounded-full">
-                            {report.reportType}
-                        </span>
-                        <span className="inline-flex items-center px-2 py-0.5 bg-gray-100 text-[10px] font-medium text-gray-600 rounded-full">
-                            {report.reportStatus}
-                        </span>
+                    <div className="flex gap-3">
+                        <div className="flex flex-col items-end gap-1 shrink-0">
+                            <span className="inline-flex items-center px-2 py-0.5 bg-primary/10 text-[10px] font-bold text-primary rounded-full">
+                                {report.reportType}
+                            </span>
+                            <span className="inline-flex items-center px-2 py-0.5 bg-gray-100 text-[10px] font-medium text-gray-600 rounded-full">
+                                {report.reportStatus}
+                            </span>
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onUnsave(report.reportID);
+                                }}
+                                className="text-gray-600 hover:text-gray-700 transition-colors cursor-pointer"
+                                aria-label="Unsave report"
+                            >
+                                <FaBookmark size={20} />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,7 +104,7 @@ const SavedReportMiniCard: React.FC<SavedReportMiniCardProps> = ({ report }) => 
                     />
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
@@ -96,10 +118,32 @@ const SavedReportsPage = () => {
         isError: isSavedReportsError,
         fetchNextPage: fetchNextSavedReportsPage,
         hasNextPage: hasNextSavedReportsPage,
-    } = useGetSavedReports(Number(currentUser?.userID) || 0);
+    } = useGetSavedReports();
+
+    const {
+        mutate: unsaveReport,
+        isError: isUnsaveReportError,
+        data: unsaveReportData,
+        isSuccess: isUnsaveReportSuccess,
+    } = useSaveReport({
+        type: 'saved-reports',
+    });
+
+    const handleUnsave = (reportId: number) => {
+        unsaveReport({ reportID: reportId, saved: false });
+    };
 
     const reportsData: IGetReportSaved[] =
         (savedReports?.pages.flatMap((page) => page.data?.savedReports.savedReports) || []) as IGetReportSaved[];
+
+    useErrorToast(
+        isUnsaveReportError,
+        unsaveReportData?.message || 'Failed to unsave the report. Please try again.',
+    );
+    useSuccessToast(
+        isUnsaveReportSuccess,
+        'Report unsaved successfully.',
+    );
 
     return (
         <div className="w-full">
@@ -134,9 +178,15 @@ const SavedReportsPage = () => {
 
             {!isSavedReportsLoading && !isSavedReportsError && reportsData.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {reportsData.map((report) => (
-                        <SavedReportMiniCard key={report.reportSavedID} report={report} />
-                    ))}
+                    <AnimatePresence mode="popLayout">
+                        {reportsData.map((report) => (
+                            <SavedReportMiniCard
+                                key={report.reportSavedID}
+                                report={report}
+                                onUnsave={handleUnsave}
+                            />
+                        ))}
+                    </AnimatePresence>
                 </div>
             )}
 

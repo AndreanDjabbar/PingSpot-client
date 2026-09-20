@@ -191,6 +191,7 @@ export const useVoteReport = () => {
 };
 
 export const useSaveReport = (reportState: {
+    type?: 'report-list' | 'saved-reports',
     reportType?: string,
     status?: string,
     sortBy?: string,
@@ -201,14 +202,18 @@ export const useSaveReport = (reportState: {
     return useMutation<ISaveReportResponse, Error, { reportID: number; saved: boolean }>({
         mutationFn: ({ reportID, saved }) => SaveReportService(reportID, saved),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['report', reportState.reportType, reportState.status, reportState.sortBy, reportState.distance, reportState.hasProgress] });
+            if (reportState.type === 'report-list') {
+                queryClient.invalidateQueries({ queryKey: ['report', reportState.reportType, reportState.status, reportState.sortBy, reportState.distance, reportState.hasProgress] });
+            } else {
+                queryClient.invalidateQueries({ queryKey: ['saved-reports',] });
+            }
         },
     });
 }
 
-export const useGetSavedReports = (userID: number) => {
+export const useGetSavedReports = () => {
     return useInfiniteQuery<IGetReportSavedResponse, Error>({
-        queryKey: ['saved-reports', userID],
+        queryKey: ['saved-reports'],
         queryFn: ({ pageParam }) => {
             const params = pageParam as { cursorID?: number };
             return getSavedReportService(params?.cursorID);

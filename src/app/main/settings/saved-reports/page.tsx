@@ -7,10 +7,12 @@ import { useUserProfileStore } from '@/stores';
 import { getImageURL } from '@/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaMapMarkerAlt, FaBookmark } from 'react-icons/fa';
 import { IGetReportSaved } from '@/types';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 interface SavedReportMiniCardProps {
     report: IGetReportSaved;
@@ -110,13 +112,13 @@ const SavedReportMiniCard: React.FC<SavedReportMiniCardProps> = ({ report, onUns
 
 const SavedReportsPage = () => {
     const currentPath = usePathname();
-    const currentUser = useUserProfileStore((state) => state.userProfile);
 
     const {
         data: savedReports,
         isLoading: isSavedReportsLoading,
         isError: isSavedReportsError,
         fetchNextPage: fetchNextSavedReportsPage,
+        isFetchingNextPage: isFetchingNextSavedReportsPage,
         hasNextPage: hasNextSavedReportsPage,
     } = useGetSavedReports();
 
@@ -133,8 +135,7 @@ const SavedReportsPage = () => {
         unsaveReport({ reportID: reportId, saved: false });
     };
 
-    const reportsData: IGetReportSaved[] =
-        (savedReports?.pages.flatMap((page) => page.data?.savedReports.savedReports) || []) as IGetReportSaved[];
+    const reportsData = savedReports?.pages.flatMap(page => page.data?.savedReports.savedReports ?? []) || [];
 
     useErrorToast(
         isUnsaveReportError,
@@ -144,6 +145,16 @@ const SavedReportsPage = () => {
         isUnsaveReportSuccess,
         'Report unsaved successfully.',
     );
+
+    const { ref, inView } = useInView({
+        threshold: 0,
+    })
+
+    useEffect(() => {
+        if (inView && hasNextSavedReportsPage && !isFetchingNextSavedReportsPage) {
+            fetchNextSavedReportsPage();
+        }
+    }, [inView, hasNextSavedReportsPage, fetchNextSavedReportsPage, isFetchingNextSavedReportsPage]);
 
     return (
         <div className="w-full">
@@ -181,7 +192,7 @@ const SavedReportsPage = () => {
                     <AnimatePresence mode="popLayout">
                         {reportsData.map((report) => (
                             <SavedReportMiniCard
-                                key={report.reportSavedID}
+                                key={report.reportSavedID || null}
                                 report={report}
                                 onUnsave={handleUnsave}
                             />
@@ -189,17 +200,16 @@ const SavedReportsPage = () => {
                     </AnimatePresence>
                 </div>
             )}
-
-            {/* {hasNextSavedReportsPage && (
-                <div className="flex justify-center mt-6">
-                    <button
-                        onClick={() => fetchNextSavedReportsPage()}
-                        className="px-4 py-2 text-sm font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors"
-                    >
-                        Load more
-                    </button>
+            {hasNextSavedReportsPage && (
+                <div ref={ref} className="flex justify-center mt-6">
+                    {true && (
+                        <div className="flex items-center space-x-2 text-primary/70 w-full justify-center">
+                            <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
+                            <span>Loading...</span>
+                        </div>
+                    )}
                 </div>
-            )} */}
+            )}
         </div>
     );
 };

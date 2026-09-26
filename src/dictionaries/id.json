@@ -749,6 +749,9 @@
             }
         },
         "report_sidebar": {
+            "states": {
+                "loading_more": "Memuat lebih banyak"
+            },
             "about": {
                 "title": "Tentang PingSpot",
                 "description": "PingSpot adalah platform pelaporan masalah komunitas yang memungkinkan warga melaporkan dan memantau permasalahan di lingkungan sekitar.",

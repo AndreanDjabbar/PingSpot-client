@@ -751,6 +751,9 @@
             }
         },
         "report_sidebar": {
+            "states": {
+                "loading_more": "Fetching more..."
+            },
             "about": {
                 "title": "About PingSpot",
                 "description": "PingSpot is a community issue-reporting platform that lets residents report and track problems in their surroundings.",

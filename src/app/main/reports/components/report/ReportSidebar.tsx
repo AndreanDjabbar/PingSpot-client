@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useMemo, memo, useState } from 'react';
+import React, { useMemo, memo, useState, useEffect } from 'react';
 import { useReportsStore, useUserProfileStore } from '@/stores';
-import { useErrorToast, useGetUserConnections } from '@/hooks';
+import { useErrorToast, useGetUserConnectionsFollowers, useGetUserConnectionsFollowing } from '@/hooks';
 import { getImageURL } from '@/utils';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useInView } from 'react-intersection-observer';
+import { Scrollbar } from '@/components';
 
 const reportTypeConfig: Record<string, { label: string; color: string }> = {
     totalInfrastructureReports: { label: 'Infrastruktur', color: 'text-blue-600' },
@@ -28,13 +31,33 @@ const ReportSidebar = memo(() => {
     const t = useTranslations('report.report_sidebar');
     const reportCount = useReportsStore((state) => state.reportCount);
     const currentUser = useUserProfileStore((state) => state.userProfile);
+
     const {
-        isPending: isFetchingUserConnections,
-        isError: isErrorFetchingUserConnections,
-        error: errorFetchingUserConnections,
-        refetch: refetchUserConnections,
-        data: userConnections
-    } = useGetUserConnections(Number(currentUser?.userID) || 0);
+        isPending: isFetchingFollowers,
+        isError: isErrorFetchingFollowers,
+        error: errorFetchingFollowers,
+        refetch: refetchFollowers,
+        data: followersData,
+        hasNextPage: hasNextPageFollowers,
+        fetchNextPage: fetchNextPageFollowers,
+        isFetchingNextPage: isFetchingNextPageFollowers,
+    } = useGetUserConnectionsFollowers(Number(currentUser?.userID) || 0);
+
+    const {
+        isPending: isFetchingFollowing,
+        isError: isErrorFetchingFollowing,
+        error: errorFetchingFollowing,
+        refetch: refetchFollowing,
+        data: followingData,
+        hasNextPage: hasNextPageFollowing,
+        fetchNextPage: fetchNextPageFollowing,
+        isFetchingNextPage: isFetchingNextPageFollowing,
+    } = useGetUserConnectionsFollowing(Number(currentUser?.userID) || 0);
+
+    const { ref, inView } = useInView({
+        threshold: 0,
+    })
+
     const [viewMode, setViewMode] = useState<'follower' | 'following'>('follower');
 
     const reportStats = useMemo(() => {
@@ -50,11 +73,43 @@ const ReportSidebar = memo(() => {
             }));
     }, [reportCount, t]);
 
-    const connections = viewMode === 'follower' ? userConnections?.data?.followers : userConnections?.data?.following;
+    const followers = useMemo(() => {
+        if (!followersData) return [];
+        return followersData.pages.flatMap((page) => {
+            const list = page?.data?.followers ?? page?.data;
+            return Array.isArray(list) ? list : [];
+        });
+    }, [followersData]);
+
+    const following = useMemo(() => {
+        if (!followingData) return [];
+        return followingData.pages.flatMap((page) => {
+            const list = page?.data?.following ?? page?.data;
+            return Array.isArray(list) ? list : [];
+        });
+    }, [followingData]);
+
+    const isFollowerMode = viewMode === 'follower';
+
+    const connections = isFollowerMode ? followers : following;
+    const isFetchingConnections = isFollowerMode ? isFetchingFollowers : isFetchingFollowing;
+    const isErrorFetchingConnections = isFollowerMode ? isErrorFetchingFollowers : isErrorFetchingFollowing;
+    const errorFetchingConnections = isFollowerMode ? errorFetchingFollowers : errorFetchingFollowing;
+    const refetchConnections = isFollowerMode ? refetchFollowers : refetchFollowing;
+    const hasNextPage = isFollowerMode ? hasNextPageFollowers : hasNextPageFollowing;
+    const fetchNextPage = isFollowerMode ? fetchNextPageFollowers : fetchNextPageFollowing;
+    const isFetchingNextPage = isFollowerMode ? isFetchingNextPageFollowers : isFetchingNextPageFollowing;
+
     const onlineCount = connections?.filter((c) => c.status === 'online').length || 0;
     const hasConnections = !!connections && connections.length > 0;
 
-    useErrorToast(isErrorFetchingUserConnections, errorFetchingUserConnections || t('connections.error.message'));
+    useErrorToast(isErrorFetchingConnections, errorFetchingConnections || t('connections.error.message'));
+
+    useEffect(() => {
+        if (inView && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
         <div className='hidden lg:block w-1/3 lg:w-75 2xl:w-90 overflow-y-auto space-y-4'>
@@ -109,7 +164,7 @@ const ReportSidebar = memo(() => {
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">
                 <div className="flex items-center justify-between mb-4">
                     <h3 className="font-bold text-lg text-gray-900">{t('connections.title')}</h3>
-                    {!isFetchingUserConnections && !isErrorFetchingUserConnections && (
+                    {!isFetchingConnections && !isErrorFetchingConnections && (
                         <span className="text-xs text-gray-500">{t('connections.online_count', { count: onlineCount })}</span>
                     )}
                 </div>
@@ -141,7 +196,7 @@ const ReportSidebar = memo(() => {
                     </div>
                 </div>
 
-                {isFetchingUserConnections ? (
+                {isFetchingConnections ? (
                     <div className="space-y-3 animate-pulse">
                         {[...Array(3)].map((_, idx) => (
                             <div key={idx} className="flex items-center gap-3">
@@ -153,48 +208,63 @@ const ReportSidebar = memo(() => {
                             </div>
                         ))}
                     </div>
-                ) : isErrorFetchingUserConnections ? (
+                ) : isErrorFetchingConnections ? (
                     <div className="text-center py-6">
                         <p className="text-sm text-gray-500 mb-3">{t('connections.error.message')}</p>
                         <button
-                            onClick={() => refetchUserConnections()}
+                            onClick={() => refetchConnections()}
                             className="text-sm text-blue-600 hover:text-blue-700 font-medium"
                         >
                             {t('connections.error.retry')}
                         </button>
                     </div>
                 ) : hasConnections ? (
-                    <div className="space-y-3">
-                        {connections!.map((friend, idx) => (
-                            <div key={`${viewMode}-${idx}`} className="flex items-center gap-3">
-                                <div className="relative w-10 h-10 shrink-0">
-                                    {friend.profilePicture ? (
-                                        <Image
-                                            src={getImageURL(friend.profilePicture, 'user')}
-                                            alt={friend.username}
-                                            width={40}
-                                            height={40}
-                                            className="w-10 h-10 rounded-full object-cover"
-                                        />
-                                    ) : (
-                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-sm font-semibold">
-                                            {friend.username?.charAt(0).toUpperCase()}
+                    <div className="h-max-50">
+                        <Scrollbar>
+                            <div className="space-y-3">
+                                {connections!.map((friend, idx) => (
+                                    <div key={`${viewMode}-${idx}`} className="flex items-center gap-3">
+                                        <div className="relative w-10 h-10 shrink-0">
+                                            {friend.profilePicture ? (
+                                                <Image
+                                                    src={getImageURL(friend.profilePicture, 'user')}
+                                                    alt={friend.username}
+                                                    width={40}
+                                                    height={40}
+                                                    className="w-10 h-10 rounded-full object-cover"
+                                                />
+                                            ) : (
+                                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-sm font-semibold">
+                                                    {friend.username?.charAt(0).toUpperCase()}
+                                                </div>
+                                            )}
+                                            <div
+                                                className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
+                                                    friend.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
+                                                }`}
+                                            ></div>
                                         </div>
-                                    )}
-                                    <div
-                                        className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
-                                            friend.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
-                                        }`}
-                                    ></div>
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-gray-900 truncate">{friend.username}</p>
-                                    <p className="text-xs text-gray-500">
-                                        {friend.status === 'online' ? t('connections.status.online') : t('connections.status.offline')}
-                                    </p>
-                                </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-medium text-gray-900 truncate">{friend.username}</p>
+                                            <p className="text-xs text-gray-500">
+                                                {friend.status === 'online' ? t('connections.status.online') : t('connections.status.offline')}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {hasNextPage && (
+                                    <div ref={ref} className="flex justify-center py-3">
+                                        {isFetchingNextPage && (
+                                            <div className="flex items-center space-x-2 text-primary/70 w-full justify-center">
+                                                <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
+                                                <span>{t('states.loading_more')}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
-                        ))}
+                        </Scrollbar>
                     </div>
                 ) : (
                     <div className="text-center py-6">
@@ -203,72 +273,7 @@ const ReportSidebar = memo(() => {
                         </p>
                     </div>
                 )}
-
-                {!isFetchingUserConnections && !isErrorFetchingUserConnections && hasConnections && (
-                    <button className="w-full mt-4 text-sm text-blue-600 hover:text-blue-700 font-medium">
-                        {t('connections.view_all')}
-                    </button>
-                )}
             </div>
-
-            {/* <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">
-                <h3 className="font-bold text-lg text-gray-900 mb-4">Komunitas Aktif</h3>
-                <div className="space-y-3">
-                    {[
-                        { name: 'Warga Peduli Jakarta', members: 1245, color: 'bg-blue-500' },
-                        { name: 'Tim Hijau Indonesia', members: 892, color: 'bg-green-500' },
-                        { name: 'Keamanan Lingkungan', members: 567, color: 'bg-red-500' },
-                    ].map((community, idx) => (
-                        <div
-                            key={idx}
-                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-                        >
-                            <div
-                                className={`w-12 h-12 ${community.color} rounded-lg flex items-center justify-center text-white font-bold text-lg`}
-                            >
-                                {community.name.charAt(0)}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-sm font-semibold text-gray-900 truncate">{community.name}</p>
-                                <p className="text-xs text-gray-500">{community.members.toLocaleString()} anggota</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                <button className="w-full mt-4 text-sm text-blue-600 hover:text-blue-700 font-medium">
-                    Jelajahi Komunitas
-                </button>
-            </div> */}
-
-            {/* <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">
-                <h3 className="font-bold text-lg text-gray-900 mb-4">Saran Komunitas</h3>
-                <div className="space-y-3">
-                    {[
-                        { title: 'Relawan Bersih Pantai', category: 'Lingkungan', members: 234 },
-                        { title: 'Patroli Malam Aman', category: 'Keamanan', members: 156 },
-                        { title: 'Perbaikan Jalan Bersama', category: 'Infrastruktur', members: 389 },
-                    ].map((suggestion, idx) => (
-                        <div
-                            key={idx}
-                            className="p-3 border border-gray-200 rounded-lg hover:border-blue-300 transition-colors"
-                        >
-                            <div className="flex items-start justify-between mb-2">
-                                <h4 className="text-sm font-semibold text-gray-900">{suggestion.title}</h4>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded-full">
-                                    {suggestion.category}
-                                </span>
-                                <span className="text-xs text-gray-500">{suggestion.members} anggota</span>
-                            </div>
-                            <button className="w-full mt-3 py-1.5 text-xs font-medium text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50 transition-colors">
-                                Bergabung
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            </div> */}
         </div>
     );
 });

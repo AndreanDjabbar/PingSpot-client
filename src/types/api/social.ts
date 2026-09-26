@@ -37,6 +37,7 @@ export interface IGetFollowDataResponse {
 export interface IUserConnection {
     userID: number;
     username: string;
+    followID: number;
     fullName: string;
     profilePicture: string;
     relation: 'follower' | 'following';
@@ -47,6 +48,22 @@ export interface IGetUserConnectionsResponse {
     data: {
         followers: IUserConnection[];
         following: IUserConnection[];
+    },
+    message: string;
+}
+
+export interface IGetUserConnectionsFollowersResponse {
+    data: {
+        followers: IUserConnection[];
+        nextCursor?: number | null;
+    },
+    message: string;
+}
+
+export interface IGetUserConnectionsFollowingResponse {
+    data: {
+        following: IUserConnection[];
+        nextCursor?: number | null;
     },
     message: string;
 }

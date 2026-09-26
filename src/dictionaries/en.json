@@ -115,6 +115,23 @@
                 "description": "Your profile information will be updated.",
                 "confirm": "Update"
             }
+        },
+
+        "saved_reports_page": {
+            "description": "You can view and manage your saved reports here.",
+            "unsave_aria_label": "Unsave report",
+            "owner_alt": "Report owner",
+            "unknown_user": "Unknown User",
+            "location_unavailable": "Location unavailable",
+            "toast": {
+                "unsave_failed": "Failed to unsave the report. Please try again.",
+                "unsave_success": "Report unsaved successfully."
+            },
+            "states": {
+                "error": "Failed to load your saved reports. Please try again.",
+                "empty": "You haven't saved any reports yet.",
+                "loading_more": "Loading..."
+            }
         }
     },
     "home": {
@@ -646,6 +663,7 @@
                     "RESOLVED": "Resolved",
                     "EXPIRED": "Expired",
                     "WAITING_CONFIRMATION": "Waiting Confirmation",
+                    "WAITING": "Not Yet Processed",
                     "ON_PROGRESS": "On Progress",
                     "default": "Not Yet Processed"
                 },

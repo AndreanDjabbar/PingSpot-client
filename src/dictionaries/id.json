@@ -113,6 +113,23 @@
                 "description": "Informasi profil anda akan diubah.",
                 "confirm": "Ubah"
             }
+        },
+
+        "saved_reports_page": {
+            "description": "Anda dapat melihat dan mengelola laporan yang telah disimpan di sini.",
+            "unsave_aria_label": "Batal simpan laporan",
+            "owner_alt": "Pemilik laporan",
+            "unknown_user": "Pengguna Tidak Dikenal",
+            "location_unavailable": "Lokasi tidak tersedia",
+            "toast": {
+                "unsave_failed": "Gagal menghapus laporan dari daftar simpanan. Silakan coba lagi.",
+                "unsave_success": "Berhasil menghapus laporan dari daftar simpanan."
+            },
+            "states": {
+                "error": "Gagal memuat laporan yang disimpan. Silakan coba lagi.",
+                "empty": "Anda belum menyimpan laporan apa pun.",
+                "loading_more": "Memuat..."
+            }
         }
     },
     "home": {
@@ -644,6 +661,7 @@
                     "RESOLVED": "Terselesaikan",
                     "EXPIRED": "Kadaluarsa",
                     "WAITING_CONFIRMATION": "Menunggu Konfirmasi",
+                    "WAITING": "Belum Diproses",
                     "ON_PROGRESS": "Sedang Diproses",
                     "default": "Belum Diproses"
                 },

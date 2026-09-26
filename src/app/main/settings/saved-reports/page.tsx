@@ -3,7 +3,6 @@
 import { HeaderSection } from '@/components';
 import StaticMap from '@/components/UI/StaticMap';
 import { useErrorToast, useGetSavedReports, useSaveReport, useSuccessToast } from '@/hooks';
-import { useUserProfileStore } from '@/stores';
 import { getImageURL } from '@/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -13,6 +12,7 @@ import { IGetReportSaved } from '@/types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useTranslations } from 'next-intl';
 
 interface SavedReportMiniCardProps {
     report: IGetReportSaved;
@@ -21,10 +21,20 @@ interface SavedReportMiniCardProps {
 
 const SavedReportMiniCard: React.FC<SavedReportMiniCardProps> = ({ report, onUnsave }) => {
     const router = useRouter();
+    const t = useTranslations('settings.saved_reports_page');
+    const tReport = useTranslations('report');
 
     const locationText = [report.reportState, report.reportCountry]
         .filter(Boolean)
-        .join(', ') || 'Location unavailable';
+        .join(', ') || t('location_unavailable');
+
+    const reportTypeLabel = tReport.has(`report_types.${report.reportType}`)
+        ? tReport(`report_types.${report.reportType}`)
+        : report.reportType;
+
+    const reportStatusLabel = tReport.has(`report_card.report_information.status_labels.${report.reportStatus}`)
+        ? tReport(`report_card.report_information.status_labels.${report.reportStatus}`)
+        : report.reportStatus;
 
     return (
         <motion.div
@@ -34,64 +44,67 @@ const SavedReportMiniCard: React.FC<SavedReportMiniCardProps> = ({ report, onUns
             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.25, ease: 'easeInOut' } }}
             transition={{ duration: 0.2 }}
             className="bg-white backdrop-blur-sm rounded-lg border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200 cursor-pointer"
-            onClick={() => router.push(`/main/reports/${report.reportID}`)}
         >
-            <div className="p-3">
-                <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2.5 flex-1 min-w-0">
-                        <div className="h-8 w-8 rounded-full overflow-hidden border border-gray-200 shrink-0 bg-gray-100">
-                            <Image
-                                src={getImageURL(report.profilePicture ? report.profilePicture : '', 'user')}
-                                alt="Report owner"
-                                width={32}
-                                height={32}
-                                className="object-cover h-full w-full"
-                            />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                            <div className="font-semibold text-xs text-gray-900 truncate">
-                                {report.userName || report.fullName || 'Unknown User'}
+            <div
+            onClick={() => router.push(`/main/reports/${report.reportID}`)}>
+                <div 
+                className="p-3">
+                    <div className="flex items-start justify-between gap-2">
+                        <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                            <div className="h-8 w-8 rounded-full overflow-hidden border border-gray-200 shrink-0 bg-gray-100">
+                                <Image
+                                    src={getImageURL(report.profilePicture ? report.profilePicture : '', 'user')}
+                                    alt={t('owner_alt')}
+                                    width={32}
+                                    height={32}
+                                    className="object-cover h-full w-full"
+                                />
                             </div>
-                            <div className="text-[11px] text-gray-500 flex items-center gap-1 min-w-0">
-                                <FaMapMarkerAlt className="text-primary" />
-                                <span className="truncate">{locationText}</span>
+                            <div className="min-w-0 flex-1">
+                                <div className="font-semibold text-xs text-gray-900 truncate">
+                                    {report.userName || report.fullName || t('unknown_user')}
+                                </div>
+                                <div className="text-[11px] text-gray-500 flex items-center gap-1 min-w-0">
+                                    <FaMapMarkerAlt className="text-primary" />
+                                    <span className="truncate">{locationText}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex gap-3">
-                        <div className="flex flex-col items-end gap-1 shrink-0">
-                            <span className="inline-flex items-center px-2 py-0.5 bg-primary/10 text-[10px] font-bold text-primary rounded-full">
-                                {report.reportType}
-                            </span>
-                            <span className="inline-flex items-center px-2 py-0.5 bg-gray-100 text-[10px] font-medium text-gray-600 rounded-full">
-                                {report.reportStatus}
-                            </span>
-                        </div>
-                        <div>
-                            <button
-                                type="button"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    onUnsave(report.reportID);
-                                }}
-                                className="text-gray-600 hover:text-gray-700 transition-colors cursor-pointer"
-                                aria-label="Unsave report"
-                            >
-                                <FaBookmark size={20} />
-                            </button>
+                        <div className="flex gap-3">
+                            <div className="flex flex-col items-end gap-1 shrink-0">
+                                <span className="inline-flex items-center px-2 py-0.5 bg-primary/10 text-[10px] font-bold text-primary rounded-full">
+                                    {reportTypeLabel}
+                                </span>
+                                <span className="inline-flex items-center px-2 py-0.5 bg-gray-100 text-[10px] font-medium text-gray-600 rounded-full">
+                                    {reportStatusLabel}
+                                </span>
+                            </div>
+                            <div>
+                                <button
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onUnsave(report.reportID);
+                                    }}
+                                    className="text-gray-600 hover:text-gray-700 transition-colors cursor-pointer"
+                                    aria-label={t('unsave_aria_label')}
+                                >
+                                    <FaBookmark size={20} />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div className="px-3 pb-2">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-0.5 line-clamp-1">
+                        {report.reportTitle}
+                    </h3>
+                    <p className="text-xs text-gray-600 line-clamp-2 break-words">
+                        {report.reportDescription}
+                    </p>
+                </div>
             </div>
 
-            <div className="px-3 pb-2">
-                <h3 className="text-sm font-semibold text-gray-900 mb-0.5 line-clamp-1">
-                    {report.reportTitle}
-                </h3>
-                <p className="text-xs text-gray-600 line-clamp-2 break-words">
-                    {report.reportDescription}
-                </p>
-            </div>
 
             <div className="px-3 pb-3">
                 <div className="relative w-full h-[230px] overflow-hidden bg-gray-100 rounded-lg shadow-sm">
@@ -112,6 +125,7 @@ const SavedReportMiniCard: React.FC<SavedReportMiniCardProps> = ({ report, onUns
 
 const SavedReportsPage = () => {
     const currentPath = usePathname();
+    const t = useTranslations('settings.saved_reports_page');
 
     const {
         data: savedReports,
@@ -139,11 +153,11 @@ const SavedReportsPage = () => {
 
     useErrorToast(
         isUnsaveReportError,
-        unsaveReportData?.message || 'Failed to unsave the report. Please try again.',
+        unsaveReportData?.message || t('toast.unsave_failed'),
     );
     useSuccessToast(
         isUnsaveReportSuccess,
-        'Report unsaved successfully.',
+        t('toast.unsave_success'),
     );
 
     const { ref, inView } = useInView({
@@ -163,7 +177,7 @@ const SavedReportsPage = () => {
                     isCardHeader={false}
                     currentPath={currentPath}
                     showBreadcrumb={true}
-                    message={'You can view and manage your saved reports here.'}
+                    message={t('description')}
                 />
             </div>
 
@@ -177,13 +191,13 @@ const SavedReportsPage = () => {
 
             {!isSavedReportsLoading && isSavedReportsError && (
                 <div className="text-sm text-gray-500 text-center py-12">
-                    Failed to load your saved reports. Please try again.
+                    {t('states.error')}
                 </div>
             )}
 
             {!isSavedReportsLoading && !isSavedReportsError && reportsData.length === 0 && (
                 <div className="text-sm text-gray-500 text-center py-12">
-                    You haven&apos;t saved any reports yet.
+                    {t('states.empty')}
                 </div>
             )}
 
@@ -202,10 +216,10 @@ const SavedReportsPage = () => {
             )}
             {hasNextSavedReportsPage && (
                 <div ref={ref} className="flex justify-center mt-6">
-                    {true && (
+                    {isFetchingNextSavedReportsPage && (
                         <div className="flex items-center space-x-2 text-primary/70 w-full justify-center">
                             <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
-                            <span>Loading...</span>
+                            <span>{t('states.loading_more')}</span>
                         </div>
                     )}
                 </div>

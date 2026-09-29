@@ -5,10 +5,9 @@ export const dynamic = 'force-dynamic';
 import React, { useEffect, useState } from 'react';
 import { BiLock, BiEnvelope, BiUser, BiCog } from 'react-icons/bi';
 import { MdOutlineLanguage, MdOutlineMarkEmailUnread } from 'react-icons/md';
-import { useErrorToast, useSuccessToast, useLogout, useGetFollowData } from '@/hooks';
+import { useErrorToast, useSuccessToast, useLogout, useGetFollowData, useUpdateEmailNotificationPreference } from '@/hooks';
 import { useRouter, usePathname } from 'next/navigation';
 import { ImExit } from 'react-icons/im';
-import { IoIosNotifications } from "react-icons/io";
 import { useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { SettingCard, SettingItem } from './components';
 import { Button, ToggleSwitch, HeaderSection, ProfileBadge } from '@/components';
@@ -20,12 +19,12 @@ const SettingsPage = () => {
     const locale = useLocale();
     const router = useRouter();
     const currentPath = usePathname();
+    const user = useUserProfileStore(state => state.userProfile);
 
-    const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-    const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(true);
+    const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(!user?.isDisableEmailNotification);
+
     const [selectedLanguage, setSelectedLanguage] = useState(locale);
 
-    const user = useUserProfileStore(state => state.userProfile);
     const openConfirm = useConfirmationModalStore((state) => state.openConfirm);
 
     const {
@@ -38,6 +37,12 @@ const SettingsPage = () => {
     const followersCount = followData?.data?.followersCount || 0;
 
     const { mutate: logout, isPending, isError, error, isSuccess, data } = useLogout();
+    const {
+        mutate: updateEmailNotificationPreference,
+        isPending: isUpdatingEmailNotificationPreference,
+        isError: isErrorUpdatingEmailNotificationPreference,
+        error: errorUpdatingEmailNotificationPreference,
+    } = useUpdateEmailNotificationPreference();
 
     const languages = [
         { code: 'id', name: 'Bahasa Indonesia' },
@@ -74,7 +79,28 @@ const SettingsPage = () => {
             onConfirm: () => handleLanguageChange(langCode),
         });
     }
-    
+
+    const handleEmailNotificationPreferenceChange = (enable: boolean) => {
+        updateEmailNotificationPreference(
+            { isDisableEmailNotification: !enable },
+            { onSuccess: () => setEmailNotificationsEnabled(enable) },
+        );
+    };
+
+    const requestEmailNotificationChange = (enable: boolean) => {
+        openConfirm({
+            type: "warning",
+            title: t('email_notification_modal.title'),
+            subtitle: t('email_notification_modal.subtitle'),
+            isPending: isUpdatingEmailNotificationPreference,
+            description: enable
+                ? t('email_notification_modal.enable_description')
+                : t('email_notification_modal.disable_description'),
+            confirmTitle: t('email_notification_modal.confirm'),
+            onConfirm: () => handleEmailNotificationPreferenceChange(enable),
+        });
+    };
+
     const confirmLogout = () => {
         logout();
     };
@@ -86,6 +112,7 @@ const SettingsPage = () => {
     useErrorToast(isError, error);
     useSuccessToast(isSuccess, data);
     useErrorToast(isErrorFetchingFollowData, errorFetchingFollowData);
+    useErrorToast(isErrorUpdatingEmailNotificationPreference, errorUpdatingEmailNotificationPreference);
 
     useEffect(() => {
         if (isSuccess) {
@@ -94,7 +121,11 @@ const SettingsPage = () => {
             }, 1000);
         }
     }, [isSuccess, router]);
-    
+
+    useEffect(() => {
+        setEmailNotificationsEnabled(!user?.isDisableEmailNotification);
+    }, [user?.isDisableEmailNotification]);
+
     return (
         <div className="space-y-8">
             <HeaderSection
@@ -112,7 +143,7 @@ const SettingsPage = () => {
                         followers={isFetchingFollowData ? undefined : followersCount}
                         following={isFetchingFollowData ? undefined : followingCount}
                         imageUrl={user?.profilePicture}       
-                        email={user?.email || 'Andreanjabar19@gmail.com'}                 
+                        email={user?.email || ''}                 
                         textColors={{ 
                             name: 'text-gray-900', 
                             email: 'text-gray-500', 
@@ -209,9 +240,7 @@ const SettingsPage = () => {
                             action={
                                 <ToggleSwitch
                                 enabled={emailNotificationsEnabled}
-                                onChange={() => {
-                                    setEmailNotificationsEnabled(!emailNotificationsEnabled);
-                                }}
+                                onChange={() => requestEmailNotificationChange(!emailNotificationsEnabled)}
                                 />
                             }
                             />

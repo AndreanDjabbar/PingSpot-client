@@ -43,6 +43,14 @@
             "description": "The language will be changed to {language}.",
             "confirm": "Change Language"
         },
+        "email_notification_modal": {
+            "title": "Confirm Email Notification Preference Change",
+            "subtitle": "Are you sure you want to change your email notification preference?",
+            "description": "Your email notification preference will be updated.",
+            "disable_description": "You will no longer receive email notifications from PingSpot.",
+            "enable_description": "You will receive email notifications from PingSpot.",
+            "confirm": "Update Preference"
+        },
         "logout": "Log Out",
         "logging_out": "Logging Out...",
         

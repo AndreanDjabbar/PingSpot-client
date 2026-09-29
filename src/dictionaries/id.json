@@ -43,6 +43,14 @@
             "description": "Bahasa akan diubah menjadi {language}.",
             "confirm": "Ubah Bahasa"
         },
+        "email_notification_modal": {
+            "title": "Konfirmasi Perubahan Preferensi Notifikasi Email",
+            "subtitle": "Apakah Anda yakin ingin mengubah preferensi notifikasi email Anda?",
+            "description": "Preferensi notifikasi email Anda akan diperbarui.",
+            "disable_description": "Anda tidak akan lagi menerima notifikasi email dari PingSpot.",
+            "enable_description": "Anda akan menerima notifikasi email dari PingSpot.",
+            "confirm": "Perbarui Preferensi"
+        },
         "logout": "Keluar",
         "logging_out": "Keluar...",
         "security": {

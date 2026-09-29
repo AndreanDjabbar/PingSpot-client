@@ -34,6 +34,7 @@ export const useUserProfileStore = create<UserProfileStore>((set) => ({
             profilePicture: profileData?.data?.profilePicture || "",
             isDefaultUsername: profileData?.data?.isDefaultUsername || false,
             isCompleteProfile: profileData?.data?.isCompleteProfile || false,
+            isDisableEmailNotification: profileData?.data?.isDisableEmailNotification || false,
             missingFields: profileData?.data?.missingFields || [],
         };
 

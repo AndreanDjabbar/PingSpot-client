@@ -13,6 +13,12 @@ export const saveProfileService = async (payload: FormData): Promise<ISaveProfil
     return response.data;
 }
 
+export const updateEmailNotificationPreferenceService = async (payload: { isDisableEmailNotification: boolean }): Promise<ISaveProfileResponse> => {
+    console.log('updateEmailNotificationPreferenceService payload:', payload);
+    const response = await axiosInstance.patch<ISaveProfileResponse>(`/user/email-notification-preference`, payload);
+    return response.data;
+}
+
 export const saveSecurityService = async (payload: ISaveSecurityRequest): Promise<ISaveSecurityResponse> => {
     const response = await axiosInstance.post<ISaveSecurityResponse>(`/user/security`, payload);
     return response.data;

@@ -4,7 +4,8 @@ import {
     getUserStatisticsService, 
     saveProfileService, 
     saveSecurityService, 
-    searchUsersDataService
+    searchUsersDataService,
+    updateEmailNotificationPreferenceService
 } from "@/services";
 import { 
     IGetProfileResponse, 
@@ -22,6 +23,12 @@ export const useGetProfileByUsername = (username: string) => {
     return useQuery<IGetProfileResponse, AxiosError>({
         queryKey: ['profile', username],
         queryFn: () => getProfileByUsernameService(username),
+    })
+}
+
+export const useUpdateEmailNotificationPreference = () => {
+    return useMutation<ISaveProfileResponse, AxiosError, { isDisableEmailNotification: boolean }>({
+        mutationFn: (data: { isDisableEmailNotification: boolean }) => updateEmailNotificationPreferenceService(data) 
     })
 }
 

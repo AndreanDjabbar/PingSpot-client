@@ -9,6 +9,7 @@ export interface IUserProfile {
     birthday? : string;
     isDefaultUsername: boolean;
     isCompleteProfile: boolean;
+    isDisableEmailNotification: boolean;
     missingFields: string[];
 }
 

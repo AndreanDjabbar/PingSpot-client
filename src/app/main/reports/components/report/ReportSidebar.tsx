@@ -219,7 +219,7 @@ const ReportSidebar = memo(() => {
                         </button>
                     </div>
                 ) : hasConnections ? (
-                    <div className="h-max-50">
+                    <div className="max-h-50">
                         <Scrollbar>
                             <div className="space-y-3">
                                 {connections!.map((friend, idx) => (

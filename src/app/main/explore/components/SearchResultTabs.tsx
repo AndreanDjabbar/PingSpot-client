@@ -24,7 +24,7 @@ const SearchResultTabs: React.FC<SearchResultTabsProps> = ({
     const tabs = [
         { id: 'users' as TabType, label: t('users'), icon: FaUser, count: userCount },
         { id: 'reports' as TabType, label: t('reports'), icon: GoAlert, count: reportCount },
-        { id: 'communities' as TabType, label: t('communities'), icon: FaUsers, count: communityCount }
+        // { id: 'communities' as TabType, label: t('communities'), icon: FaUsers, count: communityCount }
     ];
 
     return (

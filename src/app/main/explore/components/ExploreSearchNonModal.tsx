@@ -11,7 +11,7 @@ import { useInView } from 'react-intersection-observer';
 import { getImageURL } from '@/utils';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components';
+import { Button, Scrollbar } from '@/components';
 import { useTranslations } from 'next-intl';
 
 interface SearchResult {
@@ -228,7 +228,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
         }
 
         return (
-            <>  
+            <Scrollbar className="max-h-[380px]">  
                 <div className="divide-y divide-gray-200">
                     {activeTab === 'users' && searchResults.users.map((user) => (
                         <div 
@@ -284,7 +284,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                             </div>
                         </div>
                     ))}
-                    {activeTab === 'communities' && searchResults.communities.map((community) => (
+                    {/* {activeTab === 'communities' && searchResults.communities.map((community) => (
                         <div key={community.id} className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
@@ -296,7 +296,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    ))} */}
                 </div>
 
                 {hasNextPage && (
@@ -309,7 +309,7 @@ const ExploreSearchNonModal: React.FC<ExploreSearchNonModalProps> = ({
                         )}
                     </div>
                 )}
-            </>
+            </Scrollbar>
         );
     };
 

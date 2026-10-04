@@ -318,6 +318,13 @@
             "followers": "Followers",
             "following": "Following"
         },
+        "reports": {
+            "title": "Reports: ",
+            "empty": "No reports yet.",
+            "error": "Unable to load reports.",
+            "load_more": "Load more",
+            "loading_more": "Loading more..."
+        },
         "pro_badge": "PRO ✦",
         "actions": {
             "follow": "Follow",

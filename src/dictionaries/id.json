@@ -316,6 +316,13 @@
             "followers": "Pengikut",
             "following": "Mengikuti"
         },
+        "reports": {
+            "title": "Laporan: ",
+            "empty": "Belum ada laporan.",
+            "error": "Laporan tidak dapat dimuat.",
+            "load_more": "Muat lebih banyak",
+            "loading_more": "Memuat..."
+        },
         "pro_badge": "PRO ✦",
         "actions": {
             "follow": "Ikuti",

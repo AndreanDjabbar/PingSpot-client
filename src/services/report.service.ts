@@ -42,7 +42,8 @@ export const getReportService = async (
     status?: string,
     sortBy?: string,
     distance?: { distance: string; lat: string | null; lng: string | null },
-    hasProgress?: string
+    hasProgress?: string,
+    userID?: number
 ): Promise<IGetReportResponse> => {
     const params = new URLSearchParams();
 
@@ -60,6 +61,7 @@ export const getReportService = async (
     }
     if (sortBy) params.append('sortBy', sortBy);
     if (hasProgress && hasProgress !== 'all') params.append('hasProgress', hasProgress);
+    if (userID) params.append('userID', userID.toString());
     
     const queryString = params.toString() ? `?${params.toString()}` : '';
     

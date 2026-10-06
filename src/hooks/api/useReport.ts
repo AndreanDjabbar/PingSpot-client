@@ -89,17 +89,19 @@ export const useGetReport = (
     sortBy?: string,
     hasProgress?: string,
     distance? : { distance: string; lat: string | null; lng: string | null },
+    userID?: number,
     enabled: boolean = true
 ) => {
     return useInfiniteQuery<IGetReportResponse, Error>({
-        queryKey: ['report', reportType, status, sortBy, distance, hasProgress],
+        queryKey: ['report', reportType, status, sortBy, distance, hasProgress, userID],
         queryFn: ({ pageParam }) => getReportService(
             pageParam as number | undefined,
             reportType,
             status,
             sortBy,
             distance,
-            hasProgress
+            hasProgress,
+            userID
         ),
         getNextPageParam: (lastPage) => lastPage.data?.nextCursor ?? undefined,
         initialPageParam: undefined,

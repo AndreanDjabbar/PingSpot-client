@@ -107,6 +107,7 @@ const ReportsPage = () => {
         reportFilters.sortBy,
         reportFilters.hasProgress !== 'all' ? reportFilters.hasProgress : undefined,
         reportFilters.distance,
+        undefined,
         hasCoords ? hasCoords : false
     );
 
@@ -515,6 +516,7 @@ const ReportsPage = () => {
             fetchNextPage();
         }
     }, [inView, hasNextPage, fetchNextPage]);
+    // pagination works perfect because isFetchingNextPage is not in the dependency array, so it won't trigger multiple fetches when the user scrolls to the bottom of the page.
 
     useEffect(() => {
         if (isGetReportSuccess && getReportData) {

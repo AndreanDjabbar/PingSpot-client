@@ -6,7 +6,7 @@ import { useErrorToast, useGetSavedReports, useSaveReport, useSuccessToast } fro
 import { getImageURL } from '@/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FaMapMarkerAlt, FaBookmark } from 'react-icons/fa';
 import { IGetReportSaved } from '@/types';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -163,10 +163,17 @@ const SavedReportsPage = () => {
     const { ref, inView } = useInView({
         threshold: 0,
     })
+    const hasFetchedForCurrentView = useRef(false);
 
     useEffect(() => {
-        if (inView && hasNextSavedReportsPage && !isFetchingNextSavedReportsPage) {
+        if (!inView) {
+            hasFetchedForCurrentView.current = false;
+            return;
+        }
+
+        if (!hasFetchedForCurrentView.current && hasNextSavedReportsPage && !isFetchingNextSavedReportsPage) {
             fetchNextSavedReportsPage();
+            hasFetchedForCurrentView.current = true;
         }
     }, [inView, hasNextSavedReportsPage, fetchNextSavedReportsPage, isFetchingNextSavedReportsPage]);
 

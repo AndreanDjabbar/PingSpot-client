@@ -12,8 +12,10 @@ import { useEffect, useState } from "react";
 import { useEmailVerification, useErrorToast, useSuccessToast } from "@/hooks";
 import { useRouter } from "next/navigation";
 import { ForgotPasswordEmailVerificationSchema } from "../Schema";
+import { useTranslations } from "next-intl";
 
 const ForgotPasswordPage = () => {
+    const t = useTranslations('auth.forgot_password');
     const { 
         register, 
         handleSubmit, 
@@ -54,7 +56,7 @@ const ForgotPasswordPage = () => {
         }, 1000);
 
         return () => clearTimeout(timer);
-    }, [countdown]);
+    }, [countdown, reset]);
     
     useEffect(() => {
         if (isSuccess && data) {
@@ -70,8 +72,8 @@ const ForgotPasswordPage = () => {
     return (
         <div className="space-y-8">
             <div className="text-center space-y-2">
-                <h1 className="text-3xl font-bold text-surface">Lupa Kata Sandi?</h1>
-                <p className="text-surface">Masukan email anda agar kami dapat mengirimkan link untuk mengatur ulang kata sandi</p>
+                <h1 className="text-3xl font-bold text-surface">{t('title')}</h1>
+                <p className="text-surface">{t('subtitle')}</p>
             </div>
 
             {isSuccess && (
@@ -80,7 +82,7 @@ const ForgotPasswordPage = () => {
 
             {isError && (
                 <ErrorSection 
-                message={countdown !== null ? `Silakan coba lagi dalam ${countdown} detik.` : getErrorResponseMessage(error)}/>
+                message={countdown !== null ? t('retry_countdown', { seconds: countdown }) : getErrorResponseMessage(error)}/>
             )}
             
             {!isSuccess && (
@@ -94,27 +96,28 @@ const ForgotPasswordPage = () => {
                                 register={register("email")}
                                 className="w-full"
                                 withLabel={true}
-                                labelTitle="Alamat Email"
+                                labelTitle={t('email.label')}
                                 icon={<MdMailOutline size={20} />}
-                                placeHolder="Masukkan email Anda"
+                                placeHolder={t('email.placeholder')}
                             />
                             <div className="text-danger-dark text-sm font-semibold">{errors.email?.message as string}</div>
                         </div>
                         
                         <p className="text-center text-sm text-surface">
-                            Sudah punya akun?{' '}
+                            {t('have_account.text')}{' '}
                             <a href="/auth/login" className="font-medium text-primary hover:text-primary-hover hover:underline transition-colors duration-200 cursor-pointer">
-                                Masuk
+                                {t('have_account.link')}
                             </a>
                         </p>
 
                         <Button
                             className="group relative w-full flex items-center justify-center py-3 px-4 text-sm font-medium "
                             type="submit"
-                            loadingText="Mengirim.."
+                            title={t('submit.default')}
+                            loadingText={t('submit.loading')}
                             isLoading={isPending}
                         >
-                            Kirim Email
+                            {t('submit.default')}
                         </Button>
 
                         <div className="relative">
@@ -122,7 +125,7 @@ const ForgotPasswordPage = () => {
                                 <div className="w-full border-t border-muted" />
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-background text-surface">Atau lanjutkan dengan</span>
+                                <span className="px-2 bg-background text-surface">{t('divider')}</span>
                             </div>
                         </div>
 
@@ -133,14 +136,14 @@ const ForgotPasswordPage = () => {
                                 onClick={() => window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL || ''}
                             >
                                 <FaGoogle size={20}/>
-                                <span className="ml-2">Google</span>
+                                <span className="ml-2">{t('google')}</span>
                             </button>
                         </div>
                     </form>
                     <p className="text-center text-sm text-surface">
-                    Belum punya akun?{' '}
+                    {t('no_account.text')}{' '}
                     <a href="/auth/register" className="font-medium text-primary hover:text-primary-hover hover:underline transition-colors duration-200 cursor-pointer">
-                        Daftar gratis
+                        {t('no_account.link')}
                     </a>
                     </p>
                 </>

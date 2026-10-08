@@ -13,9 +13,11 @@ import { useEffect } from "react";
 import { getErrorResponseDetails, getErrorResponseMessage, getDataResponseMessage } from "@/utils";
 import { useRouter } from "next/navigation";
 import { SuccessSection, ErrorSection } from "@/components/feedback";
+import { useTranslations } from "next-intl";
 
 const RegisterPage = () => {
     const router = useRouter();
+    const t = useTranslations('auth.register');
 
     const { mutate, isPending, isError, isSuccess, error, data } = useRegister();
 
@@ -45,8 +47,8 @@ const RegisterPage = () => {
     return (
         <div className="space-y-8 mb-8">
             <div className="text-center space-y-1">
-                <h1 className="text-3xl font-bold text-surface">Daftar</h1>
-                <p className="text-surface">Buat akun untuk mulai menggunakan PingSpot</p>
+                <h1 className="text-3xl font-bold text-surface">{t('title')}</h1>
+                <p className="text-surface">{t('subtitle')}</p>
             </div>
 
             {isSuccess && (
@@ -69,9 +71,9 @@ const RegisterPage = () => {
                                 type="text"
                                 className="w-full"
                                 withLabel={true}
-                                labelTitle="Nama Lengkap"
+                                labelTitle={t('full_name.label')}
                                 icon={<IoPersonSharp size={20}/>} 
-                                placeHolder="Masukkan nama lengkap Anda"
+                                placeHolder={t('full_name.placeholder')}
                             />
                             <div className="text-danger-dark text-sm font-semibold">{errors.fullName?.message as string}</div>
                         </div>
@@ -82,9 +84,9 @@ const RegisterPage = () => {
                                 type="text"
                                 className="w-full"
                                 withLabel={true}
-                                labelTitle="Username"
+                                labelTitle={t('username.label')}
                                 icon={<IoPersonSharp size={20}/>} 
-                                placeHolder="Masukkan username"
+                                placeHolder={t('username.placeholder')}
                             />
                             <div className="text-danger-dark text-sm font-semibold">{errors.username?.message as string}</div>
                         </div>
@@ -97,9 +99,9 @@ const RegisterPage = () => {
                             type="email"
                             className="w-full"
                             withLabel={true}
-                            labelTitle="Alamat Email"
+                            labelTitle={t('email.label')}
                             icon={<MdMailOutline size={20}/>} 
-                            placeHolder="Masukkan email Anda"
+                            placeHolder={t('email.placeholder')}
                         />
                         <div className="text-danger-dark text-sm font-semibold">{errors.email?.message as string}</div>
                     </div>
@@ -111,9 +113,9 @@ const RegisterPage = () => {
                             type="password"
                             className="w-full"
                             withLabel={true}
-                            labelTitle="Kata Sandi"
+                            labelTitle={t('password.label')}
                             icon={<LuLockKeyhole size={20}/>} 
-                            placeHolder="Masukkan kata sandi Anda"
+                            placeHolder={t('password.placeholder')}
                             showPasswordToggle={true}
                         />
                         <div className="text-danger-dark text-sm font-semibold">{errors.password?.message as string}</div>
@@ -126,9 +128,9 @@ const RegisterPage = () => {
                             type="password"
                             className="w-full"
                             withLabel={true}
-                            labelTitle="Konfirmasi Kata Sandi"
+                            labelTitle={t('password_confirmation.label')}
                             icon={<LuLockKeyhole size={20}/>} 
-                            placeHolder="Masukkan ulang kata sandi Anda"
+                            placeHolder={t('password_confirmation.placeholder')}
                             showPasswordToggle={true}
                         />
                         <div className="text-danger-dark text-sm font-semibold">{errors.passwordConfirmation?.message as string}</div>
@@ -137,11 +139,11 @@ const RegisterPage = () => {
                     <Button
                         className="group relative w-full flex items-center justify-center py-3 px-4 text-sm font-medium"
                         type="submit"
-                        title="Daftar"
-                        loadingText="Mendaftar..."
+                        title={t('submit.default')}
+                        loadingText={t('submit.loading')}
                         isLoading={isPending}
                     >
-                        Daftar
+                        {t('submit.default')}
                     </Button>
                 </form>
             )}
@@ -151,7 +153,7 @@ const RegisterPage = () => {
                     <div className="w-full border-t border-muted" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-background text-surface">Atau lanjutkan dengan</span>
+                    <span className="px-2 bg-background text-surface">{t('divider')}</span>
                 </div>
             </div>
 
@@ -162,13 +164,13 @@ const RegisterPage = () => {
                     onClick={() => window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL || ''}
                 >
                     <FaGoogle size={20}/>
-                    <span className="ml-2">Google</span>
+                    <span className="ml-2">{t('google')}</span>
                 </button>
             </div>
             <p className="text-center text-sm text-surface">
-                Sudah punya akun?{' '}
+                {t('have_account.text')}{' '}
                 <a href="/auth/login" className="font-medium text-primary hover:text-primary-hover hover:underline transition-colors duration-200 cursor-pointer">
-                    Masuk
+                    {t('have_account.link')}
                 </a>
             </p>
         </div>

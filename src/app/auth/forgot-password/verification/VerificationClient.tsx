@@ -11,10 +11,12 @@ import { LuLockKeyhole } from 'react-icons/lu';
 import { IForgotPasswordResetPasswordRequest } from '@/types';
 import { ForgotPasswordResetPasswordSchema } from '../../Schema';
 import { getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
+import { useTranslations } from 'next-intl';
 
 const VerificationClient = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
+    const t = useTranslations('auth.forgot_password_verification');
 
     const code = searchParams.get('code');
     const email = searchParams.get('email');
@@ -77,11 +79,11 @@ const VerificationClient = () => {
         return (
             <div className="space-y-8">
                 <div className="text-center space-y-1">
-                    <h1 className="text-3xl font-bold text-surface">Atur Ulang Kata Sandi</h1>
-                    <p className="text-surface">Atur ulang kata sandi Anda</p>
+                    <h1 className="text-3xl font-bold text-surface">{t('title')}</h1>
+                    <p className="text-surface">{t('subtitle')}</p>
                 </div>
                 <ErrorSection 
-                    message="Link reset password tidak valid. Silakan periksa kembali link yang Anda terima melalui email."
+                    message={t('invalid_link')}
                 />
             </div>
         );
@@ -91,12 +93,12 @@ const VerificationClient = () => {
         return (
             <div className="space-y-8">
                 <div className="text-center space-y-1">
-                    <h1 className="text-3xl font-bold text-surface">Atur ulang Kata Sandi</h1>
-                    <p className="text-surface">Memverifikasi link atur ulang kata sandi...</p>
+                    <h1 className="text-3xl font-bold text-surface">{t('title')}</h1>
+                    <p className="text-surface">{t('verifying.subtitle')}</p>
                 </div>
                 <div className="text-center">
                     <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-surface"></div>
-                    <p className="mt-2 text-surface">Memverifikasi link...</p>
+                    <p className="mt-2 text-surface">{t('verifying.message')}</p>
                 </div>
             </div>
         );
@@ -106,11 +108,11 @@ const VerificationClient = () => {
         return (
             <div className="space-y-8">
                 <div className="text-center space-y-1">
-                    <h1 className="text-3xl font-bold text-surface">Atur ulang Kata Sandi</h1>
-                    <p className="text-surface">Verifikasi link gagal</p>
+                    <h1 className="text-3xl font-bold text-surface">{t('title')}</h1>
+                    <p className="text-surface">{t('verify_failed.subtitle')}</p>
                 </div>
                 <ErrorSection 
-                    message={getErrorResponseMessage(errorVerify) || 'Link reset password tidak valid atau sudah kadaluarsa.'}
+                    message={getErrorResponseMessage(errorVerify) || t('verify_failed.fallback_message')}
                     errors={getErrorResponseDetails(errorVerify)}
                 />
             </div>
@@ -120,22 +122,22 @@ const VerificationClient = () => {
     return (
         <div className="space-y-8">
             <div className="text-center space-y-1">
-                <h1 className="text-3xl font-bold text-surface">Atur ulang Kata Sandi</h1>
-                <p className="text-surface">Atur ulang kata sandi Anda</p>
+                <h1 className="text-3xl font-bold text-surface">{t('title')}</h1>
+                <p className="text-surface">{t('subtitle')}</p>
             </div>
             
             {isSuccess && (
                 <SuccessSection 
-                    message='Password berhasil diatur ulang'
+                    message={t('success.title')}
                     data={() => {
-                        return "Password Anda telah berhasil diatur ulang. Anda akan dialihkan ke halaman login.";
+                        return t('success.description');
                     }}
                 />
             )}
             
             {isError && (
                 <ErrorSection 
-                    message={getErrorResponseMessage(error) || 'Reset password gagal. Silakan coba lagi.'}
+                    message={getErrorResponseMessage(error) || t('reset_failed')}
                     errors={getErrorResponseDetails(error)}
                 />
             )}
@@ -150,9 +152,9 @@ const VerificationClient = () => {
                             register={register("password")}
                             className="w-full"
                             withLabel={true}
-                            labelTitle="Kata Sandi Baru"
+                            labelTitle={t('new_password.label')}
                             icon={<LuLockKeyhole size={20} />}
-                            placeHolder="Masukkan kata sandi baru"
+                            placeHolder={t('new_password.placeholder')}
                             showPasswordToggle={true}
                         />
                         {errors.password?.message && (
@@ -169,9 +171,9 @@ const VerificationClient = () => {
                             type="password"
                             className="w-full"
                             withLabel={true}
-                            labelTitle="Konfirmasi Kata Sandi Baru"
+                            labelTitle={t('new_password_confirmation.label')}
                             icon={<LuLockKeyhole size={20}/>} 
-                            placeHolder="Masukkan ulang kata sandi baru"
+                            placeHolder={t('new_password_confirmation.placeholder')}
                             showPasswordToggle={true}
                         />
                         {errors.passwordConfirmation?.message && (
@@ -184,19 +186,19 @@ const VerificationClient = () => {
                     <Button
                         className="group relative w-full flex items-center justify-center py-3 px-4 text-sm font-medium"
                         type='submit'
-                        loadingText="Memproses..."
+                        loadingText={t('submit.loading')}
                         isLoading={isPending}
                     >      
-                    Atur Ulang Kata Sandi
+                    {t('submit.default')}
                     </Button>
                 </form>
             )}
 
             <div className="text-center">
                 <p className="text-sm ">
-                    Kembali ke{' '}
+                    {t('back_to_login.text')}{' '}
                     <a href="/auth/login" className="font-medium text-primary hover:text-primary-hover hover:underline transition-colors duration-200 cursor-pointer">
-                        Halaman Login
+                        {t('back_to_login.link')}
                     </a>
                 </p>
             </div>

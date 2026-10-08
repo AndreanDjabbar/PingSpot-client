@@ -1,5 +1,4 @@
 'use client';
-/* eslint-disable react/no-unescaped-entities */
 import { MdMailOutline } from "react-icons/md";
 import { LuLockKeyhole } from "react-icons/lu";
 import { FaGoogle } from "react-icons/fa";
@@ -12,9 +11,11 @@ import { useLogin, useErrorToast, useSuccessToast } from "@/hooks";
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const LoginPage = () => {
     const router = useRouter();
+    const t = useTranslations('auth.login');
 
     const { mutate, isPending, isError, isSuccess, error, data } = useLogin();
 
@@ -44,8 +45,8 @@ const LoginPage = () => {
     return (
         <div className="space-y-8">
             <div className="text-center space-y-2">
-                <h1 className="text-3xl font-bold">Selamat Datang di PingSpot</h1>
-                <p className="">Silahkan masuk ke akun Anda untuk melanjutkan</p>
+                <h1 className="text-3xl font-bold">{t('title')}</h1>
+                <p className="">{t('subtitle')}</p>
             </div>
 
             {isSuccess && (
@@ -69,9 +70,9 @@ const LoginPage = () => {
                                 register={register("emailOrUsername")}
                                 className="w-full"
                                 withLabel={true}
-                                labelTitle="Alamat Email atau Username"
+                                labelTitle={t('email_or_username.label')}
                                 icon={<MdMailOutline size={20} />}
-                                placeHolder="Masukkan email atau username Anda"
+                                placeHolder={t('email_or_username.placeholder')}
                             />
                             <div className="text-danger-dark text-sm font-semibold">{errors.emailOrUsername?.message as string}</div>
                         </div>
@@ -83,9 +84,9 @@ const LoginPage = () => {
                                 register={register("password")}
                                 className="w-full"
                                 withLabel={true}
-                                labelTitle="Kata Sandi"
+                                labelTitle={t('password.label')}
                                 icon={<LuLockKeyhole size={20} />}
-                                placeHolder="Masukkan kata sandi Anda"
+                                placeHolder={t('password.placeholder')}
                                 showPasswordToggle={true}
                             />
                             <div className="text-danger-dark text-sm font-semibold">{errors.password?.message as string}</div>
@@ -94,19 +95,19 @@ const LoginPage = () => {
                         <div className="flex items-center justify-between">
                             <div className="text-sm">
                             <a href="/auth/forgot-password" className="font-medium text-primary hover:text-primary-hover hover:underline transition-colors duration-200 cursor-pointer">
-                                Lupa kata sandi?
+                                {t('forgot_password')}
                             </a>
                             </div>
                         </div>
 
                         <Button
                             className="group relative w-full flex items-center justify-center py-3 px-4 text-sm font-medium "
-                            title="Masuk"
+                            title={t('submit.default')}
                             type="submit"
-                            loadingText="Masuk..."
+                            loadingText={t('submit.loading')}
                             isLoading={isPending}
                         >
-                            Masuk
+                            {t('submit.default')}
                         </Button>
 
                         <div className="relative">
@@ -114,7 +115,7 @@ const LoginPage = () => {
                                 <div className="w-full border-t border-muted" />
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-background">Atau lanjutkan dengan</span>
+                                <span className="px-2 bg-background">{t('divider')}</span>
                             </div>
                         </div>
 
@@ -125,14 +126,14 @@ const LoginPage = () => {
                                 onClick={() => window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL || ''}
                             >
                                 <FaGoogle size={20}/>
-                                <span className="ml-2">Google</span>
+                                <span className="ml-2">{t('google')}</span>
                             </button>
                         </div>
                     </form>
                     <p className="text-center text-sm text-surface">
-                    Belum punya akun?{' '}
+                    {t('no_account.text')}{' '}
                     <a href="/auth/register" className="font-medium text-primary hover:text-primary-hover hover:underline transition-colors cursor-pointer duration-200">
-                        Daftar gratis
+                        {t('no_account.link')}
                     </a>
                     </p>
                 </>

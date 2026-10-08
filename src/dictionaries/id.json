@@ -1445,5 +1445,138 @@
                 "body": "Pengguna {username} membalas komentar Anda"
             }
         }
+    },
+    "auth": {
+        "login": {
+            "title": "Selamat Datang di PingSpot",
+            "subtitle": "Silahkan masuk ke akun Anda untuk melanjutkan",
+            "email_or_username": {
+                "label": "Alamat Email atau Username",
+                "placeholder": "Masukkan email atau username Anda"
+            },
+            "password": {
+                "label": "Kata Sandi",
+                "placeholder": "Masukkan kata sandi Anda"
+            },
+            "forgot_password": "Lupa kata sandi?",
+            "submit": {
+                "default": "Masuk",
+                "loading": "Masuk..."
+            },
+            "divider": "Atau lanjutkan dengan",
+            "google": "Google",
+            "no_account": {
+                "text": "Belum punya akun?",
+                "link": "Daftar gratis"
+            }
+        },
+        "register": {
+            "title": "Daftar",
+            "subtitle": "Buat akun untuk mulai menggunakan PingSpot",
+            "full_name": {
+                "label": "Nama Lengkap",
+                "placeholder": "Masukkan nama lengkap Anda"
+            },
+            "username": {
+                "label": "Username",
+                "placeholder": "Masukkan username"
+            },
+            "email": {
+                "label": "Alamat Email",
+                "placeholder": "Masukkan email Anda"
+            },
+            "password": {
+                "label": "Kata Sandi",
+                "placeholder": "Masukkan kata sandi Anda"
+            },
+            "password_confirmation": {
+                "label": "Konfirmasi Kata Sandi",
+                "placeholder": "Masukkan ulang kata sandi Anda"
+            },
+            "submit": {
+                "default": "Daftar",
+                "loading": "Mendaftar..."
+            },
+            "divider": "Atau lanjutkan dengan",
+            "google": "Google",
+            "have_account": {
+                "text": "Sudah punya akun?",
+                "link": "Masuk"
+            }
+        },
+        "google": {
+            "title": "Verifikasi Akun Google",
+            "subtitle": "Kami akan memverifikasi akun anda",
+            "toast_verified": "Akun berhasil diverifikasi",
+            "success_message": "Akun berhasil diverifikasi melalui Google"
+        },
+        "forgot_password": {
+            "title": "Lupa Kata Sandi?",
+            "subtitle": "Masukkan email Anda agar kami dapat mengirimkan link untuk mengatur ulang kata sandi",
+            "retry_countdown": "Silakan coba lagi dalam {seconds} detik.",
+            "email": {
+                "label": "Alamat Email",
+                "placeholder": "Masukkan email Anda"
+            },
+            "have_account": {
+                "text": "Sudah punya akun?",
+                "link": "Masuk"
+            },
+            "submit": {
+                "default": "Kirim Email",
+                "loading": "Mengirim..."
+            },
+            "divider": "Atau lanjutkan dengan",
+            "google": "Google",
+            "no_account": {
+                "text": "Belum punya akun?",
+                "link": "Daftar gratis"
+            }
+        },
+        "forgot_password_verification": {
+            "title": "Atur Ulang Kata Sandi",
+            "subtitle": "Atur ulang kata sandi Anda",
+            "invalid_link": "Link atur ulang kata sandi tidak valid. Silakan periksa kembali link yang Anda terima melalui email.",
+            "verifying": {
+                "subtitle": "Memverifikasi link atur ulang kata sandi...",
+                "message": "Memverifikasi link..."
+            },
+            "verify_failed": {
+                "subtitle": "Verifikasi link gagal",
+                "fallback_message": "Link atur ulang kata sandi tidak valid atau sudah kadaluarsa."
+            },
+            "success": {
+                "title": "Kata sandi berhasil diatur ulang",
+                "description": "Kata sandi Anda telah berhasil diatur ulang. Anda akan dialihkan ke halaman login."
+            },
+            "reset_failed": "Atur ulang kata sandi gagal. Silakan coba lagi.",
+            "new_password": {
+                "label": "Kata Sandi Baru",
+                "placeholder": "Masukkan kata sandi baru"
+            },
+            "new_password_confirmation": {
+                "label": "Konfirmasi Kata Sandi Baru",
+                "placeholder": "Masukkan ulang kata sandi baru"
+            },
+            "submit": {
+                "default": "Atur Ulang Kata Sandi",
+                "loading": "Memproses..."
+            },
+            "back_to_login": {
+                "text": "Kembali ke",
+                "link": "Halaman Login"
+            }
+        },
+        "email_verification": {
+            "title": "Verifikasi",
+            "subtitle": "Kami akan memverifikasi akun Anda",
+            "invalid_link": "Link verifikasi tidak valid. Silakan periksa kembali link verifikasi yang Anda terima.",
+            "verifying": "Memverifikasi akun...",
+            "success": {
+                "title": "Akun Anda berhasil diverifikasi",
+                "welcome": "Selamat datang, {username}! Sekarang Anda dapat masuk ke akun Anda."
+            },
+            "failed_fallback": "Verifikasi gagal. Silakan coba lagi."
+        }
     }
 }

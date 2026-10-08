@@ -1470,5 +1470,138 @@
         "auth": {
 
         }
+    },
+    "auth": {
+        "login": {
+            "title": "Welcome to PingSpot",
+            "subtitle": "Please sign in to your account to continue",
+            "email_or_username": {
+                "label": "Email Address or Username",
+                "placeholder": "Enter your email or username"
+            },
+            "password": {
+                "label": "Password",
+                "placeholder": "Enter your password"
+            },
+            "forgot_password": "Forgot password?",
+            "submit": {
+                "default": "Sign In",
+                "loading": "Signing in..."
+            },
+            "divider": "Or continue with",
+            "google": "Google",
+            "no_account": {
+                "text": "Don't have an account?",
+                "link": "Sign up for free"
+            }
+        },
+        "register": {
+            "title": "Sign Up",
+            "subtitle": "Create an account to start using PingSpot",
+            "full_name": {
+                "label": "Full Name",
+                "placeholder": "Enter your full name"
+            },
+            "username": {
+                "label": "Username",
+                "placeholder": "Enter a username"
+            },
+            "email": {
+                "label": "Email Address",
+                "placeholder": "Enter your email"
+            },
+            "password": {
+                "label": "Password",
+                "placeholder": "Enter your password"
+            },
+            "password_confirmation": {
+                "label": "Confirm Password",
+                "placeholder": "Re-enter your password"
+            },
+            "submit": {
+                "default": "Sign Up",
+                "loading": "Signing up..."
+            },
+            "divider": "Or continue with",
+            "google": "Google",
+            "have_account": {
+                "text": "Already have an account?",
+                "link": "Sign In"
+            }
+        },
+        "google": {
+            "title": "Google Account Verification",
+            "subtitle": "We're verifying your account",
+            "toast_verified": "Account verified successfully",
+            "success_message": "Account successfully verified through Google"
+        },
+        "forgot_password": {
+            "title": "Forgot Password?",
+            "subtitle": "Enter your email so we can send you a link to reset your password",
+            "retry_countdown": "Please try again in {seconds} seconds.",
+            "email": {
+                "label": "Email Address",
+                "placeholder": "Enter your email"
+            },
+            "have_account": {
+                "text": "Already have an account?",
+                "link": "Sign In"
+            },
+            "submit": {
+                "default": "Send Email",
+                "loading": "Sending..."
+            },
+            "divider": "Or continue with",
+            "google": "Google",
+            "no_account": {
+                "text": "Don't have an account?",
+                "link": "Sign up for free"
+            }
+        },
+        "forgot_password_verification": {
+            "title": "Reset Password",
+            "subtitle": "Reset your password",
+            "invalid_link": "The password reset link is invalid. Please check the link you received by email.",
+            "verifying": {
+                "subtitle": "Verifying your password reset link...",
+                "message": "Verifying link..."
+            },
+            "verify_failed": {
+                "subtitle": "Link verification failed",
+                "fallback_message": "The password reset link is invalid or has expired."
+            },
+            "success": {
+                "title": "Password reset successfully",
+                "description": "Your password has been reset successfully. You will be redirected to the login page."
+            },
+            "reset_failed": "Password reset failed. Please try again.",
+            "new_password": {
+                "label": "New Password",
+                "placeholder": "Enter your new password"
+            },
+            "new_password_confirmation": {
+                "label": "Confirm New Password",
+                "placeholder": "Re-enter your new password"
+            },
+            "submit": {
+                "default": "Reset Password",
+                "loading": "Processing..."
+            },
+            "back_to_login": {
+                "text": "Back to",
+                "link": "Login Page"
+            }
+        },
+        "email_verification": {
+            "title": "Verification",
+            "subtitle": "We're verifying your account",
+            "invalid_link": "The verification link is invalid. Please check the verification link you received.",
+            "verifying": "Verifying account...",
+            "success": {
+                "title": "Your account has been verified",
+                "welcome": "Welcome, {username}! You can now sign in to your account."
+            },
+            "failed_fallback": "Verification failed. Please try again."
+        }
     }
 }

@@ -1603,5 +1603,56 @@
             },
             "failed_fallback": "Verification failed. Please try again."
         }
+    },
+    "schema": {
+        "auth": {
+            "full_name_min": "Full name must be at least {min} characters",
+            "username_min": "Username must be at least {min} characters",
+            "email_invalid": "Invalid email format",
+            "email_or_username_min": "Email or username must be at least {min} characters",
+            "password_min": "Password must be at least {min} characters",
+            "password_mismatch": "Password confirmation does not match",
+            "verification_code1_required": "Verification code 1 cannot be empty",
+            "verification_user_id_required": "User ID cannot be empty",
+            "verification_code2_required": "Verification code 2 cannot be empty"
+        },
+        "main": {
+            "full_name_min": "Full name must be at least {min} characters",
+            "username_min": "Username must be at least {min} characters",
+            "gender_invalid": "Gender must be either male or female",
+            "bio_max": "Bio must be at most {max} characters",
+            "birthday_invalid": "Invalid date of birth",
+            "file_empty": "File cannot be empty",
+            "file_max": "File size must be at most {max}MB",
+
+            "current_password_min": "Current password must be at least {min} characters",
+            "current_password_confirmation_min": "Current password confirmation must be at least {min} characters",
+            "new_password_min": "New password must be at least {min} characters",
+            "new_password_confirmation_min": "New password confirmation must be at least {min} characters",
+            "current_password_mismatch": "Current password confirmation does not match",
+            "new_password_mismatch": "New password confirmation does not match",
+            "new_password_same_as_old": "New password cannot be the same as the current password",
+
+            "report_title_min": "Title must be at least {min} characters",
+            "report_title_max": "Title must be at most {max} characters",
+            "report_description_min": "Description must be at least {min} characters",
+            "report_description_max": "Description must be at most {max} characters",
+            "report_type_required": "Choose a report type",
+            "location_min": "Location must be at least {min} characters",
+            "map_location_required": "Select a location on the map",
+            "latitude_invalid": "Invalid latitude coordinate",
+            "longitude_invalid": "Invalid longitude coordinate",
+            "images_max": "Maximum {max} images",
+            "image_size_max": "Each image must be at most {max}MB",
+
+            "reaction_type_invalid": "Reaction type must be LIKE or DISLIKE",
+            "vote_type_invalid": "Vote type must be RESOLVED, ON_PROGRESS, or NOT_RESOLVED",
+            "progress_status_invalid": "Progress status must be RESOLVED, ON_PROGRESS, or NOT_RESOLVED",
+            "progress_notes_min": "Notes must be at least {min} characters",
+            "progress_notes_max": "Notes must be at most {max} characters",
+
+            "comment_required": "Comment cannot be empty",
+            "comment_max": "Comment must be at most {max} characters"
+        }
     }
 }

@@ -1578,5 +1578,56 @@
             },
             "failed_fallback": "Verifikasi gagal. Silakan coba lagi."
         }
+    },
+    "schema": {
+        "auth": {
+            "full_name_min": "Nama lengkap minimal {min} karakter",
+            "username_min": "Username minimal {min} karakter",
+            "email_invalid": "Format email tidak valid",
+            "email_or_username_min": "Email atau username minimal {min} karakter",
+            "password_min": "Kata sandi minimal {min} karakter",
+            "password_mismatch": "Konfirmasi kata sandi tidak cocok",
+            "verification_code1_required": "Kode verifikasi 1 tidak boleh kosong",
+            "verification_user_id_required": "ID pengguna tidak boleh kosong",
+            "verification_code2_required": "Kode verifikasi 2 tidak boleh kosong"
+        },
+        "main": {
+            "full_name_min": "Nama lengkap minimal {min} karakter",
+            "username_min": "Username minimal {min} karakter",
+            "gender_invalid": "Jenis kelamin harus di antara laki-laki atau perempuan",
+            "bio_max": "Bio maksimal {max} karakter",
+            "birthday_invalid": "Tanggal lahir tidak valid",
+            "file_empty": "File tidak boleh kosong",
+            "file_max": "Ukuran file maksimal {max}MB",
+
+            "current_password_min": "Kata sandi lama minimal {min} karakter",
+            "current_password_confirmation_min": "Konfirmasi kata sandi lama minimal {min} karakter",
+            "new_password_min": "Kata sandi baru minimal {min} karakter",
+            "new_password_confirmation_min": "Konfirmasi kata sandi baru minimal {min} karakter",
+            "current_password_mismatch": "Konfirmasi kata sandi lama tidak sesuai",
+            "new_password_mismatch": "Konfirmasi kata sandi baru tidak sesuai",
+            "new_password_same_as_old": "Kata sandi baru tidak boleh sama dengan kata sandi lama",
+
+            "report_title_min": "Judul minimal {min} karakter",
+            "report_title_max": "Judul maksimal {max} karakter",
+            "report_description_min": "Deskripsi minimal {min} karakter",
+            "report_description_max": "Deskripsi maksimal {max} karakter",
+            "report_type_required": "Pilih salah satu jenis laporan",
+            "location_min": "Lokasi minimal {min} karakter",
+            "map_location_required": "Pilih lokasi pada peta",
+            "latitude_invalid": "Koordinat latitude tidak valid",
+            "longitude_invalid": "Koordinat longitude tidak valid",
+            "images_max": "Maksimal {max} gambar",
+            "image_size_max": "Setiap gambar maksimal {max}MB",
+
+            "reaction_type_invalid": "Tipe reaksi harus LIKE atau DISLIKE",
+            "vote_type_invalid": "Tipe vote harus RESOLVED, ON_PROGRESS, atau NOT_RESOLVED",
+            "progress_status_invalid": "Status progres harus RESOLVED, ON_PROGRESS, atau NOT_RESOLVED",
+            "progress_notes_min": "Catatan minimal {min} karakter",
+            "progress_notes_max": "Catatan maksimal {max} karakter",
+
+            "comment_required": "Komentar tidak boleh kosong",
+            "comment_max": "Komentar maksimal {max} karakter"
+        }
     }
 }

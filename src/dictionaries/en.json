@@ -513,6 +513,10 @@
                     "description": "Your profile is still incomplete. You need to update your profile information.",
                     "confirm_button": "Update Profile"
                 }
+            },
+            "background_theme": {
+                "description": "A real-time community platform for reporting and monitoring local issues on an interactive map.",
+                "copyright": "© {year} PingSpot. All rights reserved."
             }
         },
         "map": {

@@ -511,6 +511,10 @@
                     "description": "Profil Anda masih belum lengkap. Anda perlu memperbarui informasi profil anda.",
                     "confirm_button": "Perbarui Profil"
                 }
+            },
+            "background_theme": {
+                "description": "Platform komunitas real-time untuk melaporkan dan memantau permasalahan lokal pada peta interaktif.",
+                "copyright": "© {year} PingSpot. Hak cipta dilindungi."
             }
         },
         "map": {

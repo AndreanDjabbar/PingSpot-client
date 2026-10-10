@@ -11,17 +11,19 @@ import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessag
 import { useEffect, useState } from "react";
 import { useEmailVerification, useErrorToast, useSuccessToast } from "@/hooks";
 import { useRouter } from "next/navigation";
-import { ForgotPasswordEmailVerificationSchema } from "../Schema";
+import { createForgotPasswordEmailVerificationSchema } from "../Schema";
 import { useTranslations } from "next-intl";
 
 const ForgotPasswordPage = () => {
     const t = useTranslations('auth.forgot_password');
+    const tSchema = useTranslations('schema.auth');
+    const emailVerificationSchema = createForgotPasswordEmailVerificationSchema(tSchema);
     const { 
         register, 
         handleSubmit, 
         formState: { errors } 
     } = useForm<IForgotPasswordEmailVerificationRequest>({
-        resolver: zodResolver(ForgotPasswordEmailVerificationSchema)
+        resolver: zodResolver(emailVerificationSchema)
     });
     
     const { mutate, isPending, isError, isSuccess, error, data, reset } = useEmailVerification();

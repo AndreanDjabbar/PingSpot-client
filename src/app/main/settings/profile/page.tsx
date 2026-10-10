@@ -14,7 +14,7 @@ import {
 } from '@/components';
 import { IoPersonSharp } from 'react-icons/io5';
 import { FaCalendarAlt } from 'react-icons/fa';
-import { SaveProfileSchema } from '../../schema';
+import { buildSaveProfileSchema } from '../../schema';
 import { ISaveProfileRequest } from '@/types/api/user';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,6 +26,8 @@ import { compressImages, getDataResponseMessage, getErrorResponseDetails, getErr
 const ProfilePage = () => {
     const currentPath = usePathname();
     const t = useTranslations('settings.profile');
+    const tSchema = useTranslations('schema.main');
+    const saveProfileSchema = buildSaveProfileSchema(tSchema);
 
     const [profilePicture, setProfilePicture] = useState<File | null>(null);
     const [birthdayDate, setBirthdayDate] = useState<string>('');
@@ -53,7 +55,7 @@ const ProfilePage = () => {
         watch,
         formState: { errors } 
     } = useForm<ISaveProfileRequest>({
-        resolver: zodResolver(SaveProfileSchema),
+        resolver: zodResolver(saveProfileSchema),
         defaultValues: defaultValues
     });
 

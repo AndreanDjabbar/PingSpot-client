@@ -10,7 +10,7 @@ import { Stepper, Button, ErrorSection, SuccessSection, HeaderSection } from '@/
 import { useGetReportByID, useReverseCurrentLocation, useEditReport, useErrorToast, useSuccessToast } from '@/hooks';
 import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
 import { IReportImage, ImageItem, IEditReportRequest } from '@/types';
-import { EditReportSchema } from '../../../schema';
+import { buildEditReportSchema } from '../../../schema';
 import { compressImages, getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage, getImageURL } from '@/utils';
 import { MapStep, DetailStep, AttachmentStep, SummaryStep } from './components';
 import { useTranslations } from 'next-intl';
@@ -19,6 +19,8 @@ const EditReportPage = () => {
     const params = useParams();
     const router = useRouter();
     const t = useTranslations('report.edit_report_page');
+    const tSchema = useTranslations('schema.main');
+    const editReportSchema = buildEditReportSchema(tSchema);
     const reportId = Number(params.id);
     const customCurrentPath = `/main/reports/${reportId}/Sunting Laporan`;
     const [markerPosition, setMarkerPosition] = useState<{ lat: number, lng: number } | null>(null);
@@ -86,7 +88,7 @@ const EditReportPage = () => {
         reset,
         watch
     } = useForm<IEditReportRequest>({
-        resolver: zodResolver(EditReportSchema),
+        resolver: zodResolver(editReportSchema),
         defaultValues: {
             hasProgress: false
         }

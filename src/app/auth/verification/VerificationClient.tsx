@@ -2,7 +2,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod';
-import { VerificationSchema } from '../Schema';
+import { createVerificationSchema } from '../Schema';
 import { useForm } from 'react-hook-form';
 import { useVerification, useErrorToast, useSuccessToast } from '@/hooks';
 import { ErrorSection, SuccessSection } from '@/components';
@@ -14,6 +14,8 @@ const VerificationClient = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const t = useTranslations('auth.email_verification');
+    const tSchema = useTranslations('schema.auth');
+    const verificationSchema = createVerificationSchema(tSchema);
 
     const code1 = searchParams.get('code1');
     const userId = searchParams.get('userId');
@@ -24,7 +26,7 @@ const VerificationClient = () => {
     const { 
         formState: { } 
     } = useForm<IVerificationRequest>({
-        resolver: zodResolver(VerificationSchema)
+        resolver: zodResolver(verificationSchema)
     });
 
     useErrorToast(isError, error);

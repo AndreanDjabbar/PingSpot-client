@@ -11,7 +11,7 @@ import { FaCheck } from 'react-icons/fa';
 import { useErrorToast, useSuccessToast, useUploadProgressReport, useGetReportByID } from '@/hooks';
 import { useReportsStore, useUserProfileStore, useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
 import { IUploadProgressReportRequest, ImageItem } from '@/types';
-import { UploadProgressReportSchema } from '../../../schema';
+import { buildUploadProgressReportSchema } from '../../../schema';
 import { DetailSection, GuideSection, ProgressSection, ResponseSection } from './components';
 import { compressImages } from '@/utils';
 import { Button, HeaderSection } from '@/components';
@@ -21,6 +21,8 @@ const UpdateProgressPage = () => {
     const params = useParams();
     const router = useRouter();
     const t = useTranslations('report.update_progress_page');
+    const tSchema = useTranslations('schema.main');
+    const uploadProgressReportSchema = buildUploadProgressReportSchema(tSchema);
     const reportId = Number(params.id);
     const queryClient = useQueryClient();
     
@@ -48,7 +50,7 @@ const UpdateProgressPage = () => {
         reset,
         setValue
     } = useForm<IUploadProgressReportRequest>({
-        resolver: zodResolver(UploadProgressReportSchema),
+        resolver: zodResolver(uploadProgressReportSchema),
     });
 
     const { 

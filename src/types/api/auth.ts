@@ -1,15 +1,15 @@
 import { 
-    RegisterSchema,
-    LoginSchema,
-    VerificationSchema,
-    ForgotPasswordEmailVerificationSchema,
-    ForgotPasswordResetPasswordSchema
+    createRegisterSchema,
+    createLoginSchema,
+    createVerificationSchema,
+    createForgotPasswordEmailVerificationSchema,
+    createForgotPasswordResetPasswordSchema
 } from "@/app/auth/Schema";
 import z from "zod";
 
-export type IRegisterRequest = z.infer<typeof RegisterSchema>;
+export type IRegisterRequest = z.infer<ReturnType<typeof createRegisterSchema>>;
 
-export type ILoginRequest = z.infer<typeof LoginSchema>;
+export type ILoginRequest = z.infer<ReturnType<typeof createLoginSchema>>;
 
 export interface ILogoutRequest {
     authToken: string;
@@ -19,16 +19,16 @@ export interface ILogoutResponse {
     message: string;
 }
 
-export type IVerificationRequest = z.infer<typeof VerificationSchema>;
+export type IVerificationRequest = z.infer<ReturnType<typeof createVerificationSchema>>;
 
-export type IForgotPasswordEmailVerificationRequest = z.infer<typeof ForgotPasswordEmailVerificationSchema>;
+export type IForgotPasswordEmailVerificationRequest = z.infer<ReturnType<typeof createForgotPasswordEmailVerificationSchema>>;
 
 export interface IForgotPasswordLinkVerificationRequest {
     code: string;
     email: string;
 }
 
-export type IForgotPasswordResetPasswordRequest = z.infer<typeof ForgotPasswordResetPasswordSchema>;
+export type IForgotPasswordResetPasswordRequest = z.infer<ReturnType<typeof createForgotPasswordResetPasswordSchema>>;
 
 export interface IRegisterResponse {
     message: string;

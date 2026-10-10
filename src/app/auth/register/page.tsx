@@ -7,7 +7,7 @@ import { Button, InputField } from "@/components";
 import { useForm } from "react-hook-form";
 import { IRegisterRequest } from "@/types/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterSchema } from "../Schema";
+import { createRegisterSchema } from "../Schema";
 import { useRegister, useErrorToast, useSuccessToast } from "@/hooks";
 import { useEffect } from "react";
 import { getErrorResponseDetails, getErrorResponseMessage, getDataResponseMessage } from "@/utils";
@@ -18,6 +18,8 @@ import { useTranslations } from "next-intl";
 const RegisterPage = () => {
     const router = useRouter();
     const t = useTranslations('auth.register');
+    const tSchema = useTranslations('schema.auth');
+    const registerSchema = createRegisterSchema(tSchema);
 
     const { mutate, isPending, isError, isSuccess, error, data } = useRegister();
 
@@ -26,7 +28,7 @@ const RegisterPage = () => {
         handleSubmit, 
         formState: { errors } 
     } = useForm<IRegisterRequest>({
-        resolver: zodResolver(RegisterSchema)
+        resolver: zodResolver(registerSchema)
     });
 
     const onSubmit = (data: IRegisterRequest) => {

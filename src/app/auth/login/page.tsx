@@ -6,7 +6,7 @@ import { Button, InputField, ErrorSection, SuccessSection } from "@/components";
 import { useForm } from "react-hook-form";
 import { ILoginRequest } from "@/types/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "../Schema";
+import { createLoginSchema } from "../Schema";
 import { useLogin, useErrorToast, useSuccessToast } from "@/hooks";
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils";
 import { useEffect } from "react";
@@ -16,6 +16,8 @@ import { useTranslations } from "next-intl";
 const LoginPage = () => {
     const router = useRouter();
     const t = useTranslations('auth.login');
+    const tSchema = useTranslations('schema.auth');
+    const loginSchema = createLoginSchema(tSchema);
 
     const { mutate, isPending, isError, isSuccess, error, data } = useLogin();
 
@@ -24,7 +26,7 @@ const LoginPage = () => {
         handleSubmit, 
         formState: { errors } 
     } = useForm<ILoginRequest>({
-        resolver: zodResolver(LoginSchema)
+        resolver: zodResolver(loginSchema)
     });
 
     const onSubmit = (data: ILoginRequest) => {

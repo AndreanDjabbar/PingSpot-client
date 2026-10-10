@@ -3,7 +3,7 @@ import {
     IMentionedUser,
     IUserProfile 
 } from "../model";
-import { SaveProfileSchema, SaveSecuritySchema } from "@/app/main/schema";
+import { buildSaveProfileSchema, buildSaveSecuritySchema } from "@/app/main/schema";
 
 export interface IGetProfileByUsernameResponse {
     message: string;
@@ -15,14 +15,14 @@ export interface IGetProfileResponse {
     data?: IUserProfile;
 }
 
-export type ISaveProfileRequest = z.infer<typeof SaveProfileSchema>;
+export type ISaveProfileRequest = z.infer<ReturnType<typeof buildSaveProfileSchema>>;
 
 export interface ISaveProfileResponse {
     message: string;
     data?: IUserProfile;
 }
 
-export type ISaveSecurityRequest = z.infer<typeof SaveSecuritySchema>;
+export type ISaveSecurityRequest = z.infer<ReturnType<typeof buildSaveSecuritySchema>>;
 
 export interface ISaveSecurityResponse {
     message: string;

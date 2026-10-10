@@ -1,10 +1,10 @@
 import { 
-    CreateReportSchema, 
-    ReactReportSchema,
-    EditReportSchema,
-    UploadProgressReportSchema, 
-    VoteReportSchema,
-    CreateReportCommentSchema
+    buildCreateReportSchema,
+    buildReactReportSchema,
+    buildEditReportSchema,
+    buildUploadProgressReportSchema,
+    buildVoteReportSchema,
+    buildCreateReportCommentSchema
 } from "@/app/main/schema";
 import {  IGetReportSaved, IReport, IReportComment, IReportProgress, IReportReactions, IReportVote, ITotalReportCount } from "../model";
 import z from "zod";
@@ -51,27 +51,27 @@ export interface IGetReportByIDResponse {
     }
 }
 
-export type ICreateReportRequest = z.infer<typeof CreateReportSchema>;
+export type ICreateReportRequest = z.infer<ReturnType<typeof buildCreateReportSchema>>;
 
-export type IEditReportRequest = z.infer<typeof EditReportSchema>;
+export type IEditReportRequest = z.infer<ReturnType<typeof buildEditReportSchema>>;
 
-export type ICreateReportCommentRequest = z.infer<typeof CreateReportCommentSchema>;
+export type ICreateReportCommentRequest = z.infer<ReturnType<typeof buildCreateReportCommentSchema>>;
 
 export interface ICreateReportCommentResponse {
     message: string;
     data?: IReportComment;
 }
 
-export type IUploadProgressReportRequest = z.infer<typeof UploadProgressReportSchema>; 
+export type IUploadProgressReportRequest = z.infer<ReturnType<typeof buildUploadProgressReportSchema>>;
 
 export interface IUploadProgressReportResponse {
     message: string;
     data?: IReportProgress;
 }
 
-export type IReactReportRequest = z.infer<typeof ReactReportSchema>;
+export type IReactReportRequest = z.infer<ReturnType<typeof buildReactReportSchema>>;
 
-export type IVoteReportRequest = z.infer<typeof VoteReportSchema>;
+export type IVoteReportRequest = z.infer<ReturnType<typeof buildVoteReportSchema>>;
 
 export interface ICreateReportResponse {
     message: string;

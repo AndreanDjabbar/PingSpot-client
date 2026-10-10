@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button, InputField } from '@/components';
-import { SaveSecuritySchema } from '../../schema';
+import { buildSaveSecuritySchema } from '../../schema';
 import { ISaveSecurityRequest } from '@/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,6 +17,8 @@ const SecurityPage = () => {
     const currentPath = usePathname();
     const router = useRouter();
     const t = useTranslations('settings.security');
+    const tSchema = useTranslations('schema.main');
+    const saveSecuritySchema = buildSaveSecuritySchema(tSchema);
 
     const [securityData, setSecurityData] = useState<ISaveSecurityRequest | null>(null);
 
@@ -30,7 +32,7 @@ const SecurityPage = () => {
         handleSubmit, 
         formState: { errors } 
     } = useForm<ISaveSecurityRequest>({
-        resolver: zodResolver(SaveSecuritySchema),
+        resolver: zodResolver(saveSecuritySchema),
     });
 
     const confirmationModal = () => {

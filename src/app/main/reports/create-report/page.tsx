@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SuccessSection, ErrorSection, Stepper, Button, HeaderSection } from '@/components';
 import { getErrorResponseDetails, getErrorResponseMessage, getDataResponseMessage, compressImages } from '@/utils';
 import { useErrorToast, useSuccessToast, useCreateReport, useReverseCurrentLocation } from '@/hooks';
-import { CreateReportSchema } from '../../schema';
+import { buildCreateReportSchema } from '../../schema';
 import { ICreateReportRequest } from '@/types/api/report';
 import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
 import { AttachmentStep, DetailStep, MapStep, SummaryStep } from './components';
@@ -18,6 +18,8 @@ const CreateReportPage = () => {
     const currentPath = usePathname();
     const router = useRouter();
     const t = useTranslations('report.create_report_page');
+    const tSchema = useTranslations('schema.main');
+    const createReportSchema = buildCreateReportSchema(tSchema);
 
     const [reportImages, setReportImages] = useState<ImageItem[]>([]);
     const [markerPosition, setMarkerPosition] = useState<{ lat: number, lng: number } | null>(null);
@@ -44,7 +46,7 @@ const CreateReportPage = () => {
         reset,
         watch
     } = useForm<ICreateReportRequest>({
-        resolver: zodResolver(CreateReportSchema),
+        resolver: zodResolver(createReportSchema),
         defaultValues: {
             hasProgress: false
         }

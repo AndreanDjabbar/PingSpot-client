@@ -9,7 +9,7 @@ import { useLinkVerification, useResetPassword, useErrorToast, useSuccessToast }
 import { Button, InputField } from '@/components';
 import { LuLockKeyhole } from 'react-icons/lu';
 import { IForgotPasswordResetPasswordRequest } from '@/types';
-import { ForgotPasswordResetPasswordSchema } from '../../Schema';
+import { createForgotPasswordResetPasswordSchema } from '../../Schema';
 import { getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { useTranslations } from 'next-intl';
 
@@ -17,6 +17,8 @@ const VerificationClient = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const t = useTranslations('auth.forgot_password_verification');
+    const tSchema = useTranslations('schema.auth');
+    const resetPasswordSchema = createForgotPasswordResetPasswordSchema(tSchema);
 
     const code = searchParams.get('code');
     const email = searchParams.get('email');
@@ -35,7 +37,7 @@ const VerificationClient = () => {
         handleSubmit, 
         formState: { errors } 
     } = useForm<IForgotPasswordResetPasswordRequest>({
-        resolver: zodResolver(ForgotPasswordResetPasswordSchema)
+        resolver: zodResolver(resetPasswordSchema)
     });
 
     const onSubmit = (formData: IForgotPasswordResetPasswordRequest) => {

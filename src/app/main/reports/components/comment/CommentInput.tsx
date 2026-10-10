@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { InfiniteData } from '@tanstack/react-query';
 import { InlineImageUpload, TextAreaField, Button, Scrollbar } from '@/components';
 import { getErrorResponseMessage, getImageURL } from '@/utils';
-import { CreateReportCommentSchema } from '@/app/main/schema';
+import { buildCreateReportCommentSchema } from '@/app/main/schema';
 import { ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
 import { useUserProfileStore } from '@/stores';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
@@ -102,6 +102,8 @@ const CommentInput: React.FC<CommentInputProps> = ({
     replyTo = null
 }) => {
     const t = useTranslations('report.report_modal.comment_list.comment_item.comment_input');
+    const tSchema = useTranslations('schema.main');
+    const createReportCommentSchema = buildCreateReportCommentSchema(tSchema);
     const [commentContent, setCommentContent] = React.useState('');
     const [validationErrors, setValidationErrors] = React.useState<Record<string, string>>({});
     const [showSuggestions, setShowSuggestions] = React.useState(false);
@@ -296,7 +298,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
         };
 
         try {
-            CreateReportCommentSchema.parse(newCommentFormat);
+            createReportCommentSchema.parse(newCommentFormat);
             setValidationErrors({});
             onCreateReportComment(newCommentFormat);
             setCommentContent('');

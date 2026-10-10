@@ -9,7 +9,7 @@ import { compressImages, getErrorResponseDetails, getErrorResponseMessage } from
 import { ImageItem, IUploadProgressReportRequest } from '@/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UploadProgressReportSchema } from '../../../schema';
+import { buildUploadProgressReportSchema } from '../../../schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { FiEdit } from 'react-icons/fi';
 import { Accordion, ErrorSection, SuccessSection } from '@/components';
@@ -34,6 +34,8 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
     isLoading = false,
 }) => {
     const t = useTranslations('report.report_card.report_information');
+    const tSchema = useTranslations('schema.main');
+    const uploadProgressReportSchema = buildUploadProgressReportSchema(tSchema);
     const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
     const [progressImages, setProgressImages] = useState<ImageItem[]>([]);
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
@@ -145,7 +147,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
         reset: resetProgress,
         setValue: setProgressValue
     } = useForm<IUploadProgressReportRequest>({
-        resolver: zodResolver(UploadProgressReportSchema),
+        resolver: zodResolver(uploadProgressReportSchema),
     });
 
     const prepareFormData = (formData: IUploadProgressReportRequest): FormData => {

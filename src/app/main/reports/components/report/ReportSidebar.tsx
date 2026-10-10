@@ -164,9 +164,9 @@ const ReportSidebar = memo(() => {
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">
                 <div className="flex items-center justify-between mb-4">
                     <h3 className="font-bold text-lg text-gray-900">{t('connections.title')}</h3>
-                    {!isFetchingConnections && !isErrorFetchingConnections && (
+                    {/* {!isFetchingConnections && !isErrorFetchingConnections && (
                         <span className="text-xs text-gray-500">{t('connections.online_count', { count: onlineCount })}</span>
-                    )}
+                    )} */}
                 </div>
 
                 <div className="pb-4">

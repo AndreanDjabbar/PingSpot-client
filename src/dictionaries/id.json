@@ -871,6 +871,10 @@
                     "title": "Laporan Kadaluarsa",
                     "subtitle": "Voting ditutup hingga laporan diperbarui oleh pembuat laporan"
                 },
+                "waiting_confirmation_banner": {
+                    "title": "Menunggu Konfirmasi",
+                    "subtitle": "Voting sementara tidak tersedia sampai pemilik laporan mengonfirmasi perubahan"
+                },
                 "vote_prompt": {
                     "title": "Bagaimana pendapat Anda tentang laporan ini?",
                     "subtitle": "Pilih salah satu untuk memberikan pendapat"

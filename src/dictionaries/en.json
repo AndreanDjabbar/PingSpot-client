@@ -873,6 +873,10 @@
                     "title": "Report Expired",
                     "subtitle": "Voting is closed until the report is updated by its creator"
                 },
+                "waiting_confirmation_banner": {
+                    "title": "Awaiting Confirmation",
+                    "subtitle": "Voting is temporarily unavailable while the report owner confirms the update"
+                },
                 "vote_prompt": {
                     "title": "What do you think about this report?",
                     "subtitle": "Choose one to share your opinion"

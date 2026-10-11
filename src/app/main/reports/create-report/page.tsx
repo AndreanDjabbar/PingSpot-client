@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SuccessSection, ErrorSection, Stepper, Button, HeaderSection } from '@/components';
 import { getErrorResponseDetails, getErrorResponseMessage, getDataResponseMessage, compressImages } from '@/utils';
@@ -102,6 +102,24 @@ const CreateReportPage = () => {
     const onSubmit = async(formData: ICreateReportRequest) => {
         const preparedData = await prepareFormData(formData);
         handleConfirmationModal(preparedData);
+    };
+
+    const onInvalid = (formErrors: FieldErrors<ICreateReportRequest>) => {
+        const errorFields = Object.keys(formErrors);
+
+        if (errorFields.some((field) => ['latitude', 'longitude'].includes(field))) {
+            setCurrentStep(0);
+            return;
+        }
+
+        if (errorFields.some((field) => ['reportTitle', 'reportDescription', 'reportType', 'location'].includes(field))) {
+            setCurrentStep(1);
+            return;
+        }
+
+        if (errorFields.some((field) => ['reportImages'].includes(field))) {
+            setCurrentStep(2);
+        }
     };
 
     const handleConfirmationModal = (preparedData: FormData) => {
@@ -209,7 +227,7 @@ const CreateReportPage = () => {
                     />
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center p-5 space-y-8 w-full" encType="multipart/form-data">
+                <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="flex flex-col justify-center p-5 space-y-8 w-full" encType="multipart/form-data">
                     <input type="hidden" {...register('latitude')} />
                     <input type="hidden" {...register('longitude')} />
 

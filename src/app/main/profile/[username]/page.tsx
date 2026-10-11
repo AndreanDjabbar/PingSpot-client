@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useInView } from 'react-intersection-observer';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { FaCheck, FaUserEdit, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaCheck, FaUserEdit, FaMapMarkerAlt, FaUserFriends } from 'react-icons/fa';
 
 import {
   useGetProfileByUsername,
@@ -26,7 +26,7 @@ import {
 } from '@/utils';
 import { useConfirmationModalStore, useUserProfileStore } from '@/stores';
 import { IReport } from '@/types';
-import { Skeleton } from './components';
+import { ProfileConnectionsModal, Skeleton } from './components';
 
 const ProfileReportCard = ({
   report,
@@ -139,6 +139,7 @@ const ProfilePageByUsername = () => {
 
   const currentUser = useUserProfileStore((state) => state.userProfile);
   const openConfirm = useConfirmationModalStore((state) => state.openConfirm);
+  const [isConnectionsModalOpen, setIsConnectionsModalOpen] = useState(false);
 
   const {
     isPending: isFetchingUser,
@@ -332,6 +333,13 @@ const ProfilePageByUsername = () => {
                 {isFollowed ? t('actions.following') : t('actions.follow')}
               </Button>
             )}
+            <Button
+                onClick={() => setIsConnectionsModalOpen(true)}
+                icon={<FaUserFriends />}
+                className={`${actionButtonBase} bg-primary text-white border-primary hover:bg-primary/80`}
+              >
+                View Connections
+              </Button>
           </div>
         </div>
       </header>
@@ -373,6 +381,15 @@ const ProfilePageByUsername = () => {
           </div>
         )}
       </section>
+
+      {isConnectionsModalOpen && (
+        <ProfileConnectionsModal
+          userID={userID}
+          username={displayUsername}
+          isOpen={isConnectionsModalOpen}
+          onClose={() => setIsConnectionsModalOpen(false)}
+        />
+      )}
     </div>
   );
 };

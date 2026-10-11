@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useInView } from 'react-intersection-observer';
 import { Scrollbar } from '@/components';
+import { useRouter } from 'next/navigation';
 
 const reportTypeConfig: Record<string, { label: string; color: string }> = {
     totalInfrastructureReports: { label: 'Infrastruktur', color: 'text-blue-600' },
@@ -31,6 +32,7 @@ const ReportSidebar = memo(() => {
     const t = useTranslations('report.report_sidebar');
     const reportCount = useReportsStore((state) => state.reportCount);
     const currentUser = useUserProfileStore((state) => state.userProfile);
+    const router = useRouter();
 
     const {
         isPending: isFetchingFollowers,
@@ -223,7 +225,12 @@ const ReportSidebar = memo(() => {
                         <Scrollbar>
                             <div className="space-y-3">
                                 {connections!.map((friend, idx) => (
-                                    <div key={`${viewMode}-${idx}`} className="flex items-center gap-3">
+                                    <div 
+                                    key={`${viewMode}-${idx}`} className="flex items-center gap-3 transition-colors hover:bg-gray-50 cursor-pointer"
+                                    onClick={() => {
+                                    router.push(`/main/profile/${friend.username}`);
+                                    }}
+                                    >
                                         <div className="relative w-10 h-10 shrink-0">
                                             {friend.profilePicture ? (
                                                 <Image
@@ -238,17 +245,17 @@ const ReportSidebar = memo(() => {
                                                     {friend.username?.charAt(0).toUpperCase()}
                                                 </div>
                                             )}
-                                            <div
+                                            {/* <div
                                                 className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
                                                     friend.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
                                                 }`}
-                                            ></div>
+                                            ></div> */}
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm font-medium text-gray-900 truncate">{friend.username}</p>
-                                            <p className="text-xs text-gray-500">
+                                            {/* <p className="text-xs text-gray-500">
                                                 {friend.status === 'online' ? t('connections.status.online') : t('connections.status.offline')}
-                                            </p>
+                                            </p> */}
                                         </div>
                                     </div>
                                 ))}

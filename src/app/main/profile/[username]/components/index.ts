@@ -1,5 +1,7 @@
 import Skeleton from "./skeleton";
+import ProfileConnectionsModal from "./ProfileConnectionsModal";
 
 export {
-    Skeleton
+    Skeleton,
+    ProfileConnectionsModal,
 }

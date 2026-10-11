@@ -12,6 +12,7 @@ interface VotingSectionProps {
     isReportResolved: boolean;
     isUserCanVote: boolean;
     isReportExpired: boolean;
+    isWaitingConfirmation: boolean;
     getStatusLabel: (status: string) => string;
     userCurrentVote: 'RESOLVED' | 'ON_PROGRESS' | null;
     isLoading: boolean;
@@ -25,6 +26,7 @@ const VotingSection: React.FC<VotingSectionProps> = ({
     isReportResolved,
     isUserCanVote,
     isReportExpired,
+    isWaitingConfirmation,
     userCurrentVote,
     isLoading,
     getStatusLabel,
@@ -130,7 +132,21 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                     </div>
                 ) : (
                     <>
-                        {isReportExpired ? (
+                        {isWaitingConfirmation ? (
+                            <div className="flex items-center space-x-3 p-4 bg-sky-50 rounded-xl border border-sky-300 shadow-sm">
+                                <div className="w-10 h-10 bg-sky-600 rounded-full flex items-center justify-center shadow-md">
+                                    <FaHourglassEnd className="w-5 h-5 text-white" />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-sky-800 font-semibold">
+                                        {t('voting_section.waiting_confirmation_banner.title')}
+                                    </p>
+                                    <p className="text-xs text-sky-700 mt-0.5">
+                                        {t('voting_section.waiting_confirmation_banner.subtitle')}
+                                    </p>
+                                </div>
+                            </div>
+                        ) : isReportExpired ? (
                             <>
                                 <div className="flex items-center space-x-3 p-4 bg-linear-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-300 shadow-sm">
                                     <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center shadow-md">

@@ -41,7 +41,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
     const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
 
     const handleVote = (voteType: string) => {
-        if (isLoading || currentStatus === 'RESOLVED') return;
+        if (isLoading || currentStatus === 'RESOLVED' || currentStatus === 'WAITING_CONFIRMATION') return;
         onVote(voteType);
     };
 
@@ -59,7 +59,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
     const currentStatus = report?.reportStatus || '';
     const currentUserId = userProfile ? Number(userProfile.userID) : null;
     const isReportOwner = report && currentUserId === report.userID;
-    const isUserCanVote = !isReportOwner && currentStatus !== 'RESOLVED' && currentStatus !== 'EXPIRED' && !report?.isOnProgressByCurrentUser && !report?.isResolvedByCurrentUser;
+    const isUserCanVote = !isReportOwner && currentStatus !== 'RESOLVED' && currentStatus !== 'EXPIRED' && currentStatus !== 'WAITING_CONFIRMATION' && !report?.isOnProgressByCurrentUser && !report?.isResolvedByCurrentUser;
     const isReportResolved = (report?.reportStatus ?? currentStatus) === 'RESOLVED';
     const isReportExpired = (report?.reportStatus ?? currentStatus) === 'EXPIRED';
     const isWaitingConfirmation = report?.reportStatus === 'WAITING_CONFIRMATION';
@@ -322,6 +322,7 @@ const ReportInformation: React.FC<ReportInformationProps> = ({
                                 isLoading={isLoading}
                                 isReportResolved={isReportResolved}
                                 isReportExpired={isReportExpired}
+                                isWaitingConfirmation={isWaitingConfirmation}
                                 isUserCanVote={isUserCanVote}
                                 getStatusLabel={getStatusLabel}
                             />

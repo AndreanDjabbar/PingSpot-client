@@ -316,6 +316,24 @@
             "followers": "Pengikut",
             "following": "Mengikuti"
         },
+        "connections_modal": {
+            "title": "Koneksi",
+            "close": "Tutup koneksi",
+            "tabs": {
+                "followers": "Pengikut",
+                "following": "Mengikuti"
+            },
+            "status": {
+                "online": "Online",
+                "offline": "Offline"
+            },
+            "empty": {
+                "followers": "Belum ada pengikut.",
+                "following": "Belum mengikuti siapa pun."
+            },
+            "error": "Koneksi tidak dapat dimuat.",
+            "retry": "Coba lagi"
+        },
         "reports": {
             "title": "Laporan: ",
             "empty": "Belum ada laporan.",

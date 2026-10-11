@@ -318,6 +318,24 @@
             "followers": "Followers",
             "following": "Following"
         },
+        "connections_modal": {
+            "title": "Connections",
+            "close": "Close connections",
+            "tabs": {
+                "followers": "Followers",
+                "following": "Following"
+            },
+            "status": {
+                "online": "Online",
+                "offline": "Offline"
+            },
+            "empty": {
+                "followers": "No followers yet.",
+                "following": "Not following anyone yet."
+            },
+            "error": "Unable to load connections.",
+            "retry": "Retry"
+        },
         "reports": {
             "title": "Reports: ",
             "empty": "No reports yet.",

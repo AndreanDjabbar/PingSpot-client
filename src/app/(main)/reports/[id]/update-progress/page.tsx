@@ -1,0 +1,256 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { motion } from 'framer-motion';
+import { useQueryClient } from '@tanstack/react-query';
+import { FaCheck } from 'react-icons/fa';
+import { useErrorToast, useSuccessToast, useUploadProgressReport, useGetReportByID } from '@/hooks';
+import { useReportsStore, useUserProfileStore, useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
+import { IUploadProgressReportRequest, ImageItem } from '@/types';
+import { buildUploadProgressReportSchema } from '../../../schema';
+import { DetailSection, GuideSection, ProgressSection, ResponseSection } from './components';
+import { compressImages } from '@/utils';
+import { Button, HeaderSection } from '@/components';
+import { useTranslations } from 'next-intl';
+
+const UpdateProgressPage = () => {
+    const params = useParams();
+    const router = useRouter();
+    const t = useTranslations('report.update_progress_page');
+    const tSchema = useTranslations('schema.main');
+    const uploadProgressReportSchema = buildUploadProgressReportSchema(tSchema);
+    const reportId = Number(params.id);
+    const queryClient = useQueryClient();
+    
+    const [selectedStatus, setSelectedStatus] = useState<'RESOLVED' | 'ON_PROGRESS' | null>(null);
+    const [progressImages, setProgressImages] = useState<ImageItem[]>([]);
+    
+    const reports = useReportsStore((s) => s.reports);
+    const userProfile = useUserProfileStore((s) => s.userProfile);
+    const openConfirm = useConfirmationModalStore((s) => s.openConfirm);
+    
+    const report = reports.find(r => r.id === reportId);
+    const { data: freshReportData } = useGetReportByID(reportId);
+    const freshReport = freshReportData?.data?.report?.report;
+    const currentReport = freshReport || report;
+    const customCurrentPath = `/reports/${reportId}/Perbarui Perkembangan`;
+    const currentUserId = userProfile ? Number(userProfile.userID) : null;
+    const isReportOwner = currentReport && currentUserId === currentReport.userID;
+    const isReportResolved = currentReport?.reportStatus === 'RESOLVED';
+    const openImagePreview = useImagePreviewModalStore((s) => s.openImagePreview);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+        setValue
+    } = useForm<IUploadProgressReportRequest>({
+        resolver: zodResolver(uploadProgressReportSchema),
+    });
+
+    const { 
+        mutate: uploadProgress, 
+        isPending: isUploadProgressReportPending, 
+        isError: isUploadProgressError, 
+        isSuccess: isUploadProgressSuccess, 
+        error: uploadProgressError,
+        data: uploadProgressData,
+        reset: resetUploadProgress
+    } = useUploadProgressReport();
+
+    const handleConfirmationModal = (formData: IUploadProgressReportRequest) => {
+        openConfirm({
+            type: "info",
+            title: formData.progressStatus === 'RESOLVED'
+                ?   t('confirm_modal.title_resolved')
+                :   t('confirm_modal.title_update'),
+            subtitle: formData.progressStatus === 'RESOLVED'
+                ?   t('confirm_modal.subtitle_resolved')
+                :   t('confirm_modal.subtitle_update'),
+            isPending: isUploadProgressReportPending,
+            description: formData.progressStatus === 'RESOLVED'
+                ?   t('confirm_modal.description_resolved')
+                :   t('confirm_modal.description_update'),
+            confirmTitle: formData.progressStatus === 'RESOLVED'
+                ? t('confirm_modal.confirm_button_resolved')
+                : t('confirm_modal.confirm_button_update'),
+            onConfirm: () => onSubmit(formData),
+        });
+    };
+
+    const prepareFormData = (formData: IUploadProgressReportRequest): FormData => {
+        const data = new FormData();
+        data.append('reportID', String(reportId));
+        data.append('progressStatus', formData.progressStatus);
+        if (formData.progressNotes) {
+            data.append('progressNotes', formData.progressNotes);
+        }
+        if (progressImages && progressImages.length > 0) {
+            progressImages.forEach(async(file) => {
+                const compressedFile = await compressImages(file.file);
+                data.append('progressAttachments', compressedFile);
+            });
+        }
+        return data;
+    };
+
+    const onSubmit = (formData: IUploadProgressReportRequest) => {
+        if (reportId) {
+            const preparedFormData = prepareFormData(formData);
+            uploadProgress({
+                reportID: reportId,
+                data: preparedFormData
+            });
+        }
+    };
+
+    const handleProgressUpload = async (formData: IUploadProgressReportRequest) => {
+        if (isReportResolved) return;
+        if (!reportId) return;
+        handleConfirmationModal(formData);
+    };
+
+    const handleImageClick = (imageUrl: string) => {
+        openImagePreview(imageUrl);
+    };
+
+    const handleImageChange = (files: ImageItem[]) => {
+        setProgressImages(files);
+    }
+
+    const handleStatusChange = (status: 'RESOLVED' | 'ON_PROGRESS') => {
+        setSelectedStatus(status);
+        setValue('progressStatus', status);
+    };
+
+    useEffect(() => {
+        if (isUploadProgressSuccess && uploadProgressData) {
+            reset();
+            setProgressImages([]);
+            setSelectedStatus(null);
+            resetUploadProgress();
+            queryClient.invalidateQueries({ queryKey: ['report-progress', reportId] });
+            queryClient.invalidateQueries({ queryKey: ['report', reportId] });
+            
+            setTimeout(() => {
+                router.push(`/reports/${reportId}`);
+            }, 1500);
+        }
+    }, [isUploadProgressSuccess, uploadProgressData, reset, queryClient, reportId, resetUploadProgress, router]);
+
+    useErrorToast(isUploadProgressError, uploadProgressError);
+    useSuccessToast(isUploadProgressSuccess, uploadProgressData);
+
+    useEffect(() => {
+        if (currentReport && !isReportOwner) {
+            router.push(`/reports/${reportId}`);
+        }
+    }, [currentReport, isReportOwner, reportId, router]);
+
+    if (!currentReport || !isReportOwner) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <p className="text-gray-600 mb-4">{t('access_denied')}</p>
+                    <Button
+                        onClick={() => router.push('/reports')}    
+                    >
+                        {t('back_to_list')}
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="min-h-screen">
+            <HeaderSection currentPath={customCurrentPath} isCardHeader={false} showBreadcrumb={false} message={t('header_message')}/>
+            <div className="max-w-7xl mx-auto py-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2">
+                        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                            <div className="p-6 border-b border-gray-300">
+                                <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('title')}</h1>
+                                <p className="text-gray-700 text-sm">{currentReport.reportTitle}</p>
+                            </div>
+
+                            <div className="p-6">
+                                <ResponseSection 
+                                isUploadProgressError={isUploadProgressError}
+                                uploadProgressData={uploadProgressData!}
+                                uploadProgressError={uploadProgressError}
+                                isUploadProgressSuccess={isUploadProgressSuccess}
+                                />
+                            </div>
+
+                            <div className="p-6 pt-0">
+                                {isReportResolved ? (
+                                    <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-300 shadow-sm">
+                                        <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center shadow-md">
+                                            <FaCheck className="w-5 h-5 text-white" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-green-800 font-semibold">
+                                                {t('resolved_banner.title')}
+                                            </p>
+                                            <p className="text-xs text-green-700 mt-0.5">
+                                                {t('resolved_banner.subtitle')}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <form onSubmit={handleSubmit(handleProgressUpload)} className="space-y-6">
+                                        <ProgressSection
+                                            selectedStatus={selectedStatus}
+                                            onStatusChange={handleStatusChange}
+                                            isDisabled={isUploadProgressReportPending}
+                                            errors={errors}
+                                        />
+
+                                        {selectedStatus && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: -20 }}
+                                                className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border border-gray-200 shadow-md space-y-5"
+                                            >
+                                                <DetailSection 
+                                                onImagesChange={handleImageChange}
+                                                errors={errors}
+                                                register={register}
+                                                onImageClick={handleImageClick}
+                                                images={progressImages}
+                                                />
+
+                                                <div className="flex w-full items-center justify-center mt-10">
+                                                    <Button
+                                                        type='submit'
+                                                        className='w-full'
+                                                        isLoading={isUploadProgressReportPending}
+                                                    >
+                                                        {selectedStatus === 'RESOLVED' ? t('submit_button.resolved') : t('submit_button.update')}
+                                                    </Button>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </form>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="lg:col-span-1">
+                        <GuideSection/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default UpdateProgressPage;

@@ -126,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     useEffect(() => {
         if (isSuccess) {
             setTimeout(() => {
-                router.push("/auth/login");
+                router.push("/login");
             }, 1000);
         }
     }, [isSuccess, router]);
@@ -169,7 +169,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                                     email={user?.email || t('user_defaults.email')}
                                     imageUrl={user?.profilePicture}
                                     size="md"
-                                    onClick={() => router.push('/main/profile/' + user?.username)}
+                                    onClick={() => router.push('/profile/' + user?.username)}
                                 />
                             </div>
                         </div>
@@ -183,7 +183,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                                         isActive={item.id === currentPath}
                                         onClick={() => {
                                             onToggle();
-                                            router.push(`/main/${item.id}`)
+                                            router.push(`/${item.id}`)
                                             setCurrentPage(item.id);
                                         }}
                                     />

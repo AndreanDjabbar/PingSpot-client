@@ -1,0 +1,180 @@
+"use client";
+import React, { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Button, InputField } from '@/components';
+import { buildSaveSecuritySchema } from '../../schema';
+import { ISaveSecurityRequest } from '@/types';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useErrorToast, useSuccessToast, useSaveSecurity, useLogout } from '@/hooks';
+import { SuccessSection, ErrorSection, HeaderSection } from '@/components';
+import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
+import { LuLockKeyhole } from 'react-icons/lu';
+import { useConfirmationModalStore } from '@/stores';
+import { useTranslations } from 'next-intl';
+
+const SecurityPage = () => {
+    const currentPath = usePathname();
+    const router = useRouter();
+    const t = useTranslations('settings.security');
+    const tSchema = useTranslations('schema.main');
+    const saveSecuritySchema = buildSaveSecuritySchema(tSchema);
+
+    const [securityData, setSecurityData] = useState<ISaveSecurityRequest | null>(null);
+
+    const openConfirm = useConfirmationModalStore((state) => state.openConfirm);
+
+    const { mutate, isPending, isError, isSuccess, error, data } = useSaveSecurity();
+    const { mutate: logout, isSuccess: isLogoutSuccess } = useLogout();
+
+    const { 
+        register, 
+        handleSubmit, 
+        formState: { errors } 
+    } = useForm<ISaveSecurityRequest>({
+        resolver: zodResolver(saveSecuritySchema),
+    });
+
+    const confirmationModal = () => {
+        openConfirm({
+            type: "warning",
+            title: t('confirm_modal.title'),
+            subtitle: t('confirm_modal.subtitle'),
+            isPending: isPending,
+            description: t('confirm_modal.description'),
+            confirmTitle: t('confirm_modal.confirm'),
+            onConfirm: () => confirmSubmit(),
+        });
+    }
+
+    const onSubmit = (data: ISaveSecurityRequest) => {
+        setSecurityData(data);
+        confirmationModal();
+    };
+    
+    const confirmSubmit = () => {
+        if (securityData) {
+            mutate(securityData);
+        }
+    }
+
+    useErrorToast(isError, error);
+    useSuccessToast(isSuccess, data);
+
+    useEffect(() => {
+        if (isSuccess && data) {
+            logout();
+        }
+    }, [isSuccess, data, logout]);
+
+    useEffect(() => {
+        if (isLogoutSuccess) {
+            document.cookie = "auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; samesite=strict";
+            setTimeout(() => {
+                router.push("/login");
+            }, 1000)
+        }
+    }, [isLogoutSuccess, router]);
+
+    return (
+        <div className="space-y-8">
+            <HeaderSection 
+            currentPath={currentPath}
+            isCardHeader={false}
+            message={t('description')}/>
+
+            {isSuccess && (
+                <SuccessSection message={getDataResponseMessage(data)}/>
+            )}
+
+            {isError && (
+                <ErrorSection 
+                message={getErrorResponseMessage(error)} 
+                errors={getErrorResponseDetails(error)}/>
+            )}
+
+            {!isSuccess && (
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-xl p-8">
+                    <div className="">
+                        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center p-5 space-y-4  w-full gap-10" encType="multipart/form-data">
+                            <div className='w-full flex flex-col gap-6 justify-between'>
+                                <div className='flex flex-col gap-6 md:flex-row'>
+                                    <div className="w-full">
+                                        <InputField
+                                            id="currentPassword"
+                                            register={register("currentPassword")}
+                                            type="password"
+                                            className="w-full"
+                                            withLabel={true}
+                                            showPasswordToggle={true}
+                                            labelTitle={t('current_password.label')}
+                                            icon={<LuLockKeyhole size={20}/>} 
+                                            placeHolder={t('current_password.placeholder')}
+                                        />
+                                        <div className="text-danger-dark text-sm font-semibold">{errors.currentPassword?.message as string}</div>
+                                    </div>
+                                    <div className="w-full">
+                                        <InputField
+                                            id="currentPasswordConfirmation"
+                                            register={register("currentPasswordConfirmation")}
+                                            type="password"
+                                            showPasswordToggle={true}
+                                            className="w-full"
+                                            withLabel={true}
+                                            labelTitle={t('current_password_confirmation.label')}
+                                            icon={<LuLockKeyhole size={20}/>} 
+                                            placeHolder={t('current_password_confirmation.placeholder')}
+                                        />
+                                        <div className="text-danger-dark text-sm font-semibold">{errors.currentPasswordConfirmation?.message as string}</div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col gap-6 md:flex-row'>
+                                    <div className="w-full">
+                                        <InputField
+                                            id="newPassword"
+                                            register={register("newPassword")}
+                                            type="password"
+                                            className="w-full"
+                                            showPasswordToggle={true}
+                                            withLabel={true}
+                                            labelTitle={t('new_password.label')}
+                                            icon={<LuLockKeyhole size={20}/>} 
+                                            placeHolder={t('new_password.placeholder')}
+                                        />
+                                        <div className="text-danger-dark text-sm font-semibold">{errors.newPassword?.message as string}</div>
+                                    </div>
+                                    <div className="w-full">
+                                        <InputField
+                                            id="newPasswordConfirmation"
+                                            register={register("newPasswordConfirmation")}
+                                            type="password"
+                                            className="w-full"
+                                            withLabel={true}
+                                            showPasswordToggle={true}
+                                            labelTitle={t('new_password_confirmation.label')}
+                                            icon={<LuLockKeyhole size={20}/>} 
+                                            placeHolder={t('new_password_confirmation.placeholder')}
+                                        />
+                                        <div className="text-danger-dark text-sm font-semibold">{errors.newPasswordConfirmation?.message as string}</div>
+                                    </div>
+                                </div>
+                                <div className="w-full flex justify-end mt-6">
+                                    <Button
+                                        className="group relative w-full flex items-center justify-center py-3 px-4 text-sm font-medium rounded-lg  duration-300"
+                                        type='submit'
+                                        loadingText={t('submit.loading')}
+                                        isLoading={isPending}
+                                    >
+                                        {t('submit.default')}
+                                    </Button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default SecurityPage;

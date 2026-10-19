@@ -1,0 +1,290 @@
+"use client";
+
+import React, { useMemo, memo, useState, useEffect } from 'react';
+import { useReportsStore, useUserProfileStore } from '@/stores';
+import { useErrorToast, useGetUserConnectionsFollowers, useGetUserConnectionsFollowing } from '@/hooks';
+import { getImageURL } from '@/utils';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useInView } from 'react-intersection-observer';
+import { Scrollbar } from '@/components';
+import { useRouter } from 'next/navigation';
+
+const reportTypeConfig: Record<string, { label: string; color: string }> = {
+    totalInfrastructureReports: { label: 'Infrastruktur', color: 'text-blue-600' },
+    totalEnvironmentReports: { label: 'Lingkungan', color: 'text-green-600' },
+    totalSafetyReports: { label: 'Keamanan', color: 'text-red-600' },
+    totalTrafficReports: { label: 'Lalu Lintas', color: 'text-orange-600' },
+    totalPublicFacilityReports: { label: 'Fasilitas Umum', color: 'text-purple-600' },
+    totalWasteReports: { label: 'Sampah', color: 'text-yellow-600' },
+    totalWaterReports: { label: 'Air', color: 'text-cyan-600' },
+    totalElectricityReports: { label: 'Listrik', color: 'text-amber-600' },
+    totalHealthReports: { label: 'Kesehatan', color: 'text-pink-600' },
+    totalSocialReports: { label: 'Sosial', color: 'text-indigo-600' },
+    totalEducationReports: { label: 'Pendidikan', color: 'text-teal-600' },
+    totalAdministrativeReports: { label: 'Administrasi', color: 'text-slate-600' },
+    totalDisasterReports: { label: 'Bencana Alam', color: 'text-rose-600' },
+    totalOtherReports: { label: 'Lainnya', color: 'text-gray-600' },
+};
+
+const ReportSidebar = memo(() => {
+    const t = useTranslations('report.report_sidebar');
+    const reportCount = useReportsStore((state) => state.reportCount);
+    const currentUser = useUserProfileStore((state) => state.userProfile);
+    const router = useRouter();
+
+    const {
+        isPending: isFetchingFollowers,
+        isError: isErrorFetchingFollowers,
+        error: errorFetchingFollowers,
+        refetch: refetchFollowers,
+        data: followersData,
+        hasNextPage: hasNextPageFollowers,
+        fetchNextPage: fetchNextPageFollowers,
+        isFetchingNextPage: isFetchingNextPageFollowers,
+    } = useGetUserConnectionsFollowers(Number(currentUser?.userID) || 0);
+
+    const {
+        isPending: isFetchingFollowing,
+        isError: isErrorFetchingFollowing,
+        error: errorFetchingFollowing,
+        refetch: refetchFollowing,
+        data: followingData,
+        hasNextPage: hasNextPageFollowing,
+        fetchNextPage: fetchNextPageFollowing,
+        isFetchingNextPage: isFetchingNextPageFollowing,
+    } = useGetUserConnectionsFollowing(Number(currentUser?.userID) || 0);
+
+    const { ref, inView } = useInView({
+        threshold: 0,
+    })
+
+    const [viewMode, setViewMode] = useState<'follower' | 'following'>('follower');
+
+    const reportStats = useMemo(() => {
+        if (!reportCount) return [];
+
+        return Object.entries(reportCount)
+            .filter(([key, value]) => key !== 'totalReports' && value > 0)
+            .map(([key, value]) => ({
+                key,
+                label: t(`stats.types.${key}`),
+                color: reportTypeConfig[key]?.color || 'text-gray-600',
+                count: value,
+            }));
+    }, [reportCount, t]);
+
+    const followers = useMemo(() => {
+        if (!followersData) return [];
+        return followersData.pages.flatMap((page) => {
+            const list = page?.data?.followers ?? page?.data;
+            return Array.isArray(list) ? list : [];
+        });
+    }, [followersData]);
+
+    const following = useMemo(() => {
+        if (!followingData) return [];
+        return followingData.pages.flatMap((page) => {
+            const list = page?.data?.following ?? page?.data;
+            return Array.isArray(list) ? list : [];
+        });
+    }, [followingData]);
+
+    const isFollowerMode = viewMode === 'follower';
+
+    const connections = isFollowerMode ? followers : following;
+    const isFetchingConnections = isFollowerMode ? isFetchingFollowers : isFetchingFollowing;
+    const isErrorFetchingConnections = isFollowerMode ? isErrorFetchingFollowers : isErrorFetchingFollowing;
+    const errorFetchingConnections = isFollowerMode ? errorFetchingFollowers : errorFetchingFollowing;
+    const refetchConnections = isFollowerMode ? refetchFollowers : refetchFollowing;
+    const hasNextPage = isFollowerMode ? hasNextPageFollowers : hasNextPageFollowing;
+    const fetchNextPage = isFollowerMode ? fetchNextPageFollowers : fetchNextPageFollowing;
+    const isFetchingNextPage = isFollowerMode ? isFetchingNextPageFollowers : isFetchingNextPageFollowing;
+
+    const onlineCount = connections?.filter((c) => c.status === 'online').length || 0;
+    const hasConnections = !!connections && connections.length > 0;
+
+    useErrorToast(isErrorFetchingConnections, errorFetchingConnections || t('connections.error.message'));
+
+    useEffect(() => {
+        if (inView && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+    return (
+        <div className='hidden lg:block w-1/3 lg:w-75 2xl:w-90 overflow-y-auto space-y-4'>
+            <div className='bg-white rounded-lg border border-gray-200 shadow-sm p-5'>
+                <h3 className='font-bold text-lg text-gray-900 mb-3'>
+                    {t('about.title')}
+                </h3>
+                <p className='text-gray-600 text-sm leading-relaxed mb-4'>
+                    {t('about.description')}
+                </p>
+                <div className='space-y-2'>
+                    <div className='flex items-center text-sm text-gray-700'>
+                        <div className='w-2 h-2 bg-blue-500 rounded-full mr-3'></div>
+                        <span>{t('about.points.report_infrastructure')}</span>
+                    </div>
+                    <div className='flex items-center text-sm text-gray-700'>
+                        <div className='w-2 h-2 bg-green-500 rounded-full mr-3'></div>
+                        <span>{t('about.points.monitor_status')}</span>
+                    </div>
+                    <div className='flex items-center text-sm text-gray-700'>
+                        <div className='w-2 h-2 bg-purple-500 rounded-full mr-3'></div>
+                        <span>{t('about.points.participate')}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className='bg-white rounded-lg border border-gray-200 shadow-sm p-5'>
+                <h3 className='font-bold text-lg text-gray-900 mb-4'>
+                    {t('stats.title')}
+                </h3>
+                <div className='space-y-3'>
+                    <div className='flex justify-between items-center'>
+                        <span className='text-gray-600 text-sm'>{t('stats.total_reports')}</span>
+                        <span className='font-semibold text-gray-900'>{reportCount?.totalReports || 0}</span>
+                    </div>
+                    {reportStats.length > 0 && (
+                        <>
+                            <div className='h-px bg-gray-200'></div>
+                            {reportStats.map((stat) => (
+                                <div key={stat.key} className='flex justify-between items-center'>
+                                    <span className='text-gray-600 text-sm'>{stat.label}</span>
+                                    <span className={`font-semibold ${stat.color}`}>
+                                        {stat.count}
+                                    </span>
+                                </div>
+                            ))}
+                        </>
+                    )}
+                </div>
+            </div>
+
+            <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5">
+                <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-bold text-lg text-gray-900">{t('connections.title')}</h3>
+                    {/* {!isFetchingConnections && !isErrorFetchingConnections && (
+                        <span className="text-xs text-gray-500">{t('connections.online_count', { count: onlineCount })}</span>
+                    )} */}
+                </div>
+
+                <div className="pb-4">
+                    <div className="flex items-center justify-center">
+                        <div className="inline-flex items-center w-full rounded-lg overflow-hidden shadow-sm">
+                            <button
+                                onClick={() => setViewMode('follower')}
+                                className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium transition-all duration-200 cursor-pointer ${
+                                    viewMode === 'follower'
+                                        ? 'bg-gray-400 text-white'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                }`}
+                            >
+                                <span>{t('connections.tabs.followers')}</span>
+                            </button>
+                            <button
+                                onClick={() => setViewMode('following')}
+                                className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium transition-all duration-200 cursor-pointer ${
+                                    viewMode === 'following'
+                                        ? 'bg-gray-400 text-white'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                }`}
+                            >
+                                <span>{t('connections.tabs.following')}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {isFetchingConnections ? (
+                    <div className="space-y-3 animate-pulse">
+                        {[...Array(3)].map((_, idx) => (
+                            <div key={idx} className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-gray-200" />
+                                <div className="flex-1 space-y-2">
+                                    <div className="h-3 bg-gray-200 rounded w-2/3" />
+                                    <div className="h-2.5 bg-gray-100 rounded w-1/3" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : isErrorFetchingConnections ? (
+                    <div className="text-center py-6">
+                        <p className="text-sm text-gray-500 mb-3">{t('connections.error.message')}</p>
+                        <button
+                            onClick={() => refetchConnections()}
+                            className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                        >
+                            {t('connections.error.retry')}
+                        </button>
+                    </div>
+                ) : hasConnections ? (
+                    <div className="max-h-50">
+                        <Scrollbar>
+                            <div className="space-y-3">
+                                {connections!.map((friend, idx) => (
+                                    <div 
+                                    key={`${viewMode}-${idx}`} className="flex items-center gap-3 transition-colors hover:bg-gray-50 cursor-pointer"
+                                    onClick={() => {
+                                    router.push(`/profile/${friend.username}`);
+                                    }}
+                                    >
+                                        <div className="relative w-10 h-10 shrink-0">
+                                            {friend.profilePicture ? (
+                                                <Image
+                                                    src={getImageURL(friend.profilePicture, 'user')}
+                                                    alt={friend.username}
+                                                    width={40}
+                                                    height={40}
+                                                    className="w-10 h-10 rounded-full object-cover"
+                                                />
+                                            ) : (
+                                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-sm font-semibold">
+                                                    {friend.username?.charAt(0).toUpperCase()}
+                                                </div>
+                                            )}
+                                            {/* <div
+                                                className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
+                                                    friend.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
+                                                }`}
+                                            ></div> */}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-medium text-gray-900 truncate">{friend.username}</p>
+                                            {/* <p className="text-xs text-gray-500">
+                                                {friend.status === 'online' ? t('connections.status.online') : t('connections.status.offline')}
+                                            </p> */}
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {hasNextPage && (
+                                    <div ref={ref} className="flex justify-center py-3">
+                                        {isFetchingNextPage && (
+                                            <div className="flex items-center space-x-2 text-primary/70 w-full justify-center">
+                                                <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
+                                                <span>{t('states.loading_more')}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </Scrollbar>
+                    </div>
+                ) : (
+                    <div className="text-center py-6">
+                        <p className="text-sm text-gray-500">
+                            {viewMode === 'follower' ? t('connections.empty.followers') : t('connections.empty.following')}
+                        </p>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+});
+
+ReportSidebar.displayName = 'ReportSidebar';
+
+export default ReportSidebar;

@@ -5,7 +5,7 @@ import {
     buildUploadProgressReportSchema,
     buildVoteReportSchema,
     buildCreateReportCommentSchema
-} from "@/app/main/schema";
+} from "@/app/(main)/schema";
 import {  IGetReportSaved, IReport, IReportComment, IReportProgress, IReportReactions, IReportVote, ITotalReportCount } from "../model";
 import z from "zod";
 

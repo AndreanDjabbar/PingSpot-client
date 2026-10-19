@@ -26,18 +26,17 @@ const paths = [
 const Breadcrumb = ({ path }: BreadcrumbProps) => {
     const t = useTranslations('component.breadcrumb');
     const parts = path.split("/").filter(Boolean);
-    const items = parts.slice(1).map((part, idx) => {
+    const items = parts.map((part, idx) => {
         return {
         id: part,
         label: part.charAt(0) + part.slice(1),
         href:
             "/" +
             parts
-            .slice(1, idx + 2)
+            .slice(0, idx + 1)
             .join("/"),
         };
     });
-    const parentPath = parts.length > 1 ? parts[0] : 'home';
 
     return (
         <nav
@@ -54,7 +53,7 @@ const Breadcrumb = ({ path }: BreadcrumbProps) => {
             {idx < items.length - 1 ? (
                 <>
                     <Link
-                    href={`/${parentPath}/${item.href}`}
+                    href={item.href}
                     className="hover:text-primary hover:bg-background transition-colors duration-200 text-2xl"
                     >
                         {paths.find((p) => p.id === item.id) ? t(item.id) : item.label}

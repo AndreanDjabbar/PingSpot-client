@@ -1,0 +1,156 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
+import { MdMailOutline } from "react-icons/md";
+import { FaGoogle } from "react-icons/fa";
+import { InputField, ErrorSection, SuccessSection, Button } from "@/components";
+import { useForm } from "react-hook-form";
+import { IForgotPasswordEmailVerificationRequest } from "@/types/api/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils";
+import { useEffect, useState } from "react";
+import { useEmailVerification, useErrorToast, useSuccessToast } from "@/hooks";
+import { useRouter } from "next/navigation";
+import { createForgotPasswordEmailVerificationSchema } from "../Schema";
+import { useTranslations } from "next-intl";
+
+const ForgotPasswordPage = () => {
+    const t = useTranslations('auth.forgot_password');
+    const tSchema = useTranslations('schema.auth');
+    const emailVerificationSchema = createForgotPasswordEmailVerificationSchema(tSchema);
+    const { 
+        register, 
+        handleSubmit, 
+        formState: { errors } 
+    } = useForm<IForgotPasswordEmailVerificationRequest>({
+        resolver: zodResolver(emailVerificationSchema)
+    });
+    
+    const { mutate, isPending, isError, isSuccess, error, data, reset } = useEmailVerification();
+    const router = useRouter();
+    const [countdown, setCountdown] = useState<number | null>(null);
+    
+    useErrorToast(isError, error);
+    useSuccessToast(isSuccess, data);
+
+    useEffect(() => {
+        if (isError && error) {
+            const errorDetails = getErrorResponseDetails(error) as any;
+            const countdownValue = errorDetails?.retry_after_seconds || null;
+            
+            if (countdownValue && countdown === null) {
+                setCountdown(countdownValue);
+            }
+        } else {
+            setCountdown(null);
+        }
+    }, [isError, error, countdown]);
+
+    useEffect(() => {
+        if (countdown === null || countdown <= 0) {
+            setCountdown(null);
+            reset();
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            setCountdown(prev => prev !== null ? prev - 1 : null);
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    }, [countdown, reset]);
+    
+    useEffect(() => {
+        if (isSuccess && data) {
+            setTimeout(() => {
+                router.push("/login");
+            }, 1000);
+        }
+    }, [isSuccess, data, router]);
+
+    const onSubmit = (data: IForgotPasswordEmailVerificationRequest) => {
+        mutate({ ...data });
+    };
+    return (
+        <div className="space-y-8">
+            <div className="text-center space-y-2">
+                <h1 className="text-3xl font-bold text-surface">{t('title')}</h1>
+                <p className="text-surface">{t('subtitle')}</p>
+            </div>
+
+            {isSuccess && (
+                <SuccessSection message={getDataResponseMessage(data)}/>
+            )}
+
+            {isError && (
+                <ErrorSection 
+                message={countdown !== null ? t('retry_countdown', { seconds: countdown }) : getErrorResponseMessage(error)}/>
+            )}
+            
+            {!isSuccess && (
+                <>
+                    <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+                        <div>
+                            <InputField
+                                id="email"
+                                name="email"
+                                type="email"
+                                register={register("email")}
+                                className="w-full"
+                                withLabel={true}
+                                labelTitle={t('email.label')}
+                                icon={<MdMailOutline size={20} />}
+                                placeHolder={t('email.placeholder')}
+                            />
+                            <div className="text-danger-dark text-sm font-semibold">{errors.email?.message as string}</div>
+                        </div>
+                        
+                        <p className="text-center text-sm text-surface">
+                            {t('have_account.text')}{' '}
+                            <a href="/login" className="font-medium text-primary hover:text-primary-hover hover:underline transition-colors duration-200 cursor-pointer">
+                                {t('have_account.link')}
+                            </a>
+                        </p>
+
+                        <Button
+                            className="group relative w-full flex items-center justify-center py-3 px-4 text-sm font-medium "
+                            type="submit"
+                            title={t('submit.default')}
+                            loadingText={t('submit.loading')}
+                            isLoading={isPending}
+                        >
+                            {t('submit.default')}
+                        </Button>
+
+                        <div className="relative">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-muted" />
+                            </div>
+                            <div className="relative flex justify-center text-sm">
+                                <span className="px-2 bg-background text-surface">{t('divider')}</span>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-3">
+                            <button
+                                type="button"
+                                className="w-full inline-flex justify-center py-2.5 px-4 border border-muted rounded-lg shadow-sm bg-white text-sm font-medium text-surface hover:bg-muted focus:outline-none focus:ring focus:ring-primary cursor-pointer transition-all duration-300"
+                                onClick={() => window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL || ''}
+                            >
+                                <FaGoogle size={20}/>
+                                <span className="ml-2">{t('google')}</span>
+                            </button>
+                        </div>
+                    </form>
+                    <p className="text-center text-sm text-surface">
+                    {t('no_account.text')}{' '}
+                    <a href="/register" className="font-medium text-primary hover:text-primary-hover hover:underline transition-colors duration-200 cursor-pointer">
+                        {t('no_account.link')}
+                    </a>
+                    </p>
+                </>
+            )}
+        </div>
+        );
+    };
+export default ForgotPasswordPage;

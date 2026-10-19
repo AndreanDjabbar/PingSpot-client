@@ -3,7 +3,7 @@ import {
     IMentionedUser,
     IUserProfile 
 } from "../model";
-import { buildSaveProfileSchema, buildSaveSecuritySchema } from "@/app/main/schema";
+import { buildSaveProfileSchema, buildSaveSecuritySchema } from "@/app/(main)/schema";
 
 export interface IGetProfileByUsernameResponse {
     message: string;

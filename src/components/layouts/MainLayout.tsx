@@ -30,7 +30,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
             title: t('edit_profile_confirm.title'),
             description: t('edit_profile_confirm.description'),
             onConfirm: () => {
-                router.push("/main/settings/profile");
+                router.push("/settings/profile");
             },
             confirmTitle: t('edit_profile_confirm.confirm_button'),
         });

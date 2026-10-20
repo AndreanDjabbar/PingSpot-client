@@ -7,7 +7,7 @@ import { FaReply, FaChevronUp } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { getImageURL, getFormattedDate as formattedDate } from '@/utils';
 import { useImagePreviewModalStore } from '@/stores';
-import { useGetReportCommentReplies } from '@/hooks';
+import { useGetReportCommentReplies } from '@/hooks/api/useReport';
 import MentionText from './MentionText';
 import { Button } from '@/components/UI';
 import { IReportComment, ICreateReportCommentRequest, IMentionedUser, ISearchUsersResponse } from '@/types';

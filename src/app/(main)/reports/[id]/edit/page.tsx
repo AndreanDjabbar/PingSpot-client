@@ -7,13 +7,15 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LuNotebookText } from 'react-icons/lu';
 import { Stepper, Button, ErrorSection, SuccessSection, HeaderSection } from '@/components';
-import { useGetReportByID, useReverseCurrentLocation, useEditReport, useErrorToast, useSuccessToast } from '@/hooks';
+import { useGetReportByID, useEditReport } from '@/hooks/api/useReport';
+import { useReverseCurrentLocation } from '@/hooks/api/useGlobal';
+import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
 import { IReportImage, ImageItem, IEditReportRequest } from '@/types';
-import { buildEditReportSchema } from '../../../schema';
 import { compressImages, getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage, getImageURL } from '@/utils';
 import { MapStep, DetailStep, AttachmentStep, SummaryStep } from './components';
 import { useTranslations } from 'next-intl';
+import { buildEditReportSchema } from '@/schemas/report.schema';
 
 const EditReportPage = () => {
     const params = useParams();

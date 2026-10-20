@@ -2,13 +2,14 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createVerificationSchema } from '../Schema';
 import { useForm } from 'react-hook-form';
-import { useVerification, useErrorToast, useSuccessToast } from '@/hooks';
+import { useVerification } from '@/hooks/api/useAuth';
+import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { ErrorSection, SuccessSection } from '@/components';
 import { getDataResponseDetails, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { IVerificationRequest } from '@/types';
 import { useTranslations } from 'next-intl';
+import { createVerificationSchema } from '@/schemas/auth.schema';
 
 const VerificationClient = () => {
     const searchParams = useSearchParams();

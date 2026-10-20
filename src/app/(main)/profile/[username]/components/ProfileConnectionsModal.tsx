@@ -9,7 +9,7 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { BiX } from 'react-icons/bi';
 import { useInView } from 'react-intersection-observer';
 
-import { useGetUserConnectionsFollowers, useGetUserConnectionsFollowing } from '@/hooks';
+import { useGetUserConnectionsFollowers, useGetUserConnectionsFollowing } from '@/hooks/api/useSocial';
 import { getImageURL } from '@/utils';
 import { Scrollbar } from '@/components';
 

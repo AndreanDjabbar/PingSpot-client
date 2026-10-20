@@ -5,7 +5,8 @@ import { Button, EmptyState, ErrorSection, HeaderSection } from '@/components';
 import { cn } from '@/lib/styles';
 import { usePathname, useRouter } from 'next/navigation';
 import { useConfirmationModalStore } from '@/stores';
-import { useDeleteAllNotifications, useDeleteNotification, useErrorToast, useGetNotifications, useMarkAllNotificationsAsRead, useMarkNotificationAsRead } from '@/hooks';
+import { useErrorToast } from '@/hooks/useToast';
+import { useDeleteAllNotifications, useDeleteNotification, useGetNotifications, useMarkAllNotificationsAsRead, useMarkNotificationAsRead } from '@/hooks/api/useNotification';
 import { getErrorResponseMessage, isInternalServerError } from '@/utils';
 import { useLocale, useTranslations } from 'next-intl';
 

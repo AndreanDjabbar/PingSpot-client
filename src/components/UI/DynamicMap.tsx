@@ -3,7 +3,8 @@
 
 import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
-import { useCurrentLocation, useErrorToast } from '@/hooks';
+import { useCurrentLocation } from '@/hooks/useCurrentLocation';
+import { useErrorToast } from '@/hooks/useToast';
 import { FaMapPin, FaSpinner, FaLocationArrow } from 'react-icons/fa';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';

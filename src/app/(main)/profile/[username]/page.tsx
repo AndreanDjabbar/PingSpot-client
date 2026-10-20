@@ -10,12 +10,11 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { FaCheck, FaUserEdit, FaMapMarkerAlt, FaUserFriends } from 'react-icons/fa';
 
 import {
-  useGetProfileByUsername,
-  useErrorToast,
-  useGetFollowData,
-  useFollow,
   useGetReport,
-} from '@/hooks';
+} from '@/hooks/api/useReport';
+import { useErrorToast } from '@/hooks/useToast';
+import { useGetFollowData, useFollow } from '@/hooks/api/useSocial';
+import { useGetProfileByUsername } from '@/hooks/api/useUser';
 import { Button, ErrorSection, Loading } from '@/components';
 import StaticMap from '@/components/UI/StaticMap';
 import {

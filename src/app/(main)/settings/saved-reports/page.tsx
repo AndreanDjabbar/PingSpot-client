@@ -2,7 +2,8 @@
 
 import { HeaderSection } from '@/components';
 import StaticMap from '@/components/UI/StaticMap';
-import { useErrorToast, useGetSavedReports, useSaveReport, useSuccessToast } from '@/hooks';
+import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
+import { useGetSavedReports, useSaveReport } from '@/hooks/api/useReport';
 import { getImageURL } from '@/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';

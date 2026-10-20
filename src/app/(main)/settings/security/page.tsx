@@ -2,16 +2,18 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button, InputField } from '@/components';
-import { buildSaveSecuritySchema } from '../../schema';
 import { ISaveSecurityRequest } from '@/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useErrorToast, useSuccessToast, useSaveSecurity, useLogout } from '@/hooks';
+import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
+import { useSaveSecurity } from '@/hooks/api/useUser';
+import { useLogout } from '@/hooks/api/useAuth';
 import { SuccessSection, ErrorSection, HeaderSection } from '@/components';
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { LuLockKeyhole } from 'react-icons/lu';
 import { useConfirmationModalStore } from '@/stores';
 import { useTranslations } from 'next-intl';
+import { buildSaveSecuritySchema } from '@/schemas/user.schema';
 
 const SecurityPage = () => {
     const currentPath = usePathname();

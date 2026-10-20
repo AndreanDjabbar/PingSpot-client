@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { HeaderSection } from '@/components';
 import { ExploreSearch, ExploreSearchNonModal } from './components';
-import { useSearchData } from '@/hooks';
+import { useSearchData } from '@/hooks/api/useSearch';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 

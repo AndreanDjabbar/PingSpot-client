@@ -8,14 +8,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { useQueryClient } from '@tanstack/react-query';
 import { FaCheck } from 'react-icons/fa';
-import { useErrorToast, useSuccessToast, useUploadProgressReport, useGetReportByID } from '@/hooks';
+import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
+import { useUploadProgressReport, useGetReportByID } from '@/hooks/api/useReport';
 import { useReportsStore, useUserProfileStore, useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
 import { IUploadProgressReportRequest, ImageItem } from '@/types';
-import { buildUploadProgressReportSchema } from '../../../schema';
 import { DetailSection, GuideSection, ProgressSection, ResponseSection } from './components';
 import { compressImages } from '@/utils';
 import { Button, HeaderSection } from '@/components';
 import { useTranslations } from 'next-intl';
+import { buildUploadProgressReportSchema } from '@/schemas/report.schema';
 
 const UpdateProgressPage = () => {
     const params = useParams();

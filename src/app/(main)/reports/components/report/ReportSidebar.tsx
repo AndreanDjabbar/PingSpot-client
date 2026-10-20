@@ -2,7 +2,8 @@
 
 import React, { useMemo, memo, useState, useEffect } from 'react';
 import { useReportsStore, useUserProfileStore } from '@/stores';
-import { useErrorToast, useGetUserConnectionsFollowers, useGetUserConnectionsFollowing } from '@/hooks';
+import { useErrorToast } from '@/hooks/useToast';
+import { useGetUserConnectionsFollowers, useGetUserConnectionsFollowing } from '@/hooks/api/useSocial';
 import { getImageURL } from '@/utils';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';

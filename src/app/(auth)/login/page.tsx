@@ -6,12 +6,13 @@ import { Button, InputField, ErrorSection, SuccessSection } from "@/components";
 import { useForm } from "react-hook-form";
 import { ILoginRequest } from "@/types/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createLoginSchema } from "../Schema";
-import { useLogin, useErrorToast, useSuccessToast } from "@/hooks";
+import { useLogin } from "@/hooks/api/useAuth";
+import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { createLoginSchema } from "@/schemas/auth.schema";
 
 const LoginPage = () => {
     const router = useRouter();

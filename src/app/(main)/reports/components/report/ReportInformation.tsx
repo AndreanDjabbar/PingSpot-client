@@ -2,14 +2,14 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useErrorToast, useSuccessToast, useUploadProgressReport } from '@/hooks';
+import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
+import { useUploadProgressReport } from '@/hooks/api/useReport';
 import { FaUsers } from 'react-icons/fa';
 import { useReportsStore, useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { compressImages, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { ImageItem, IUploadProgressReportRequest } from '@/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { buildUploadProgressReportSchema } from '../../../schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { FiEdit } from 'react-icons/fi';
 import { Accordion, ErrorSection, SuccessSection } from '@/components';
@@ -18,6 +18,7 @@ import { CurrentProgress, ProgressHistory, ProgressSection } from '../progress';
 import ResolvedReport from './ResolvedReport';
 import { PublicVotes, VotingSection } from '../voting';
 import { useTranslations } from 'next-intl';
+import { buildUploadProgressReportSchema } from '@/schemas/report.schema';
 
 
 interface ReportInformationProps {

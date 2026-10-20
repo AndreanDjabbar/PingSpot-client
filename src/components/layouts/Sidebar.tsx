@@ -12,7 +12,8 @@ import { IoSettings } from "react-icons/io5";
 import { IconType } from "react-icons/lib";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { ImExit } from "react-icons/im";
-import { useErrorToast, useLogout, useSuccessToast } from "@/hooks";
+import { useLogout } from "@/hooks/api/useAuth";
+import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
 import { useTranslations } from "next-intl";
 
 interface SidebarProps {

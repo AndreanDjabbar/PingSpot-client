@@ -14,14 +14,15 @@ import {
 } from '@/components';
 import { IoPersonSharp } from 'react-icons/io5';
 import { FaCalendarAlt } from 'react-icons/fa';
-import { buildSaveProfileSchema } from '../../schema';
 import { ISaveProfileRequest } from '@/types/api/user';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSaveProfile, useErrorToast, useSuccessToast } from '@/hooks';
+import { useSaveProfile } from '@/hooks/api/useUser';
+import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useConfirmationModalStore, useUserProfileStore } from '@/stores';
 import { useTranslations } from 'next-intl';
 import { compressImages, getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage, getImageURL } from '@/utils';
+import { buildSaveProfileSchema } from '@/schemas/user.schema';
 
 const ProfilePage = () => {
     const currentPath = usePathname();

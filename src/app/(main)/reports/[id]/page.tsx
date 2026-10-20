@@ -22,10 +22,9 @@ import {
     useVoteReport, 
     useGetReportComments, 
     useCreateReportCommentReport, 
-    useErrorToast, 
-    useSuccessToast, 
-    useSearchUsers
-} from '@/hooks';
+} from '@/hooks/api/useReport';
+import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
+import { useSearchUsers } from '@/hooks/api/useUser';
 import { 
     ReportHeader, 
     ReportMediaViewer, 

@@ -14,7 +14,7 @@ import { ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
 import { useUserProfileStore } from '@/stores';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useTranslations } from 'next-intl';
-import { buildCreateReportCommentSchema } from '@/app/(main)/schema';
+import { buildCreateReportCommentSchema } from '@/schemas/report.schema';
 
 interface SelectedMentions {
     userID: string;

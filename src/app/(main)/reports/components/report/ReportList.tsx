@@ -1,6 +1,6 @@
 import React from 'react';
 import ReportCard from './ReportCard';
-import { useReportsStore } from '@/stores';
+import { useReportsStore } from '@/stores/report.store';
 
 interface ReportListProps {
     onLike: (reportId: number) => void;

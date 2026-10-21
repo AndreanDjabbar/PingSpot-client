@@ -6,13 +6,15 @@ import dynamic from 'next/dynamic';
 import { IReportImage, OptionItem } from '@/types';
 import { getImageURL, getFormattedDate as formattedDate } from '@/utils';
 import ReportInformation from './ReportInformation';
-import { useReportsStore, useImagePreviewModalStore, useUserProfileStore, useOptionsModalStore, useConfirmationModalStore } from '@/stores';
 import { useRouter } from 'next/navigation';
 import { LuNotepadText } from 'react-icons/lu';
-import { cn } from '@/lib';
 import ReportInteractionBar from './ReportInteractionBar';
 import { GoBookmarkSlashFill } from 'react-icons/go';
 import { useTranslations } from 'next-intl';
+import { cn } from '@/lib/styles';
+import { useReportsStore } from '@/stores/report.store';
+import { useUserProfileStore } from '@/stores/user.store';
+import { useConfirmationModalStore, useImagePreviewModalStore, useOptionsModalStore } from '@/stores/ui.store';
 
 const StaticMap = dynamic(() => import('@/components/UI/StaticMap'), {
     ssr: false,

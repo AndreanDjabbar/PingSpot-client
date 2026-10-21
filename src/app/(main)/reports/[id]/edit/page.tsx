@@ -10,12 +10,12 @@ import { Stepper, Button, ErrorSection, SuccessSection, HeaderSection } from '@/
 import { useGetReportByID, useEditReport } from '@/hooks/api/useReport';
 import { useReverseCurrentLocation } from '@/hooks/api/useGlobal';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
-import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
 import { IReportImage, ImageItem, IEditReportRequest } from '@/types';
 import { compressImages, getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage, getImageURL } from '@/utils';
 import { MapStep, DetailStep, AttachmentStep, SummaryStep } from './components';
 import { useTranslations } from 'next-intl';
 import { buildEditReportSchema } from '@/schemas/report.schema';
+import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/ui.store';
 
 const EditReportPage = () => {
     const params = useParams();

@@ -1,7 +1,7 @@
 import React from 'react';
-import { cn } from '@/lib';
+import { cn } from '@/lib/styles';
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import { useConfirmationModalStore } from '@/stores';
+import { useConfirmationModalStore } from '@/stores/ui.store';
 
 interface CheckboxOption {
     value: string;

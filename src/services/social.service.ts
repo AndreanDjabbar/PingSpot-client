@@ -1,4 +1,4 @@
-import axiosInstance from "@/lib/axiosInstance";
+import {axiosInstance} from "@/lib/axiosInstance";
 import { IFollowResponse, IGetFollowDataResponse, IGetUserConnectionsFollowersResponse, IGetUserConnectionsFollowingResponse, IGetUserConnectionsResponse } from "@/types";
 
 export const followService = async (followID: number, followingType: 'user' | 'community'): Promise<IFollowResponse> => {

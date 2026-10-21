@@ -19,10 +19,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSaveProfile } from '@/hooks/api/useUser';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
-import { useConfirmationModalStore, useUserProfileStore } from '@/stores';
 import { useTranslations } from 'next-intl';
 import { compressImages, getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage, getImageURL } from '@/utils';
 import { buildSaveProfileSchema } from '@/schemas/user.schema';
+import { useUserProfileStore } from '@/stores/user.store';
+import { useConfirmationModalStore } from '@/stores/ui.store';
 
 const ProfilePage = () => {
     const currentPath = usePathname();

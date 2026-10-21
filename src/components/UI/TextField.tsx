@@ -1,8 +1,8 @@
 "use client"
 
+import { cn } from '@/lib/styles';
 import React, { useState } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { cn } from '@/lib';
 
 interface InputFieldProps {
     className?: string;

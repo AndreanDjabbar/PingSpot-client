@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib';
+import { cn } from '@/lib/styles';
 import React, { createContext, useContext } from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 

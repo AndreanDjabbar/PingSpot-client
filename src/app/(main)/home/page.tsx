@@ -7,7 +7,6 @@ import { BiPlus } from 'react-icons/bi'
 import { FaUser } from 'react-icons/fa'
 import { GoAlert } from 'react-icons/go'
 import { FiBell } from 'react-icons/fi';
-import { useLocationStore } from '@/stores';
 import { cn } from '@/lib/styles';
 import { Button, EmptyState, Loading, ErrorSection, HeaderSection } from '@/components';
 import { RxCrossCircled } from 'react-icons/rx';
@@ -22,6 +21,7 @@ import { IoMdPulse } from 'react-icons/io';
 import { MdCalendarMonth } from 'react-icons/md';
 import Card from '@/components/UI/Card';
 import { useTranslations } from 'next-intl';
+import { useLocationStore } from '@/stores/location.store';
 
 const Map = dynamic(() => import('@/components/UI/StaticMap'), {
     ssr: false,

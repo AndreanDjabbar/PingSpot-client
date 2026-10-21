@@ -1,11 +1,11 @@
 "use client";
-import { cn } from '@/lib';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { BsFillInfoCircleFill } from 'react-icons/bs';
 import { MdWarning } from 'react-icons/md';
 import { Button } from '../UI';
 import { useTranslations } from 'next-intl';
+import { cn } from '@/lib/styles';
 
 interface ConfirmationModalProps {
     isOpen: boolean;
@@ -22,7 +22,7 @@ interface ConfirmationModalProps {
     cancelTitle?: string;
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     type,
     title,
     subtitle,
@@ -144,5 +144,3 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         </div>
     );
 };
-
-export default ConfirmationModal;

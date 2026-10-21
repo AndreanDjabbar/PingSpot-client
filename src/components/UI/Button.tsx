@@ -1,4 +1,4 @@
-import { cn } from '@/lib';
+import { cn } from '@/lib/styles';
 import React from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 

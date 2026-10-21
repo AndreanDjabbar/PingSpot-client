@@ -1,12 +1,4 @@
-import {
-    getMyProfileService, 
-    getProfileByUsernameService, 
-    getUserStatisticsService, 
-    saveProfileService, 
-    saveSecurityService, 
-    searchUsersDataService,
-    updateEmailNotificationPreferenceService
-} from "@/services";
+import { getMyProfileService, getProfileByUsernameService, getUserStatisticsService, saveProfileService, saveSecurityService, searchUsersDataService, updateEmailNotificationPreferenceService } from "@/services/user.service";
 import { 
     IGetProfileResponse, 
     IGetUserStatisticsResponse, 

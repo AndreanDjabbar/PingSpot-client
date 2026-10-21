@@ -1,4 +1,4 @@
-import { followService, getFollowDataService, getUserConnectionsFollowersService, getUserConnectionsFollowingService, getUserConnectionsService } from "@/services"
+import { followService, getFollowDataService, getUserConnectionsFollowersService, getUserConnectionsFollowingService, getUserConnectionsService } from "@/services/social.service"
 import { IGetUserConnectionsFollowersResponse, IGetUserConnectionsFollowingResponse } from "@/types"
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 

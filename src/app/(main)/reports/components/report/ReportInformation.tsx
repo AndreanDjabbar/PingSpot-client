@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useUploadProgressReport } from '@/hooks/api/useReport';
 import { FaUsers } from 'react-icons/fa';
-import { useReportsStore, useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { compressImages, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { ImageItem, IUploadProgressReportRequest } from '@/types';
 import { useForm } from 'react-hook-form';
@@ -19,6 +18,9 @@ import ResolvedReport from './ResolvedReport';
 import { PublicVotes, VotingSection } from '../voting';
 import { useTranslations } from 'next-intl';
 import { buildUploadProgressReportSchema } from '@/schemas/report.schema';
+import { useConfirmationModalStore } from '@/stores/ui.store';
+import { useReportsStore } from '@/stores/report.store';
+import { useUserProfileStore } from '@/stores/user.store';
 
 
 interface ReportInformationProps {

@@ -7,13 +7,13 @@ import camelize from 'camelize';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet';
-import { useLocationStore } from '@/stores';
 import { useCurrentLocation } from '@/hooks/useCurrentLocation';
 import { useErrorToast } from '@/hooks/useToast';
 import { useReverseCurrentLocation } from '@/hooks/api/useGlobal';
 import { ErrorSection } from '../feedback';
 import { getDataResponseDetails, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { useTranslations } from 'next-intl';
+import { useLocationStore } from '@/stores/location.store';
 
 interface ReverseLocationResponse {
     display_name?: string;

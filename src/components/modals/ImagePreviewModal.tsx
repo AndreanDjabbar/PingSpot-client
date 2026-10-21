@@ -12,7 +12,7 @@ interface ImagePreviewModalProps {
     onClose: () => void;
 }
 
-const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({ imageUrl, isOpen, onClose }) => {
+export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({ imageUrl, isOpen, onClose }) => {
     const [shouldRender, setShouldRender] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
     const scrollPositionRef = useRef(0);
@@ -150,5 +150,3 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({ imageUrl, isOpen,
         </div>
     );
 };
-
-export default ImagePreviewModal;

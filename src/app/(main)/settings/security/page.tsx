@@ -11,9 +11,9 @@ import { useLogout } from '@/hooks/api/useAuth';
 import { SuccessSection, ErrorSection, HeaderSection } from '@/components';
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { LuLockKeyhole } from 'react-icons/lu';
-import { useConfirmationModalStore } from '@/stores';
 import { useTranslations } from 'next-intl';
 import { buildSaveSecuritySchema } from '@/schemas/user.schema';
+import { useConfirmationModalStore } from '@/stores/ui.store';
 
 const SecurityPage = () => {
     const currentPath = usePathname();

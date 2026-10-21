@@ -4,11 +4,11 @@ import { FiBell, FiCheck, FiCheckCircle, FiTrash2, FiUser, FiMail, FiAlertCircle
 import { Button, EmptyState, ErrorSection, HeaderSection } from '@/components';
 import { cn } from '@/lib/styles';
 import { usePathname, useRouter } from 'next/navigation';
-import { useConfirmationModalStore } from '@/stores';
 import { useErrorToast } from '@/hooks/useToast';
 import { useDeleteAllNotifications, useDeleteNotification, useGetNotifications, useMarkAllNotificationsAsRead, useMarkNotificationAsRead } from '@/hooks/api/useNotification';
 import { getErrorResponseMessage, isInternalServerError } from '@/utils';
 import { useLocale, useTranslations } from 'next-intl';
+import { useConfirmationModalStore } from '@/stores/ui.store';
 
 export interface INotification {
     id: number;

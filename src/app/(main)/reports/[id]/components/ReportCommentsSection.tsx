@@ -4,10 +4,10 @@ import React from 'react';
 import { IReportComment, ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
 import { ErrorSection, ImagePreview } from '@/components';
 import { getErrorResponseDetails, getErrorResponseMessage, isInternalServerError } from '@/utils';
-import { useReportsStore } from '@/stores';
 import { CommentInput, CommentList } from '../../components';
 import { InfiniteData } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
+import { useReportsStore } from '@/stores/report.store';
 
 
 interface ReportCommentsSectionProps {

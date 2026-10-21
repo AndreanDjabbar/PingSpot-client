@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { FaReply, FaChevronUp } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { getImageURL, getFormattedDate as formattedDate } from '@/utils';
-import { useImagePreviewModalStore } from '@/stores';
 import { useGetReportCommentReplies } from '@/hooks/api/useReport';
 import MentionText from './MentionText';
 import { Button } from '@/components/UI';
@@ -15,6 +14,7 @@ import { ImagePreview } from '@/components/';
 import CommentInput from './CommentInput';
 import { InfiniteData } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
+import { useImagePreviewModalStore } from '@/stores/ui.store';
 
 interface CommentItemProps {
     comment: IReportComment;

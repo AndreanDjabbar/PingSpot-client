@@ -10,13 +10,15 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FaCheck } from 'react-icons/fa';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useUploadProgressReport, useGetReportByID } from '@/hooks/api/useReport';
-import { useReportsStore, useUserProfileStore, useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
 import { IUploadProgressReportRequest, ImageItem } from '@/types';
 import { DetailSection, GuideSection, ProgressSection, ResponseSection } from './components';
 import { compressImages } from '@/utils';
 import { Button, HeaderSection } from '@/components';
 import { useTranslations } from 'next-intl';
 import { buildUploadProgressReportSchema } from '@/schemas/report.schema';
+import { useReportsStore } from '@/stores/report.store';
+import { useUserProfileStore } from '@/stores/user.store';
+import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/ui.store';
 
 const UpdateProgressPage = () => {
     const params = useParams();

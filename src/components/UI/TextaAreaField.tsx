@@ -1,5 +1,5 @@
+import { cn } from '@/lib/styles';
 import React from 'react';
-import { cn } from '@/lib';
 
 type ResizeOption = 'none' | 'y' | 'x' | 'both';
 type VariantOption = 'default' | 'filled' | 'ghost';

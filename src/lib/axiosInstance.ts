@@ -1,6 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     withCredentials: true,
     headers: {
@@ -81,5 +81,3 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
-export default axiosInstance;

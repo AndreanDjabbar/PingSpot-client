@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useOptionsModalStore } from '@/stores';
 import { OptionItem } from '@/types';
+import { useOptionsModalStore } from '@/stores/ui.store';
 
-const OptionsModal: React.FC = () => {
+export const OptionsModal: React.FC = () => {
     const { isOpen, optionsList, anchorRef, closeOptionsModal } = useOptionsModalStore();
     const [position, setPosition] = useState({ top: 0, right: 0 });
     const modalRef = useRef<HTMLDivElement>(null);
@@ -206,5 +206,3 @@ const OptionsModal: React.FC = () => {
         </AnimatePresence>
     );
 };
-
-export default OptionsModal;

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib";
+import { cn } from "@/lib/styles";
 import React, { ReactNode } from "react";
 import { FaCheck } from "react-icons/fa";
 

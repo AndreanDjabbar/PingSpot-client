@@ -6,8 +6,8 @@ import { Accordion } from '@/components';
 import { ICreateReportRequest, ImageItem } from '@/types';
 import { FaFileAlt, FaTags } from 'react-icons/fa';
 import Image from 'next/image';
-import { useImagePreviewModalStore } from '@/stores';
 import { useTranslations } from 'next-intl';
+import { useImagePreviewModalStore } from '@/stores/ui.store';
 
 interface SummaryStepProps {
     watch: UseFormWatch<ICreateReportRequest>;

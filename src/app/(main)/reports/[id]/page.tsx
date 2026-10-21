@@ -14,7 +14,6 @@ import {
     compressImages,
 } from '@/utils';
 import { ReportType, IReportImage, IReportComment } from '@/types';
-import { useUserProfileStore, useReportsStore, useImagePreviewModalStore } from '@/stores';
 import { 
     useDeleteReport, 
     useGetReportByID, 
@@ -37,6 +36,9 @@ import {
 import { ErrorSection, Loading, HeaderSection } from '@/components';
 import { ICreateReportCommentRequest } from '@/types/api/report';
 import { ReportInteractionBar } from '../components';
+import { useImagePreviewModalStore } from '@/stores/ui.store';
+import { useReportsStore } from '@/stores/report.store';
+import { useUserProfileStore } from '@/stores/user.store';
 
 const getReportImages = (images: IReportImage): string[] => {
     if (!images) return [];

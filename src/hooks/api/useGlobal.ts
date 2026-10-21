@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { IReverseLocation, IReverseLocationRequest } from "@/types";
-import { reverseCurrentLocationService } from "@/services";
+import { reverseCurrentLocationService } from "@/services/global.service";
 
 export const useReverseCurrentLocation = (options?: {
     onSuccess?: (data: IReverseLocation) => void;

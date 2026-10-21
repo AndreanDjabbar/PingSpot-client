@@ -6,9 +6,10 @@ import { BsThreeDots } from 'react-icons/bs';
 import { FaCrown, FaEdit, FaFlag, FaShare, FaTrash } from 'react-icons/fa';
 import { getImageURL, getFormattedDate as formattedDate } from '@/utils';
 import { IReport, OptionItem } from '@/types';
-import { useConfirmationModalStore, useUserProfileStore, useOptionsModalStore } from '@/stores';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useUserProfileStore } from '@/stores/user.store';
+import { useConfirmationModalStore, useOptionsModalStore } from '@/stores/ui.store';
 
 interface ReportHeaderProps {
     report: IReport;

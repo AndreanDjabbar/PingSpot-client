@@ -8,12 +8,13 @@ import 'leaflet/dist/leaflet.css';
 import { compressImages, getErrorResponseMessage } from '@/utils';
 import { useTranslations } from 'next-intl';
 import { IReportComment, ISearchUsersResponse } from '@/types';
-import { useReportsStore, useUserProfileStore } from '@/stores';
 import ReportCard from './ReportCard';
 import { ICreateReportCommentRequest, ICreateReportCommentResponse } from '@/types/api/report';
 import { ErrorSection, ImagePreview, Scrollbar } from '@/components/';
 import { InfiniteData, UseMutateFunction } from '@tanstack/react-query';
 import { CommentInput, CommentList } from '../comment';
+import { useUserProfileStore } from '@/stores/user.store';
+import { useReportsStore } from '@/stores/report.store';
 
 interface ReportModalProps {
     isOpen: boolean;

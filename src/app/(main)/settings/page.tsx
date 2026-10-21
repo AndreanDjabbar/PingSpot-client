@@ -11,11 +11,12 @@ import { useGetFollowData } from '@/hooks/api/useSocial';
 import { useUpdateEmailNotificationPreference } from '@/hooks/api/useUser';
 import { useRouter, usePathname } from 'next/navigation';
 import { ImExit } from 'react-icons/im';
-import { useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { SettingCard, SettingItem } from './components';
 import { Button, ToggleSwitch, HeaderSection, ProfileBadge } from '@/components';
 import { useLocale, useTranslations } from 'next-intl';
 import { FaBookmark } from 'react-icons/fa';
+import { useUserProfileStore } from '@/stores/user.store';
+import { useConfirmationModalStore } from '@/stores/ui.store';
 
 const SettingsPage = () => {
     const t = useTranslations('settings');

@@ -10,11 +10,11 @@ import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useCreateReport } from '@/hooks/api/useReport';
 import { useReverseCurrentLocation } from '@/hooks/api/useGlobal';
 import { ICreateReportRequest } from '@/types/api/report';
-import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores';
 import { AttachmentStep, DetailStep, MapStep, SummaryStep } from './components';
 import { ImageItem } from '@/types';
 import { useTranslations } from 'next-intl';
 import { buildCreateReportSchema } from '@/schemas/report.schema';
+import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/ui.store';
 
 const CreateReportPage = () => {
     const currentPath = usePathname();

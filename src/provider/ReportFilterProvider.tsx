@@ -1,7 +1,7 @@
 "use client";
 
+import { ReportFilterModal } from '@/components/modals/ReportFilterModal';
 import React from 'react';
-import { ReportFilterModal } from '@/components';
 
 export const ReportFilterModalProvider: React.FC = () => {
     return <ReportFilterModal />;

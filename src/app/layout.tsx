@@ -1,16 +1,13 @@
 import "./globals.css";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import { 
-  ConfirmationModalProvider, 
-  ImagePreviewModalProvider, 
-  ReactQueryClientProvider,
-  ReportFilterModalProvider,
-} from "@/provider";
-import { OptionsModalProvider } from "@/provider";
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { ToastContainer } from "react-toastify";
 import ClientLayout from "./client-layout";
+import { ConfirmationModalProvider, ImagePreviewModalProvider } from "@/provider/AppProvider";
+import { ReactQueryClientProvider } from "@/provider/ReactQueryProvider";
+import OptionsModalProvider from "@/provider/OptionsProvider";
+import ReportFilterModalProvider from "@/provider/ReportFilterProvider";
 
 export const metadata = {
   title: 'PingSpot',

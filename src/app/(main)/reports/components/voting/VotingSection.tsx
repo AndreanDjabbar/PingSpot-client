@@ -2,8 +2,8 @@ import React, { useState } from "react"
 import { FaCheck, FaHourglassEnd, FaTimes, FaUsers } from "react-icons/fa"
 import { RiProgress3Fill } from "react-icons/ri"
 import { motion } from "framer-motion"
-import { useConfirmationModalStore } from "@/stores";
 import { useTranslations } from 'next-intl';
+import { useConfirmationModalStore } from "@/stores/ui.store";
 
 interface VotingSectionProps {
     totalVotes: number;

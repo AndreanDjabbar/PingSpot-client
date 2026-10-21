@@ -23,9 +23,10 @@ import {
   isInternalServerError,
   isNotFoundError,
 } from '@/utils';
-import { useConfirmationModalStore, useUserProfileStore } from '@/stores';
 import { IReport } from '@/types';
 import { ProfileConnectionsModal, Skeleton } from './components';
+import { useUserProfileStore } from '@/stores/user.store';
+import { useConfirmationModalStore } from '@/stores/ui.store';
 
 const ProfileReportCard = ({
   report,

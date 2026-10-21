@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo, memo, useState, useEffect } from 'react';
-import { useReportsStore, useUserProfileStore } from '@/stores';
 import { useErrorToast } from '@/hooks/useToast';
 import { useGetUserConnectionsFollowers, useGetUserConnectionsFollowing } from '@/hooks/api/useSocial';
 import { getImageURL } from '@/utils';
@@ -11,6 +10,8 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useInView } from 'react-intersection-observer';
 import { Scrollbar } from '@/components';
 import { useRouter } from 'next/navigation';
+import { useReportsStore } from '@/stores/report.store';
+import { useUserProfileStore } from '@/stores/user.store';
 
 const reportTypeConfig: Record<string, { label: string; color: string }> = {
     totalInfrastructureReports: { label: 'Infrastruktur', color: 'text-blue-600' },

@@ -1,4 +1,4 @@
-import axiosInstance from "@/lib/axiosInstance";
+import { axiosInstance } from "@/lib/axiosInstance";
 import {  IGetNotificationsResponse } from "@/types";
 
 export const getNotificationsService = async (): Promise<IGetNotificationsResponse> => {

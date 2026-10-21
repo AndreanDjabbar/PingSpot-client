@@ -1,4 +1,4 @@
-import axiosInstance from "@/lib/axiosInstance";
+import {axiosInstance} from "@/lib/axiosInstance";
 import { ISearchDataResponse } from "@/types";
 
 export const searchDataService = async (searchQuery: string, usersDatacursorID?: number, reportsDataCursorID?: number): Promise<ISearchDataResponse> => {

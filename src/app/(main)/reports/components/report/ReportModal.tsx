@@ -5,7 +5,6 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes } from 'react-icons/fa';
 import 'leaflet/dist/leaflet.css';
-import { compressImages, getErrorResponseMessage } from '@/utils';
 import { useTranslations } from 'next-intl';
 import { IReportComment, ISearchUsersResponse } from '@/types';
 import ReportCard from './ReportCard';
@@ -15,6 +14,8 @@ import { InfiniteData, UseMutateFunction } from '@tanstack/react-query';
 import { CommentInput, CommentList } from '../comment';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useReportsStore } from '@/stores/report.store';
+import { compressImages } from '@/utils/image';
+import { getErrorResponseMessage } from '@/utils/api';
 
 interface ReportModalProps {
     isOpen: boolean;

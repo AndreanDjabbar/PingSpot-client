@@ -8,11 +8,11 @@ import SearchResultTabs from './SearchResultTabs';
 import { IReport, ReportType, IUserProfile, TabType } from '@/types';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useInView } from 'react-intersection-observer';
-import { getImageURL } from '@/utils';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button, Scrollbar } from '@/components';
 import { useTranslations } from 'next-intl';
+import { getImageURL } from '@/utils/image';
 
 interface SearchResult {
     users: IUserProfile[];

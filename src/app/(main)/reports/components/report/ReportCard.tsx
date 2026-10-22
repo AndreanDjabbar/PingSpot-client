@@ -4,7 +4,6 @@ import { FaChevronLeft, FaChevronRight, FaMapMarkerAlt, FaImage, FaMap, FaCrown,
 import { BsThreeDots } from "react-icons/bs";
 import dynamic from 'next/dynamic';
 import { IReportImage, OptionItem } from '@/types';
-import { getImageURL, getFormattedDate as formattedDate } from '@/utils';
 import ReportInformation from './ReportInformation';
 import { useRouter } from 'next/navigation';
 import { LuNotepadText } from 'react-icons/lu';
@@ -15,6 +14,8 @@ import { cn } from '@/lib/styles';
 import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore, useImagePreviewModalStore, useOptionsModalStore } from '@/stores/ui.store';
+import { getImageURL } from '@/utils/image';
+import { getFormattedDate } from '@/utils/format';
 
 const StaticMap = dynamic(() => import('@/components/UI/StaticMap'), {
     ssr: false,
@@ -167,13 +168,13 @@ const ReportCard: React.FC<ReportCardProps> = ({
                             </div>
                             <div className="text-xs text-gray-500 flex items-center gap-1 flex-wrap">
                                 <div className="whitespace-nowrap">
-                                    {formattedDate(report?.reportCreatedAt, {
+                                    {getFormattedDate(report?.reportCreatedAt, {
                                         formatStr: 'dd MMM yyyy',
                                     })}
                                 </div>
                                 <span>-</span>
                                 <div>
-                                    {formattedDate(report?.reportCreatedAt, {
+                                    {getFormattedDate(report?.reportCreatedAt, {
                                         formatStr: 'HH:mm',
                                     })}
                                 </div>

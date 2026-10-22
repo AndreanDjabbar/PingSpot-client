@@ -2,10 +2,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Sidebar from './Sidebar';
 import TopNavigation from './TopNavigation';
-import { useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { useRouter } from 'next/navigation';
 import Scrollbar from './Scrollbar';
 import { useTranslations } from 'next-intl';
+import { useConfirmationModalStore } from '@/stores/ui.store';
+import { useUserProfileStore } from '@/stores/user.store';
 
 interface MainLayoutProps {
     children: React.ReactNode;

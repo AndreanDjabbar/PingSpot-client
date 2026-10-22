@@ -8,11 +8,11 @@ import { useForm } from 'react-hook-form';
 import { Button, InputField } from '@/components';
 import { LuLockKeyhole } from 'react-icons/lu';
 import { IForgotPasswordResetPasswordRequest } from '@/types';
-import { getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { useTranslations } from 'next-intl';
 import { createForgotPasswordResetPasswordSchema } from '@/schemas/auth.schema';
 import { useLinkVerification, useResetPassword } from '@/hooks/api/useAuth';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
+import { getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 
 const VerificationClient = () => {
     const searchParams = useSearchParams();

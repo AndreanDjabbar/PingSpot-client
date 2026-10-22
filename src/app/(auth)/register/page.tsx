@@ -10,11 +10,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRegister } from "@/hooks/api/useAuth";
 import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
 import { useEffect } from "react";
-import { getErrorResponseDetails, getErrorResponseMessage, getDataResponseMessage } from "@/utils";
 import { useRouter } from "next/navigation";
 import { SuccessSection, ErrorSection } from "@/components/feedback";
 import { useTranslations } from "next-intl";
 import { createRegisterSchema } from "@/schemas/auth.schema";
+import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils/api";
 
 const RegisterPage = () => {
     const router = useRouter();

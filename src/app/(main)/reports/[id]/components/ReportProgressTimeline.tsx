@@ -6,12 +6,13 @@ import { useRouter } from 'next/navigation';
 import { BiEdit, BiX } from 'react-icons/bi';
 import { IoDocumentText } from 'react-icons/io5';
 import { IReport } from '@/types';
-import { getFormattedDate as formattedDate, getImageURL } from '@/utils';
 import { Accordion, Button } from '@/components';
 import { RiProgress3Fill } from 'react-icons/ri';
 import { MdDone } from 'react-icons/md';
 import { LuLock } from 'react-icons/lu';
 import { useTranslations } from 'next-intl';
+import { getFormattedDate } from '@/utils/format';
+import { getImageURL } from '@/utils/image';
 
 interface ReportProgressTimelineProps {
     report: IReport;
@@ -67,7 +68,7 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                                     </div>
                                     
                                     <p className="text-xs text-gray-500 mb-2">
-                                        {formattedDate(latestProgress.createdAt, {
+                                        {getFormattedDate(latestProgress.createdAt, {
                                             formatStr: 'dd MMMM yyyy - HH:mm',
                                         })}
                                     </p>
@@ -168,7 +169,7 @@ export const ReportProgressTimeline: React.FC<ReportProgressTimelineProps> = ({
                                                                                 : t('status_labels.default')}
                                                                         </span>
                                                                         <span className="text-xs text-gray-500">
-                                                                            {formattedDate(progress.createdAt, {
+                                                                            {getFormattedDate(progress.createdAt, {
                                                                                 formatStr: 'dd MMM yyyy - HH:mm',
                                                                             })}
                                                                         </span>

@@ -1,8 +1,8 @@
 import { ErrorSection, SuccessSection } from '@/components'
 import { IUploadProgressReportResponse } from '@/types'
-import { getErrorResponseDetails, getErrorResponseMessage } from '@/utils'
 import React from 'react'
 import { useTranslations } from 'next-intl'
+import { getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api'
 
 interface ResponseSectionProps {
     isUploadProgressSuccess: boolean

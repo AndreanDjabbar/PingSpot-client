@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useUploadProgressReport } from '@/hooks/api/useReport';
 import { FaUsers } from 'react-icons/fa';
-import { compressImages, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { ImageItem, IUploadProgressReportRequest } from '@/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,6 +20,8 @@ import { buildUploadProgressReportSchema } from '@/schemas/report.schema';
 import { useConfirmationModalStore } from '@/stores/ui.store';
 import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
+import { compressImages } from '@/utils/image';
+import { getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 
 
 interface ReportInformationProps {

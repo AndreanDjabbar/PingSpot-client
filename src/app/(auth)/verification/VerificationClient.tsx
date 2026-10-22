@@ -6,10 +6,10 @@ import { useForm } from 'react-hook-form';
 import { useVerification } from '@/hooks/api/useAuth';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { ErrorSection, SuccessSection } from '@/components';
-import { getDataResponseDetails, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { IVerificationRequest } from '@/types';
 import { useTranslations } from 'next-intl';
 import { createVerificationSchema } from '@/schemas/auth.schema';
+import { getDataResponseDetails, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 
 const VerificationClient = () => {
     const searchParams = useSearchParams();

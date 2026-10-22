@@ -7,13 +7,13 @@ import { InputField, ErrorSection, SuccessSection, Button } from "@/components";
 import { useForm } from "react-hook-form";
 import { IForgotPasswordEmailVerificationRequest } from "@/types/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils";
 import { useEffect, useState } from "react";;
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createForgotPasswordEmailVerificationSchema } from "@/schemas/auth.schema";
 import { useEmailVerification } from "@/hooks/api/useAuth";
 import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
+import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils/api";
 
 const ForgotPasswordPage = () => {
     const t = useTranslations('auth.forgot_password');

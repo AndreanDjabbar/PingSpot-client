@@ -1,8 +1,9 @@
 import { IReportProgress } from "@/types"
-import { getFormattedDate, getImageURL } from "@/utils";
 import Image from "next/image";
 import React from "react"
 import { useTranslations } from 'next-intl';
+import { getFormattedDate } from "@/utils/format";
+import { getImageURL } from "@/utils/image";
 
 interface CurrentProgressProps {
     reportProgress: IReportProgress[];

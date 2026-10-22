@@ -1,7 +1,8 @@
 "use client";
 
+import { useGlobalStore } from "@/stores/global.store";
+import { useLocationStore } from "@/stores/location.store";
 import { useEffect } from "react";
-import { useGlobalStore, useLocationStore } from "@/stores";
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
     const globalStore = useGlobalStore();

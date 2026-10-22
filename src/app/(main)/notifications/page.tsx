@@ -6,9 +6,9 @@ import { cn } from '@/lib/styles';
 import { usePathname, useRouter } from 'next/navigation';
 import { useErrorToast } from '@/hooks/useToast';
 import { useDeleteAllNotifications, useDeleteNotification, useGetNotifications, useMarkAllNotificationsAsRead, useMarkNotificationAsRead } from '@/hooks/api/useNotification';
-import { getErrorResponseMessage, isInternalServerError } from '@/utils';
 import { useLocale, useTranslations } from 'next-intl';
 import { useConfirmationModalStore } from '@/stores/ui.store';
+import { getErrorResponseMessage, isInternalServerError } from '@/utils/api';
 
 export interface INotification {
     id: number;

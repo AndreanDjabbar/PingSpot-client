@@ -4,7 +4,6 @@ import { HeaderSection } from '@/components';
 import StaticMap from '@/components/UI/StaticMap';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useGetSavedReports, useSaveReport } from '@/hooks/api/useReport';
-import { getImageURL } from '@/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
@@ -14,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useTranslations } from 'next-intl';
+import { getImageURL } from '@/utils/image';
 
 interface SavedReportMiniCardProps {
     report: IGetReportSaved;

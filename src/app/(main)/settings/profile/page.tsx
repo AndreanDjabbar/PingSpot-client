@@ -20,10 +20,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useSaveProfile } from '@/hooks/api/useUser';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useTranslations } from 'next-intl';
-import { compressImages, getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage, getImageURL } from '@/utils';
 import { buildSaveProfileSchema } from '@/schemas/user.schema';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore } from '@/stores/ui.store';
+import { compressImages, getImageURL } from '@/utils/image';
+import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 
 const ProfilePage = () => {
     const currentPath = usePathname();

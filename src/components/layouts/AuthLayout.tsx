@@ -7,7 +7,7 @@ import { Scrollbar } from "@/components";
 import { FaGlobe } from 'react-icons/fa';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useConfirmationModalStore } from '@/stores';
+import { useConfirmationModalStore } from '@/stores/ui.store';
 
 const AuthLayout: React.FC<React.PropsWithChildren> = ({
     children

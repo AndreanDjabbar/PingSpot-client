@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { FaMapMarkerAlt, FaChevronLeft, FaChevronRight, FaImage, FaMap } from 'react-icons/fa';
-import { getImageURL } from '@/utils';
 import { IReport } from '@/types';
 import { useTranslations } from 'next-intl';
+import { getImageURL } from '@/utils/image';
 
 const StaticMap = dynamic(() => import('../../../../../components/UI/StaticMap'), {
     ssr: false,

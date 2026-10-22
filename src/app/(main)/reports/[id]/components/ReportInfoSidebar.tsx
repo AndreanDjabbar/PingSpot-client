@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { IReport, ReportType } from '@/types';
-import { getFormattedDate as formattedDate } from '@/utils';
 import { MdInfo } from 'react-icons/md';
 import { ImInfo } from 'react-icons/im';
 import { Button } from '@/components';
@@ -12,6 +11,7 @@ import { IoMdTrash } from 'react-icons/io';
 import { useTranslations } from 'next-intl';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore } from '@/stores/ui.store';
+import { getFormattedDate } from '@/utils/format';
 
 interface ReportInfoSidebarProps {
     report: IReport;
@@ -115,7 +115,7 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                 <div>
                     <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">{t('reported_label')}</p>
                     <p className="text-sm text-gray-900"><span className='text-[11px] text-gray-500'>{t('on_prefix')}</span>
-                        {formattedDate(report.reportCreatedAt, {
+                        {getFormattedDate(report.reportCreatedAt, {
                             formatStr: 'dd MMMM yyyy, HH:mm',
                         })}
                     </p>
@@ -133,7 +133,7 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                             <div className="flex flex-col leading-tight">
                                 <span className='text-gray-500 text-[11px]'>{t('by_prefix')}<span className="text-sm font-bold text-gray-700"> {report.lastUpdatedBy ? t(`last_updated_by.${report.lastUpdatedBy}`) : '-'}</span></span>
                                 <p className="text-sm text-gray-900"><span className='text-[11px] text-gray-500'>{t('on_prefix')}</span>
-                                    {formattedDate(report.lastUpdatedProgressAt || 0, {
+                                    {getFormattedDate(report.lastUpdatedProgressAt || 0, {
                                         formatStr: 'dd MMMM yyyy, HH:mm',
                                     })}
                                 </p>
@@ -173,7 +173,7 @@ export const ReportInfoSidebar: React.FC<ReportInfoSidebarProps> = ({
                     <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">{t('report_updated_by_creator_label')}</p>
                     {(report.reportUpdatedAt !== report.reportCreatedAt) && (report.reportUpdatedAt > report.reportCreatedAt) ? (
                         <p className="text-sm text-gray-900"><span className='text-[11px] text-gray-500'>{t('on_prefix')}</span>
-                            {formattedDate(report.reportUpdatedAt, {
+                            {getFormattedDate(report.reportUpdatedAt, {
                                 formatStr: 'dd MMMM yyyy, HH:mm',
                             })}
                         </p>

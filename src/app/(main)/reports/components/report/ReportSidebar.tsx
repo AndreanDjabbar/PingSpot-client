@@ -3,7 +3,6 @@
 import React, { useMemo, memo, useState, useEffect } from 'react';
 import { useErrorToast } from '@/hooks/useToast';
 import { useGetUserConnectionsFollowers, useGetUserConnectionsFollowing } from '@/hooks/api/useSocial';
-import { getImageURL } from '@/utils';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
@@ -12,6 +11,7 @@ import { Scrollbar } from '@/components';
 import { useRouter } from 'next/navigation';
 import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
+import { getImageURL } from '@/utils/image';
 
 const reportTypeConfig: Record<string, { label: string; color: string }> = {
     totalInfrastructureReports: { label: 'Infrastruktur', color: 'text-blue-600' },

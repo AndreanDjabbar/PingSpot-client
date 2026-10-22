@@ -5,7 +5,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SuccessSection, ErrorSection, Stepper, Button, HeaderSection } from '@/components';
-import { getErrorResponseDetails, getErrorResponseMessage, getDataResponseMessage, compressImages } from '@/utils';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useCreateReport } from '@/hooks/api/useReport';
 import { useReverseCurrentLocation } from '@/hooks/api/useGlobal';
@@ -15,6 +14,8 @@ import { ImageItem } from '@/types';
 import { useTranslations } from 'next-intl';
 import { buildCreateReportSchema } from '@/schemas/report.schema';
 import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/ui.store';
+import { compressImages } from '@/utils/image';
+import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 
 const CreateReportPage = () => {
     const currentPath = usePathname();

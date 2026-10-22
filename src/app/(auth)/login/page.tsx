@@ -8,11 +8,11 @@ import { ILoginRequest } from "@/types/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLogin } from "@/hooks/api/useAuth";
 import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
-import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createLoginSchema } from "@/schemas/auth.schema";
+import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils/api";
 
 const LoginPage = () => {
     const router = useRouter();

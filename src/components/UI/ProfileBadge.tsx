@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { getImageURL } from '@/utils';
+import { getImageURL } from '@/utils/image';
 
 interface TextColorProps {
     name?: string;

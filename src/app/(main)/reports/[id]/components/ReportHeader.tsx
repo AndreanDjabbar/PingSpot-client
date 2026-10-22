@@ -4,12 +4,13 @@ import React from 'react';
 import Image from 'next/image';
 import { BsThreeDots } from 'react-icons/bs';
 import { FaCrown, FaEdit, FaFlag, FaShare, FaTrash } from 'react-icons/fa';
-import { getImageURL, getFormattedDate as formattedDate } from '@/utils';
 import { IReport, OptionItem } from '@/types';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore, useOptionsModalStore } from '@/stores/ui.store';
+import { getImageURL } from '@/utils/image';
+import { getFormattedDate } from '@/utils/format';
 
 interface ReportHeaderProps {
     report: IReport;
@@ -88,7 +89,7 @@ export const ReportHeader: React.FC<ReportHeaderProps> = ({
                             </div>
                         </div>
                         <div className="text-xs text-gray-500">
-                            {formattedDate(report.reportCreatedAt, {
+                            {getFormattedDate(report.reportCreatedAt, {
                                 formatStr: 'dd MMM yyyy - HH:mm',
                             })}
                         </div>

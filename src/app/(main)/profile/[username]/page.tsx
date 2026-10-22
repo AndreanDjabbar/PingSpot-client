@@ -17,16 +17,12 @@ import { useGetFollowData, useFollow } from '@/hooks/api/useSocial';
 import { useGetProfileByUsername } from '@/hooks/api/useUser';
 import { Button, ErrorSection, Loading } from '@/components';
 import StaticMap from '@/components/UI/StaticMap';
-import {
-  getErrorResponseMessage,
-  getImageURL,
-  isInternalServerError,
-  isNotFoundError,
-} from '@/utils';
 import { IReport } from '@/types';
 import { ProfileConnectionsModal, Skeleton } from './components';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore } from '@/stores/ui.store';
+import { getErrorResponseMessage, isInternalServerError, isNotFoundError } from '@/utils/api';
+import { getImageURL } from '@/utils/image';
 
 const ProfileReportCard = ({
   report,

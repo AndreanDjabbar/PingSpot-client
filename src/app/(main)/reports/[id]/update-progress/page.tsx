@@ -12,13 +12,13 @@ import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useUploadProgressReport, useGetReportByID } from '@/hooks/api/useReport';
 import { IUploadProgressReportRequest, ImageItem } from '@/types';
 import { DetailSection, GuideSection, ProgressSection, ResponseSection } from './components';
-import { compressImages } from '@/utils';
 import { Button, HeaderSection } from '@/components';
 import { useTranslations } from 'next-intl';
 import { buildUploadProgressReportSchema } from '@/schemas/report.schema';
 import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/ui.store';
+import { compressImages } from '@/utils/image';
 
 const UpdateProgressPage = () => {
     const params = useParams();

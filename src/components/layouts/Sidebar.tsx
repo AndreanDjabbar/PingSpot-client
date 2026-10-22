@@ -6,7 +6,6 @@ import { ProfileBadge } from "../UI";
 import { FaInbox } from "react-icons/fa";
 import { IoMdHome, IoMdWarning } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
-import { useConfirmationModalStore, useGlobalStore, useUserProfileStore } from "@/stores";
 import React, { useEffect, useRef } from "react";
 import { IoSettings } from "react-icons/io5";
 import { IconType } from "react-icons/lib";
@@ -15,6 +14,9 @@ import { ImExit } from "react-icons/im";
 import { useLogout } from "@/hooks/api/useAuth";
 import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
 import { useTranslations } from "next-intl";
+import { useGlobalStore } from "@/stores/global.store";
+import { useUserProfileStore } from "@/stores/user.store";
+import { useConfirmationModalStore } from "@/stores/ui.store";
 
 interface SidebarProps {
     isOpen: boolean;

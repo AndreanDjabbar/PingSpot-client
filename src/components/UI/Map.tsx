@@ -11,9 +11,9 @@ import { useCurrentLocation } from '@/hooks/useCurrentLocation';
 import { useErrorToast } from '@/hooks/useToast';
 import { useReverseCurrentLocation } from '@/hooks/api/useGlobal';
 import { ErrorSection } from '../feedback';
-import { getDataResponseDetails, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { useTranslations } from 'next-intl';
 import { useLocationStore } from '@/stores/location.store';
+import { getDataResponseDetails, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 
 interface ReverseLocationResponse {
     display_name?: string;

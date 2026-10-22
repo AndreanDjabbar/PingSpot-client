@@ -5,14 +5,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { 
-    getErrorResponseDetails, 
-    getErrorResponseMessage, 
-    isNotFoundError, 
-    isInternalServerError, 
-    getImageURL,
-    compressImages,
-} from '@/utils';
 import { ReportType, IReportImage, IReportComment } from '@/types';
 import { 
     useDeleteReport, 
@@ -39,6 +31,8 @@ import { ReportInteractionBar } from '../components';
 import { useImagePreviewModalStore } from '@/stores/ui.store';
 import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
+import { compressImages, getImageURL } from '@/utils/image';
+import { getErrorResponseDetails, getErrorResponseMessage, isInternalServerError, isNotFoundError } from '@/utils/api';
 
 const getReportImages = (images: IReportImage): string[] => {
     if (!images) return [];

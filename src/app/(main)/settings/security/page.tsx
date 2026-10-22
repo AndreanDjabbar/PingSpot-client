@@ -9,11 +9,11 @@ import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useSaveSecurity } from '@/hooks/api/useUser';
 import { useLogout } from '@/hooks/api/useAuth';
 import { SuccessSection, ErrorSection, HeaderSection } from '@/components';
-import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils';
 import { LuLockKeyhole } from 'react-icons/lu';
 import { useTranslations } from 'next-intl';
 import { buildSaveSecuritySchema } from '@/schemas/user.schema';
 import { useConfirmationModalStore } from '@/stores/ui.store';
+import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 
 const SecurityPage = () => {
     const currentPath = usePathname();

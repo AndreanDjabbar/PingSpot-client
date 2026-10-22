@@ -9,13 +9,14 @@ import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import Image from 'next/image';
 import { InfiniteData } from '@tanstack/react-query';
 import { InlineImageUpload, TextAreaField, Button, Scrollbar } from '@/components';
-import { ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useTranslations } from 'next-intl';
 import { buildCreateReportCommentSchema } from '@/schemas/report.schema';
 import { useUserProfileStore } from '@/stores/user.store';
 import { getErrorResponseMessage } from '@/utils/api';
 import { getImageURL } from '@/utils/image';
+import { ICreateReportCommentRequest } from '@/types/api/report';
+import { ISearchUsersResponse } from '@/types/api/user';
 
 interface SelectedMentions {
     userID: string;

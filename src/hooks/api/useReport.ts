@@ -1,25 +1,6 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { 
-    ICreateReportCommentResponse,
-    ICreateReportResponse, 
-    IDeleteReportRequest, 
-    IDeleteReportResponse,
-    IEditReportResponse,
-    IGetProgressReportResponse,
-    IGetReportByIDResponse,
-    IGetReportCommentRepliesResponse,
-    IGetReportCommentsResponse,
-    IGetReportResponse,
-    IGetReportSavedResponse,
-    IGetReportStatisticsResponse,
-    IReactReportRequest,
-    IReactReportResponse,
-    ISaveReportResponse,
-    IUploadProgressReportResponse,
-    IVoteReportRequest,
-    IVoteReportResponse
-} from "@/types"
 import { createReportCommentService, createReportService, DeleteReportService, EditReportService, getProgressReportService, getReportByIDService, getReportCommentRepliesService, getReportCommentsService, getReportService, getReportStatisticsService, getSavedReportService, reactReportService, SaveReportService, uploadProgressReportService, voteReportService } from "@/services/report.service";
+import { ICreateReportCommentResponse, ICreateReportResponse, IDeleteReportRequest, IDeleteReportResponse, IEditReportResponse, IGetProgressReportResponse, IGetReportByIDResponse, IGetReportCommentRepliesResponse, IGetReportCommentsResponse, IGetReportResponse, IGetReportSavedResponse, IGetReportStatisticsResponse, IReactReportRequest, IReactReportResponse, ISaveReportResponse, IUploadProgressReportResponse, IVoteReportRequest, IVoteReportResponse } from "@/types/api/report";
 
 export const useCreateReport = () => {
     return useMutation<ICreateReportResponse, Error, FormData>({

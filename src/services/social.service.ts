@@ -1,5 +1,5 @@
 import {axiosInstance} from "@/lib/axiosInstance";
-import { IFollowResponse, IGetFollowDataResponse, IGetUserConnectionsFollowersResponse, IGetUserConnectionsFollowingResponse, IGetUserConnectionsResponse } from "@/types";
+import { IFollowResponse, IGetFollowDataResponse, IGetUserConnectionsFollowersResponse, IGetUserConnectionsFollowingResponse, IGetUserConnectionsResponse } from "@/types/api/social";
 
 export const followService = async (followID: number, followingType: 'user' | 'community'): Promise<IFollowResponse> => {
     const response = await axiosInstance.post<IFollowResponse>(`/social/follow`, { followingID: followID, followingType }, {

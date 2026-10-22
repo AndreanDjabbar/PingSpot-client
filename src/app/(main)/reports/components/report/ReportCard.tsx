@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { FaChevronLeft, FaChevronRight, FaMapMarkerAlt, FaImage, FaMap, FaCrown, FaShare, FaBookmark, FaFlag, FaEdit, FaTrash } from 'react-icons/fa';
 import { BsThreeDots } from "react-icons/bs";
 import dynamic from 'next/dynamic';
-import { IReportImage, OptionItem } from '@/types';
 import ReportInformation from './ReportInformation';
 import { useRouter } from 'next/navigation';
 import { LuNotepadText } from 'react-icons/lu';
@@ -16,6 +15,8 @@ import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore, useImagePreviewModalStore, useOptionsModalStore } from '@/stores/ui.store';
 import { getImageURL } from '@/utils/image';
 import { getFormattedDate } from '@/utils/format';
+import { IReportImage } from '@/types/model/report';
+import { OptionItem } from '@/types/common';
 
 const StaticMap = dynamic(() => import('@/components/UI/StaticMap'), {
     ssr: false,

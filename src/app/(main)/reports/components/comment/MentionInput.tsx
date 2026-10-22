@@ -3,8 +3,8 @@
 import React, { useState, useRef, useEffect, KeyboardEvent } from 'react';
 import Image from 'next/image';
 import { TextAreaField } from '@/components';
-import { IMentionedUser } from '@/types';
 import { getImageURL } from '@/utils/image';
+import { IMentionedUser } from '@/types/model/user';
 
 interface MentionInputProps {
     value: string;

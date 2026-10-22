@@ -4,10 +4,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaCheck, FaHourglassEnd } from 'react-icons/fa';
 import { RiProgress3Fill } from 'react-icons/ri';
-import { IReport } from '@/types';
 import { LuLock } from 'react-icons/lu';
 import { useTranslations } from 'next-intl';
 import { useConfirmationModalStore } from '@/stores/ui.store';
+import { IReport } from '@/types/model/report';
 
 interface ReportVotingSectionProps {
     report: IReport;

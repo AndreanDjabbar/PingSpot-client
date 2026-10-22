@@ -5,7 +5,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { ReportType, IReportImage, IReportComment } from '@/types';
 import { 
     useDeleteReport, 
     useGetReportByID, 
@@ -33,6 +32,7 @@ import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
 import { compressImages, getImageURL } from '@/utils/image';
 import { getErrorResponseDetails, getErrorResponseMessage, isInternalServerError, isNotFoundError } from '@/utils/api';
+import { IReportComment, IReportImage, ReportType } from '@/types/model/report';
 
 const getReportImages = (images: IReportImage): string[] => {
     if (!images) return [];

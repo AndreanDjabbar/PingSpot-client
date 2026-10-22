@@ -2,8 +2,8 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaUser, FaUsers } from 'react-icons/fa';
 import { GoAlert } from 'react-icons/go';
-import { TabType } from '@/types';
 import { useTranslations } from 'next-intl';
+import { TabType } from '@/types/common';
 
 interface SearchResultTabsProps {
     activeTab: TabType;

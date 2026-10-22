@@ -1,7 +1,7 @@
 import React from 'react';
 import { MultipleImageField } from '@/components';
-import { ImageItem } from '@/types';
 import { useTranslations } from 'next-intl';
+import { ImageItem } from '@/types/common';
 
 interface AttachmentStepProps {
     images: ImageItem[];

@@ -1,19 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { 
-    IForgotPasswordEmailVerificationRequest, 
-    IForgotPasswordEmailVerificationResponse, 
-    IForgotPasswordLinkVerificationRequest, 
-    IForgotPasswordLinkVerificationResponse, 
-    IForgotPasswordResetPasswordRequest, 
-    IForgotPasswordResetPasswordResponse, 
-    ILoginRequest, 
-    ILoginResponse, 
-    IRegisterRequest, 
-    IRegisterResponse, 
-    IVerificationRequest, 
-    IVerificationResponse 
-} from "@/types";
 import {axiosInstance} from "@/lib/axiosInstance";
+import { IForgotPasswordEmailVerificationRequest, IForgotPasswordEmailVerificationResponse, IForgotPasswordLinkVerificationRequest, IForgotPasswordLinkVerificationResponse, IForgotPasswordResetPasswordRequest, IForgotPasswordResetPasswordResponse, ILoginRequest, ILoginResponse, IRegisterRequest, IRegisterResponse, IVerificationRequest, IVerificationResponse } from "@/types/api/auth";
 
 
 type IResponseType = {

@@ -1,12 +1,5 @@
 import { getMyProfileService, getProfileByUsernameService, getUserStatisticsService, saveProfileService, saveSecurityService, searchUsersDataService, updateEmailNotificationPreferenceService } from "@/services/user.service";
-import { 
-    IGetProfileResponse, 
-    IGetUserStatisticsResponse, 
-    ISaveProfileResponse, 
-    ISaveSecurityRequest, 
-    ISaveSecurityResponse, 
-    ISearchUsersResponse
-} from "@/types";
+import { IGetProfileResponse, IGetUserStatisticsResponse, ISaveProfileResponse, ISaveSecurityRequest, ISaveSecurityResponse, ISearchUsersResponse } from "@/types/api/user";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query"
 import { AxiosError } from "axios";
 import { useDebounce } from "use-debounce";

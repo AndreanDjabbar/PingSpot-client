@@ -1,13 +1,15 @@
 "use client";
 
 import React from 'react';
-import { IReportComment, ICreateReportCommentRequest, ISearchUsersResponse } from '@/types';
 import { ErrorSection, ImagePreview } from '@/components';
 import { CommentInput, CommentList } from '../../components';
 import { InfiniteData } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useReportsStore } from '@/stores/report.store';
 import { getErrorResponseDetails, getErrorResponseMessage, isInternalServerError } from '@/utils/api';
+import { IReportComment } from '@/types/model/report';
+import { ICreateReportCommentRequest } from '@/types/api/report';
+import { ISearchUsersResponse } from '@/types/api/user';
 
 
 interface ReportCommentsSectionProps {

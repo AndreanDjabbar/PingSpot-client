@@ -8,12 +8,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
 import { FaMapMarkerAlt, FaBookmark } from 'react-icons/fa';
-import { IGetReportSaved } from '@/types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useTranslations } from 'next-intl';
 import { getImageURL } from '@/utils/image';
+import { IGetReportSaved } from '@/types/model/report';
 
 interface SavedReportMiniCardProps {
     report: IGetReportSaved;

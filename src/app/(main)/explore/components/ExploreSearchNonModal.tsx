@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaUser, FaUsers, FaSearch } from 'react-icons/fa';
 import { GoAlert } from 'react-icons/go';
 import SearchResultTabs from './SearchResultTabs';
-import { IReport, ReportType, IUserProfile, TabType } from '@/types';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
@@ -13,6 +12,9 @@ import { useRouter } from 'next/navigation';
 import { Button, Scrollbar } from '@/components';
 import { useTranslations } from 'next-intl';
 import { getImageURL } from '@/utils/image';
+import { IUserProfile } from '@/types/model/user';
+import { IReport } from '@/types/model/report';
+import { TabType } from '@/types/common';
 
 interface SearchResult {
     users: IUserProfile[];

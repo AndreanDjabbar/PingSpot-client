@@ -4,13 +4,14 @@ import React from 'react';
 import Image from 'next/image';
 import { BsThreeDots } from 'react-icons/bs';
 import { FaCrown, FaEdit, FaFlag, FaShare, FaTrash } from 'react-icons/fa';
-import { IReport, OptionItem } from '@/types';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore, useOptionsModalStore } from '@/stores/ui.store';
 import { getImageURL } from '@/utils/image';
 import { getFormattedDate } from '@/utils/format';
+import { IReport } from '@/types/model/report';
+import { OptionItem } from '@/types/common';
 
 interface ReportHeaderProps {
     report: IReport;

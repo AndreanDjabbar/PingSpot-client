@@ -1,5 +1,5 @@
+import { OptionItem } from "@/types/common";
 import { create } from "zustand";
-import { OptionItem } from "@/types";
 
 type ConfirmationModalType = "warning" | "info" | "danger";
 

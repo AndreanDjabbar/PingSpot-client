@@ -3,8 +3,9 @@ import React from 'react';
 import { BiMessageDetail } from 'react-icons/bi';
 import { FaCamera } from 'react-icons/fa';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { IUploadProgressReportRequest, ImageItem } from '@/types';
 import { useTranslations } from 'next-intl';
+import { IUploadProgressReportRequest } from '@/types/api/report';
+import { ImageItem } from '@/types/common';
 
 interface DetailSectionProps {
     register: UseFormRegister<IUploadProgressReportRequest>;

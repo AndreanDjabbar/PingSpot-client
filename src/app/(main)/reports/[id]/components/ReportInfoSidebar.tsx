@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import { IReport, ReportType } from '@/types';
 import { MdInfo } from 'react-icons/md';
 import { ImInfo } from 'react-icons/im';
 import { Button } from '@/components';
@@ -12,6 +11,7 @@ import { useTranslations } from 'next-intl';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore } from '@/stores/ui.store';
 import { getFormattedDate } from '@/utils/format';
+import { IReport, ReportType } from '@/types/model/report';
 
 interface ReportInfoSidebarProps {
     report: IReport;

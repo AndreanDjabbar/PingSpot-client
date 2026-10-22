@@ -1,4 +1,4 @@
-import { ICurrentLocation } from "@/types";
+import { ICurrentLocation } from "@/types/model/global";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 

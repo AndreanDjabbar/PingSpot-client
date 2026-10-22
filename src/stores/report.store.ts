@@ -1,11 +1,5 @@
+import { IReport, IReportComment, IReportProgress, ITotalReportCount, ReportFilterOptions } from "@/types/model/report";
 import { create } from "zustand";
-import {
-    IReport,
-    ITotalReportCount,
-    IReportProgress,
-    ReportFilterOptions,
-    IReportComment,
-} from "@/types";
 
 interface ReportsStore {
   // State

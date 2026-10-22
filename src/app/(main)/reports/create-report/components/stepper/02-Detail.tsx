@@ -4,8 +4,8 @@ import { InputField, TextAreaField, SelectField, CheckboxField } from '@/compone
 import { LuNotebookText } from "react-icons/lu";
 import { IoLocationOutline } from 'react-icons/io5';
 import { BiCategory } from 'react-icons/bi';
-import { ICreateReportRequest } from '@/types';
 import { useTranslations } from 'next-intl';
+import { ICreateReportRequest } from '@/types/api/report';
 
 interface DetailStepProps {
     register: UseFormRegister<ICreateReportRequest>;

@@ -3,11 +3,12 @@ import { UseFormWatch } from 'react-hook-form';
 import { BsFillInfoCircleFill } from 'react-icons/bs';
 import { MdDescription, MdLocationOn, MdPhoto, MdTitle, MdTrackChanges } from 'react-icons/md';
 import { Accordion } from '@/components';
-import { IEditReportRequest, ImageItem } from '@/types';
 import { FaFileAlt, FaTags } from 'react-icons/fa';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useImagePreviewModalStore } from '@/stores/ui.store';
+import { IEditReportRequest } from '@/types/api/report';
+import { ImageItem } from '@/types/common';
 
 interface SummaryStepProps {
     watch: UseFormWatch<IEditReportRequest>;

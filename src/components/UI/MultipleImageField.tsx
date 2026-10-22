@@ -5,9 +5,9 @@ import { BiX } from 'react-icons/bi';
 import { IoMdAddCircle } from 'react-icons/io';
 import { FiMaximize2 } from 'react-icons/fi';
 import { cn } from '@/lib/styles';
-import { ImageItem } from '@/types';
 import Button from './Button';
 import { useTranslations } from 'next-intl';
+import { ImageItem } from '@/types/common';
 
 interface MultipleImageFieldProps {
     id: string;

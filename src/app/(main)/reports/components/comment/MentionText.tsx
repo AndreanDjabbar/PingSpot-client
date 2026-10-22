@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { IReportCommentMentions, IUserProfile } from '@/types';
+import { IReportCommentMentions } from '@/types/model/report';
+import { IUserProfile } from '@/types/model/user';
 
 interface MentionTextProps {
     text: string;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { getDataResponseMessage, getErrorResponseMessage } from '@/utils/api';
 import { useEffect, useRef } from 'react'
-import { getDataResponseMessage, getErrorResponseMessage } from '@/utils';
 import { toast, ToastOptions } from 'react-toastify';
 
 export const useToast = () => {

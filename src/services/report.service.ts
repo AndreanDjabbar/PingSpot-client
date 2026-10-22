@@ -1,25 +1,5 @@
 import {axiosInstance} from "@/lib/axiosInstance";
-import { 
-    ICreateReportCommentResponse,
-    ICreateReportResponse,
-    IDeleteReportRequest,
-    IDeleteReportResponse,
-    IEditReportResponse,
-    IGetProgressReportResponse,
-    IGetReportByIDResponse,
-    IGetReportCommentRepliesResponse,
-    IGetReportCommentsResponse,
-    IGetReportResponse,
-    IGetReportSavedResponse,
-    IGetReportStatisticsResponse,
-    IReactReportRequest,
-    IReactReportResponse,
-    ISaveReportResponse,
-    IUpdateReportStatusResponse,
-    IUploadProgressReportResponse,
-    IVoteReportRequest,
-    IVoteReportResponse
-} from "@/types";
+import { ICreateReportCommentResponse, ICreateReportResponse, IDeleteReportRequest, IDeleteReportResponse, IEditReportResponse, IGetProgressReportResponse, IGetReportByIDResponse, IGetReportCommentRepliesResponse, IGetReportCommentsResponse, IGetReportResponse, IGetReportSavedResponse, IGetReportStatisticsResponse, IReactReportRequest, IReactReportResponse, ISaveReportResponse, IUpdateReportStatusResponse, IUploadProgressReportResponse, IVoteReportRequest, IVoteReportResponse } from "@/types/api/report";
 
 export const createReportService = async (payload: FormData): Promise<ICreateReportResponse> => {
     const response = await axiosInstance.post<ICreateReportResponse>(`/report`, payload, {

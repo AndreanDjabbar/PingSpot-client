@@ -1,8 +1,8 @@
 // store/useUserStore.ts
 import { create } from "zustand";
-import { IUserProfile } from "@/types";
-import { getFormattedDate } from "@/utils";
 import { getMyProfileService } from "@/services/user.service";
+import { getFormattedDate } from "@/utils/format";
+import { IUserProfile } from "@/types/model/user";
 
 interface UserProfileStore {
     userProfile: IUserProfile | null;

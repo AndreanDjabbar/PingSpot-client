@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { OptionItem } from '@/types';
 import { useOptionsModalStore } from '@/stores/ui.store';
+import { OptionItem } from '@/types/common';
 
 export const OptionsModal: React.FC = () => {
     const { isOpen, optionsList, anchorRef, closeOptionsModal } = useOptionsModalStore();

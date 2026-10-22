@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button, InputField } from '@/components';
-import { ISaveSecurityRequest } from '@/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
@@ -14,6 +13,7 @@ import { useTranslations } from 'next-intl';
 import { buildSaveSecuritySchema } from '@/schemas/user.schema';
 import { useConfirmationModalStore } from '@/stores/ui.store';
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
+import { ISaveSecurityRequest } from '@/types/api/user';
 
 const SecurityPage = () => {
     const currentPath = usePathname();

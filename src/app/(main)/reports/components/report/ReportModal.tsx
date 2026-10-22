@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes } from 'react-icons/fa';
 import 'leaflet/dist/leaflet.css';
 import { useTranslations } from 'next-intl';
-import { IReportComment, ISearchUsersResponse } from '@/types';
 import ReportCard from './ReportCard';
 import { ICreateReportCommentRequest, ICreateReportCommentResponse } from '@/types/api/report';
 import { ErrorSection, ImagePreview, Scrollbar } from '@/components/';
@@ -16,6 +15,8 @@ import { useUserProfileStore } from '@/stores/user.store';
 import { useReportsStore } from '@/stores/report.store';
 import { compressImages } from '@/utils/image';
 import { getErrorResponseMessage } from '@/utils/api';
+import { ISearchUsersResponse } from '@/types/api/user';
+import { IReportComment } from '@/types/model/report';
 
 interface ReportModalProps {
     isOpen: boolean;

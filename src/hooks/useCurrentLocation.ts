@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
-import { ICurrentLocation } from "@/types";
 import { useLocationStore } from "@/stores/location.store";
+import { ICurrentLocation } from "@/types/model/global";
 
 export const useCurrentLocation = () => {
     const [error, setError] = useState<string | null>(null);

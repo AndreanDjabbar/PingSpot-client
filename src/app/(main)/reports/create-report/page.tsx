@@ -10,12 +10,12 @@ import { useCreateReport } from '@/hooks/api/useReport';
 import { useReverseCurrentLocation } from '@/hooks/api/useGlobal';
 import { ICreateReportRequest } from '@/types/api/report';
 import { AttachmentStep, DetailStep, MapStep, SummaryStep } from './components';
-import { ImageItem } from '@/types';
 import { useTranslations } from 'next-intl';
 import { buildCreateReportSchema } from '@/schemas/report.schema';
 import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/ui.store';
 import { compressImages } from '@/utils/image';
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
+import { ImageItem } from '@/types/common';
 
 const CreateReportPage = () => {
     const currentPath = usePathname();

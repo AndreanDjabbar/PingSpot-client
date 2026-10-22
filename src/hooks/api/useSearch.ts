@@ -1,7 +1,7 @@
 import { useDebounce } from 'use-debounce';
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { ISearchDataResponse } from "@/types";
 import { searchDataService } from '@/services/search.service';
+import { ISearchDataResponse } from '@/types/api/search';
 
 interface SearchPageParam {
     usersDataCursorID?: number;

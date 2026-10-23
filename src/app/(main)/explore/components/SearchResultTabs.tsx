@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaUser, FaUsers } from 'react-icons/fa';
 import { GoAlert } from 'react-icons/go';
 import { useTranslations } from 'next-intl';
-import { TabType } from '@/types/common';
+import { TabType } from '@/types/common/global';
 
 interface SearchResultTabsProps {
     activeTab: TabType;

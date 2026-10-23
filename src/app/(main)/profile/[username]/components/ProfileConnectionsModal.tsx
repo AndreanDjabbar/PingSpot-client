@@ -10,8 +10,8 @@ import { BiX } from 'react-icons/bi';
 import { useInView } from 'react-intersection-observer';
 
 import { useGetUserConnectionsFollowers, useGetUserConnectionsFollowing } from '@/hooks/api/useSocial';
-import { Scrollbar } from '@/components';
 import { getImageURL } from '@/utils/image';
+import { Scrollbar } from '@/components/layouts/Scrollbar';
 
 interface ProfileConnectionsModalProps {
   userID: number;

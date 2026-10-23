@@ -1,6 +1,6 @@
+import { Loading } from "@/components/feedback/Loading";
 import VerificationClient from "./VerificationClient";
 import { Suspense } from "react";
-import { Loading } from "@/components";
 
 const VerificationPage = () => {
     return (

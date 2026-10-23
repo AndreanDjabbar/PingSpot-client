@@ -31,7 +31,7 @@ interface SelectFieldProps {
     register?: unknown;
 }
 
-const SelectField: React.FC<SelectFieldProps> = ({
+export const SelectField: React.FC<SelectFieldProps> = ({
     id,
     name,
     required = false,
@@ -260,5 +260,3 @@ const SelectField: React.FC<SelectFieldProps> = ({
         </div>
     );
 };
-
-export default SelectField;

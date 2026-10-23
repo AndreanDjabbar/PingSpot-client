@@ -19,7 +19,7 @@ interface StepperProps {
     orientation?: 'horizontal' | 'vertical';
 }
 
-const Stepper: React.FC<StepperProps> = ({
+export const Stepper: React.FC<StepperProps> = ({
     steps,
     currentStep,
     onStepChange,
@@ -249,5 +249,3 @@ const Stepper: React.FC<StepperProps> = ({
         </nav>
     );
 };
-
-export default Stepper;

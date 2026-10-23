@@ -1,11 +1,14 @@
 import React from 'react';
 import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
-import { InputField, TextAreaField, SelectField, CheckboxField } from '@/components';
 import { LuNotebookText } from "react-icons/lu";
 import { IoLocationOutline } from 'react-icons/io5';
 import { BiCategory } from 'react-icons/bi';
 import { useTranslations } from 'next-intl';
 import { IEditReportRequest } from '@/types/api/report';
+import { InputField } from '@/components/UI/TextField';
+import { TextAreaField } from '@/components/UI/TextaAreaField';
+import { SelectField } from '@/components/UI/SelectField';
+import { CheckboxField } from '@/components/UI/CheckboxField';
 
 interface DetailStepProps {
     register: UseFormRegister<IEditReportRequest>;

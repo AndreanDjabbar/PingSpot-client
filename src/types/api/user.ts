@@ -1,6 +1,6 @@
 import z from "zod";
-import { IMentionedUser, IUserProfile } from "../model/user";
 import { buildSaveProfileSchema, buildSaveSecuritySchema } from "@/schemas/user.schema";
+import { IMentionedUser, IUserProfile } from "../common/user";
 
 export interface IGetProfileByUsernameResponse {
     message: string;

@@ -8,7 +8,6 @@ import { FaSpinner, FaUser } from 'react-icons/fa';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import Image from 'next/image';
 import { InfiniteData } from '@tanstack/react-query';
-import { InlineImageUpload, TextAreaField, Button, Scrollbar } from '@/components';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useTranslations } from 'next-intl';
 import { buildCreateReportCommentSchema } from '@/schemas/report.schema';
@@ -17,6 +16,10 @@ import { getErrorResponseMessage } from '@/utils/api';
 import { getImageURL } from '@/utils/image';
 import { ICreateReportCommentRequest } from '@/types/api/report';
 import { ISearchUsersResponse } from '@/types/api/user';
+import { Scrollbar } from '@/components/layouts/Scrollbar';
+import { TextAreaField } from '@/components/UI/TextaAreaField';
+import { InlineImageUpload } from '@/components/UI/InlineImageUpload';
+import { Button } from '@/components/UI/Button';
 
 interface SelectedMentions {
     userID: string;

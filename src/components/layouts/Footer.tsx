@@ -5,14 +5,14 @@
 import React, { useEffect, useState } from 'react';
 import { FaGithub } from 'react-icons/fa';
 import { SiGmail } from "react-icons/si";
-import { PingspotLogo } from '../UI';
 import { cn } from '@/lib/styles';
+import { PingspotLogo } from '../UI/PingspotLogo';
 
 interface FooterProps {
     bottomNavHeightPosition?: number;
 }
 
-const Footer: React.FC<FooterProps> = ({ bottomNavHeightPosition = 0 }) => {
+export const Footer: React.FC<FooterProps> = ({ bottomNavHeightPosition = 0 }) => {
     const currentYear = new Date().getFullYear();
     const footerRef = React.useRef<HTMLDivElement>(null);
     const [logoSize, setLogoSize] = useState(200);
@@ -110,5 +110,3 @@ const Footer: React.FC<FooterProps> = ({ bottomNavHeightPosition = 0 }) => {
         </footer>
     );
 };
-
-export default Footer;

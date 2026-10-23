@@ -1,7 +1,7 @@
 import React from 'react';
-import { MultipleImageField } from '@/components';
 import { useTranslations } from 'next-intl';
-import { ImageItem } from '@/types/common';
+import { ImageItem } from '@/types/common/global';
+import { MultipleImageField } from '@/components/UI/MultipleImageField';
 
 interface AttachmentStepProps {
     onImageChange: (files: ImageItem[]) => void;

@@ -25,7 +25,7 @@ interface GuideProps {
     sticky?: boolean;
 }
 
-const Guide: React.FC<GuideProps> = ({
+export const Guide: React.FC<GuideProps> = ({
     title,
     subtitle,
     icon,
@@ -123,5 +123,3 @@ const Guide: React.FC<GuideProps> = ({
         </div>
     );
 };
-
-export default Guide;

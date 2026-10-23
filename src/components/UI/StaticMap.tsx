@@ -16,7 +16,7 @@ interface StaticMapProps {
     className?: string;
 }
 
-const StaticMap: React.FC<StaticMapProps> = ({
+export const StaticMap: React.FC<StaticMapProps> = ({
     latitude,
     longitude,
     height = '200px',
@@ -83,5 +83,3 @@ const StaticMap: React.FC<StaticMapProps> = ({
         </div>
     );
 }
-
-export default StaticMap;

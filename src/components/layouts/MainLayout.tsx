@@ -1,19 +1,19 @@
 "use client";
 import React, { useCallback, useEffect, useState } from 'react'
-import Sidebar from './Sidebar';
-import TopNavigation from './TopNavigation';
 import { useRouter } from 'next/navigation';
-import Scrollbar from './Scrollbar';
 import { useTranslations } from 'next-intl';
 import { useConfirmationModalStore } from '@/stores/ui.store';
 import { useUserProfileStore } from '@/stores/user.store';
+import { TopNavigation } from './TopNavigation';
+import { Scrollbar } from './Scrollbar';
+import { Sidebar } from './Sidebar';
 
 interface MainLayoutProps {
     children: React.ReactNode;
     sidebarCollapsed?: boolean;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({
+export const MainLayout: React.FC<MainLayoutProps> = ({
     children,
 }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -66,4 +66,3 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         </div>
     )
 }
-export default MainLayout

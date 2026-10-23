@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface IReverseLocation {
     display_name: string;
     address: {
@@ -29,3 +31,19 @@ export interface ICurrentLocation {
     osmType?: string;
     osmId?: string;
 };
+
+export interface ImageItem {
+    file: File;
+    preview: string;
+    isExisting?: boolean;
+    existingUrl?: string;
+};
+
+export interface OptionItem {
+    label: string;
+    icon?: ReactNode;
+    description?: string;
+    onClick: () => void;
+}
+
+export type TabType = 'users' | 'reports' | 'communities';

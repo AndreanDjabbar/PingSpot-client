@@ -10,7 +10,7 @@ import {
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import { IReport } from '@/types/model/report';
+import { IReport } from '@/types/common/report';
 
 interface ReactionStatsType {
     totalLikes: number;

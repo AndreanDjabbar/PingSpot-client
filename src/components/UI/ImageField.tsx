@@ -26,7 +26,7 @@ interface ImageFieldProps {
     cropAspect?: number; 
 }
 
-const ImageField: React.FC<ImageFieldProps> = ({
+export const ImageField: React.FC<ImageFieldProps> = ({
     id,
     name,
     className = '',
@@ -302,5 +302,3 @@ const ImageField: React.FC<ImageFieldProps> = ({
         </div>
     );
 };
-
-export default ImageField;

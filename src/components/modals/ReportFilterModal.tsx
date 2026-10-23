@@ -6,13 +6,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MdAccessTime, MdCancel, MdCheckCircle } from 'react-icons/md';
 import { BiCategory, BiLike, BiMap } from 'react-icons/bi';
 import { RiProgress3Fill } from 'react-icons/ri';
-import { Button } from '@/components/UI';
-import { Scrollbar } from '@/components';
 import { useTranslations } from 'next-intl';
 import { useReportFilterModalStore } from '@/stores/ui.store';
 import { useReportsStore } from '@/stores/report.store';
 import { useLocationStore } from '@/stores/location.store';
-import { ReportFilterOptions, ReportType } from '@/types/model/report';
+import { ReportFilterOptions, ReportType } from '@/types/common/report';
+import { Scrollbar } from '../layouts/Scrollbar';
+import { Button } from '../UI/Button';
 
 type SortOption = 'latest' | 'oldest' | 'most_liked' | 'least_liked';
 type StatusFilter = 'all' | 'WAITING' | 'ON_PROGRESS' | 'RESOLVED' | 'WAITING_CONFIRMATION' | 'EXPIRED';

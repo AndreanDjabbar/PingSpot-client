@@ -3,7 +3,7 @@ import React from "react"
 import { useTranslations } from 'next-intl';
 import { getFormattedDate } from "@/utils/format";
 import { getImageURL } from "@/utils/image";
-import { IReportProgress } from "@/types/model/report";
+import { IReportProgress } from "@/types/common/report";
 
 interface CurrentProgressProps {
     reportProgress: IReportProgress[];

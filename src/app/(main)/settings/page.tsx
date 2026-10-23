@@ -12,11 +12,14 @@ import { useUpdateEmailNotificationPreference } from '@/hooks/api/useUser';
 import { useRouter, usePathname } from 'next/navigation';
 import { ImExit } from 'react-icons/im';
 import { SettingCard, SettingItem } from './components';
-import { Button, ToggleSwitch, HeaderSection, ProfileBadge } from '@/components';
 import { useLocale, useTranslations } from 'next-intl';
 import { FaBookmark } from 'react-icons/fa';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore } from '@/stores/ui.store';
+import { HeaderSection } from '@/components/layouts/HeaderSection';
+import { ProfileBadge } from '@/components/UI/ProfileBadge';
+import { Button } from '@/components/UI/Button';
+import { ToggleSwitch } from '@/components/UI/ToggleSwitch';
 
 const SettingsPage = () => {
     const t = useTranslations('settings');

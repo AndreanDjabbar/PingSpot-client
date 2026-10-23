@@ -1,15 +1,16 @@
 "use client";
 
 import React from 'react'
-import { PingspotLogo, SelectField } from '@/components/UI'
-import BackgroundTheme from './BackgroundTheme'
-import { Scrollbar } from "@/components";
 import { FaGlobe } from 'react-icons/fa';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useConfirmationModalStore } from '@/stores/ui.store';
+import { Scrollbar } from './Scrollbar';
+import { PingspotLogo } from '../UI/PingspotLogo';
+import { SelectField } from '../UI/SelectField';
+import { BackgroundTheme } from './BackgroundTheme';
 
-const AuthLayout: React.FC<React.PropsWithChildren> = ({
+export const AuthLayout: React.FC<React.PropsWithChildren> = ({
     children
 }) => {
     const locale = useLocale();
@@ -78,5 +79,3 @@ const AuthLayout: React.FC<React.PropsWithChildren> = ({
     </div>
 )
 }
-
-export default AuthLayout

@@ -1,4 +1,4 @@
-import { IReport, IReportComment, IReportProgress, ITotalReportCount, ReportFilterOptions } from "@/types/model/report";
+import { IReport, IReportComment, IReportProgress, ITotalReportCount, ReportFilterOptions } from "@/types/common/report";
 import { create } from "zustand";
 
 interface ReportsStore {

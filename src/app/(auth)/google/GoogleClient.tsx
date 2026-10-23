@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation';
-import { SuccessSection } from '@/components';
 import { useTranslations } from 'next-intl';
 import { useToast } from '@/hooks/useToast';
+import { SuccessSection } from '@/components/feedback/SuccessSection';
 
 const GoogleAuthClient = () => {
     const searchParams = useSearchParams();

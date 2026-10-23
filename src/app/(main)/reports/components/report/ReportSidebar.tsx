@@ -7,11 +7,11 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useInView } from 'react-intersection-observer';
-import { Scrollbar } from '@/components';
 import { useRouter } from 'next/navigation';
 import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
 import { getImageURL } from '@/utils/image';
+import { Scrollbar } from '@/components/layouts/Scrollbar';
 
 const reportTypeConfig: Record<string, { label: string; color: string }> = {
     totalInfrastructureReports: { label: 'Infrastruktur', color: 'text-blue-600' },

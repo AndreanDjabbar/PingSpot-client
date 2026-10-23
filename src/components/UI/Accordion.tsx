@@ -67,7 +67,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         <div className={`border border-muted rounded-xl shadow-sm bg-white ${className}`}>
             <div
                 className={`flex items-center justify-between cursor-pointer p-4 hover:bg-muted/50 border-b border-surface/15 transition-colors duration-200 rounded-t-xl ${
-                isOpen ? 'rounded-b-none' : 'rounded-b-xl'
+                    isOpen ? 'rounded-b-none' : 'rounded-b-xl'
                 } ${disabled ? 'cursor-not-allowed opacity-60' : ''} ${headerClassName}`}
                 onClick={handleToggle}
             >
@@ -80,55 +80,55 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
                     <div className="flex items-center space-x-2 flex-1">
                         <h3 className="text-lg font-semibold">{title}</h3>
                         {badge && (
-                        <div className="flex-shrink-0">
-                            {badge}
-                        </div>
+                            <div className="flex-shrink-0">
+                                {badge}
+                            </div>
                         )}
                     </div>
                 </div>
 
                 <div className="flex items-center space-x-3">
-                {rightContent && (
-                    <div className="flex-shrink-0">
-                        {rightContent}
-                    </div>
-                )}
-                <motion.div
-                    animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                    className={`rounded-lg p-2 -m-2 ${
-                    disabled ? 'hover:bg-transparent' : ''
-                    }`}
-                >
-                    <FaChevronDown className="w-4 h-4 text-surface" />
-                </motion.div>
+                    {rightContent && (
+                        <div className="flex-shrink-0">
+                            {rightContent}
+                        </div>
+                    )}
+                    <motion.div
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                        className={`rounded-lg p-2 -m-2 ${
+                            disabled ? 'hover:bg-transparent' : ''
+                        }`}
+                    >
+                        <FaChevronDown className="w-4 h-4 text-surface" />
+                    </motion.div>
                 </div>
             </div>
 
             <AnimatePresence initial={false}>
                 {isOpen && (
-                <motion.div
-                    key="content"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{
-                    duration: 0.3,
-                    ease: "easeInOut"
-                    }}
-                    style={{ overflow: "hidden" }}
-                >
-                    <div className={`p-4 pt-0 ${contentClassName}`}>
-                    {children}
-                    </div>
-                </motion.div>
+                    <motion.div
+                        key="content"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{
+                            duration: 0.3,
+                            ease: "easeInOut"
+                        }}
+                        style={{ overflow: "hidden" }}
+                    >
+                        <div className={`p-4 pt-0 ${contentClassName}`}>
+                            {children}
+                        </div>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </div>
     );
 };
 
-export const Accordion: React.FC<AccordionProps> = ({
+const AccordionRoot: React.FC<AccordionProps> = ({
     children,
     type = 'multiple',
     className = '',
@@ -146,9 +146,9 @@ export const Accordion: React.FC<AccordionProps> = ({
             if (type === 'single') {
                 return prev.includes(id) ? [] : [id];
             } else {
-                return prev.includes(id) 
-                ? prev.filter(item => item !== id)
-                : [...prev, id];
+                return prev.includes(id)
+                    ? prev.filter(item => item !== id)
+                    : [...prev, id];
             }
         });
     };
@@ -168,6 +168,6 @@ export const Accordion: React.FC<AccordionProps> = ({
     );
 };
 
-export default Object.assign(Accordion, {
+export const Accordion = Object.assign(AccordionRoot, {
     Item: AccordionItem,
 });

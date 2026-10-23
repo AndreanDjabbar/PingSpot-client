@@ -7,18 +7,18 @@ import { FaReply, FaChevronUp } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useGetReportCommentReplies } from '@/hooks/api/useReport';
 import MentionText from './MentionText';
-import { Button } from '@/components/UI';
-import { ImagePreview } from '@/components/';
 import CommentInput from './CommentInput';
 import { InfiniteData } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useImagePreviewModalStore } from '@/stores/ui.store';
 import { getImageURL } from '@/utils/image';
 import { getFormattedDate } from '@/utils/format';
-import { IReportComment } from '@/types/model/report';
-import { IMentionedUser } from '@/types/model/user';
 import { ICreateReportCommentRequest } from '@/types/api/report';
 import { ISearchUsersResponse } from '@/types/api/user';
+import { IReportComment } from '@/types/common/report';
+import { IMentionedUser } from '@/types/common/user';
+import { ImagePreview } from '@/components/UI/InlineImageUpload';
+import { Button } from '@/components/UI/Button';
 
 interface CommentItemProps {
     comment: IReportComment;

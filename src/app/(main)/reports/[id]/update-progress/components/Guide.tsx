@@ -1,7 +1,8 @@
-import { Guide } from '@/components'
+
 import React from 'react'
 import { LuNotebookText } from 'react-icons/lu'
 import { useTranslations } from 'next-intl';
+import { Guide } from '@/components/UI/Guide';
 
 const GuideSection = () => {
     const t = useTranslations('report.update_progress_page.guide_section');

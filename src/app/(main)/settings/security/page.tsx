@@ -1,19 +1,22 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Button, InputField } from '@/components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useSaveSecurity } from '@/hooks/api/useUser';
 import { useLogout } from '@/hooks/api/useAuth';
-import { SuccessSection, ErrorSection, HeaderSection } from '@/components';
 import { LuLockKeyhole } from 'react-icons/lu';
 import { useTranslations } from 'next-intl';
 import { buildSaveSecuritySchema } from '@/schemas/user.schema';
 import { useConfirmationModalStore } from '@/stores/ui.store';
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 import { ISaveSecurityRequest } from '@/types/api/user';
+import { HeaderSection } from '@/components/layouts/HeaderSection';
+import { SuccessSection } from '@/components/feedback/SuccessSection';
+import { ErrorSection } from '@/components/feedback/ErrorSection';
+import { InputField } from '@/components/UI/TextField';
+import { Button } from '@/components/UI/Button';
 
 const SecurityPage = () => {
     const currentPath = usePathname();

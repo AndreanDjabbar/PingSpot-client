@@ -1,7 +1,6 @@
 "use client";
 import React, { useMemo, useState } from 'react';
 import { FiBell, FiCheck, FiCheckCircle, FiTrash2, FiUser, FiMail, FiAlertCircle, FiHeart } from 'react-icons/fi';
-import { Button, EmptyState, ErrorSection, HeaderSection } from '@/components';
 import { cn } from '@/lib/styles';
 import { usePathname, useRouter } from 'next/navigation';
 import { useErrorToast } from '@/hooks/useToast';
@@ -9,6 +8,10 @@ import { useDeleteAllNotifications, useDeleteNotification, useGetNotifications, 
 import { useLocale, useTranslations } from 'next-intl';
 import { useConfirmationModalStore } from '@/stores/ui.store';
 import { getErrorResponseMessage, isInternalServerError } from '@/utils/api';
+import { ErrorSection } from '@/components/feedback/ErrorSection';
+import { HeaderSection } from '@/components/layouts/HeaderSection';
+import { Button } from '@/components/UI/Button';
+import { EmptyState } from '@/components/feedback/EmptyState';
 
 export interface INotification {
     id: number;

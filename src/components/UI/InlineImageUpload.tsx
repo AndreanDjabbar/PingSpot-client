@@ -4,9 +4,9 @@ import React, { useRef, ChangeEvent } from 'react';
 import Image from 'next/image';
 import { IoMdImages } from 'react-icons/io';
 import { MdClose } from 'react-icons/md';
-import { Button } from '@/components/UI';
 import { useToast } from '@/hooks/useToast';
 import { useTranslations } from 'next-intl';
+import { Button } from './Button';
 
 interface InlineImageUploadProps {
     preview: string | null;
@@ -27,7 +27,7 @@ interface ImagePreviewProps {
     className?: string;
 }
 
-const InlineImageUpload: React.FC<InlineImageUploadProps> = ({
+export const InlineImageUpload: React.FC<InlineImageUploadProps> = ({
     preview,
     onImageSelect,
     onImageRemove,
@@ -186,5 +186,3 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ preview, onRemove, c
         </div>
     );
 };
-
-export default InlineImageUpload;

@@ -3,9 +3,9 @@ import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { BsFillInfoCircleFill } from 'react-icons/bs';
 import { MdWarning } from 'react-icons/md';
-import { Button } from '../UI';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/styles';
+import { Button } from '../UI/Button';
 
 interface ConfirmationModalProps {
     isOpen: boolean;

@@ -1,6 +1,6 @@
 import React from "react";
 import { BiPlus } from "react-icons/bi";
-import { Button } from "../UI";
+import { Button } from "../UI/Button";
 
 const cn = (...classes: Array<string | false | undefined | null>) =>
     classes.filter(Boolean).join(" ");
@@ -37,7 +37,7 @@ const SIZE_STYLES: Record<EmptyStateSize, { wrapper: string; icon: string; title
     lg: { wrapper: "p-16", icon: "text-6xl mb-6", title: "text-2xl" },
 };
 
-const EmptyState: React.FC<EmptyStateProps> = ({
+export const EmptyState: React.FC<EmptyStateProps> = ({
     emptyTitle,
     emptyMessage,
     emptyIcon,
@@ -95,5 +95,3 @@ const EmptyState: React.FC<EmptyStateProps> = ({
         </div>
     );
 };
-
-export default EmptyState;

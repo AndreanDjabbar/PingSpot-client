@@ -8,7 +8,6 @@ import { FaUser } from 'react-icons/fa'
 import { GoAlert } from 'react-icons/go'
 import { FiBell } from 'react-icons/fi';
 import { cn } from '@/lib/styles';
-import { Button, EmptyState, Loading, ErrorSection, HeaderSection } from '@/components';
 import { RxCrossCircled } from 'react-icons/rx';
 import { FaLocationDot } from 'react-icons/fa6';
 import { useCurrentLocation } from '@/hooks/useCurrentLocation';
@@ -18,16 +17,24 @@ import { useGetReportStatistics } from '@/hooks/api/useReport';
 import { useGetUserStatistics } from '@/hooks/api/useUser';
 import { IoMdPulse } from 'react-icons/io';
 import { MdCalendarMonth } from 'react-icons/md';
-import Card from '@/components/UI/Card';
 import { useTranslations } from 'next-intl';
 import { useLocationStore } from '@/stores/location.store';
 import { getErrorResponseMessage, isInternalServerError } from '@/utils/api';
 import { getFormattedDate, getRelativeTime } from '@/utils/format';
+import { ErrorSection } from '@/components/feedback/ErrorSection';
+import { Loading } from '@/components/feedback/Loading';
+import { HeaderSection } from '@/components/layouts/HeaderSection';
+import { Button } from '@/components/UI/Button';
+import { Card } from '@/components/UI/Card';
+import { EmptyState } from '@/components/feedback/EmptyState';
 
-const Map = dynamic(() => import('@/components/UI/StaticMap'), {
-    ssr: false,
-    loading: () => <div className="w-full h-[200px] bg-muted animate-pulse rounded-lg"></div>
-});
+const Map = dynamic(
+    () => import('@/components/UI/StaticMap').then((mod) => mod.StaticMap),
+    {
+        ssr: false,
+        loading: () => <div className="w-full h-[200px] bg-gray-200 animate-pulse rounded-lg"></div>,
+    }
+);
 
 const Homepage = () => {
     const currentPath = usePathname();

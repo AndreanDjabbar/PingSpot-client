@@ -15,13 +15,16 @@ import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore, useImagePreviewModalStore, useOptionsModalStore } from '@/stores/ui.store';
 import { getImageURL } from '@/utils/image';
 import { getFormattedDate } from '@/utils/format';
-import { IReportImage } from '@/types/model/report';
-import { OptionItem } from '@/types/common';
+import { IReportImage } from '@/types/common/report';
+import { OptionItem } from '@/types/common/global';
 
-const StaticMap = dynamic(() => import('@/components/UI/StaticMap'), {
-    ssr: false,
-    loading: () => <div className="w-full h-[200px] bg-gray-200 animate-pulse rounded-lg"></div>
-});
+const StaticMap = dynamic(
+    () => import('@/components/UI/StaticMap').then((page) => page.StaticMap),
+    {
+        ssr: false,
+        loading: () => <div className="w-full h-[200px] bg-gray-200 animate-pulse rounded-lg"></div>,
+    }
+);
 
 interface ReportCardProps {
     reportID: number;

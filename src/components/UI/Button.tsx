@@ -42,7 +42,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     labelClassName?:    string;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     (
         {
             variant       = 'primary',
@@ -122,5 +122,3 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = 'Button';
-
-export default Button;

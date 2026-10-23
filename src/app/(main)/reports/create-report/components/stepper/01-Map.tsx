@@ -4,9 +4,10 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import 'leaflet/dist/leaflet.css';
 import { useTranslations } from 'next-intl';
 
-const DynamicMap = dynamic(() => import('../../../../../../components/UI/DynamicMap'), {
-    ssr: false,
-});
+const DynamicMap = dynamic(
+    () => import('@/components/UI/DynamicMap').then((page) => page.DynamicMap),
+    { ssr: false }
+);
 
 interface MapStepProps {
     onMarkerPositionChange: (position: { lat: number; lng: number } | null) => void;

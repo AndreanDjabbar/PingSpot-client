@@ -27,7 +27,7 @@ interface RadioFieldProps {
     icon?: React.ReactNode;
 }
 
-const RadioField: React.FC<RadioFieldProps> = ({
+export const RadioField: React.FC<RadioFieldProps> = ({
     id,
     name,
     required = false,
@@ -107,5 +107,3 @@ const RadioField: React.FC<RadioFieldProps> = ({
         </div>
     );
 };
-
-export default RadioField;

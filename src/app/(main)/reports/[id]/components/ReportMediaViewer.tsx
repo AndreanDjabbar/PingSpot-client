@@ -6,12 +6,15 @@ import dynamic from 'next/dynamic';
 import { FaMapMarkerAlt, FaChevronLeft, FaChevronRight, FaImage, FaMap } from 'react-icons/fa';
 import { useTranslations } from 'next-intl';
 import { getImageURL } from '@/utils/image';
-import { IReport } from '@/types/model/report';
+import { IReport } from '@/types/common/report';
 
-const StaticMap = dynamic(() => import('../../../../../components/UI/StaticMap'), {
-    ssr: false,
-    loading: () => <div className="w-full h-[380px] bg-gray-200 animate-pulse rounded-xl"></div>
-});
+const StaticMap = dynamic(
+    () => import('@/components/UI/StaticMap').then((mod) => mod.StaticMap),
+    {
+        ssr: false,
+        loading: () => <div className="w-full h-[200px] bg-gray-200 animate-pulse rounded-lg"></div>,
+    }
+);
 
 interface ReportMediaViewerProps {
     report: IReport;

@@ -5,11 +5,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useVerification } from '@/hooks/api/useAuth';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
-import { ErrorSection, SuccessSection } from '@/components';
 import { useTranslations } from 'next-intl';
 import { createVerificationSchema } from '@/schemas/auth.schema';
 import { getDataResponseDetails, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 import { IVerificationRequest } from '@/types/api/auth';
+import { SuccessSection } from '@/components/feedback/SuccessSection';
+import { ErrorSection } from '@/components/feedback/ErrorSection';
 
 const VerificationClient = () => {
     const searchParams = useSearchParams();

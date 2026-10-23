@@ -7,7 +7,7 @@ interface SuccessSectionProps {
     data?: any | (() => any)
 }
 
-const SuccessSection: React.FC<SuccessSectionProps> = ({ 
+export const SuccessSection: React.FC<SuccessSectionProps> = ({ 
     message, 
     data
 }) => {
@@ -52,5 +52,3 @@ const SuccessSection: React.FC<SuccessSectionProps> = ({
         </div>
     );
 };
-
-export default SuccessSection;

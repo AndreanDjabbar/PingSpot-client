@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useOptionsModalStore } from '@/stores/ui.store';
-import { OptionItem } from '@/types/common';
+import { OptionItem } from '@/types/common/global';
 
 export const OptionsModal: React.FC = () => {
     const { isOpen, optionsList, anchorRef, closeOptionsModal } = useOptionsModalStore();

@@ -2,7 +2,6 @@
 import { MdMailOutline } from "react-icons/md";
 import { LuLockKeyhole } from "react-icons/lu";
 import { FaGoogle } from "react-icons/fa";
-import { Button, InputField, ErrorSection, SuccessSection } from "@/components";
 import { useForm } from "react-hook-form";
 import { ILoginRequest } from "@/types/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +12,10 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createLoginSchema } from "@/schemas/auth.schema";
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils/api";
+import { SuccessSection } from "@/components/feedback/SuccessSection";
+import { ErrorSection } from "@/components/feedback/ErrorSection";
+import { InputField } from "@/components/UI/TextField";
+import { Button } from "@/components/UI/Button";
 
 const LoginPage = () => {
     const router = useRouter();

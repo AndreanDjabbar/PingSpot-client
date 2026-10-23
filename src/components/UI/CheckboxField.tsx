@@ -31,7 +31,7 @@ interface CheckboxFieldProps {
     disabled?: boolean;
 }
 
-const CheckboxField: React.FC<CheckboxFieldProps> = ({
+export const CheckboxField: React.FC<CheckboxFieldProps> = ({
     id,
     name,
     required = false,
@@ -129,5 +129,3 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
         </div>
     );
 };
-
-export default CheckboxField;

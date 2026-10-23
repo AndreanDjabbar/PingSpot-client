@@ -23,7 +23,7 @@ const paths = [
     { id: 'create-report', label: 'Buat Laporan' },
 ]
 
-const Breadcrumb = ({ path }: BreadcrumbProps) => {
+export const Breadcrumb = ({ path }: BreadcrumbProps) => {
     const t = useTranslations('component.breadcrumb');
     const parts = path.split("/").filter(Boolean);
     const items = parts.map((part, idx) => {
@@ -69,5 +69,3 @@ const Breadcrumb = ({ path }: BreadcrumbProps) => {
         </nav>
     );
 };
-
-export default Breadcrumb;

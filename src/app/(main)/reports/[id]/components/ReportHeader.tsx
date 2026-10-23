@@ -10,8 +10,8 @@ import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore, useOptionsModalStore } from '@/stores/ui.store';
 import { getImageURL } from '@/utils/image';
 import { getFormattedDate } from '@/utils/format';
-import { IReport } from '@/types/model/report';
-import { OptionItem } from '@/types/common';
+import { IReport } from '@/types/common/report';
+import { OptionItem } from '@/types/common/global';
 
 interface ReportHeaderProps {
     report: IReport;

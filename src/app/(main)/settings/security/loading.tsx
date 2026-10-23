@@ -1,5 +1,5 @@
+import { Loading } from '@/components/feedback/Loading';
 import React from 'react';
-import { Loading } from '@/components';
 
 const SecurityLoading = () => {
     return (

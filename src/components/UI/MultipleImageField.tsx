@@ -5,9 +5,9 @@ import { BiX } from 'react-icons/bi';
 import { IoMdAddCircle } from 'react-icons/io';
 import { FiMaximize2 } from 'react-icons/fi';
 import { cn } from '@/lib/styles';
-import Button from './Button';
 import { useTranslations } from 'next-intl';
-import { ImageItem } from '@/types/common';
+import { ImageItem } from '@/types/common/global';
+import { Button } from './Button';
 
 interface MultipleImageFieldProps {
     id: string;
@@ -28,7 +28,7 @@ interface MultipleImageFieldProps {
 }
 
 
-const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
+export const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
     id,
     name,
     className = '',
@@ -185,5 +185,3 @@ const MultipleImageField: React.FC<MultipleImageFieldProps> = ({
         </div>
     );
 };
-
-export default MultipleImageField;

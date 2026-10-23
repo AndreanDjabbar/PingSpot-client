@@ -7,7 +7,7 @@ import { RiProgress3Fill } from 'react-icons/ri';
 import { LuLock } from 'react-icons/lu';
 import { useTranslations } from 'next-intl';
 import { useConfirmationModalStore } from '@/stores/ui.store';
-import { IReport } from '@/types/model/report';
+import { IReport } from '@/types/common/report';
 
 interface ReportVotingSectionProps {
     report: IReport;

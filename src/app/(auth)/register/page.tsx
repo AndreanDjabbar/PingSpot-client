@@ -3,7 +3,6 @@ import { MdMailOutline } from "react-icons/md";
 import { LuLockKeyhole } from "react-icons/lu";
 import { FaGoogle } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
-import { Button, InputField } from "@/components";
 import { useForm } from "react-hook-form";
 import { IRegisterRequest } from "@/types/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,10 +10,13 @@ import { useRegister } from "@/hooks/api/useAuth";
 import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { SuccessSection, ErrorSection } from "@/components/feedback";
 import { useTranslations } from "next-intl";
 import { createRegisterSchema } from "@/schemas/auth.schema";
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils/api";
+import { SuccessSection } from "@/components/feedback/SuccessSection";
+import { ErrorSection } from "@/components/feedback/ErrorSection";
+import { InputField } from "@/components/UI/TextField";
+import { Button } from "@/components/UI/Button";
 
 const RegisterPage = () => {
     const router = useRouter();

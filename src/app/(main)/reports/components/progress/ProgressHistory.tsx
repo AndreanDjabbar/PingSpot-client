@@ -1,4 +1,4 @@
-import { IReportProgress } from "@/types/model/report"
+
 import Image from "next/image";
 import React from "react"
 import { BiX } from "react-icons/bi";
@@ -7,6 +7,7 @@ import { RiProgress3Fill } from "react-icons/ri";
 import { useTranslations } from 'next-intl';
 import { getFormattedDate } from "@/utils/format";
 import { getImageURL } from "@/utils/image";
+import { IReportProgress } from "@/types/common/report";
 
 interface ProgressHistoryProps {
     reportProgress: IReportProgress[];

@@ -3,7 +3,6 @@
 import React from 'react';
 import { MdInfo } from 'react-icons/md';
 import { ImInfo } from 'react-icons/im';
-import { Button } from '@/components';
 import { BiEdit } from 'react-icons/bi';
 import { useRouter } from 'next/navigation';
 import { IoMdTrash } from 'react-icons/io';
@@ -11,7 +10,8 @@ import { useTranslations } from 'next-intl';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore } from '@/stores/ui.store';
 import { getFormattedDate } from '@/utils/format';
-import { IReport, ReportType } from '@/types/model/report';
+import { IReport, ReportType } from '@/types/common/report';
+import { Button } from '@/components/UI/Button';
 
 interface ReportInfoSidebarProps {
     report: IReport;

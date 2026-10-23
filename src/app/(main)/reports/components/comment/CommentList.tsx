@@ -5,12 +5,12 @@ import { FaComment } from 'react-icons/fa';;
 import { useInView } from 'react-intersection-observer';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import CommentItem from './CommentItem';
-import { Scrollbar } from '@/components';
 import { useTranslations } from 'next-intl';
 import { InfiniteData } from '@tanstack/react-query';
-import { IReportComment } from '@/types/model/report';
 import { ICreateReportCommentRequest } from '@/types/api/report';
 import { ISearchUsersResponse } from '@/types/api/user';
+import { IReportComment } from '@/types/common/report';
+import { Scrollbar } from '@/components/layouts/Scrollbar';
 
 interface CommentListProps {
     comments: IReportComment[];

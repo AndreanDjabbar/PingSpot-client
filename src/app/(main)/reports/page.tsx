@@ -16,7 +16,6 @@ import { useCurrentLocation } from '@/hooks/useCurrentLocation';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useSearchUsers } from '@/hooks/api/useUser';
 import { RxCrossCircled } from "react-icons/rx";
-import { Button, EmptyState, Loading, ErrorSection, HeaderSection } from '@/components';
 import { 
     ReportSkeleton, 
     ReportSearchAndFilter,
@@ -31,6 +30,11 @@ import { useReportsStore } from '@/stores/report.store';
 import { useLocationStore } from '@/stores/location.store';
 import { useReportFilterModalStore } from '@/stores/ui.store';
 import { getErrorResponseDetails, getErrorResponseMessage, isInternalServerError } from '@/utils/api';
+import { Loading } from '@/components/feedback/Loading';
+import { HeaderSection } from '@/components/layouts/HeaderSection';
+import { Button } from '@/components/UI/Button';
+import { ErrorSection } from '@/components/feedback/ErrorSection';
+import { EmptyState } from '@/components/feedback/EmptyState';
 
 const ReportsPage = () => {
     const t = useTranslations('report');

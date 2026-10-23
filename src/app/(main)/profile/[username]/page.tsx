@@ -15,14 +15,16 @@ import {
 import { useErrorToast } from '@/hooks/useToast';
 import { useGetFollowData, useFollow } from '@/hooks/api/useSocial';
 import { useGetProfileByUsername } from '@/hooks/api/useUser';
-import { Button, ErrorSection, Loading } from '@/components';
-import StaticMap from '@/components/UI/StaticMap';
 import { ProfileConnectionsModal, Skeleton } from './components';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore } from '@/stores/ui.store';
 import { getErrorResponseMessage, isInternalServerError, isNotFoundError } from '@/utils/api';
 import { getImageURL } from '@/utils/image';
-import { IReport } from '@/types/model/report';
+import { IReport } from '@/types/common/report';
+import { StaticMap } from '@/components/UI/StaticMap';
+import { Loading } from '@/components/feedback/Loading';
+import { ErrorSection } from '@/components/feedback/ErrorSection';
+import { Button } from '@/components/UI/Button';
 
 const ProfileReportCard = ({
   report,

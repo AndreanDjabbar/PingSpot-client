@@ -11,15 +11,16 @@ import { FaCheck } from 'react-icons/fa';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useUploadProgressReport, useGetReportByID } from '@/hooks/api/useReport';
 import { DetailSection, GuideSection, ProgressSection, ResponseSection } from './components';
-import { Button, HeaderSection } from '@/components';
 import { useTranslations } from 'next-intl';
 import { buildUploadProgressReportSchema } from '@/schemas/report.schema';
 import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/ui.store';
 import { compressImages } from '@/utils/image';
-import { ImageItem } from '@/types/common';
 import { IUploadProgressReportRequest } from '@/types/api/report';
+import { ImageItem } from '@/types/common/global';
+import { Button } from '@/components/UI/Button';
+import { HeaderSection } from '@/components/layouts/HeaderSection';
 
 const UpdateProgressPage = () => {
     const params = useParams();

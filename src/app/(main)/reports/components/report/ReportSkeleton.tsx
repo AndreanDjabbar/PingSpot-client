@@ -1,5 +1,5 @@
+import { Breadcrumb } from '@/components/UI/Breadcrumb';
 import React from 'react';
-import { Breadcrumb } from '@/components';
 import { BiPlus } from 'react-icons/bi';
 
 interface LoadingStateProps {

@@ -1,17 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { 
-    InputField, 
-    DateTimeField, 
-    RadioField, 
-    ImageField, 
-    TextAreaField, 
-    SuccessSection, 
-    ErrorSection, 
-    Button,
-    HeaderSection
-} from '@/components';
 import { IoPersonSharp } from 'react-icons/io5';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { ISaveProfileRequest } from '@/types/api/user';
@@ -25,6 +14,15 @@ import { useUserProfileStore } from '@/stores/user.store';
 import { useConfirmationModalStore } from '@/stores/ui.store';
 import { compressImages, getImageURL } from '@/utils/image';
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
+import { SuccessSection } from '@/components/feedback/SuccessSection';
+import { ErrorSection } from '@/components/feedback/ErrorSection';
+import { ImageField } from '@/components/UI/ImageField';
+import { HeaderSection } from '@/components/layouts/HeaderSection';
+import { InputField } from '@/components/UI/TextField';
+import { DateTimeField } from '@/components/UI/DateTimeField';
+import { TextAreaField } from '@/components/UI/TextaAreaField';
+import { RadioField } from '@/components/UI/RadioField';
+import { Button } from '@/components/UI/Button';
 
 const ProfilePage = () => {
     const currentPath = usePathname();

@@ -5,11 +5,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaCheck, FaCamera } from 'react-icons/fa';
 import { RiProgress3Fill } from "react-icons/ri";
 import { BiMessageDetail } from 'react-icons/bi';
-import { Button, MultipleImageField, TextAreaField } from '@/components';
 import { UseFormRegister, FieldErrors, UseFormSetValue, UseFormHandleSubmit } from 'react-hook-form';
 import { IUploadProgressReportRequest } from '@/types/api/report';
 import { useTranslations } from 'next-intl';
-import { ImageItem } from '@/types/common';
+import { ImageItem } from '@/types/common/global';
+import { TextAreaField } from '@/components/UI/TextaAreaField';
+import { MultipleImageField } from '@/components/UI/MultipleImageField';
+import { Button } from '@/components/UI/Button';
 
 interface ProgressSectionProps {
     reportID: number;

@@ -9,12 +9,13 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Button, Scrollbar } from '@/components';
 import { useTranslations } from 'next-intl';
 import { getImageURL } from '@/utils/image';
-import { IUserProfile } from '@/types/model/user';
-import { IReport } from '@/types/model/report';
-import { TabType } from '@/types/common';
+import { IUserProfile } from '@/types/common/user';
+import { IReport } from '@/types/common/report';
+import { TabType } from '@/types/common/global';
+import { Button } from '@/components/UI/Button';
+import { Scrollbar } from '@/components/layouts/Scrollbar';
 
 interface SearchResult {
     users: IUserProfile[];

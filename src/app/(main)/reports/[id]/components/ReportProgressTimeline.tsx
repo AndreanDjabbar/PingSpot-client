@@ -5,14 +5,15 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { BiEdit, BiX } from 'react-icons/bi';
 import { IoDocumentText } from 'react-icons/io5';
-import { Accordion, Button } from '@/components';
 import { RiProgress3Fill } from 'react-icons/ri';
 import { MdDone } from 'react-icons/md';
 import { LuLock } from 'react-icons/lu';
 import { useTranslations } from 'next-intl';
 import { getFormattedDate } from '@/utils/format';
 import { getImageURL } from '@/utils/image';
-import { IReport } from '@/types/model/report';
+import { IReport } from '@/types/common/report';
+import { Accordion } from '@/components/UI/Accordion';
+import { Button } from '@/components/UI/Button';
 
 interface ReportProgressTimelineProps {
     report: IReport;

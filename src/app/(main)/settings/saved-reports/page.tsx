@@ -1,7 +1,5 @@
 "use client";
 
-import { HeaderSection } from '@/components';
-import StaticMap from '@/components/UI/StaticMap';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useGetSavedReports, useSaveReport } from '@/hooks/api/useReport';
 import { usePathname, useRouter } from 'next/navigation';
@@ -13,7 +11,9 @@ import { useInView } from 'react-intersection-observer';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useTranslations } from 'next-intl';
 import { getImageURL } from '@/utils/image';
-import { IGetReportSaved } from '@/types/model/report';
+import { IGetReportSaved } from '@/types/common/report';
+import { StaticMap } from '@/components/UI/StaticMap';
+import { HeaderSection } from '@/components/layouts/HeaderSection';
 
 interface SavedReportMiniCardProps {
     report: IGetReportSaved;

@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import { getMyProfileService } from "@/services/user.service";
 import { getFormattedDate } from "@/utils/format";
-import { IUserProfile } from "@/types/model/user";
+import { IUserProfile } from "@/types/common/user";
 
 interface UserProfileStore {
     userProfile: IUserProfile | null;

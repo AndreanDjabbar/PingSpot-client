@@ -1,6 +1,6 @@
 import z from "zod";
-import { IGetReportSaved, IReport, IReportComment, IReportProgress, IReportReactions, IReportVote, ITotalReportCount } from "../model/report";
 import { buildCreateReportCommentSchema, buildCreateReportSchema, buildEditReportSchema, buildReactReportSchema, buildUploadProgressReportSchema, buildVoteReportSchema } from "@/schemas/report.schema";
+import { IGetReportSaved, IReport, IReportComment, IReportProgress, IReportReactions, IReportVote, ITotalReportCount } from "../common/report";
 
 export interface IGetReportResponse {
     message: string;

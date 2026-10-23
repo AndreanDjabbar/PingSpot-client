@@ -8,8 +8,8 @@ import { useErrorToast } from '@/hooks/useToast';
 import { FaMapPin, FaSpinner, FaLocationArrow } from 'react-icons/fa';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import Button from './Button';
 import { useTranslations } from 'next-intl';
+import { Button } from './Button';
 
 interface DynamicMapProps {
     onMarkerPositionChange?: (position: { lat: number, lng: number }) => void;
@@ -110,7 +110,7 @@ const MapEvents = ({
     return null;
 };
 
-const DynamicMap: React.FC<DynamicMapProps> = ({ 
+export const DynamicMap: React.FC<DynamicMapProps> = ({ 
     onMarkerPositionChange,
     onZoomChange,
     height = '400px',
@@ -370,5 +370,3 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
         </div>
     );
 };
-
-export default DynamicMap;

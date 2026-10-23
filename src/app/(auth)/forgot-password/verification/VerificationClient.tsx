@@ -2,10 +2,8 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react'
-import { SuccessSection, ErrorSection } from '@/components/feedback';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Button, InputField } from '@/components';
 import { LuLockKeyhole } from 'react-icons/lu';
 import { useTranslations } from 'next-intl';
 import { createForgotPasswordResetPasswordSchema } from '@/schemas/auth.schema';
@@ -13,6 +11,10 @@ import { useLinkVerification, useResetPassword } from '@/hooks/api/useAuth';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 import { IForgotPasswordResetPasswordRequest } from '@/types/api/auth';
+import { ErrorSection } from '@/components/feedback/ErrorSection';
+import { SuccessSection } from '@/components/feedback/SuccessSection';
+import { InputField } from '@/components/UI/TextField';
+import { Button } from '@/components/UI/Button';
 
 const VerificationClient = () => {
     const searchParams = useSearchParams();

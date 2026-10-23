@@ -6,7 +6,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LuNotebookText } from 'react-icons/lu';
-import { Stepper, Button, ErrorSection, SuccessSection, HeaderSection } from '@/components';
 import { useGetReportByID, useEditReport } from '@/hooks/api/useReport';
 import { useReverseCurrentLocation } from '@/hooks/api/useGlobal';
 import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
@@ -16,9 +15,14 @@ import { buildEditReportSchema } from '@/schemas/report.schema';
 import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/ui.store';
 import { compressImages, getImageURL } from '@/utils/image';
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
-import { IReportImage } from '@/types/model/report';
-import { ImageItem } from '@/types/common';
 import { IEditReportRequest } from '@/types/api/report';
+import { IReportImage } from '@/types/common/report';
+import { ImageItem } from '@/types/common/global';
+import { HeaderSection } from '@/components/layouts/HeaderSection';
+import { SuccessSection } from '@/components/feedback/SuccessSection';
+import { ErrorSection } from '@/components/feedback/ErrorSection';
+import { Stepper } from '@/components/UI/Stepper';
+import { Button } from '@/components/UI/Button';
 
 const EditReportPage = () => {
     const params = useParams();

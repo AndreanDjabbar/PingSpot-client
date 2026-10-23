@@ -2,9 +2,9 @@
 
 import React, { useState, useRef, useEffect, KeyboardEvent } from 'react';
 import Image from 'next/image';
-import { TextAreaField } from '@/components';
 import { getImageURL } from '@/utils/image';
-import { IMentionedUser } from '@/types/model/user';
+import { IMentionedUser } from '@/types/common/user';
+import { TextAreaField } from '@/components/UI/TextaAreaField';
 
 interface MentionInputProps {
     value: string;

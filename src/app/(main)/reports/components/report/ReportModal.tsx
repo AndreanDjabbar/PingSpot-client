@@ -8,7 +8,6 @@ import 'leaflet/dist/leaflet.css';
 import { useTranslations } from 'next-intl';
 import ReportCard from './ReportCard';
 import { ICreateReportCommentRequest, ICreateReportCommentResponse } from '@/types/api/report';
-import { ErrorSection, ImagePreview, Scrollbar } from '@/components/';
 import { InfiniteData, UseMutateFunction } from '@tanstack/react-query';
 import { CommentInput, CommentList } from '../comment';
 import { useUserProfileStore } from '@/stores/user.store';
@@ -16,7 +15,10 @@ import { useReportsStore } from '@/stores/report.store';
 import { compressImages } from '@/utils/image';
 import { getErrorResponseMessage } from '@/utils/api';
 import { ISearchUsersResponse } from '@/types/api/user';
-import { IReportComment } from '@/types/model/report';
+import { IReportComment } from '@/types/common/report';
+import { Scrollbar } from '@/components/layouts/Scrollbar';
+import { ErrorSection } from '@/components/feedback/ErrorSection';
+import { ImagePreview } from '@/components/UI/InlineImageUpload';
 
 interface ReportModalProps {
     isOpen: boolean;

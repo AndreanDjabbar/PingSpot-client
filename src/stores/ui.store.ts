@@ -1,4 +1,4 @@
-import { OptionItem } from "@/types/common";
+import { OptionItem } from "@/types/common/global";
 import { create } from "zustand";
 
 type ConfirmationModalType = "warning" | "info" | "danger";

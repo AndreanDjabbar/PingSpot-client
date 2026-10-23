@@ -1,8 +1,8 @@
 import React from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { IoFunnelOutline } from 'react-icons/io5';
-import { InputField } from '@/components';
 import { useTranslations } from 'next-intl';
+import { InputField } from '@/components/UI/TextField';
 
 interface ReportSearchAndFilterProps {
     searchTerm: string;

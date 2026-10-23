@@ -3,7 +3,6 @@
 'use client';
 import { MdMailOutline } from "react-icons/md";
 import { FaGoogle } from "react-icons/fa";
-import { InputField, ErrorSection, SuccessSection, Button } from "@/components";
 import { useForm } from "react-hook-form";
 import { IForgotPasswordEmailVerificationRequest } from "@/types/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +13,10 @@ import { createForgotPasswordEmailVerificationSchema } from "@/schemas/auth.sche
 import { useEmailVerification } from "@/hooks/api/useAuth";
 import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from "@/utils/api";
+import { SuccessSection } from "@/components/feedback/SuccessSection";
+import { ErrorSection } from "@/components/feedback/ErrorSection";
+import { Button } from "@/components/UI/Button";
+import { InputField } from "@/components/UI/TextField";
 
 const ForgotPasswordPage = () => {
     const t = useTranslations('auth.forgot_password');

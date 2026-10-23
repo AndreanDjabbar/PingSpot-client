@@ -9,7 +9,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { FiEdit } from 'react-icons/fi';
-import { Accordion, ErrorSection, SuccessSection } from '@/components';
 import { MdInfo } from 'react-icons/md';
 import { CurrentProgress, ProgressHistory, ProgressSection } from '../progress';
 import ResolvedReport from './ResolvedReport';
@@ -21,8 +20,11 @@ import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
 import { compressImages } from '@/utils/image';
 import { getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
-import { ImageItem } from '@/types/common';
 import { IUploadProgressReportRequest } from '@/types/api/report';
+import { ImageItem } from '@/types/common/global';
+import { SuccessSection } from '@/components/feedback/SuccessSection';
+import { ErrorSection } from '@/components/feedback/ErrorSection';
+import { Accordion } from '@/components/UI/Accordion';
 
 
 interface ReportInformationProps {

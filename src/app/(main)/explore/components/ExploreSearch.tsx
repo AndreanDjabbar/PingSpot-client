@@ -1,8 +1,9 @@
 import React from 'react';
 import { FaSearch, FaSpinner } from 'react-icons/fa';
-import { Button, InputField } from '@/components';
 import { BiX } from 'react-icons/bi';
 import { useTranslations } from 'next-intl';
+import { Button } from '@/components/UI/Button';
+import { InputField } from '@/components/UI/TextField';
 
 interface ExploreSearchProps {
     searchTerm: string;

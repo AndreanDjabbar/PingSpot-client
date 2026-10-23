@@ -1,4 +1,4 @@
-import { Loading } from "@/components";
+import { Loading } from "@/components/feedback/Loading";
 import GoogleAuthClient from "./GoogleClient";
 import { Suspense } from "react";
 

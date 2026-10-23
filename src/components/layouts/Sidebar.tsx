@@ -2,7 +2,6 @@
 "use client";
 
 import { BiX } from "react-icons/bi";
-import { ProfileBadge } from "../UI";
 import { FaInbox } from "react-icons/fa";
 import { IoMdHome, IoMdWarning } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
@@ -17,6 +16,7 @@ import { useTranslations } from "next-intl";
 import { useGlobalStore } from "@/stores/global.store";
 import { useUserProfileStore } from "@/stores/user.store";
 import { useConfirmationModalStore } from "@/stores/ui.store";
+import { ProfileBadge } from "../UI/ProfileBadge";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -38,7 +38,7 @@ interface SidebarButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 
-const ButtonSidebar = React.forwardRef<HTMLButtonElement, SidebarButton>(({ 
+export const ButtonSidebar = React.forwardRef<HTMLButtonElement, SidebarButton>(({ 
     item,
     isActive,
     onClick,
@@ -90,7 +90,7 @@ const navigationItems: NavigationItem[] = [
     // { id: 'activity', label: 'Aktivitas', icon: LuActivity },
 ]
 
-const Sidebar: React.FC<SidebarProps> = ({ 
+export const Sidebar: React.FC<SidebarProps> = ({ 
     isOpen, 
     onToggle, 
     onBottomNavHeightChange 
@@ -217,5 +217,3 @@ const Sidebar: React.FC<SidebarProps> = ({
         </>
     )
 }
-
-export default Sidebar;

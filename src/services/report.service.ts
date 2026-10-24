@@ -1,5 +1,5 @@
 import {axiosInstance} from "@/lib/axiosInstance";
-import { ICreateReportCommentResponse, ICreateReportResponse, IDeleteReportRequest, IDeleteReportResponse, IEditReportResponse, IGetProgressReportResponse, IGetReportByIDResponse, IGetReportCommentRepliesResponse, IGetReportCommentsResponse, IGetReportResponse, IGetReportSavedResponse, IGetReportStatisticsResponse, IReactReportRequest, IReactReportResponse, ISaveReportResponse, IUpdateReportStatusResponse, IUploadProgressReportResponse, IVoteReportRequest, IVoteReportResponse } from "@/types/api/report";
+import { ICreateReportCommentResponse, ICreateReportResponse, IDeleteReportRequest, IDeleteReportResponse, IEditReportResponse, IGetProgressReportResponse, IGetReportByIDResponse, IGetReportCommentRepliesResponse, IGetReportCommentsResponse, IGetReportResponse, IGetReportSavedResponse, IGetReportStatisticsResponse, IReactReportRequest, IReactReportResponse, ISaveReportResponse, ISearchReportsResponse, IUpdateReportStatusResponse, IUploadProgressReportResponse, IVoteReportRequest, IVoteReportResponse } from "@/types/api/report";
 
 export const createReportService = async (payload: FormData): Promise<ICreateReportResponse> => {
     const response = await axiosInstance.post<ICreateReportResponse>(`/report`, payload, {
@@ -162,5 +162,15 @@ export const getSavedReportService = async (cursorID?: number): Promise<IGetRepo
     
     const queryString = params.toString() ? `?${params.toString()}` : '';
     const response = await axiosInstance.get<IGetReportSavedResponse>(`/report/save/${queryString}`);
+    return response.data;
+}
+
+export const searchReportsDataService = async (searchQuery: string, reportsDatacursorID?: number): Promise<ISearchReportsResponse> => {
+    const params = new URLSearchParams();
+
+    if (reportsDatacursorID) params.append('reportsDataCursorID', reportsDatacursorID.toString());
+    params.append('searchQuery', searchQuery);
+    const queryString = params.toString() ? `&${params.toString()}` : '';
+    const response = await axiosInstance.get<ISearchReportsResponse>(`/report/search/?${queryString}`);
     return response.data;
 }

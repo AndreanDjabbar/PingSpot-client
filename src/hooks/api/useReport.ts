@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { createReportCommentService, createReportService, DeleteReportService, EditReportService, getProgressReportService, getReportByIDService, getReportCommentRepliesService, getReportCommentsService, getReportService, getReportStatisticsService, getSavedReportService, reactReportService, SaveReportService, uploadProgressReportService, voteReportService } from "@/services/report.service";
-import { ICreateReportCommentResponse, ICreateReportResponse, IDeleteReportRequest, IDeleteReportResponse, IEditReportResponse, IGetProgressReportResponse, IGetReportByIDResponse, IGetReportCommentRepliesResponse, IGetReportCommentsResponse, IGetReportResponse, IGetReportSavedResponse, IGetReportStatisticsResponse, IReactReportRequest, IReactReportResponse, ISaveReportResponse, IUploadProgressReportResponse, IVoteReportRequest, IVoteReportResponse } from "@/types/api/report";
+import { createReportCommentService, createReportService, DeleteReportService, EditReportService, getProgressReportService, getReportByIDService, getReportCommentRepliesService, getReportCommentsService, getReportService, getReportStatisticsService, getSavedReportService, reactReportService, SaveReportService, searchReportsDataService, uploadProgressReportService, voteReportService } from "@/services/report.service";
+import { ICreateReportCommentResponse, ICreateReportResponse, IDeleteReportRequest, IDeleteReportResponse, IEditReportResponse, IGetProgressReportResponse, IGetReportByIDResponse, IGetReportCommentRepliesResponse, IGetReportCommentsResponse, IGetReportResponse, IGetReportSavedResponse, IGetReportStatisticsResponse, IReactReportRequest, IReactReportResponse, ISaveReportResponse, ISearchReportsResponse, IUploadProgressReportResponse, IVoteReportRequest, IVoteReportResponse } from "@/types/api/report";
+import { useDebounce } from "use-debounce";
 
 export const useCreateReport = () => {
     return useMutation<ICreateReportResponse, Error, FormData>({
@@ -197,3 +198,30 @@ export const useGetSavedReports = () => {
         initialPageParam: undefined,
     })
 }
+
+export const useSearchReports = (searchQuery: string, enabled: boolean) => {
+    const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
+    
+    return useInfiniteQuery<ISearchReportsResponse, Error>({
+        queryKey: ['search-reports', debouncedSearchQuery],
+        queryFn: ({ pageParam }) => {
+            const params = pageParam as { reportsDataCursorID?: number };
+            return searchReportsDataService(
+                debouncedSearchQuery,
+                params?.reportsDataCursorID,
+            );
+        },
+        getNextPageParam: (lastPage) => {
+            const nextReportsID = lastPage.data?.nextCursorReportsData;
+            if (!nextReportsID) {
+                return undefined;
+            }
+            
+            return {
+                reportsDataCursorID: nextReportsID,
+            };
+        },
+        initialPageParam: undefined,
+        enabled: enabled,
+    });
+};

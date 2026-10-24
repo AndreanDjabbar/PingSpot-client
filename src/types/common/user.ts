@@ -12,12 +12,3 @@ export interface IUserProfile {
     isDisableEmailNotification: boolean;
     missingFields: string[];
 }
-
-export interface IMentionedUser {
-    userID: number;
-    username: string;
-    fullName: string;
-    profilePicture?: string;
-    birthday?: string;
-    bio?: string;
-}

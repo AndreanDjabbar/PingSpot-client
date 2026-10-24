@@ -138,3 +138,13 @@ export interface IGetReportSavedResponse {
         nextCursor?: number | null;
     }
 }
+
+export interface ISearchReportsResponse {
+    message: string;
+    data?: {
+        reportsData: {
+            reportsData: IReport[];
+        };
+        nextCursorReportsData?: number | null;
+    }
+}

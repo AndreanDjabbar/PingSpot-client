@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { ToastContainer } from "react-toastify";
@@ -11,12 +11,15 @@ import ReportFilterModalProvider from "@/provider/ReportFilterProvider";
 
 export const metadata = {
   title: 'PingSpot',
+  icons: {
+    icon: '/images/pingspot-semi.png',
+  },
 }
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const manrope = Manrope({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-plus-jakarta",
+  variable: "--font-body",
   fallback: ["system-ui", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
 });
 
@@ -26,7 +29,10 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <html lang={locale}>
-      <body className={`${plusJakartaSans.variable} antialiased`} style={{ fontFamily: "var(--font-sf)" }}>
+      <body
+        className={`${manrope.variable} antialiased`}
+        style={{ fontFamily: "var(--font-body)" }}
+      >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ReactQueryClientProvider>
             <ToastContainer />

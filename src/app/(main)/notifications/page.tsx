@@ -24,7 +24,7 @@ export interface INotification {
     isRead: boolean;
     readAt?: number;
     createdAt: number;
-    entityID?: number;
+    entityID?: string;
 }
 
 const ENTITY_ICON: Record<INotification['entityType'], React.ReactNode> = {
@@ -43,11 +43,15 @@ const SEVERITY_STYLE: Record<INotification['type'], { bg: string; ring: string }
 
 const toDate = (ts: number): Date => (ts < 1e12 ? new Date(ts * 1000) : new Date(ts));
 
-const getActionUrl = (entityType: INotification['entityType'], entityID?: number): string | undefined => {
+const getActionUrl = (entityType: INotification['entityType'], entityID?: string): string | undefined => {
     if (entityID === undefined) return undefined;
     switch (entityType) {
-        case 'POST': return `/posts/${entityID}`;
-        case 'COMMENT': return `/posts/${entityID}#comments`;
+        case 'POST': return `/reports/${entityID}`;
+        case 'COMMENT': {
+            const [reportID, commentID] = entityID.split(':');
+            return `/reports/${reportID}`;
+            // return `/reports/${entityID}#comments`
+        };
         case 'USER': return `/profile/${entityID}`;
         case 'REPORT': return `/reports/${entityID}`;
         case 'COMMUNITY': return `/community/${entityID}`;

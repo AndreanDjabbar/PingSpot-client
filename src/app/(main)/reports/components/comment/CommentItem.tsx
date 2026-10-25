@@ -16,16 +16,16 @@ import { getFormattedDate } from '@/utils/format';
 import { ICreateReportCommentRequest } from '@/types/api/report';
 import { ISearchUsersResponse } from '@/types/api/user';
 import { IReportComment } from '@/types/common/report';
-import { IMentionedUser } from '@/types/common/user';
 import { ImagePreview } from '@/components/UI/InlineImageUpload';
 import { Button } from '@/components/UI/Button';
+import { IUserProfile } from '@/types/common/user';
 
 interface CommentItemProps {
     comment: IReportComment;
     commentReplies?: IReportComment[];
     onChangeCommentReplies?: (replies: IReportComment[]) => void;
     level?: number;
-    availableUsers?: IMentionedUser[];
+    availableUsers?: IUserProfile[];
 
     onCreateReportComment: (formData: ICreateReportCommentRequest) => void;
     isSubmitting?: boolean;

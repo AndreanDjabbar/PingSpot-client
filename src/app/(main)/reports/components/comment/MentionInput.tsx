@@ -3,8 +3,8 @@
 import React, { useState, useRef, useEffect, KeyboardEvent } from 'react';
 import Image from 'next/image';
 import { getImageURL } from '@/utils/image';
-import { IMentionedUser } from '@/types/common/user';
 import { TextAreaField } from '@/components/UI/TextaAreaField';
+import { IUserProfile } from '@/types/common/user';
 
 interface MentionInputProps {
     value: string;
@@ -16,7 +16,7 @@ interface MentionInputProps {
     disabled?: boolean;
     autoFocus?: boolean;
     onSubmit?: () => void;
-    users?: IMentionedUser[];
+    users?: IUserProfile[];
 }
 
 const MentionInput: React.FC<MentionInputProps> = ({
@@ -31,7 +31,7 @@ const MentionInput: React.FC<MentionInputProps> = ({
     users = []
 }) => {
     const [showSuggestions, setShowSuggestions] = useState(false);
-    const [suggestions, setSuggestions] = useState<IMentionedUser[]>([]);
+    const [suggestions, setSuggestions] = useState<IUserProfile[]>([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [mentionSearch, setMentionSearch] = useState('');
     const [cursorPosition, setCursorPosition] = useState(0);
@@ -46,8 +46,8 @@ const MentionInput: React.FC<MentionInputProps> = ({
         for (const match of matches) {
             const username = match[1];
             const user = users.find(u => u.username === username);
-            if (user && !mentionedUserIds.includes(user.userID)) {
-                mentionedUserIds.push(user.userID);
+            if (user && !mentionedUserIds.includes(Number(user.userID))) {
+                mentionedUserIds.push(Number(user.userID));
             }
         }
 
@@ -88,7 +88,7 @@ const MentionInput: React.FC<MentionInputProps> = ({
         }
     };
 
-    const insertMention = (user: IMentionedUser) => {
+    const insertMention = (user: IUserProfile) => {
         const textBeforeCursor = value.substring(0, cursorPosition);
         const textAfterCursor = value.substring(cursorPosition);
         const lastAtIndex = textBeforeCursor.lastIndexOf('@');

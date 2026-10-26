@@ -60,6 +60,6 @@ html, body {
 }
 
 .simplebar-scrollbar::before {
-    background: #6C5CE7 !important;
+    background: #0891B2 !important;
     width: 6px !important;
 }

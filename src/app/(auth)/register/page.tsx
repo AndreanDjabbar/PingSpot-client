@@ -8,7 +8,6 @@ import { IRegisterRequest } from "@/types/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRegister } from "@/hooks/api/useAuth";
 import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createRegisterSchema } from "@/schemas/auth.schema";
@@ -35,19 +34,30 @@ const RegisterPage = () => {
     });
 
     const onSubmit = (data: IRegisterRequest) => {
-        mutate({ ...data, provider: "EMAIL" });
+        mutate(
+            { ...data, provider: "EMAIL" },
+            {
+                onSuccess: (data) => {
+                    if (data) {
+                        setTimeout(() => {
+                            router.push("/login");
+                        }, 1000);
+                    }
+                }
+            }
+        );
     };
 
     useErrorToast(isError, error);
     useSuccessToast(isSuccess, data);
 
-    useEffect(() => {
-        if (isSuccess && data) {
-            setTimeout(() => {
-                router.push("/login");
-            }, 1000);
-        }
-    }, [isSuccess, data, router]);
+    // useEffect(() => {
+    //     if (isSuccess && data) {
+    //         setTimeout(() => {
+    //             router.push("/login");
+    //         }, 1000);
+    //     }
+    // }, [isSuccess, data, router]);
 
     return (
         <div className="space-y-8 mb-8">

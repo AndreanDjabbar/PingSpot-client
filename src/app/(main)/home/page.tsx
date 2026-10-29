@@ -19,7 +19,7 @@ import { IoMdPulse } from 'react-icons/io';
 import { MdCalendarMonth } from 'react-icons/md';
 import { useTranslations } from 'next-intl';
 import { useLocationStore } from '@/stores/location.store';
-import { getErrorResponseMessage, isInternalServerError } from '@/utils/api';
+import { getErrorResponseDetails, getErrorResponseMessage, isInternalServerError } from '@/utils/api';
 import { getFormattedDate, getRelativeTime } from '@/utils/format';
 import { ErrorSection } from '@/components/feedback/ErrorSection';
 import { Loading } from '@/components/feedback/Loading';
@@ -99,18 +99,18 @@ const Homepage = () => {
 
     const reportErrorSection = (
         <ErrorSection 
-        errors={errorReportStatistics}
+        errors={getErrorResponseDetails(errorReportStatistics)}
         message={getErrorResponseMessage(errorReportStatistics)}
-        onRetry={() => refetchReportStatistics}
+        onRetry={() => refetchReportStatistics()}
         showRetryButton={isReportStatisticServerError}
         />
     ) 
 
     const userErrorSection = (
         <ErrorSection 
-        errors={errorUserStatistics}
+        errors={getErrorResponseDetails(errorUserStatistics)}
         message={getErrorResponseMessage(errorUserStatistics)}
-        onRetry={() => refetchUserStatistics}
+        onRetry={() => refetchUserStatistics()}
         showRetryButton={isUserStatisticServerError}
         />
     ) 

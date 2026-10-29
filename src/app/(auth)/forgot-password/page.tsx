@@ -64,16 +64,27 @@ const ForgotPasswordPage = () => {
         return () => clearTimeout(timer);
     }, [countdown, reset]);
     
-    useEffect(() => {
-        if (isSuccess && data) {
-            setTimeout(() => {
-                router.push("/login");
-            }, 1000);
-        }
-    }, [isSuccess, data, router]);
+    // useEffect(() => {
+    //     if (isSuccess && data) {
+    //         setTimeout(() => {
+    //             router.push("/login");
+    //         }, 1000);
+    //     }
+    // }, [isSuccess, data, router]);
 
     const onSubmit = (data: IForgotPasswordEmailVerificationRequest) => {
-        mutate({ ...data });
+        mutate(
+            { ...data },
+            {
+                onSuccess: (data) => {
+                    if (data) {
+                        setTimeout(() => {
+                            router.push("/login");
+                        }, 1000);
+                    }
+                }
+            }
+        );
     };
     return (
         <div className="space-y-8">

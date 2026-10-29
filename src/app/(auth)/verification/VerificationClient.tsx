@@ -40,17 +40,27 @@ const VerificationClient = () => {
                 code1,
                 userId,
                 code2
-            });
+            },
+            {
+                onSuccess: (data) => {
+                    if (data) {
+                        setTimeout(() => {
+                            router.push("/login");
+                        }, 1000);
+                    }
+                }
+            }
+        );
         }
     }, [code1, userId, code2, mutate]);
 
-    useEffect(() => {
-        if (isSuccess && data) {
-            setTimeout(() => {
-                router.push("/login");
-            }, 1000);
-        }
-    }, [isSuccess, data, router]);
+    // useEffect(() => {
+    //     if (isSuccess && data) {
+    //         setTimeout(() => {
+    //             router.push("/login");
+    //         }, 1000);
+    //     }
+    // }, [isSuccess, data, router]);
 
     if (!code1 || !userId || !code2) {
         return (

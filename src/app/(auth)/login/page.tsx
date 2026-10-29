@@ -7,7 +7,6 @@ import { ILoginRequest } from "@/types/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLogin } from "@/hooks/api/useAuth";
 import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createLoginSchema } from "@/schemas/auth.schema";
@@ -34,19 +33,30 @@ const LoginPage = () => {
     });
 
     const onSubmit = (data: ILoginRequest) => {
-        mutate({ ...data, provider: "EMAIL" });
+        mutate(
+            { ...data, provider: "EMAIL" },
+            {
+                onSuccess: (data) => {
+                    if (data?.data?.accessToken) {
+                        setTimeout(() => {
+                            router.push("/home");
+                        }, 1500);
+                    }
+                }
+            }
+        );
     };
 
     useErrorToast(isError, error);
     useSuccessToast(isSuccess, data);
 
-    useEffect(() => {
-        if (isSuccess && data) {
-            setTimeout(() => {
-                router.push("/home");
-            }, 1500);
-        }
-    }, [isSuccess, data, router]);
+    // useEffect(() => {
+    //     if (isSuccess && data) {
+    //         setTimeout(() => {
+    //             router.push("/home");
+    //         }, 1500);
+    //     }
+    // }, [isSuccess, data, router]);
 
     return (
         <div className="space-y-8">
@@ -58,11 +68,11 @@ const LoginPage = () => {
             {isSuccess && (
                 <SuccessSection message={getDataResponseMessage(data)}/>
             )}
-
             {isError && (
                 <ErrorSection 
                 message={getErrorResponseMessage(error)} 
-                errors={getErrorResponseDetails(error)}/>
+                errors={getErrorResponseDetails(error)}
+                />
             )}
             
             {!isSuccess && (

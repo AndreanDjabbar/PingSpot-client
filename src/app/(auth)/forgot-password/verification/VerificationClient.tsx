@@ -44,10 +44,21 @@ const VerificationClient = () => {
     });
 
     const onSubmit = (formData: IForgotPasswordResetPasswordRequest) => {
-        resetPassword({ 
+        resetPassword(
+            { 
             ...formData,
             email: email || '',
-        });
+            },
+            {
+                onSuccess: (data) => {
+                    if (data) {
+                        setTimeout(() => {
+                            router.push("/login");
+                        }, 2000);
+                    }
+                }
+            }
+        );
     };
 
     useErrorToast(isError, error);
@@ -56,29 +67,39 @@ const VerificationClient = () => {
 
     useEffect(() => {
         if (email && code) {
-            verifyLink({
+            verifyLink(
+                {
                 code,
                 email
-            });
+                },
+                {
+                    onError: (error) => {
+                        console.error("Link verification error:", error);
+                        setTimeout(() => {
+                            router.push("/forgot-password");
+                        }, 2000);
+                    }
+                }
+            );
         }
     }, [code, email, verifyLink]);
 
-    useEffect(() => {
-        if (isSuccess && data) {
-            setTimeout(() => {
-                router.push("/login");
-            }, 2000);
-        }
-    }, [isSuccess, data, router]);
+    // useEffect(() => {
+    //     if (isSuccess && data) {
+    //         setTimeout(() => {
+    //             router.push("/login");
+    //         }, 2000);
+    //     }
+    // }, [isSuccess, data, router]);
 
-    useEffect(() => {
-        if (isErrorVerify && errorVerify) {
-            console.error("Link verification error:", errorVerify);
-            setTimeout(() => {
-                router.push("/forgot-password");
-            }, 2000);
-        }
-    }, [isErrorVerify, errorVerify, router]);
+    // useEffect(() => {
+    //     if (isErrorVerify && errorVerify) {
+    //         console.error("Link verification error:", errorVerify);
+    //         setTimeout(() => {
+    //             router.push("/forgot-password");
+    //         }, 2000);
+    //     }
+    // }, [isErrorVerify, errorVerify, router]);
 
     if (!code || !email) {
         return (

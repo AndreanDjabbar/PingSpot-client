@@ -13,7 +13,6 @@ import { ImExit } from "react-icons/im";
 import { useLogout } from "@/hooks/api/useAuth";
 import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
 import { useTranslations } from "next-intl";
-import { useGlobalStore } from "@/stores/global.store";
 import { useUserProfileStore } from "@/stores/user.store";
 import { useConfirmationModalStore } from "@/stores/ui.store";
 import { ProfileBadge } from "../UI/ProfileBadge";
@@ -98,7 +97,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     const router = useRouter();
     const t = useTranslations('component.sidebar');
     const currentPath = usePathname().split('/')[2] || 'home';
-    const { setCurrentPage } = useGlobalStore();
     const user = useUserProfileStore(state => state.userProfile);
     const bottomNavRef = useRef<HTMLDivElement>(null);
     const openConfirm = useConfirmationModalStore((state) => state.openConfirm);
@@ -187,7 +185,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                         onClick={() => {
                                             onToggle();
                                             router.push(`/${item.id}`)
-                                            setCurrentPage(item.id);
+                                            // setCurrentPage(item.id);
                                         }}
                                     />
                                 ))}

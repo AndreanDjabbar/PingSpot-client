@@ -11,13 +11,13 @@ interface LocationStore {
 export const useLocationStore = create<LocationStore>()(
     persist(
         (set) => ({
-        location: null,
-        setLocation: (loc) => set({ location: loc }),
-        clearLocation: () => set({ location: null }),
+            location: null,
+            setLocation: (loc) => set({ location: loc }),
+            clearLocation: () => set({ location: null }),
         }),
         {
-        name: "location-store",
-        storage: createJSONStorage(() => sessionStorage),
+            name: "location-store",
+            storage: createJSONStorage(() => sessionStorage),
         }
     )
 );

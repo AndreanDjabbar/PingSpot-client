@@ -3,7 +3,6 @@ import { Manrope } from "next/font/google";
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { ToastContainer } from "react-toastify";
-import ClientLayout from "./client-layout";
 import { ConfirmationModalProvider, ImagePreviewModalProvider } from "@/provider/AppProvider";
 import { ReactQueryClientProvider } from "@/provider/ReactQueryProvider";
 import OptionsModalProvider from "@/provider/OptionsProvider";
@@ -35,14 +34,12 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ReactQueryClientProvider>
-            <ToastContainer />
-            <ClientLayout>
+              <ToastContainer />
               {children}
               <ConfirmationModalProvider />
               <ImagePreviewModalProvider />
               <OptionsModalProvider />
               <ReportFilterModalProvider />
-            </ClientLayout>
           </ReactQueryClientProvider>
         </NextIntlClientProvider>
       </body>

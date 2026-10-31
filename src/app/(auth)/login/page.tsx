@@ -15,6 +15,7 @@ import { SuccessSection } from "@/components/feedback/SuccessSection";
 import { ErrorSection } from "@/components/feedback/ErrorSection";
 import { InputField } from "@/components/UI/TextField";
 import { Button } from "@/components/UI/Button";
+import Link from "next/link";
 
 const LoginPage = () => {
     const router = useRouter();
@@ -152,6 +153,11 @@ const LoginPage = () => {
                         {t('no_account.link')}
                     </a>
                     </p>
+            <p className="text-center text-sm text-surface/60">
+                <Link href="/about" className="font-medium text-primary transition-colors hover:text-primary-hover hover:underline">
+                    {t('about_link')}
+                </Link>
+            </p>
                 </>
             )}
         

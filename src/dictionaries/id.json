@@ -1,4 +1,47 @@
 {
+    "about": {
+        "eyebrow": "Lingkungan yang lebih baik, bersama",
+        "nav": { "sign_in": "Masuk", "get_started": "Mulai sekarang" },
+        "hero": {
+            "title": "PingSpot – Laporkan dan Pantau Masalah di Lingkungan Anda",
+            "description": "PingSpot membantu Anda melaporkan masalah di sekitar, memantau perkembangannya, dan tetap terhubung dengan warga di lingkungan Anda.",
+            "cta": "Bergabung dengan PingSpot",
+            "note": "Gratis digunakan",
+            "image_alt": "Pemandangan lingkungan dari atas",
+            "quote": "Sinyal kecil menjadi perubahan berarti ketika komunitas dapat melihat, membicarakan, dan menanganinya bersama.",
+            "badge": "Dibuat untuk aksi lokal"
+        },
+        "features": {
+            "eyebrow": "Di dalam PingSpot",
+            "title": "Satu alur lengkap untuk masalah di sekitar",
+            "description": "PingSpot menyatukan pelaporan, konteks, masukan komunitas, dan tindak lanjut dalam satu pengalaman yang terhubung.",
+            "reporting": {
+                "title": "Laporkan dengan jelas. Pantau dengan jujur.",
+                "description": "Buat laporan berdasarkan lokasi dengan judul, deskripsi, kategori, posisi di peta, dan foto pendukung. Lanjutkan pembaruan setelah laporan dipublikasikan.",
+                "points": { "one": "Lihat lokasi masalah secara tepat di peta interaktif", "two": "Perbarui progres dengan catatan dan bukti foto", "three": "Biarkan vote komunitas mencerminkan kondisi terbaru" },
+                "image_alt": "Tampilan detail laporan dan progres PingSpot"
+            },
+            "community": {
+                "title": "Temukan orang dan masalah yang penting",
+                "description": "Jelajahi laporan dan pengguna, buka profil lengkap, ikuti anggota komunitas, dan tambahkan konteks melalui komentar, balasan, like, dan berbagi.",
+                "points": { "one": "Cari laporan dan pengguna dari satu tempat", "two": "Lihat profil, laporan, pengikut, dan akun yang diikuti", "three": "Diskusikan laporan dan sampaikan sudut pandang Anda" },
+                "image_alt": "Tampilan jelajah, profil, dan komentar PingSpot"
+            },
+            "stay_connected": {
+                "title": "Jaga lingkungan tetap dalam jangkauan",
+                "description": "Simpan laporan untuk dilihat kembali, terima notifikasi aktivitas, atur preferensi email, dan sesuaikan akun dengan cara Anda berpartisipasi.",
+                "points": { "one": "Simpan laporan dan buka kembali dari Pengaturan", "two": "Dapatkan notifikasi tentang komentar, vote, dan aktivitas laporan", "three": "Kelola profil, bahasa, keamanan, dan preferensi Anda" },
+                "image_alt": "Tampilan notifikasi, laporan tersimpan, dan pengaturan PingSpot"
+            }
+        },
+        "mission": {
+            "eyebrow": "Mengapa kami membuatnya",
+            "title": "Cara yang lebih jelas untuk menjaga lingkungan bersama.",
+            "description": "PingSpot mendekatkan warga dengan masalah di sekitarnya. Dengan menghubungkan konteks, lokasi, dan partisipasi komunitas, kami memudahkan peningkatan kesadaran dan menjaga tindak lanjut setelah laporan dibuat.",
+            "cta": "Mulai bersama PingSpot"
+        },
+        "footer": { "tagline": "Lihat. Bagikan. Perbaiki bersama.", "copyright": "© {year} PingSpot. Hak cipta dilindungi." }
+    },
     "settings": {
         "description": "Sesuaikan PingSpot dengan preferensi Anda untuk pengalaman yang lebih baik.",
         "account_profile_card": "Akun & Profil",
@@ -1474,6 +1517,7 @@
     },
     "auth": {
         "login": {
+            "about_link": "Kenali PingSpot lebih jauh",
             "title": "Selamat Datang di PingSpot",
             "subtitle": "Silahkan masuk ke akun Anda untuk melanjutkan",
             "email_or_username": {
@@ -1493,7 +1537,8 @@
             "google": "Google",
             "no_account": {
                 "text": "Belum punya akun?",
-                "link": "Daftar gratis"
+                "link": "Daftar gratis",
+                "about_link": "Kenali PingSpot lebih jauh"
             }
         },
         "register": {

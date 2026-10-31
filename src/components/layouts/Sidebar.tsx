@@ -2,7 +2,7 @@
 "use client";
 
 import { BiX } from "react-icons/bi";
-import { FaInbox } from "react-icons/fa";
+import { FaInbox, FaInfoCircle } from "react-icons/fa";
 import { IoMdHome, IoMdWarning } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useRef } from "react";
@@ -191,6 +191,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 ))}
                                 <ButtonSidebar
                                     item={{
+                                        id: 'about',
+                                        label: t('nav.about'),
+                                        icon: FaInfoCircle
+                                    }}
+                                    disabled={isPending}
+                                    isActive={false}
+                                    onClick={router.push.bind(null, '/about')}
+                                    className="mt-45"
+                                />
+                                <ButtonSidebar
+                                    item={{
                                         id: 'logout',
                                         label: t('nav.logout'),
                                         icon: ImExit
@@ -198,7 +209,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                     disabled={isPending}
                                     isActive={false}
                                     onClick={handleLogout}
-                                    className="mt-45"
+                                    className=""
                                 />
                             </nav>    
                         </div>

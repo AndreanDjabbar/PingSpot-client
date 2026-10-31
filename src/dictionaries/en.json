@@ -422,6 +422,7 @@
                 "notifications": "Notifications",
                 "reports": "Reports",
                 "settings": "Settings",
+                "about": "About",
                 "logout": "Log Out"
             },
             "user_defaults": {

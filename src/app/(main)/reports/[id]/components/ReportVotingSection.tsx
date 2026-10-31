@@ -140,7 +140,7 @@ export const ReportVotingSection: React.FC<ReportVotingSectionProps> = ({
         </div>
     );
 
-    if (!report.reportProgress) {
+    if (!report.reportVotes || report.reportVotes.length === 0) {
         if (!report.hasProgress) {
             return <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
                 <h3 className="font-bold text-base text-gray-900 mb-4">{t('title')}</h3>

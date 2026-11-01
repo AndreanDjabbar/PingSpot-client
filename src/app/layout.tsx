@@ -3,10 +3,9 @@ import { Manrope } from "next/font/google";
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { ToastContainer } from "react-toastify";
-import { ConfirmationModalProvider, ImagePreviewModalProvider } from "@/provider/AppProvider";
+import { ConfirmationModalProvider, ImagePreviewModalProvider, ReportFilterModalProvider } from "@/provider/AppProvider";
 import { ReactQueryClientProvider } from "@/provider/ReactQueryProvider";
 import OptionsModalProvider from "@/provider/OptionsProvider";
-import ReportFilterModalProvider from "@/provider/ReportFilterProvider";
 
 export const metadata = {
   title: 'PingSpot',

@@ -2,6 +2,7 @@
 
 import { ConfirmationModal } from "@/components/modals/ConfirmationModal";
 import { ImagePreviewModal } from "@/components/modals/ImagePreviewModal";
+import { ReportFilterModal } from "@/components/modals/ReportFilterModal";
 import { useConfirmationModalStore, useImagePreviewModalStore } from "@/stores/ui.store";
 
 export const ConfirmationModalProvider = () => {
@@ -51,3 +52,7 @@ export const ImagePreviewModalProvider = () => {
         />
     )
 }
+
+export const ReportFilterModalProvider: React.FC = () => {
+    return <ReportFilterModal />;
+};

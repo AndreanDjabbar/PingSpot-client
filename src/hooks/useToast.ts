@@ -55,9 +55,9 @@ export const useSuccessToast = (isSuccess: boolean, data: any) => {
 
     useEffect(() => {
         if (isSuccess && data) {
-            const currentSuccess = getDataResponseMessage(data) || 'Operasi berhasil';
+            const currentSuccess = getDataResponseMessage(data) || 'Operation successful';
             if (successRef.current !== currentSuccess) {
-                toastSuccess(getDataResponseMessage(data) || 'Operasi berhasil');
+                toastSuccess(getDataResponseMessage(data) || 'Operation successful');
                 successRef.current = currentSuccess;
             }
         }

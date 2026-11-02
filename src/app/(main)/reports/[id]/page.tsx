@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable react-hooks/purity */
 /* eslint-disable react-hooks/immutability */
 "use client";
@@ -26,7 +27,7 @@ import {
 } from './components';
 import { ICreateReportCommentRequest } from '@/types/api/report';
 import { ReportInteractionBar } from '../components';
-import { useImagePreviewModalStore } from '@/stores/ui.store';
+import { useImagePreviewModalStore } from '@/stores/modal.store';
 import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
 import { compressImages, getImageURL } from '@/utils/image';

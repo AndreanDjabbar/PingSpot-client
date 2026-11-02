@@ -6,7 +6,7 @@ import { FaCheck, FaHourglassEnd } from 'react-icons/fa';
 import { RiProgress3Fill } from 'react-icons/ri';
 import { LuLock } from 'react-icons/lu';
 import { useTranslations } from 'next-intl';
-import { useConfirmationModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore } from '@/stores/modal.store';
 import { IReport } from '@/types/common/report';
 
 interface ReportVotingSectionProps {

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useOptionsModalStore } from '@/stores/ui.store';
+import { useOptionsModalStore } from '@/stores/modal.store';
 import { OptionItem } from '@/types/common/global';
 
 export const OptionsModal: React.FC = () => {

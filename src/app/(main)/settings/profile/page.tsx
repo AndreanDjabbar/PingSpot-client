@@ -11,7 +11,7 @@ import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { useTranslations } from 'next-intl';
 import { buildSaveProfileSchema } from '@/schemas/user.schema';
 import { useUserProfileStore } from '@/stores/user.store';
-import { useConfirmationModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore } from '@/stores/modal.store';
 import { compressImages, getImageURL } from '@/utils/image';
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 import { SuccessSection } from '@/components/feedback/SuccessSection';

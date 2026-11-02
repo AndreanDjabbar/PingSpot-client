@@ -11,7 +11,7 @@ import { ICreateReportRequest } from '@/types/api/report';
 import { AttachmentStep, DetailStep, MapStep, SummaryStep } from './components';
 import { useTranslations } from 'next-intl';
 import { buildCreateReportSchema } from '@/schemas/report.schema';
-import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/modal.store';
 import { compressImages } from '@/utils/image';
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 import { ImageItem } from '@/types/common/global';

@@ -15,7 +15,7 @@ import ResolvedReport from './ResolvedReport';
 import { PublicVotes, VotingSection } from '../voting';
 import { useTranslations } from 'next-intl';
 import { buildUploadProgressReportSchema } from '@/schemas/report.schema';
-import { useConfirmationModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore } from '@/stores/modal.store';
 import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
 import { compressImages } from '@/utils/image';

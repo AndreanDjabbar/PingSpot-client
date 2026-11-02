@@ -7,7 +7,7 @@ import { MdAccessTime, MdCancel, MdCheckCircle } from 'react-icons/md';
 import { BiCategory, BiLike, BiMap } from 'react-icons/bi';
 import { RiProgress3Fill } from 'react-icons/ri';
 import { useTranslations } from 'next-intl';
-import { useReportFilterModalStore } from '@/stores/ui.store';
+import { useReportFilterModalStore } from '@/stores/modal.store';
 import { useReportsStore } from '@/stores/report.store';
 import { useLocationStore } from '@/stores/location.store';
 import { ReportFilterOptions, ReportType } from '@/types/common/report';

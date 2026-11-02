@@ -4,7 +4,7 @@ import React from 'react'
 import { FaGlobe } from 'react-icons/fa';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useConfirmationModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore } from '@/stores/modal.store';
 import { Scrollbar } from './Scrollbar';
 import { PingspotLogo } from '../UI/PingspotLogo';
 import { SelectField } from '../UI/SelectField';

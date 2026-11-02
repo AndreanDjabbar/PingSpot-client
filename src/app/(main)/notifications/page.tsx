@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useErrorToast } from '@/hooks/useToast';
 import { useDeleteAllNotifications, useDeleteNotification, useGetNotifications, useMarkAllNotificationsAsRead, useMarkNotificationAsRead } from '@/hooks/api/useNotification';
 import { useLocale, useTranslations } from 'next-intl';
-import { useConfirmationModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore } from '@/stores/modal.store';
 import { getErrorResponseMessage, isInternalServerError } from '@/utils/api';
 import { ErrorSection } from '@/components/feedback/ErrorSection';
 import { HeaderSection } from '@/components/layouts/HeaderSection';

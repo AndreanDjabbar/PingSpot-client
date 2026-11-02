@@ -7,7 +7,7 @@ import { FaCrown, FaEdit, FaFlag, FaShare, FaTrash } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useUserProfileStore } from '@/stores/user.store';
-import { useConfirmationModalStore, useOptionsModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore, useOptionsModalStore } from '@/stores/modal.store';
 import { getImageURL } from '@/utils/image';
 import { getFormattedDate } from '@/utils/format';
 import { IReport } from '@/types/common/report';

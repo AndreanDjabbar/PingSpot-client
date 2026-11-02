@@ -5,7 +5,7 @@ import { MdDescription, MdLocationOn, MdPhoto, MdTitle, MdTrackChanges } from 'r
 import { FaFileAlt, FaTags } from 'react-icons/fa';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { useImagePreviewModalStore } from '@/stores/ui.store';
+import { useImagePreviewModalStore } from '@/stores/modal.store';
 import { IEditReportRequest } from '@/types/api/report';
 import { ImageItem } from '@/types/common/global';
 import { Accordion } from '@/components/UI/Accordion';

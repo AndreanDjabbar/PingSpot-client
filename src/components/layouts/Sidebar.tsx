@@ -14,7 +14,7 @@ import { useLogout } from "@/hooks/api/useAuth";
 import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
 import { useTranslations } from "next-intl";
 import { useUserProfileStore } from "@/stores/user.store";
-import { useConfirmationModalStore } from "@/stores/ui.store";
+import { useConfirmationModalStore } from "@/stores/modal.store";
 import { ProfileBadge } from "../UI/ProfileBadge";
 
 interface SidebarProps {

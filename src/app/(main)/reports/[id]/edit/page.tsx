@@ -12,7 +12,7 @@ import { useErrorToast, useSuccessToast } from '@/hooks/useToast';
 import { MapStep, DetailStep, AttachmentStep, SummaryStep } from './components';
 import { useTranslations } from 'next-intl';
 import { buildEditReportSchema } from '@/schemas/report.schema';
-import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/modal.store';
 import { compressImages, getImageURL } from '@/utils/image';
 import { getDataResponseMessage, getErrorResponseDetails, getErrorResponseMessage } from '@/utils/api';
 import { IEditReportRequest } from '@/types/api/report';

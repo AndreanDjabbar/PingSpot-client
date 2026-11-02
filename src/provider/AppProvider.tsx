@@ -3,7 +3,7 @@
 import { ConfirmationModal } from "@/components/modals/ConfirmationModal";
 import { ImagePreviewModal } from "@/components/modals/ImagePreviewModal";
 import { ReportFilterModal } from "@/components/modals/ReportFilterModal";
-import { useConfirmationModalStore, useImagePreviewModalStore } from "@/stores/ui.store";
+import { useConfirmationModalStore, useImagePreviewModalStore } from "@/stores/modal.store";
 
 export const ConfirmationModalProvider = () => {
     const {

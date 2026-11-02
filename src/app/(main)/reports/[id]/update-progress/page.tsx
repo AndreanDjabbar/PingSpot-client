@@ -15,7 +15,7 @@ import { useTranslations } from 'next-intl';
 import { buildUploadProgressReportSchema } from '@/schemas/report.schema';
 import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
-import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore, useImagePreviewModalStore } from '@/stores/modal.store';
 import { compressImages } from '@/utils/image';
 import { IUploadProgressReportRequest } from '@/types/api/report';
 import { ImageItem } from '@/types/common/global';

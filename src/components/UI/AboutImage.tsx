@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { FaExpand } from "react-icons/fa";
-import { useImagePreviewModalStore } from "@/stores/ui.store";
+import { useImagePreviewModalStore } from "@/stores/modal.store";
 
 interface AboutImageProps {
     src: string;

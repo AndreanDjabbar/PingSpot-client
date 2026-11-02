@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useConfirmationModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore } from '@/stores/modal.store';
 import { useUserProfileStore } from '@/stores/user.store';
 import { TopNavigation } from './TopNavigation';
 import { Scrollbar } from './Scrollbar';

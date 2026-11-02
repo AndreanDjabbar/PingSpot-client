@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { IoMdTrash } from 'react-icons/io';
 import { useTranslations } from 'next-intl';
 import { useUserProfileStore } from '@/stores/user.store';
-import { useConfirmationModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore } from '@/stores/modal.store';
 import { getFormattedDate } from '@/utils/format';
 import { IReport, ReportType } from '@/types/common/report';
 import { Button } from '@/components/UI/Button';

@@ -28,7 +28,7 @@ import { FaLocationDot } from 'react-icons/fa6';
 import { useTranslations } from 'next-intl';
 import { useReportsStore } from '@/stores/report.store';
 import { useLocationStore } from '@/stores/location.store';
-import { useReportFilterModalStore } from '@/stores/ui.store';
+import { useReportFilterModalStore } from '@/stores/modal.store';
 import { getErrorResponseDetails, getErrorResponseMessage, isInternalServerError } from '@/utils/api';
 import { Loading } from '@/components/feedback/Loading';
 import { HeaderSection } from '@/components/layouts/HeaderSection';

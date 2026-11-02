@@ -12,7 +12,7 @@ import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/styles';
 import { useReportsStore } from '@/stores/report.store';
 import { useUserProfileStore } from '@/stores/user.store';
-import { useConfirmationModalStore, useImagePreviewModalStore, useOptionsModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore, useImagePreviewModalStore, useOptionsModalStore } from '@/stores/modal.store';
 import { getImageURL } from '@/utils/image';
 import { getFormattedDate } from '@/utils/format';
 import { IReportImage } from '@/types/common/report';

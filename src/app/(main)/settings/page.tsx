@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/immutability */
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
@@ -15,7 +17,7 @@ import { SettingCard, SettingItem } from './components';
 import { useLocale, useTranslations } from 'next-intl';
 import { FaBookmark } from 'react-icons/fa';
 import { useUserProfileStore } from '@/stores/user.store';
-import { useConfirmationModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore } from '@/stores/modal.store';
 import { HeaderSection } from '@/components/layouts/HeaderSection';
 import { ProfileBadge } from '@/components/UI/ProfileBadge';
 import { Button } from '@/components/UI/Button';

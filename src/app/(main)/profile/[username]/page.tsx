@@ -17,7 +17,7 @@ import { useGetFollowData, useFollow } from '@/hooks/api/useSocial';
 import { useGetProfileByUsername } from '@/hooks/api/useUser';
 import { ProfileConnectionsModal, Skeleton } from './components';
 import { useUserProfileStore } from '@/stores/user.store';
-import { useConfirmationModalStore } from '@/stores/ui.store';
+import { useConfirmationModalStore } from '@/stores/modal.store';
 import { getErrorResponseMessage, isInternalServerError, isNotFoundError } from '@/utils/api';
 import { getImageURL } from '@/utils/image';
 import { IReport } from '@/types/common/report';

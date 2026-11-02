@@ -10,7 +10,7 @@ import MentionText from './MentionText';
 import CommentInput from './CommentInput';
 import { InfiniteData } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { useImagePreviewModalStore } from '@/stores/ui.store';
+import { useImagePreviewModalStore } from '@/stores/modal.store';
 import { getImageURL } from '@/utils/image';
 import { getFormattedDate } from '@/utils/format';
 import { ICreateReportCommentRequest } from '@/types/api/report';

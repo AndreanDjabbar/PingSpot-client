@@ -33,6 +33,7 @@ axiosInstance.interceptors.response.use(
         const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
         if (error.response?.status === 401 && !originalRequest._retry) {
+            // If a login or refresh request itself fails with a 401, it immediately rejects the promise rather than trying to refresh again, preventing a cascading loop.
             if (originalRequest.url?.includes('auth/login') || 
                 originalRequest.url?.includes('auth/register') ||
                 originalRequest.url?.includes('auth/refresh-token')) {
@@ -40,6 +41,9 @@ axiosInstance.interceptors.response.use(
             }
 
             if (isRefreshing) {
+                // When a request fails with a 401, the interceptor checks if another request is already in the process of refreshing the token.
+                
+                // If isRefreshing is true, it means a refresh request has already been sent to the server, and this new failed request needs to wait.
                 return new Promise((resolve, reject) => {
                     failedQueue.push({ resolve, reject });
                 })

@@ -12,12 +12,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
       { protocol: 'https', hostname: 'cdnjs.cloudflare.com', pathname: '/**' },
     ],
-    localPatterns: [
-      {
-        pathname: '/api/image-proxy',
-        search: '**',
-      },
-    ],
     unoptimized: process.env.NODE_ENV === 'development',
   },
   async rewrites() {

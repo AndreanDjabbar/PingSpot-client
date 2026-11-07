@@ -59,7 +59,9 @@ const ReportsPage = () => {
     const userLocation = useLocationStore((s) => s.location);
     const reportFilters = useReportsStore((s) => s.reportFilters);
     const updateReportFilters = useReportsStore((s) => s.updateReportFilters);
+
     const openReportFilterModalStore = useReportFilterModalStore((s) => s.openReportFilterModal);
+    
     const hasCoords = userLocation && userLocation?.lat !== null && userLocation?.lat !== '' && userLocation?.lng !== null && userLocation?.lng !== '';
 
     const { requestLocation, loading: loadingRequestLocation, permissionDenied, isPermissionDenied, } = useCurrentLocation();

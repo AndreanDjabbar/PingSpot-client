@@ -2,7 +2,6 @@ import { IReport, IReportComment, IReportProgress, ITotalReportCount, ReportFilt
 import { create } from "zustand";
 
 interface ReportsStore {
-  // State
     reports: IReport[];
     filteredReports: IReport[];
     selectedReport: IReport | null;
@@ -13,23 +12,19 @@ interface ReportsStore {
     reportComments: IReportComment[];
     reportCommentsCount: number;
 
-  // Reports Actions
     setReports: (reports: IReport[]) => void;
     setFilteredReports: (filteredReports: IReport[]) => void;
     setSelectedReport: (report: IReport | null) => void;
     addReportProgress: (reportId: number, newProgress: IReportProgress) => void;
     clearReportsData: () => void;
 
-    // Filter Actions
     setSearchTerm: (searchTerm: string) => void;
     setActiveFilter: (activeFilter: IReport | "all") => void;
     updateReportFilters: (updates: Partial<ReportFilterOptions>) => void;
     resetReportFilters: () => void;
 
-  // Count Actions
     setReportCount: (reportCount: ITotalReportCount) => void;
 
-  // Comments Actions
     setReportComments: (comments: IReportComment[]) => void;
     setReportCommentsCount: (count: number) => void;
     clearReportCommentsData: () => void;
@@ -66,7 +61,6 @@ const DEFAULT_REPORT_COUNT: ITotalReportCount = {
 };
 
 export const useReportsStore = create<ReportsStore>((set, get) => ({
-  // Initial State
     reports: [],
     filteredReports: [],
     selectedReport: null,
@@ -77,7 +71,6 @@ export const useReportsStore = create<ReportsStore>((set, get) => ({
     reportComments: [],
     reportCommentsCount: 0,
 
-  // Reports Actions
     setReports: (reports) => set({ reports }),
     setFilteredReports: (filteredReports) => set({ filteredReports }),
     setSelectedReport: (report) => set({ selectedReport: report }),
@@ -117,7 +110,6 @@ export const useReportsStore = create<ReportsStore>((set, get) => ({
         activeFilter: "all",
         }),
 
-  // Filter Actions
     setSearchTerm: (searchTerm) => set({ searchTerm }),
     setActiveFilter: (activeFilter) => set({ activeFilter }),
 
@@ -128,10 +120,8 @@ export const useReportsStore = create<ReportsStore>((set, get) => ({
 
     resetReportFilters: () => set({ reportFilters: DEFAULT_FILTERS }),
 
-  // Count Actions
     setReportCount: (reportCount) => set({ reportCount }),
 
-  // Comments Actions
     setReportComments: (comments) => set({ reportComments: comments }),
     setReportCommentsCount: (count) => set({ reportCommentsCount: count }),
     clearReportCommentsData: () =>

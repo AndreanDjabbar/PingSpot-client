@@ -5,7 +5,6 @@ import {axiosInstance} from "@/lib/axiosInstance";
 export const saveProfileService = async (payload: FormData): Promise<ISaveProfileResponse> => {
     const response = await axiosInstance.post<ISaveProfileResponse>(`/user/profile`, payload, {
         headers: {
-            'Content-Type': 'multipart/form-data',
             'Accept': 'application/json',
         },
     });
@@ -13,7 +12,6 @@ export const saveProfileService = async (payload: FormData): Promise<ISaveProfil
 }
 
 export const updateEmailNotificationPreferenceService = async (payload: { isDisableEmailNotification: boolean }): Promise<ISaveProfileResponse> => {
-    console.log('updateEmailNotificationPreferenceService payload:', payload);
     const response = await axiosInstance.patch<ISaveProfileResponse>(`/user/email-notification-preference`, payload);
     return response.data;
 }

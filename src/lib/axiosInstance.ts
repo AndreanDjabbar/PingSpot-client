@@ -9,6 +9,14 @@ export const axiosInstance = axios.create({
     },
 });
 
+axiosInstance.interceptors.request.use((config) => {
+    if (typeof FormData !== 'undefined' && config.data instanceof FormData) {
+        config.headers.delete('Content-Type');
+    }
+    return config;
+});
+
+
 let isRefreshing = false;
 let failedQueue: Array<{
     resolve: (value?: unknown) => void;
@@ -85,3 +93,4 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+

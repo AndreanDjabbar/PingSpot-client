@@ -1,12 +1,11 @@
 import {axiosInstance} from "@/lib/axiosInstance";
+import {createIdempotencyKey} from "@/lib/idempotency";
 import { ICreateReportCommentResponse, ICreateReportResponse, IDeleteReportRequest, IDeleteReportResponse, IEditReportResponse, IGetProgressReportResponse, IGetReportByIDResponse, IGetReportCommentRepliesResponse, IGetReportCommentsResponse, IGetReportResponse, IGetReportSavedResponse, IGetReportStatisticsResponse, IReactReportRequest, IReactReportResponse, ISaveReportResponse, ISearchReportsResponse, IUpdateReportStatusResponse, IUploadProgressReportResponse, IVoteReportRequest, IVoteReportResponse } from "@/types/api/report";
-
-const idempotencyKey = crypto.randomUUID();
 
 export const createReportService = async (payload: FormData): Promise<ICreateReportResponse> => {
     const response = await axiosInstance.post<ICreateReportResponse>(`/report`, payload, {
         headers: {
-            'Idempotency-Key': idempotencyKey,
+            'Idempotency-Key': createIdempotencyKey(),
             'Accept': 'application/json',
         },
     });
@@ -88,6 +87,7 @@ export const reactReportService = async (reportID: number, data: IReactReportReq
     const response = await axiosInstance.post<IReactReportResponse>(`/report/${reportID}/reaction`, 
         { reactionType: data.reactionType }, {
             headers: {
+                'Idempotency-Key': createIdempotencyKey(),
                 'Accept': 'application/json',
             },
         });
@@ -98,6 +98,7 @@ export const voteReportService = async (reportID: number, data: IVoteReportReque
     const response = await axiosInstance.post<IVoteReportResponse>(`/report/${reportID}/vote`, 
         { voteType: data.voteType }, {
             headers: {
+                'Idempotency-Key': createIdempotencyKey(),
                 'Accept': 'application/json',
             },
         });
@@ -107,6 +108,7 @@ export const voteReportService = async (reportID: number, data: IVoteReportReque
 export const uploadProgressReportService = async (reportID: number, payload: FormData): Promise<IUploadProgressReportResponse> => {
     const response = await axiosInstance.post<IUploadProgressReportResponse>(`/report/${reportID}/progress`, payload, {
         headers: {
+            'Idempotency-Key': createIdempotencyKey(),
             'Accept': 'application/json',
         },
     });
@@ -121,6 +123,7 @@ export const getReportStatisticsService = async() => {
 export const createReportCommentService = async (reportID: number, payload: FormData): Promise<ICreateReportCommentResponse> => {
     const response = await axiosInstance.post<ICreateReportCommentResponse>(`/report/${reportID}/comment`, payload, {
         headers: {
+            'Idempotency-Key': createIdempotencyKey(),
             'Accept': 'application/json',
         },
     });

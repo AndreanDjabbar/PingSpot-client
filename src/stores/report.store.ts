@@ -35,7 +35,7 @@ const DEFAULT_FILTERS: ReportFilterOptions = {
     reportType: "all",
     status: "all",
     distance: {
-        distance: "all",
+        distance: "1000",
         lat: null,
         lng: null,
     },

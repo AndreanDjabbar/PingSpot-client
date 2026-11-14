@@ -31,7 +31,7 @@ export const getReportService = async (
     if (cursorID) params.append('cursorID', cursorID.toString());
     if (reportType && reportType !== 'all') params.append('reportType', reportType);
     if (status && status !== 'all') params.append('status', status);
-    if (distance && distance.distance !== 'all' && distance.lat !== null && distance.lng !== null) {
+    if (distance && distance.lat !== null && distance.lng !== null) {
         const distanceOBJ = {
             distance: distance.distance,
             lat: distance.lat,

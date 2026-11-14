@@ -57,7 +57,7 @@ export interface IReportReactions {
 
 export type ReportSortOption = 'latest' | 'oldest' | 'most_liked' | 'least_liked';
 export type ReportStatusFilter = 'all' | 'WAITING' | 'ON_PROGRESS' | 'RESOLVED' | 'WAITING_CONFIRMATION' | 'EXPIRED';
-export type ReportDistanceFilter = 'all' | '1000' | '5000' | '10000';
+export type ReportDistanceFilter = 'all' | '1000' | '5000' | '10000' | '> 10000';
 export type ReportProgressFilter = 'all' | 'true' | 'false';
 
 export interface ReportFilterOptions {

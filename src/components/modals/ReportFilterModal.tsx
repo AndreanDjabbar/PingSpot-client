@@ -16,7 +16,7 @@ import { Button } from '../UI/Button';
 
 type SortOption = 'latest' | 'oldest' | 'most_liked' | 'least_liked';
 type StatusFilter = 'all' | 'WAITING' | 'ON_PROGRESS' | 'RESOLVED' | 'WAITING_CONFIRMATION' | 'EXPIRED';
-type DistanceFilter = 'all' | '1000' | '5000' | '10000';
+type DistanceFilter = '1000' | '5000' | '10000' | '> 10000';
 type ProgressFilter = 'all' | 'true' | 'false';
 
 export const ReportFilterModal: React.FC = () => {
@@ -153,9 +153,9 @@ export const ReportFilterModal: React.FC = () => {
             reportType: 'all',
             status: 'all',
             distance: {
-                distance: 'all',
-                lat: null,
-                lng: null,
+                distance: '1000',
+                lat: userLocation?.lat || null,
+                lng: userLocation?.lng || null,
             },
             hasProgress: 'all'
         });
@@ -203,10 +203,11 @@ export const ReportFilterModal: React.FC = () => {
     ];
 
     const distanceOptions = [
-        { value: 'all', label: t('distance_options.all'), icon: <BiMap /> },
+        // { value: 'all', label: t('distance_options.all'), icon: <BiMap /> },
         { value: '1000', label: t('distance_options.1000'), icon: <BiMap /> },
         { value: '5000', label: t('distance_options.5000'), icon: <BiMap /> },
         { value: '10000', label: t('distance_options.10000'), icon: <BiMap /> },
+        { value: '> 10000', label: t('distance_options.> 10000'), icon: <BiMap /> },
     ];
 
     return (
@@ -397,8 +398,8 @@ export const ReportFilterModal: React.FC = () => {
                                                 <button
                                                     key={option.value}
                                                     onClick={() => {
-                                                        const lat = option.value === 'all' ? null : userLocation?.lat || null;
-                                                        const lng = option.value === 'all' ? null : userLocation?.lng || null;
+                                                        const lat = userLocation?.lat || null;
+                                                        const lng = userLocation?.lng || null;
                                                         setFilters({
                                                             ...filters,
                                                             distance: { ...filters.distance, distance: option.value as DistanceFilter, lat: lat, lng: lng }

@@ -62,7 +62,20 @@ const ReportsPage = () => {
 
     const openReportFilterModalStore = useReportFilterModalStore((s) => s.openReportFilterModal);
     
-    const hasCoords = userLocation && userLocation?.lat !== null && userLocation?.lat !== '' && userLocation?.lng !== null && userLocation?.lng !== '';
+    const hasCoords = Boolean(
+        userLocation?.lat !== null &&
+        userLocation?.lat !== undefined &&
+        userLocation?.lat !== '' &&
+        userLocation?.lng !== null &&
+        userLocation?.lng !== undefined &&
+        userLocation?.lng !== ''
+    );
+    const distanceFilter = {
+        ...reportFilters.distance,
+        distance: reportFilters.distance.distance,
+        lat: userLocation?.lat ?? null,
+        lng: userLocation?.lng ?? null,
+    };
 
     const { requestLocation, loading: loadingRequestLocation, permissionDenied, isPermissionDenied, } = useCurrentLocation();
     const setReportCommentCounts = useReportsStore((state) => state.setReportCommentsCount);
@@ -113,7 +126,7 @@ const ReportsPage = () => {
         reportFilters.status !== 'all' ? reportFilters.status : undefined,
         reportFilters.sortBy,
         reportFilters.hasProgress !== 'all' ? reportFilters.hasProgress : undefined,
-        reportFilters.distance,
+        distanceFilter,
         undefined,
         hasCoords ? hasCoords : false
     );
@@ -152,7 +165,7 @@ const ReportsPage = () => {
         status: reportFilters.status !== 'all' ? reportFilters.status : undefined,
         sortBy: reportFilters.sortBy,
         hasProgress: reportFilters.hasProgress !== 'all' ? reportFilters.hasProgress : undefined,
-        distance: reportFilters.distance
+        distance: distanceFilter
     });
 
     const saveReportResult = saveReportData?.data?.save;
@@ -519,6 +532,31 @@ const ReportsPage = () => {
     );
 
     useEffect(() => {
+        if (!hasCoords) return;
+
+        const currentDistance = reportFilters.distance;
+
+        if (
+            currentDistance.lat !== userLocation?.lat ||
+            currentDistance.lng !== userLocation?.lng
+        ) {
+            updateReportFilters({
+                distance: {
+                    distance: currentDistance.distance,
+                    lat: userLocation?.lat ?? null,
+                    lng: userLocation?.lng ?? null,
+                },
+            });
+        }
+    }, [
+        hasCoords,
+        reportFilters.distance,
+        updateReportFilters,
+        userLocation?.lat,
+        userLocation?.lng,
+    ]);
+
+    useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) {
             fetchNextPage();
         }
@@ -683,7 +721,7 @@ const ReportsPage = () => {
                             activeFiltersCount={
                                 (reportFilters.reportType !== 'all' ? 1 : 0) +
                                 (reportFilters.status !== 'all' ? 1 : 0) +
-                                ((reportFilters.distance.distance !== 'all' && reportFilters.distance.lat != null && reportFilters.distance.lng != null) ? 1 : 0) +
+                                ((reportFilters.distance.distance !== '1000' && reportFilters.distance.lat != null && reportFilters.distance.lng != null) ? 1 : 0) +
                                 (reportFilters.sortBy !== 'latest' ? 1 : 0) +
                                 (reportFilters.hasProgress !== 'all' ? 1 : 0)
                             }
@@ -752,9 +790,9 @@ const ReportsPage = () => {
                                                 reportType: 'all',
                                                 status: 'all',
                                                 distance: {
-                                                    distance: 'all',
-                                                    lat: null,
-                                                    lng: null,
+                                                    distance: '1000',
+                                                    lat: userLocation?.lat ?? null,
+                                                    lng: userLocation?.lng ?? null,
                                                 },
                                                 hasProgress: 'all'
                                             });

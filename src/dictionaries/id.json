@@ -161,7 +161,7 @@
             "confirm_modal": {
                 "title": "Konfirmasi Perubahan Profil",
                 "subtitle": "Apakah Anda yakin ingin ubah?",
-                "description": "Informasi profil anda akan diubah.",
+                "description": "Informasi profil anda akan diubah. Perubahan username bersifat permanen dan tidak dapat dikembalikan.",
                 "confirm": "Ubah"
             }
         },

@@ -163,7 +163,7 @@
             "confirm_modal": {
                 "title": "Confirm Profile Change",
                 "subtitle": "Are you sure you want to update?",
-                "description": "Your profile information will be updated.",
+                "description": "Your profile information will be updated. Username changes are permanent and cannot be reverted.",
                 "confirm": "Update"
             }
         },

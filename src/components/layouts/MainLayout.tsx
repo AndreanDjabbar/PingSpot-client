@@ -27,15 +27,26 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     const closeSidebar = () => setSidebarOpen(false);
 
     const openEditProfileConfirm = useCallback(() => {
-        openConfirm({
-            title: t('edit_profile_confirm.title'),
-            description: t('edit_profile_confirm.description'),
-            onConfirm: () => {
-                router.push("/settings/profile");
-            },
-            confirmTitle: t('edit_profile_confirm.confirm_button'),
-        });
-    }, [openConfirm, router, t]);
+        if (userProfile?.isDefaultUsername) {
+            openConfirm({
+                title: t('update_default_username.title'),
+                description: t('update_default_username.description'),
+                onConfirm: () => {
+                    router.push("/settings/profile");
+                },
+                confirmTitle: t('update_default_username.confirm_button'),
+            });
+        } else {
+            openConfirm({
+                title: t('edit_profile_confirm.title'),
+                description: t('edit_profile_confirm.description'),
+                onConfirm: () => {
+                    router.push("/settings/profile");
+                },
+                confirmTitle: t('edit_profile_confirm.confirm_button'),
+            });
+        }
+    }, [openConfirm, router, t, userProfile]);
 
     useEffect(() => {
         loadUser();

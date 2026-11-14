@@ -570,6 +570,11 @@
         },
         "layout": {
             "main_layout": {
+                "update_default_username": {
+                    "title": "Update Username Information",
+                    "description": "Your username is still set to the default. It is recommended to update your username to personalize your experience.",
+                    "confirm_button": "Update Username"
+                },
                 "edit_profile_confirm": {
                     "title": "Update Profile Information",
                     "description": "Your profile is still incomplete. You need to update your profile information.",

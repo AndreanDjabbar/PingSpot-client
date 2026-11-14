@@ -568,6 +568,11 @@
         },
         "layout": {
             "main_layout": {
+                "update_default_username": {
+                    "title": "Perbarui Informasi Username",
+                    "description": "Username Anda masih menggunakan default. Disarankan untuk memperbarui username Anda agar pengalaman lebih personal.",
+                    "confirm_button": "Perbarui Username"
+                },
                 "edit_profile_confirm": {
                     "title": "Perbarui Informasi Profil",
                     "description": "Profil Anda masih belum lengkap. Anda perlu memperbarui informasi profil anda.",

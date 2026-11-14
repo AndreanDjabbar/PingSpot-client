@@ -528,7 +528,8 @@
                     "all": "Semua Lokasi",
                     "1000": "Dalam 1 km",
                     "5000": "Dalam 5 km",
-                    "10000": "Dalam 10 km"
+                    "10000": "Dalam 10 km",
+                    "> 10000": "Lebih dari 10 km"
                 },
                 "actions": {
                     "reset": "Reset",

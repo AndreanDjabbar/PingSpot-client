@@ -52,15 +52,17 @@ const ProfilePage = () => {
     const { 
         register, 
         handleSubmit, 
+        reset,
         setValue,
         watch,
-        formState: { errors } 
+        formState: { errors, isDirty } 
     } = useForm<ISaveProfileRequest>({
         resolver: zodResolver(saveProfileSchema),
         defaultValues: defaultValues
     });
 
     const genderValue = watch('gender');
+    const hasProfileChanges = isDirty || profilePicture !== null || removedProfilePicture;
     
     const genderOptions = [
         { value: 'male', label: t('gender.options.male') },
@@ -127,14 +129,17 @@ const ProfilePage = () => {
 
     useEffect(() => {
         if (user) {
-            setValue('fullName', user.fullName || '');
-            setValue('username', user.username || '');
-            setValue('gender', user.gender as "male" | "female" | null | undefined);
-            setValue('bio', user.bio || '');
-            setValue('birthday', user.birthday || undefined);
+            reset({
+                fullName: user.fullName || '',
+                username: user.username || '',
+                gender: user.gender as "male" | "female" | null | undefined,
+                bio: user.bio || '',
+                birthday: user.birthday || null,
+                profilePicture: undefined,
+            });
             setBirthdayDate(user.birthday || '');
         }
-    }, [user, setValue]);
+    }, [user, reset]);
 
     useEffect(() => {
         if (isSuccess && data) {
@@ -213,6 +218,7 @@ const ProfilePage = () => {
                                             register={register("username")}
                                             type="text"
                                             className="w-full"
+                                            disabled={user?.isDefaultUsername ? false : true}
                                             withLabel={true}
                                             labelTitle={t('username.label')}
                                             icon={<IoPersonSharp size={20}/>} 
@@ -230,7 +236,7 @@ const ProfilePage = () => {
                                             type="date"
                                             onChange={(e) => {
                                                 setBirthdayDate(e.target.value);
-                                                setValue("birthday", e.target.value);
+                                                setValue("birthday", e.target.value, { shouldDirty: true });
                                             }}
                                             value={user?.birthday || ''}
                                             labelTitle={t('birthday.label')}
@@ -252,7 +258,7 @@ const ProfilePage = () => {
                                             options={genderOptions}
                                             value={genderValue || ''}
                                             onChange={(val) => {
-                                                setValue("gender", val as "male" | "female");
+                                                setValue("gender", val as "male" | "female", { shouldDirty: true });
                                             }}
                                             layout='horizontal'
                                         />
@@ -278,6 +284,7 @@ const ProfilePage = () => {
                                         loadingText={t('submit.loading')}
                                         type='submit'
                                         isLoading={isPending || isCompressing}
+                                        disabled={!hasProfileChanges}
                                     >
                                         {t('submit.default')}
                                     </Button>

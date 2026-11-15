@@ -1,10 +1,4 @@
-import { 
-    createRegisterSchema,
-    createLoginSchema,
-    createVerificationSchema,
-    createForgotPasswordEmailVerificationSchema,
-    createForgotPasswordResetPasswordSchema
-} from "@/app/auth/Schema";
+import { createForgotPasswordEmailVerificationSchema, createForgotPasswordResetPasswordSchema, createLoginSchema, createRegisterSchema, createVerificationSchema } from "@/schemas/auth.schema";
 import z from "zod";
 
 export type IRegisterRequest = z.infer<ReturnType<typeof createRegisterSchema>>;

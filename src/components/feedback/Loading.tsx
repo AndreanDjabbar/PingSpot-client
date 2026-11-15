@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib';
+import { cn } from '@/lib/styles';
 import React, { createContext, useContext } from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
@@ -247,10 +247,8 @@ type LoadingComponent = typeof LoadingRoot & {
     Bars:    typeof BarsLoader;
 };
 
-const Loading = LoadingRoot as LoadingComponent;
+export const Loading = LoadingRoot as LoadingComponent;
 Loading.Spinner = SpinnerLoader;
 Loading.Dots    = DotsLoader;
 Loading.Pulse   = PulseLoader;
 Loading.Bars    = BarsLoader;
-
-export default Loading;

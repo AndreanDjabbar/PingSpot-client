@@ -32,25 +32,40 @@ export const compressImages = async (files: File, options?: ImageCompressionOpti
 };
 
 
-export const getImageURL = (path: string, type: string) => {
-    let pathFile = path;
-    let baseURL = type === "user"
+// export const getImageURL = (path: string, type: string) => {
+//     let pathFile = path;
+//     let baseURL = type === "user"
+//         ? process.env.NEXT_PUBLIC_USER_STATIC_URL
+//         : process.env.NEXT_PUBLIC_MAIN_STATIC_URL;
+
+//     if (!path || path === "") {
+//         type === "user" 
+//             ? pathFile = "default-profile.png"
+//             : pathFile = "default-image.png";
+//         baseURL = '/images';
+//     }
+
+
+//     const fullURL = `${baseURL}/${pathFile}`;
+
+//     if (process.env.NODE_ENV === "development" && fullURL.includes("localhost")) {
+//         return `/api/image-proxy?url=${encodeURIComponent(fullURL)}`;
+//     }
+
+//     return fullURL;
+// };
+
+export const getImageURL = (path?: string | null, type: "user" | "main" = "main") => {
+    if (!path) {
+        return type === "user" 
+        ? "/images/default-profile.png" 
+        : "/images/default-image.png";
+    }
+
+    const baseURL =
+        type === "user"
         ? process.env.NEXT_PUBLIC_USER_STATIC_URL
         : process.env.NEXT_PUBLIC_MAIN_STATIC_URL;
 
-    if (!path || path === "") {
-        type === "user" 
-            ? pathFile = "default-profile.png"
-            : pathFile = "default-image.png";
-        baseURL = '/images';
-    }
-
-
-    const fullURL = `${baseURL}/${pathFile}`;
-
-    if (process.env.NODE_ENV === "development" && fullURL.includes("localhost")) {
-        return `/api/image-proxy?url=${encodeURIComponent(fullURL)}`;
-    }
-
-    return fullURL;
+    return `${baseURL}/${path}`;
 };

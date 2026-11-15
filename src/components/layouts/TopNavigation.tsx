@@ -1,11 +1,11 @@
 import { BiMenu } from "react-icons/bi";
-import PingspotLogo from "../UI/PingspotLogo";
+import { PingspotLogo } from "../UI/PingspotLogo";
 
 interface TopNavigationProps {
     onMenuToggle: () => void;
 }
 
-const TopNavigation: React.FC<TopNavigationProps> = ({ onMenuToggle }) => {
+export const TopNavigation: React.FC<TopNavigationProps> = ({ onMenuToggle }) => {
     return (
         <div className="xl:hidden bg-pingspot fixed top-0 left-0 right-0 z-40 w-full border-b border-gray-200 bg-background">
             <div className="flex items-center justify-between px-4 py-3">
@@ -22,5 +22,3 @@ const TopNavigation: React.FC<TopNavigationProps> = ({ onMenuToggle }) => {
         </div>
     )
 }
-
-export default TopNavigation;

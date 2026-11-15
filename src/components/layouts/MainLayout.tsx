@@ -1,18 +1,19 @@
 "use client";
 import React, { useCallback, useEffect, useState } from 'react'
-import Sidebar from './Sidebar';
-import TopNavigation from './TopNavigation';
-import { useUserProfileStore, useConfirmationModalStore } from '@/stores';
 import { useRouter } from 'next/navigation';
-import Scrollbar from './Scrollbar';
 import { useTranslations } from 'next-intl';
+import { useConfirmationModalStore } from '@/stores/modal.store';
+import { useUserProfileStore } from '@/stores/user.store';
+import { TopNavigation } from './TopNavigation';
+import { Scrollbar } from './Scrollbar';
+import { Sidebar } from './Sidebar';
 
 interface MainLayoutProps {
     children: React.ReactNode;
     sidebarCollapsed?: boolean;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({
+export const MainLayout: React.FC<MainLayoutProps> = ({
     children,
 }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,15 +27,26 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     const closeSidebar = () => setSidebarOpen(false);
 
     const openEditProfileConfirm = useCallback(() => {
-        openConfirm({
-            title: t('edit_profile_confirm.title'),
-            description: t('edit_profile_confirm.description'),
-            onConfirm: () => {
-                router.push("/main/settings/profile");
-            },
-            confirmTitle: t('edit_profile_confirm.confirm_button'),
-        });
-    }, [openConfirm, router, t]);
+        if (userProfile?.isDefaultUsername) {
+            openConfirm({
+                title: t('update_default_username.title'),
+                description: t('update_default_username.description'),
+                onConfirm: () => {
+                    router.push("/settings/profile");
+                },
+                confirmTitle: t('update_default_username.confirm_button'),
+            });
+        } else {
+            openConfirm({
+                title: t('edit_profile_confirm.title'),
+                description: t('edit_profile_confirm.description'),
+                onConfirm: () => {
+                    router.push("/settings/profile");
+                },
+                confirmTitle: t('edit_profile_confirm.confirm_button'),
+            });
+        }
+    }, [openConfirm, router, t, userProfile]);
 
     useEffect(() => {
         loadUser();
@@ -65,4 +77,3 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         </div>
     )
 }
-export default MainLayout

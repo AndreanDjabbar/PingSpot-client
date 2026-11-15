@@ -8,7 +8,7 @@ interface PingspotLogoProps {
     className?: string;
 }
 
-const PingspotLogo: React.FC<PingspotLogoProps> = ({
+export const PingspotLogo: React.FC<PingspotLogoProps> = ({
     variant = 'primary',
     color = 'primary',
     size = '150',
@@ -33,5 +33,3 @@ const PingspotLogo: React.FC<PingspotLogoProps> = ({
         />
     )
 }
-
-export default PingspotLogo

@@ -1,5 +1,5 @@
+import { cn } from '@/lib/styles';
 import React from 'react';
-import { cn } from '@/lib';
 
 type ResizeOption = 'none' | 'y' | 'x' | 'both';
 type VariantOption = 'default' | 'filled' | 'ghost';
@@ -41,7 +41,7 @@ const resizeClasses: Record<ResizeOption, string> = {
     both:  'resize',
 };
 
-const TextAreaField = React.forwardRef<HTMLTextAreaElement, TextAreaFieldProps>(
+export const TextAreaField = React.forwardRef<HTMLTextAreaElement, TextAreaFieldProps>(
     (
         {
             className,
@@ -132,5 +132,3 @@ const TextAreaField = React.forwardRef<HTMLTextAreaElement, TextAreaFieldProps>(
 );
 
 TextAreaField.displayName = 'TextAreaField';
-
-export default TextAreaField;

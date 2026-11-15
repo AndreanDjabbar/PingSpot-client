@@ -1,4 +1,4 @@
-import { deleteAllNotificationsService, deleteNotificationService, getNotificationsService, markAllNotificationsAsReadService, markNotificationAsReadService } from "@/services"
+import { deleteAllNotificationsService, deleteNotificationService, getNotificationsService, markAllNotificationsAsReadService, markNotificationAsReadService } from "@/services/notification.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 

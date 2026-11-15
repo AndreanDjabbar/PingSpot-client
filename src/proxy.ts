@@ -4,20 +4,39 @@ import { NextResponse } from "next/server";
 export const proxy = (request: NextRequest) => {
     const accessToken = request.cookies.get('access_token')?.value;
     const refreshToken = request.cookies.get('refresh_token')?.value;
+
+    const authRoutes = [
+        '/login',
+        '/register',
+        '/forgot-password',
+        '/forgot-password/verification',
+        '/verification',
+    ]
+
+    const mainRoutes = [
+        '/home',
+        '/explore',
+        '/notifications',
+        '/profile',
+        '/settings',
+        '/reports'
+    ]
+
     const pathname = request.nextUrl.pathname;
-    const isGoogleAuthCallbackRoute = pathname === '/auth/google' || pathname.startsWith('/auth/google/');
+
+    const isGoogleAuthCallbackRoute = pathname === '/google' || pathname.startsWith('/google/');
     
     const isAuthenticated = !!(accessToken || refreshToken);
 
-    if (pathname.startsWith('/main')) {
+    if (mainRoutes.some(route => pathname.startsWith(route))) {
         if (!isAuthenticated) {
-            return NextResponse.redirect(new URL('/auth/login', request.url));
+            return NextResponse.redirect(new URL('/login', request.url));
         }
     }
 
-    if (pathname.startsWith('/auth')) {
+    if (authRoutes.some(route => pathname.startsWith(route))) {
         if (isAuthenticated && !isGoogleAuthCallbackRoute) {
-            return NextResponse.redirect(new URL('/main/home', request.url));
+            return NextResponse.redirect(new URL('/home', request.url));
         }
     }
 

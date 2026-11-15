@@ -1,13 +1,6 @@
-import { 
-    buildCreateReportSchema,
-    buildReactReportSchema,
-    buildEditReportSchema,
-    buildUploadProgressReportSchema,
-    buildVoteReportSchema,
-    buildCreateReportCommentSchema
-} from "@/app/main/schema";
-import {  IGetReportSaved, IReport, IReportComment, IReportProgress, IReportReactions, IReportVote, ITotalReportCount } from "../model";
 import z from "zod";
+import { buildCreateReportCommentSchema, buildCreateReportSchema, buildEditReportSchema, buildReactReportSchema, buildUploadProgressReportSchema, buildVoteReportSchema } from "@/schemas/report.schema";
+import { IGetReportSaved, IReport, IReportComment, IReportProgress, IReportReactions, IReportVote, ITotalReportCount } from "../common/report";
 
 export interface IGetReportResponse {
     message: string;
@@ -143,5 +136,15 @@ export interface IGetReportSavedResponse {
             savedReports: IGetReportSaved[];
         }
         nextCursor?: number | null;
+    }
+}
+
+export interface ISearchReportsResponse {
+    message: string;
+    data?: {
+        reportsData: {
+            reportsData: IReport[];
+        };
+        nextCursorReportsData?: number | null;
     }
 }

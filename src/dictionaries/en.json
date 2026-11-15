@@ -1,4 +1,47 @@
 {
+    "about": {
+        "eyebrow": "Better neighborhoods, together",
+        "nav": { "sign_in": "Sign in", "get_started": "Get started" },
+        "hero": {
+            "title": "PingSpot – Report and Track Issues in Your Community",
+            "description": "PingSpot lets you report local problems, follow their progress, and stay connected with your community.",
+            "cta": "Join PingSpot",
+            "note": "Free to use",
+            "image_alt": "A neighborhood street viewed from above",
+            "quote": "Small signals become meaningful change when a community can see them, talk about them, and act together.",
+            "badge": "Built for local action"
+        },
+        "features": {
+            "eyebrow": "Inside PingSpot",
+            "title": "A complete loop for local issues",
+            "description": "PingSpot brings reporting, context, community feedback, and follow-up into one connected experience.",
+            "reporting": {
+                "title": "Report clearly. Track honestly.",
+                "description": "Create a location-based report with a title, description, category, map position, and supporting photos. Then keep the report useful after it is published.",
+                "points": { "one": "See the exact issue location on an interactive map", "two": "Update progress with notes and photo evidence", "three": "Let community votes reflect the latest situation" },
+                "image_alt": "PingSpot report details and progress screens"
+            },
+            "community": {
+                "title": "Find people and issues that matter",
+                "description": "Explore reports and users, open a full profile, follow community members, and add context through comments, replies, likes, and sharing.",
+                "points": { "one": "Search reports and users from one place", "two": "View profiles, published reports, followers, and following", "three": "Discuss reports and contribute your perspective" },
+                "image_alt": "PingSpot explore, profile, and comments screens"
+            },
+            "stay_connected": {
+                "title": "Keep your neighborhood within reach",
+                "description": "Save reports to revisit later, receive activity notifications, manage email preferences, and shape your account around the way you participate.",
+                "points": { "one": "Save reports and return to them from Settings", "two": "Get notified about comments, votes, and report activity", "three": "Manage your profile, language, security, and preferences" },
+                "image_alt": "PingSpot notifications, saved reports, and settings screens"
+            }
+        },
+        "mission": {
+            "eyebrow": "Why we built it",
+            "title": "A clearer way to care for the places we share.",
+            "description": "PingSpot brings residents closer to the issues around them. By connecting context, location, and community participation, we make it easier to raise awareness and keep momentum after a report is made.",
+            "cta": "Start with PingSpot"
+        },
+        "footer": { "tagline": "See it. Share it. Improve it.", "copyright": "© {year} PingSpot. All rights reserved." }
+    },
     "settings": {
         "description": "Customize PingSpot to your preferences for a better experience.",
         "account_profile_card": "Account & Profile",
@@ -120,7 +163,7 @@
             "confirm_modal": {
                 "title": "Confirm Profile Change",
                 "subtitle": "Are you sure you want to update?",
-                "description": "Your profile information will be updated.",
+                "description": "Your profile information will be updated. Username changes are permanent and cannot be reverted.",
                 "confirm": "Update"
             }
         },
@@ -379,6 +422,7 @@
                 "notifications": "Notifications",
                 "reports": "Reports",
                 "settings": "Settings",
+                "about": "About",
                 "logout": "Log Out"
             },
             "user_defaults": {
@@ -486,7 +530,8 @@
                     "all": "All Locations",
                     "1000": "Within 1 km",
                     "5000": "Within 5 km",
-                    "10000": "Within 10 km"
+                    "10000": "Within 10 km",
+                    "> 10000": "More than 10 km"
                 },
                 "actions": {
                     "reset": "Reset",
@@ -526,6 +571,11 @@
         },
         "layout": {
             "main_layout": {
+                "update_default_username": {
+                    "title": "Update Username Information",
+                    "description": "Your username is still set to the default. It is recommended to update your username to personalize your experience.",
+                    "confirm_button": "Update Username"
+                },
                 "edit_profile_confirm": {
                     "title": "Update Profile Information",
                     "description": "Your profile is still incomplete. You need to update your profile information.",
@@ -1499,6 +1549,7 @@
     },
     "auth": {
         "login": {
+            "about_link": "Learn what PingSpot is",
             "title": "Welcome to PingSpot",
             "subtitle": "Please sign in to your account to continue",
             "email_or_username": {
@@ -1518,7 +1569,8 @@
             "google": "Google",
             "no_account": {
                 "text": "Don't have an account?",
-                "link": "Sign up for free"
+                "link": "Sign up for free",
+                "about_link": "Learn what PingSpot is"
             }
         },
         "register": {

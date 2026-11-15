@@ -18,7 +18,7 @@ interface DateTimeFieldProps {
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-const DateTimeField: React.FC<DateTimeFieldProps> = ({
+export const DateTimeField: React.FC<DateTimeFieldProps> = ({
     id,
     name,
     type = 'date',
@@ -89,5 +89,3 @@ const DateTimeField: React.FC<DateTimeFieldProps> = ({
         </div>
     );
 };
-
-export default DateTimeField;

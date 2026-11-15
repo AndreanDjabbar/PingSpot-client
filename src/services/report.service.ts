@@ -1,30 +1,11 @@
-import axiosInstance from "@/lib/axiosInstance";
-import { 
-    ICreateReportCommentResponse,
-    ICreateReportResponse,
-    IDeleteReportRequest,
-    IDeleteReportResponse,
-    IEditReportResponse,
-    IGetProgressReportResponse,
-    IGetReportByIDResponse,
-    IGetReportCommentRepliesResponse,
-    IGetReportCommentsResponse,
-    IGetReportResponse,
-    IGetReportSavedResponse,
-    IGetReportStatisticsResponse,
-    IReactReportRequest,
-    IReactReportResponse,
-    ISaveReportResponse,
-    IUpdateReportStatusResponse,
-    IUploadProgressReportResponse,
-    IVoteReportRequest,
-    IVoteReportResponse
-} from "@/types";
+import {axiosInstance} from "@/lib/axiosInstance";
+import {createIdempotencyKey} from "@/lib/idempotency";
+import { ICreateReportCommentResponse, ICreateReportResponse, IDeleteReportRequest, IDeleteReportResponse, IEditReportResponse, IGetProgressReportResponse, IGetReportByIDResponse, IGetReportCommentRepliesResponse, IGetReportCommentsResponse, IGetReportResponse, IGetReportSavedResponse, IGetReportStatisticsResponse, IReactReportRequest, IReactReportResponse, ISaveReportResponse, ISearchReportsResponse, IUpdateReportStatusResponse, IUploadProgressReportResponse, IVoteReportRequest, IVoteReportResponse } from "@/types/api/report";
 
 export const createReportService = async (payload: FormData): Promise<ICreateReportResponse> => {
     const response = await axiosInstance.post<ICreateReportResponse>(`/report`, payload, {
         headers: {
-            'Content-Type': 'multipart/form-data',
+            'Idempotency-Key': createIdempotencyKey(),
             'Accept': 'application/json',
         },
     });
@@ -50,7 +31,7 @@ export const getReportService = async (
     if (cursorID) params.append('cursorID', cursorID.toString());
     if (reportType && reportType !== 'all') params.append('reportType', reportType);
     if (status && status !== 'all') params.append('status', status);
-    if (distance && distance.distance !== 'all' && distance.lat !== null && distance.lng !== null) {
+    if (distance && distance.lat !== null && distance.lng !== null) {
         const distanceOBJ = {
             distance: distance.distance,
             lat: distance.lat,
@@ -106,7 +87,7 @@ export const reactReportService = async (reportID: number, data: IReactReportReq
     const response = await axiosInstance.post<IReactReportResponse>(`/report/${reportID}/reaction`, 
         { reactionType: data.reactionType }, {
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Idempotency-Key': createIdempotencyKey(),
                 'Accept': 'application/json',
             },
         });
@@ -117,7 +98,7 @@ export const voteReportService = async (reportID: number, data: IVoteReportReque
     const response = await axiosInstance.post<IVoteReportResponse>(`/report/${reportID}/vote`, 
         { voteType: data.voteType }, {
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Idempotency-Key': createIdempotencyKey(),
                 'Accept': 'application/json',
             },
         });
@@ -127,7 +108,7 @@ export const voteReportService = async (reportID: number, data: IVoteReportReque
 export const uploadProgressReportService = async (reportID: number, payload: FormData): Promise<IUploadProgressReportResponse> => {
     const response = await axiosInstance.post<IUploadProgressReportResponse>(`/report/${reportID}/progress`, payload, {
         headers: {
-            'Content-Type': 'multipart/form-data',
+            'Idempotency-Key': createIdempotencyKey(),
             'Accept': 'application/json',
         },
     });
@@ -142,7 +123,7 @@ export const getReportStatisticsService = async() => {
 export const createReportCommentService = async (reportID: number, payload: FormData): Promise<ICreateReportCommentResponse> => {
     const response = await axiosInstance.post<ICreateReportCommentResponse>(`/report/${reportID}/comment`, payload, {
         headers: {
-            'Content-Type': 'multipart/form-data',
+            'Idempotency-Key': createIdempotencyKey(),
             'Accept': 'application/json',
         },
     });
@@ -158,7 +139,6 @@ export const updateReportStatusService = async (reportID: number, status: string
 export const EditReportService = async (reportID: number, payload: FormData): Promise<IEditReportResponse> => {
     const response = await axiosInstance.put<IEditReportResponse>(`/report/${reportID}`, payload, {
         headers: {
-            'Content-Type': 'multipart/form-data',
             'Accept': 'application/json',
         },
     });
@@ -182,5 +162,15 @@ export const getSavedReportService = async (cursorID?: number): Promise<IGetRepo
     
     const queryString = params.toString() ? `?${params.toString()}` : '';
     const response = await axiosInstance.get<IGetReportSavedResponse>(`/report/save/${queryString}`);
+    return response.data;
+}
+
+export const searchReportsDataService = async (searchQuery: string, reportsDatacursorID?: number): Promise<ISearchReportsResponse> => {
+    const params = new URLSearchParams();
+
+    if (reportsDatacursorID) params.append('reportsDataCursorID', reportsDatacursorID.toString());
+    params.append('searchQuery', searchQuery);
+    const queryString = params.toString() ? `&${params.toString()}` : '';
+    const response = await axiosInstance.get<ISearchReportsResponse>(`/report/search/?${queryString}`);
     return response.data;
 }

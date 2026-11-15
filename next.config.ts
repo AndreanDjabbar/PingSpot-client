@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from 'next-intl/plugin';
-const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
+const withNextIntl = createNextIntlPlugin('./src/lib/i18n.ts');
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
@@ -11,12 +11,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'api.pingspot-main.web.id', pathname: '/**' },
       { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
       { protocol: 'https', hostname: 'cdnjs.cloudflare.com', pathname: '/**' },
-    ],
-    localPatterns: [
-      {
-        pathname: '/api/image-proxy',
-        search: '**',
-      },
     ],
     unoptimized: process.env.NODE_ENV === 'development',
   },

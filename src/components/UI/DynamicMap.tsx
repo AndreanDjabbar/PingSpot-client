@@ -3,12 +3,13 @@
 
 import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
-import { useCurrentLocation, useErrorToast } from '@/hooks';
+import { useCurrentLocation } from '@/hooks/useCurrentLocation';
+import { useErrorToast } from '@/hooks/useToast';
 import { FaMapPin, FaSpinner, FaLocationArrow } from 'react-icons/fa';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import Button from './Button';
 import { useTranslations } from 'next-intl';
+import { Button } from './Button';
 
 interface DynamicMapProps {
     onMarkerPositionChange?: (position: { lat: number, lng: number }) => void;
@@ -109,7 +110,7 @@ const MapEvents = ({
     return null;
 };
 
-const DynamicMap: React.FC<DynamicMapProps> = ({ 
+export const DynamicMap: React.FC<DynamicMapProps> = ({ 
     onMarkerPositionChange,
     onZoomChange,
     height = '400px',
@@ -156,7 +157,7 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
     const createPrimaryIcon = () => {
         const svgIcon = `
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 41" width="25" height="41">
-                <path d="M12.5 0C5.596 0 0 5.596 0 12.5c0 12.5 12.5 28.5 12.5 28.5s12.5-16 12.5-28.5C25 5.596 19.404 0 12.5 0z" fill="#6C5CE7"/>
+                <path d="M12.5 0C5.596 0 0 5.596 0 12.5c0 12.5 12.5 28.5 12.5 28.5s12.5-16 12.5-28.5C25 5.596 19.404 0 12.5 0z" fill="#0891B2"/>
                 <circle cx="12.5" cy="12.5" r="4.5" fill="white"/>
             </svg>
         `;
@@ -369,5 +370,3 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
         </div>
     );
 };
-
-export default DynamicMap;

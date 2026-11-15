@@ -5,7 +5,7 @@ interface BackgroundThemeProps {
     className?: string;
 }
 
-const BackgroundTheme: React.FC<BackgroundThemeProps> = ({ className }) => {
+export const BackgroundTheme: React.FC<BackgroundThemeProps> = ({ className }) => {
     const t = useTranslations('component.layout.background_theme');
     return (
         <div
@@ -61,5 +61,3 @@ const BackgroundTheme: React.FC<BackgroundThemeProps> = ({ className }) => {
         </div>
     );
 }
-
-export default BackgroundTheme;

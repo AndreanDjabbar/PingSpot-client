@@ -3,21 +3,23 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLocationStore, useReportFilterModalStore, useReportsStore } from '@/stores';
-import { ReportFilterOptions, ReportType } from '@/types';
 import { MdAccessTime, MdCancel, MdCheckCircle } from 'react-icons/md';
 import { BiCategory, BiLike, BiMap } from 'react-icons/bi';
 import { RiProgress3Fill } from 'react-icons/ri';
-import { Button } from '@/components/UI';
-import { Scrollbar } from '@/components';
 import { useTranslations } from 'next-intl';
+import { useReportFilterModalStore } from '@/stores/modal.store';
+import { useReportsStore } from '@/stores/report.store';
+import { useLocationStore } from '@/stores/location.store';
+import { ReportFilterOptions, ReportType } from '@/types/common/report';
+import { Scrollbar } from '../layouts/Scrollbar';
+import { Button } from '../UI/Button';
 
 type SortOption = 'latest' | 'oldest' | 'most_liked' | 'least_liked';
 type StatusFilter = 'all' | 'WAITING' | 'ON_PROGRESS' | 'RESOLVED' | 'WAITING_CONFIRMATION' | 'EXPIRED';
-type DistanceFilter = 'all' | '1000' | '5000' | '10000';
+type DistanceFilter = '1000' | '5000' | '10000' | '> 10000';
 type ProgressFilter = 'all' | 'true' | 'false';
 
-const ReportFilterModal: React.FC = () => {
+export const ReportFilterModal: React.FC = () => {
     const t = useTranslations('component.modal.report_filter');
     const { isOpen: isReportFilterModalOpen, anchorRef, closeReportFilterModal } = useReportFilterModalStore();
     const [position, setPosition] = useState({ top: 0, right: 0 });
@@ -151,9 +153,9 @@ const ReportFilterModal: React.FC = () => {
             reportType: 'all',
             status: 'all',
             distance: {
-                distance: 'all',
-                lat: null,
-                lng: null,
+                distance: '1000',
+                lat: userLocation?.lat || null,
+                lng: userLocation?.lng || null,
             },
             hasProgress: 'all'
         });
@@ -201,10 +203,11 @@ const ReportFilterModal: React.FC = () => {
     ];
 
     const distanceOptions = [
-        { value: 'all', label: t('distance_options.all'), icon: <BiMap /> },
+        // { value: 'all', label: t('distance_options.all'), icon: <BiMap /> },
         { value: '1000', label: t('distance_options.1000'), icon: <BiMap /> },
         { value: '5000', label: t('distance_options.5000'), icon: <BiMap /> },
         { value: '10000', label: t('distance_options.10000'), icon: <BiMap /> },
+        { value: '> 10000', label: t('distance_options.> 10000'), icon: <BiMap /> },
     ];
 
     return (
@@ -395,8 +398,8 @@ const ReportFilterModal: React.FC = () => {
                                                 <button
                                                     key={option.value}
                                                     onClick={() => {
-                                                        const lat = option.value === 'all' ? null : userLocation?.lat || null;
-                                                        const lng = option.value === 'all' ? null : userLocation?.lng || null;
+                                                        const lat = userLocation?.lat || null;
+                                                        const lng = userLocation?.lng || null;
                                                         setFilters({
                                                             ...filters,
                                                             distance: { ...filters.distance, distance: option.value as DistanceFilter, lat: lat, lng: lng }
@@ -441,5 +444,3 @@ const ReportFilterModal: React.FC = () => {
         </AnimatePresence>
     );
 };
-
-export default ReportFilterModal;

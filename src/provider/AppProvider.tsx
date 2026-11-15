@@ -1,13 +1,9 @@
 "use client";
 
-import { 
-    useConfirmationModalStore,
-    useImagePreviewModalStore 
-} from "@/stores";
-import { 
-    ConfirmationModal,
-    ImagePreviewModal 
-} from "@/components";
+import { ConfirmationModal } from "@/components/modals/ConfirmationModal";
+import { ImagePreviewModal } from "@/components/modals/ImagePreviewModal";
+import { ReportFilterModal } from "@/components/modals/ReportFilterModal";
+import { useConfirmationModalStore, useImagePreviewModalStore } from "@/stores/modal.store";
 
 export const ConfirmationModalProvider = () => {
     const {
@@ -56,3 +52,7 @@ export const ImagePreviewModalProvider = () => {
         />
     )
 }
+
+export const ReportFilterModalProvider: React.FC = () => {
+    return <ReportFilterModal />;
+};

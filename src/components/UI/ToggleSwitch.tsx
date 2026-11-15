@@ -3,7 +3,7 @@ interface ToggleSwitchProps {
     onChange: () => void;
 }
 
-const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ enabled, onChange }) => {
+export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ enabled, onChange }) => {
     return (
         <button
         type="button"
@@ -21,5 +21,3 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ enabled, onChange }) => {
         </button>
     );
 };
-
-export default ToggleSwitch;

@@ -1,7 +1,7 @@
 "use client";
 
+import { OptionsModal } from '@/components/modals/OptionsModal';
 import React from 'react';
-import { OptionsModal } from '@/components';
 
 export const OptionsModalProvider: React.FC = () => {
     return <OptionsModal />;

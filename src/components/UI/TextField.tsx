@@ -1,8 +1,8 @@
 "use client"
 
+import { cn } from '@/lib/styles';
 import React, { useState } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { cn } from '@/lib';
 
 interface InputFieldProps {
     className?: string;
@@ -23,7 +23,7 @@ interface InputFieldProps {
     disabled?: boolean;
 }
 
-const InputField: React.FC<InputFieldProps> = ({
+export const InputField: React.FC<InputFieldProps> = ({
     id,
     isUseAutoComplete=true,
     name,
@@ -89,5 +89,3 @@ const InputField: React.FC<InputFieldProps> = ({
         </div>
     )
 }
-
-export default InputField

@@ -1,6 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     withCredentials: true,
     headers: {
@@ -8,6 +8,14 @@ const axiosInstance = axios.create({
         'Accept': 'application/json',
     },
 });
+
+axiosInstance.interceptors.request.use((config) => {
+    if (typeof FormData !== 'undefined' && config.data instanceof FormData) {
+        config.headers.delete('Content-Type');
+    }
+    return config;
+});
+
 
 let isRefreshing = false;
 let failedQueue: Array<{
@@ -33,6 +41,7 @@ axiosInstance.interceptors.response.use(
         const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
         if (error.response?.status === 401 && !originalRequest._retry) {
+            // If a login or refresh request itself fails with a 401, it immediately rejects the promise rather than trying to refresh again, preventing a cascading loop.
             if (originalRequest.url?.includes('auth/login') || 
                 originalRequest.url?.includes('auth/register') ||
                 originalRequest.url?.includes('auth/refresh-token')) {
@@ -40,6 +49,9 @@ axiosInstance.interceptors.response.use(
             }
 
             if (isRefreshing) {
+                // When a request fails with a 401, the interceptor checks if another request is already in the process of refreshing the token.
+                
+                // If isRefreshing is true, it means a refresh request has already been sent to the server, and this new failed request needs to wait.
                 return new Promise((resolve, reject) => {
                     failedQueue.push({ resolve, reject });
                 })
@@ -72,7 +84,7 @@ axiosInstance.interceptors.response.use(
                 isRefreshing = false;
 
                 if (typeof window !== 'undefined') {
-                    window.location.href = '/auth/login';
+                    window.location.href = '/login';
                 }
 
                 return Promise.reject(refreshError);
@@ -82,4 +94,3 @@ axiosInstance.interceptors.response.use(
     }
 );
 
-export default axiosInstance;

@@ -1,9 +1,6 @@
 import z from "zod";
-import { 
-    IMentionedUser,
-    IUserProfile 
-} from "../model";
-import { buildSaveProfileSchema, buildSaveSecuritySchema } from "@/app/main/schema";
+import { buildSaveProfileSchema, buildSaveSecuritySchema } from "@/schemas/user.schema";
+import { IUserProfile } from "../common/user";
 
 export interface IGetProfileByUsernameResponse {
     message: string;
@@ -41,7 +38,7 @@ export interface ISearchUsersResponse {
     message: string;
     data?: {
         usersData: {
-            usersData: IMentionedUser[];
+            usersData: IUserProfile[];
         };
         nextCursorUsersData?: number | null;
     }

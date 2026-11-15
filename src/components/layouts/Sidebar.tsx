@@ -2,18 +2,20 @@
 "use client";
 
 import { BiX } from "react-icons/bi";
-import { ProfileBadge } from "../UI";
-import { FaInbox } from "react-icons/fa";
+import { FaInbox, FaInfoCircle } from "react-icons/fa";
 import { IoMdHome, IoMdWarning } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
-import { useConfirmationModalStore, useGlobalStore, useUserProfileStore } from "@/stores";
 import React, { useEffect, useRef } from "react";
 import { IoSettings } from "react-icons/io5";
 import { IconType } from "react-icons/lib";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { ImExit } from "react-icons/im";
-import { useErrorToast, useLogout, useSuccessToast } from "@/hooks";
+import { useLogout } from "@/hooks/api/useAuth";
+import { useErrorToast, useSuccessToast } from "@/hooks/useToast";
 import { useTranslations } from "next-intl";
+import { useUserProfileStore } from "@/stores/user.store";
+import { useConfirmationModalStore } from "@/stores/modal.store";
+import { ProfileBadge } from "../UI/ProfileBadge";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -35,7 +37,7 @@ interface SidebarButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 
-const ButtonSidebar = React.forwardRef<HTMLButtonElement, SidebarButton>(({ 
+export const ButtonSidebar = React.forwardRef<HTMLButtonElement, SidebarButton>(({ 
     item,
     isActive,
     onClick,
@@ -87,7 +89,7 @@ const navigationItems: NavigationItem[] = [
     // { id: 'activity', label: 'Aktivitas', icon: LuActivity },
 ]
 
-const Sidebar: React.FC<SidebarProps> = ({ 
+export const Sidebar: React.FC<SidebarProps> = ({ 
     isOpen, 
     onToggle, 
     onBottomNavHeightChange 
@@ -95,7 +97,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     const router = useRouter();
     const t = useTranslations('component.sidebar');
     const currentPath = usePathname().split('/')[2] || 'home';
-    const { setCurrentPage } = useGlobalStore();
     const user = useUserProfileStore(state => state.userProfile);
     const bottomNavRef = useRef<HTMLDivElement>(null);
     const openConfirm = useConfirmationModalStore((state) => state.openConfirm);
@@ -126,7 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     useEffect(() => {
         if (isSuccess) {
             setTimeout(() => {
-                router.push("/auth/login");
+                router.push("/login");
             }, 1000);
         }
     }, [isSuccess, router]);
@@ -169,7 +170,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                                     email={user?.email || t('user_defaults.email')}
                                     imageUrl={user?.profilePicture}
                                     size="md"
-                                    onClick={() => router.push('/main/profile/' + user?.username)}
+                                    onClick={() => router.push('/profile/' + user?.username)}
                                 />
                             </div>
                         </div>
@@ -183,11 +184,22 @@ const Sidebar: React.FC<SidebarProps> = ({
                                         isActive={item.id === currentPath}
                                         onClick={() => {
                                             onToggle();
-                                            router.push(`/main/${item.id}`)
-                                            setCurrentPage(item.id);
+                                            router.push(`/${item.id}`)
+                                            // setCurrentPage(item.id);
                                         }}
                                     />
                                 ))}
+                                <ButtonSidebar
+                                    item={{
+                                        id: 'about',
+                                        label: t('nav.about'),
+                                        icon: FaInfoCircle
+                                    }}
+                                    disabled={isPending}
+                                    isActive={false}
+                                    onClick={router.push.bind(null, '/about')}
+                                    className="mt-45"
+                                />
                                 <ButtonSidebar
                                     item={{
                                         id: 'logout',
@@ -197,7 +209,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                                     disabled={isPending}
                                     isActive={false}
                                     onClick={handleLogout}
-                                    className="mt-45"
+                                    className=""
                                 />
                             </nav>    
                         </div>
@@ -214,5 +226,3 @@ const Sidebar: React.FC<SidebarProps> = ({
         </>
     )
 }
-
-export default Sidebar;

@@ -3,7 +3,7 @@
 import React, { useState, useRef, ChangeEvent, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { FaCamera } from 'react-icons/fa';
-import { cn } from '@/lib';
+import { cn } from '@/lib/styles';
 import Cropper from 'react-easy-crop';
 import type { Area } from 'react-easy-crop';
 import { useTranslations } from 'next-intl';
@@ -26,7 +26,7 @@ interface ImageFieldProps {
     cropAspect?: number; 
 }
 
-const ImageField: React.FC<ImageFieldProps> = ({
+export const ImageField: React.FC<ImageFieldProps> = ({
     id,
     name,
     className = '',
@@ -44,7 +44,7 @@ const ImageField: React.FC<ImageFieldProps> = ({
     cropAspect = 1
 }) => {
     const t = useTranslations('component.image_field.image_field');
-    const defaultURL = `${process.env.NEXT_PUBLIC_user_static_URL}/default.png`;
+    const defaultURL = '/images/default-profile.png';
     const [image, setImage] = useState<string | null>(currentImage || null);
     const [isHovering, setIsHovering] = useState(false);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -302,5 +302,3 @@ const ImageField: React.FC<ImageFieldProps> = ({
         </div>
     );
 };
-
-export default ImageField;

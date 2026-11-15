@@ -16,5 +16,5 @@ export interface INotification {
     isRead: boolean;
     readAt?: number;
     createdAt: number;
-    entityID?: number;
+    entityID?: string;
 }

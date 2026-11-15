@@ -7,7 +7,7 @@ interface BackgroundImageProps {
     imgType: 'jpg' | 'png';
 }
 
-const BackgroundImage: React.FC<BackgroundImageProps> = ({
+export const BackgroundImage: React.FC<BackgroundImageProps> = ({
     className,
     bgName,
     imgType
@@ -22,5 +22,3 @@ const BackgroundImage: React.FC<BackgroundImageProps> = ({
         />
     )
 }
-
-export default BackgroundImage

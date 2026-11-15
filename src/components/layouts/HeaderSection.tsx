@@ -1,6 +1,6 @@
 import React from 'react'
-import { Breadcrumb } from '@/components';
 import { useTranslations } from 'next-intl';
+import { Breadcrumb } from '../UI/Breadcrumb';
 
 interface HeaderSectionProps {
     currentPath: string;
@@ -16,7 +16,7 @@ const pathIds = [
     'create-report',
 ];
 
-const HeaderSection: React.FC<HeaderSectionProps> = ({
+export const HeaderSection: React.FC<HeaderSectionProps> = ({
     currentPath,
     message,
     children,
@@ -46,5 +46,3 @@ const HeaderSection: React.FC<HeaderSectionProps> = ({
         </div>
     )
 }
-
-export default HeaderSection

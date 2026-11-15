@@ -3,10 +3,10 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { cn } from '@/lib';
 import { AnimatePresence, motion } from 'framer-motion';
 import { IoChevronDown } from 'react-icons/io5';
 import { FaCheck } from 'react-icons/fa';
+import { cn } from '@/lib/styles';
 
 interface SelectOption {
     value: string;
@@ -31,7 +31,7 @@ interface SelectFieldProps {
     register?: unknown;
 }
 
-const SelectField: React.FC<SelectFieldProps> = ({
+export const SelectField: React.FC<SelectFieldProps> = ({
     id,
     name,
     required = false,
@@ -260,5 +260,3 @@ const SelectField: React.FC<SelectFieldProps> = ({
         </div>
     );
 };
-
-export default SelectField;

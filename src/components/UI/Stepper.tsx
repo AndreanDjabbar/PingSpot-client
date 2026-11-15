@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib";
+import { cn } from "@/lib/styles";
 import React, { ReactNode } from "react";
 import { FaCheck } from "react-icons/fa";
 
@@ -19,7 +19,7 @@ interface StepperProps {
     orientation?: 'horizontal' | 'vertical';
 }
 
-const Stepper: React.FC<StepperProps> = ({
+export const Stepper: React.FC<StepperProps> = ({
     steps,
     currentStep,
     onStepChange,
@@ -249,5 +249,3 @@ const Stepper: React.FC<StepperProps> = ({
         </nav>
     );
 };
-
-export default Stepper;

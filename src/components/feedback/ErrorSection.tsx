@@ -3,7 +3,7 @@ import React from 'react'
 import { MdCircle } from "react-icons/md";
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { IoMdArrowBack, IoMdRefresh, IoMdHome } from "react-icons/io";
-import { Button } from '../UI';
+import { Button } from '../UI/Button';
 
 interface ErrorSectionProps {
     message?: string;
@@ -16,7 +16,7 @@ interface ErrorSectionProps {
     showHomeButton?: boolean;
 }
 
-const ErrorSection: React.FC<ErrorSectionProps> = ({ 
+export const ErrorSection: React.FC<ErrorSectionProps> = ({ 
     message, 
     errors, 
     onRetry,
@@ -135,5 +135,3 @@ const ErrorSection: React.FC<ErrorSectionProps> = ({
         </div>
     );
 };
-
-export default ErrorSection;

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { getImageURL } from '@/utils';
+import { getImageURL } from '@/utils/image';
 
 interface TextColorProps {
     name?: string;
@@ -25,7 +25,7 @@ interface ProfileBadgeProps {
     textColors?: TextColorProps;
 }
 
-const ProfileBadge: React.FC<ProfileBadgeProps> = ({
+export const ProfileBadge: React.FC<ProfileBadgeProps> = ({
     name,
     email,
     imageUrl="",
@@ -122,5 +122,3 @@ const ProfileBadge: React.FC<ProfileBadgeProps> = ({
         </div>
     );
 };
-
-export default ProfileBadge;

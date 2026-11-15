@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IGetUserStatisticsResponse, ISaveSecurityRequest, ISaveSecurityResponse, ISearchUsersResponse } from "@/types/api/user";
-import { IGetProfileResponse, ISaveProfileResponse } from "@/types";
-import axiosInstance from "@/lib/axiosInstance";
+import { IGetProfileResponse, IGetUserStatisticsResponse, ISaveProfileResponse, ISaveSecurityRequest, ISaveSecurityResponse, ISearchUsersResponse } from "@/types/api/user";
+import {axiosInstance} from "@/lib/axiosInstance";
 
 export const saveProfileService = async (payload: FormData): Promise<ISaveProfileResponse> => {
     const response = await axiosInstance.post<ISaveProfileResponse>(`/user/profile`, payload, {
         headers: {
-            'Content-Type': 'multipart/form-data',
             'Accept': 'application/json',
         },
     });
@@ -14,7 +12,6 @@ export const saveProfileService = async (payload: FormData): Promise<ISaveProfil
 }
 
 export const updateEmailNotificationPreferenceService = async (payload: { isDisableEmailNotification: boolean }): Promise<ISaveProfileResponse> => {
-    console.log('updateEmailNotificationPreferenceService payload:', payload);
     const response = await axiosInstance.patch<ISaveProfileResponse>(`/user/email-notification-preference`, payload);
     return response.data;
 }

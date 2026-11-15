@@ -1,7 +1,7 @@
 import React from 'react';
-import { cn } from '@/lib';
+import { cn } from '@/lib/styles';
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import { useConfirmationModalStore } from '@/stores';
+import { useConfirmationModalStore } from '@/stores/modal.store';
 
 interface RadioOption {
     value: string;
@@ -27,7 +27,7 @@ interface RadioFieldProps {
     icon?: React.ReactNode;
 }
 
-const RadioField: React.FC<RadioFieldProps> = ({
+export const RadioField: React.FC<RadioFieldProps> = ({
     id,
     name,
     required = false,
@@ -107,5 +107,3 @@ const RadioField: React.FC<RadioFieldProps> = ({
         </div>
     );
 };
-
-export default RadioField;
